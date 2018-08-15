@@ -1,8 +1,6 @@
 {
   "presets": ["env", "react","stage-2"],
   "plugins": [
-    "ramda",
-    "lodash",
     "react-hot-loader/babel",
     ["transform-runtime", {
       "polyfill": false,

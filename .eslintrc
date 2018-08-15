@@ -4,8 +4,7 @@
   "plugins": [
     "react",
     "jsx-a11y",
-    "import",
-    "jest"
+    "import"
   ],
   "rules": {
     "quotes": 1,
@@ -43,9 +42,7 @@
     "Element": true,
     "localStorage": true,
   },
-  "env": {
-    "jest/globals": true
-  },
+  "env": {},
   "settings": {
     "import/resolver": {
       "webpack": {

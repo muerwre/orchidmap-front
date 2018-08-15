@@ -1,12 +1,16 @@
 import React from 'react';
-import { Map } from "$containers/Map";
+
+import { Map } from '../modules/map';
+import { MapScreen } from "$styles/mapScreen";
 
 export class App extends React.Component {
-  render(){
-    return (
-      <div>
+  componentDidMount() {
+    this.map = new Map('map');
+  }
 
-      </div>
-    )
+  render() {
+    return (
+      <MapScreen />
+    );
   }
 };

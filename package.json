@@ -5,7 +5,8 @@
   "description": "Beta Map",
   "main": "./src/js/index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --mode development --hot --open --inline --progress"
+    "start": "NODE_ENV=development webpack-dev-server --mode development --hot --open --inline --progress",
+    "build": "NODE_ENV=production webpack --env production --config=webpack.config.js --progress"
   },
   "author": "Grigory Chervoplyas",
   "license": "ISC",
