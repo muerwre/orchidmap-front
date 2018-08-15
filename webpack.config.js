@@ -37,6 +37,7 @@ const resolve = {
     $styles: join(__dirname, 'src/styles'),
     $redux: join(__dirname, 'src/redux'),
     $utils: join(__dirname, 'src/utils'),
+    $modules: join(__dirname, 'src/modules'),
   },
 
   extensions: ['*', '.js', '.jsx', '.json']

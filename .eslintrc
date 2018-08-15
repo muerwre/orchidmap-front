@@ -56,7 +56,8 @@
               "$config": "src/config",
               "$styles": "src/styles",
               "$redux": "src/redux",
-              "$utils": "src/utils"
+              "$utils": "src/utils",
+              "$modules": "src/modules"
             },
 
             "extensions": [".js", ".jsx", ".scss"],

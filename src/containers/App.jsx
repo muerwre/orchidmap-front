@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Map } from '../modules/map';
+import { Map } from '$modules/map';
 import { MapScreen } from "$styles/mapScreen";
 
 export class App extends React.Component {
