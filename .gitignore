@@ -1,0 +1,15 @@
+/node_modules
+/dist
+/npm-debug.log
+/.idea
+/coverage
+/coverage/*
+/flow-coverage
+/flow-coverage/*
+.vscode
+.DS_Store
+yarn-error.log
+.awcache
+
+# Bundle
+*.js.map
