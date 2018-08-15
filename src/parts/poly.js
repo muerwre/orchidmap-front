@@ -200,7 +200,7 @@ const createPoly = () => {
 };
 
 const restorePoly = latlngs => {
-  const result = L.polyline(createLatLngs(latlngs), {color: 'red'}).addTo(map);
+  const result = L.polyline(createLatLngs(latlngs), { color: 'red' }).addTo(map);
 
   result.enableEdit().continueForward();
   result.editor.options.skipMiddleMarkers = true;

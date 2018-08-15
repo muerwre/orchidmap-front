@@ -1,16 +1,50 @@
 import React from 'react';
 
-import { Map } from '$modules/map';
-import { MapScreen } from "$styles/mapScreen";
+import { Editor } from '$modules/Editor';
+
+import { MapScreen } from '$styles/mapScreen';
+import { ControlsScreen } from '$styles/controlsScreen';
+import { MODES } from '$constants/modes';
 
 export class App extends React.Component {
+  state = {
+    mode: 'none',
+  };
+
   componentDidMount() {
-    this.map = new Map('map');
+    const container = 'map';
+    const { mode } = this.state;
+
+    this.editor = new Editor({
+      container,
+      mode,
+      setMode: this.setMode,
+    });
   }
 
+  setMode = mode => {
+    this.setState({ mode });
+  };
+
+  startPolyMode = () => this.editor.changeMode(MODES.POLY);
+
+  startStickerMode = () => this.editor.changeMode(MODES.STICKERS);
+
   render() {
+    const { mode } = this.state;
+
     return (
-      <MapScreen />
+      <div>
+        <MapScreen />
+        <ControlsScreen>
+          <button onClick={this.startPolyMode}>
+            {mode === MODES.POLY && '-->'}{MODES.POLY}
+          </button>
+          <button onClick={this.startStickerMode}>
+            {mode === MODES.STICKERS && '-->'}{MODES.STICKERS}
+          </button>
+        </ControlsScreen>
+      </div>
     );
   }
-};
+}

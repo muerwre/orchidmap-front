@@ -13,7 +13,7 @@ const { join } = require('path');
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './src/index.html',
   filename: './index.html',
-  title: 'Ether Corners',
+  title: 'Map',
   hash: false,
 });
 

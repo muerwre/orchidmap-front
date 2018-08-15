@@ -1,16 +1,16 @@
-import L from "leaflet";
+import L from 'leaflet';
 
 import 'leaflet-editable';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster.webpack';
 import 'leaflet-geometryutil';
 
-import { mapStyles } from "$constants/mapStyles";
+import { mapStyles } from '$constants/mapStyles';
 
-import { stickers } from "$constants/stickers";
+import { stickers } from '$constants/stickers';
 
-import { updateMarks } from "$utils/updater";
-import { bindPolyEvents, preparePoly } from "$utils/poly";
+import { updateMarks } from '$utils/updater';
+import { bindPolyEvents, preparePoly } from '$utils/poly';
 
 // В этой штуке мы храним точки и выноски, их связки и всё такое
 const point_array = {
@@ -25,15 +25,15 @@ const point_array = {
 
 const points = L.layerGroup();
 
-let mode = "none";
-let current_map_style = 'default';
+let mode = 'none';
+const current_map_style = 'default';
 
 // Интересные места;
 // const places_layer;
 
 export const map = L.map('map', {
   editable: true,
-  layers: [ points, point_array.points, point_array.vectors, stickers.layers ]
+  layers: [points, point_array.points, point_array.vectors, stickers.layers]
 }).setView([55.0153275, 82.9071235], 13);
 
 map.editTools.skipMiddleMarkers = true;
@@ -51,12 +51,11 @@ const prepareMapLayer = provider => {
     attribution: 'Независимое Велосообщество',
     maxNativeZoom: 18,
     maxZoom: 18,
-    //minZoom: 11
+    // minZoom: 11
   }).addTo(map);
 };
 
 const bindMapEvents = () => {
-
   // при масштабировании карты масштабировать стрелки
   // map.on('zoom', function (e) {
   //   $('.arr_mark > div').css('transform', 'scale(' + (map.getZoom()/13) + ')');
