@@ -27,7 +27,7 @@ export class Editor {
       [MODES.STICKERS]: this.stickers.createOnClick
     };
 
-    this.map.map.on('click', this.onClick);
+    this.map.map.addEventListener('mousedown', this.onClick);
   }
 
   changeMode = mode => {

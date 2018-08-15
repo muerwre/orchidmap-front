@@ -29,6 +29,38 @@ const vertexMixin = css`
 `;
 
 const stickers = css`
+  .sticker-container {
+    outline: none;
+    position: relative;
+    
+    ::before {
+      content: ' ';
+      box-shadow: 0 0 10px 1px #ff3344;
+      background: #ff334422;
+      width: 48px;
+      height: 48px;      
+      left: -24px;
+      top: -24px;
+      position: absolute;
+      border-radius: 40px;
+      opacity: 0;
+      transition: opacity 250ms;
+    }
+    
+    :hover {
+      .sticker-delete {      
+        transform: scale(1);
+        pointer-events: all;
+      }
+      
+      ::before {
+        opacity: 1;
+      }
+    }
+    
+    
+  }
+  
   .sticker-label {
     width: 48px;
     height: 48px;
@@ -37,13 +69,56 @@ const stickers = css`
     border-radius: 32px;
     left: 0;
     top: 0;
+    outline: none;
+    
+    ::after {
+      content: ' ';
+      box-shadow: 0 0 0 1px #ff3344;
+      width: 80px;
+      height: 80px;      
+      left: ${24 - 40}px;
+      top: ${24 - 40}px;
+      position: absolute;
+      border-radius: 40px;
+      pointer-events: none;
+      opacity: 0;
+    }
   }
   
-  .sticker-arrow {
-    width: 24px;
-    height: 24px;
+  .sticker-arrow {    
     position: absolute;
     background: red;
+    transform-origin: 0 0;
+    left: 0;
+    top: 0;
+    
+    ::after {
+      content: ' ';
+      background: #ff3344;
+      width: 24px;
+      height: 24px;
+      transform-origin: 0 0;
+      transform: rotate(-45deg);
+      left: 0;
+      top: 0;
+      position: absolute;    
+    }
+  }
+  
+  .sticker-delete {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: red;
+    border-radius: 24px;
+    transition: transform 500ms;
+    transform: scale(0);
+    opacity: 1;
+    pointer-events: none;
+    
+    :hover {
+      transform: scale(1.2) !important;
+    }
   }
 `;
 

@@ -22,6 +22,7 @@ export class Stickers {
     const sticker = new Sticker({
       latlng,
       deleteSticker: this.deleteStickerByReference,
+      map: this.map,
     });
     this.stickers.push(sticker);
 

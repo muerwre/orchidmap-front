@@ -11,7 +11,7 @@ export const DomMarker = L.DivIcon.extend({
   },
 
   createIcon: function() {
-    const { html, element } = this.options;
+    const { html, element, className } = this.options;
 
     this._setIconStyles(element, 'icon');
 

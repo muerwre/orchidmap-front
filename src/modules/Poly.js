@@ -51,7 +51,6 @@ export class Poly {
   continue = () => {
     if (this.latlngs && this.latlngs.length) {
       this.poly.enableEdit().continueForward();
-      this.poly.editor.options.skipMiddleMarkers = true;
       this.poly.editor.reset();
     } else {
       this.poly = this.map.editTools.startPolyline();
