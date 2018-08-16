@@ -12,9 +12,9 @@ export class Editor {
   }) {
     this.map = new Map({ container });
 
-    const { lockMapClicks, map: { map } } = this;
+    const { lockMapClicks, routerMoveStart, map: { map } } = this;
 
-    this.poly = new Poly({ map: this.map.map });
+    this.poly = new Poly({ map, routerMoveStart });
     this.stickers = new Stickers({ map, lockMapClicks });
     this.router = new Router({ map, lockMapClicks });
 
@@ -88,4 +88,10 @@ export class Editor {
 
     this.router.startFrom(latlngs.pop());
   };
+
+  routerMoveStart = () => {
+    const { _latlngs } = this.poly.poly;
+
+    if (_latlngs) this.router.moveStart(_latlngs[_latlngs.length-1]);
+  }
 }

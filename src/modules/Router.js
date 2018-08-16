@@ -95,6 +95,32 @@ export class Router {
   };
 
   startFrom = latlngs => {
+    const waypoints = this.router.getWaypoints();
+
+    if (waypoints && waypoints.length) {
+      waypoints[0] = { ...latlngs };
+      this.router.setWaypoints(waypoints);
+      return;
+    }
+
     this.router.setWaypoints([{ ...latlngs }]);
-  }
+  };
+
+  moveStart = latlng => {
+    const waypoints = this.router.getWaypoints();
+    const { latLng } = (waypoints[0] || {});
+
+    if (!latLng || !latlng) return;
+
+    if (
+      latlng.lat.toFixed(5) === latLng.lat.toFixed(5) &&
+      latlng.lng.toFixed(5) === latLng.lng.toFixed(5)
+    ) {
+      return;
+    }
+
+    waypoints[0] = { ...latlng };
+
+    this.router.setWaypoints(waypoints);
+  };
 }
