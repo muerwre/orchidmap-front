@@ -28,6 +28,32 @@ const vertexMixin = css`
   }
 `;
 
+const routerMixin = css`
+  .leaflet-control-container .leaflet-routing-container-hide {
+      display: none;
+  }
+  
+  .router-waypoint {
+    width: 40px;
+    height: 40px;        
+    margin-left: -20px;
+    margin-top: -20px;
+    outline: none;
+    z-index: 10001;
+    
+    ::after {
+      content: ' ';
+      display: block;      
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 0 2px #4597d0;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+  }
+`;
+
 const stickers = css`
   .sticker-container {
     outline: none;
@@ -132,4 +158,5 @@ export const MapScreen = styled.div.attrs({ id: 'map' })`
   
   ${vertexMixin}
   ${stickers}
+  ${routerMixin}
 `;

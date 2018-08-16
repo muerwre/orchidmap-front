@@ -2,10 +2,11 @@ import L from 'leaflet';
 import { Sticker } from '$modules/Sticker';
 
 export class Stickers {
-  constructor({ map }) {
+  constructor({ map, lockMapClicks }) {
     this.map = map;
     this.layer = L.layerGroup();
 
+    this.lockMapClicks = lockMapClicks;
     this.stickers = [];
 
     this.layer.addTo(this.map);
@@ -23,6 +24,7 @@ export class Stickers {
       latlng,
       deleteSticker: this.deleteStickerByReference,
       map: this.map,
+      lockMapClicks: this.lockMapClicks,
     });
     this.stickers.push(sticker);
 

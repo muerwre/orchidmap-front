@@ -1,17 +1,18 @@
 import L from 'leaflet';
 import 'leaflet-editable';
 
-import { DomMarker } from '$utils/leafletDomMarkers';
+import { DomMarker } from '$utils/DomMarker';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map
+    latlng, deleteSticker, map, lockMapClicks
   }) {
     this.angle = 2.2;
     this.isDragging = false;
     this.map = map;
 
     this.deleteSticker = deleteSticker;
+    this.lockMapClicks = lockMapClicks;
 
     this.element = document.createElement('div');
     this.stickerImage = document.createElement('div');
@@ -34,14 +35,12 @@ export class Sticker {
 
     this.sticker = L.marker(latlng, { icon: marker });
 
-    this.stickerImage.addEventListener('mousedown', this.onDragStart);
-    this.stickerImage.addEventListener('mouseup', this.onDragStop);
-    this.stickerImage.addEventListener('click', this.preventPropagations);
-
-    this.element.addEventListener('mousedown', this.preventPropagations);
-
     this.setAngle(this.angle);
 
+    this.stickerImage.addEventListener('mousedown', this.onDragStart);
+    this.stickerImage.addEventListener('mouseup', this.onDragStop);
+
+    this.element.addEventListener('mouseup', this.preventPropagations);
     this.stickerDelete.addEventListener('click', this.onDelete);
   }
 
@@ -54,6 +53,8 @@ export class Sticker {
 
     this.isDragging = true;
     this.sticker.disableEdit();
+
+    this.lockMapClicks(true);
 
     window.addEventListener('mousemove', this.onDrag);
     window.addEventListener('mouseup', this.onDragStop);
@@ -74,6 +75,8 @@ export class Sticker {
 
     window.removeEventListener('mousemove', this.onDrag);
     window.removeEventListener('mouseup', this.onDragStop);
+
+    this.lockMapClicks(false);
   };
 
   onDrag = e => {
@@ -82,7 +85,6 @@ export class Sticker {
   };
 
   estimateAngle = e => {
-    console.log('est');
     const { x, y } = this.element.getBoundingClientRect();
     const { pageX, pageY } = e;
     this.angle = Math.atan2((y - pageY), (x - pageX));

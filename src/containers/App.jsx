@@ -30,6 +30,8 @@ export class App extends React.Component {
 
   startStickerMode = () => this.editor.changeMode(MODES.STICKERS);
 
+  startRouterMode = () => this.editor.changeMode(MODES.ROUTER);
+
   render() {
     const { mode } = this.state;
 
@@ -42,6 +44,9 @@ export class App extends React.Component {
           </button>
           <button onClick={this.startStickerMode}>
             {mode === MODES.STICKERS && '-->'}{MODES.STICKERS}
+          </button>
+          <button onClick={this.startRouterMode}>
+            {mode === MODES.ROUTER && '-->'}{MODES.ROUTER}
           </button>
         </ControlsScreen>
       </div>
