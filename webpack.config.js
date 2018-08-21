@@ -10,11 +10,13 @@ const { join } = require('path');
 
 /* Plugins */
 
+const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './src/index.html',
   filename: './index.html',
   title: 'Map',
   hash: false,
+  favicon: 'src/sprites/favicon.png',
 });
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -48,10 +50,11 @@ const resolve = {
 module.exports = () => {
   /* Export */
   const plugins = [
+    concatPlugin,
     htmlPlugin,
     // flowPlugin,
     gitPlugin,
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/)
   ];
 
   return {
@@ -62,6 +65,14 @@ module.exports = () => {
           use: [
             { loader: 'style-loader' },
             { loader: 'css-loader' }
+          ]
+        },
+        {
+          test: /\.less$/,
+          use: [
+            { loader: 'style-loader' },
+            { loader: 'css-loader' },
+            { loader: 'less-loader' }
           ]
         },
         {
@@ -82,7 +93,7 @@ module.exports = () => {
           }
         },
         {
-          test: /\.(png)$/,
+          test: /\.(png|svg)$/,
           use: {
             loader: 'file-loader',
             options: {}

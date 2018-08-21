@@ -2,5 +2,6 @@ export const MODES = {
   POLY: 'POLY',
   STICKERS: 'STICKERS',
   ROUTER: 'ROUTER',
+  SHOTTER: 'SHOTTER',
   NONE: 'NONE',
 };

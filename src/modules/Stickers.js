@@ -1,10 +1,10 @@
-import L from 'leaflet';
+import { layerGroup } from 'leaflet';
 import { Sticker } from '$modules/Sticker';
 
 export class Stickers {
   constructor({ map, lockMapClicks }) {
     this.map = map;
-    this.layer = L.layerGroup();
+    this.layer = layerGroup();
 
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];

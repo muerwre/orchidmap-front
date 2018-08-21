@@ -1,11 +1,11 @@
 import L from 'leaflet';
-import 'leaflet-routing-machine';
+import Routing from 'leaflet-routing-machine/src/index';
 import { CONFIG } from '$config';
 import { DomMarker } from '$utils/DomMarker';
 
 export class Router {
   constructor({ map, lockMapClicks }) {
-    const routeLine = r => L.Routing.line(r, {
+    const routeLine = r => Routing.line(r, {
       styles: [
         { color: 'white', opacity: 0.8, weight: 6 },
         { color: '#4597d0', opacity: 1, weight: 4, dashArray: '15,10' }
@@ -13,7 +13,7 @@ export class Router {
       addWaypoints: true,
     }).on('linetouched', this.lockPropagations);
 
-    this.router = L.Routing.control({
+    this.router = Routing.control({
       serviceUrl: CONFIG.OSRM_URL,
       profile: 'bike',
       fitSelectedRoutes: false,
@@ -22,7 +22,7 @@ export class Router {
         styles: [{ color: '#4597d0', opacity: 1, weight: 3 }]
       },
       show: false,
-      plan: L.Routing.plan([], {
+      plan: Routing.plan([], {
         createMarker: (i, wp) => L.marker(wp.latLng, {
           draggable: true,
           icon: this.createWaypointMarker(),
@@ -38,9 +38,7 @@ export class Router {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
 
-    console.log('router', this.router);
     // this.router._line.on('mousedown', console.log);
-    console.log('map', map);
   }
   //
   pushWaypointOnClick = ({ latlng: { lat, lng } }) => {
@@ -83,9 +81,7 @@ export class Router {
   };
   //
   unlockPropagations = e => {
-    console.log('unlock');
     if (e && e.preventPropagations) {
-      console.log('stop');
       e.preventDefault();
       e.preventPropagations();
     }

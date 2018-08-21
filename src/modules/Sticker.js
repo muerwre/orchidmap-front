@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import { marker } from 'leaflet';
 import 'leaflet-editable';
 
 import { DomMarker } from '$utils/DomMarker';
@@ -28,12 +28,12 @@ export class Sticker {
     this.element.appendChild(this.stickerImage);
     this.element.appendChild(this.stickerDelete);
 
-    const marker = new DomMarker({
+    const mark = new DomMarker({
       element: this.element,
       className: 'sticker-container',
     });
 
-    this.sticker = L.marker(latlng, { icon: marker });
+    this.sticker = marker(latlng, { icon: mark });
 
     this.setAngle(this.angle);
 

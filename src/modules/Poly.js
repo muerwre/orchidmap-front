@@ -1,19 +1,21 @@
-import L from "leaflet";
+import { polyline } from "leaflet";
 
-const polyStyle = { color: '#ff3333', weight: '5' };
+const polyStyle = { color: 'url(#activePathGradient)', weight: '5' };
 
 export class Poly {
-  constructor({ map, routerMoveStart }) {
-    this.poly = L.polyline([], polyStyle);
+  constructor({ map, routerMoveStart, lockMapClicks }) {
+    this.poly = polyline([], polyStyle);
     this.latlngs = [];
     this.poly.addTo(map);
     this.map = map;
 
     this.routerMoveStart = routerMoveStart;
+    this.lockMapClicks = lockMapClicks;
     this.bindEvents();
   }
 
   updateMarks = () => {
+    console.log('upd');
     const coords = this.poly.toGeoJSON().geometry.coordinates;
     this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
 
@@ -27,6 +29,8 @@ export class Poly {
     this.map.editTools.addEventListener('editable:vertex:mouseup', this.updateMarks);
     this.map.editTools.addEventListener('editable:vertex:deleted', this.updateMarks);
     this.map.editTools.addEventListener('editable:vertex:new', this.updateMarks);
+
+    this.map.editTools.addEventListener('editable:vertex:dragstart', this.lockMap);
 
     // После удаления точки - продолжить рисование
     this.map.editTools.addEventListener('editable:vertex:deleted', this.continueForward);
@@ -70,4 +74,8 @@ export class Poly {
     if (!this.poly.editor) return;
     this.poly.editor.continueForward();
   };
+
+  lockMap = () => {
+    this.lockMapClicks(true);
+  }
 }

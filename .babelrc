@@ -2,6 +2,7 @@
   "presets": ["env", "react","stage-2"],
   "plugins": [
     "react-hot-loader/babel",
+    "lodash",
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": true

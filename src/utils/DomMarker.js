@@ -1,6 +1,6 @@
-import L from 'leaflet';
+import { DivIcon } from 'leaflet';
 
-export const DomMarker = L.DivIcon.extend({
+export const DomMarker = DivIcon.extend({
   initialize: function (options) {
     this.options = options;
   },

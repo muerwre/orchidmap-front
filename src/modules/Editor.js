@@ -3,6 +3,7 @@ import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
+import { Shotter } from '$modules/Shotter';
 
 export class Editor {
   constructor({
@@ -14,9 +15,10 @@ export class Editor {
 
     const { lockMapClicks, routerMoveStart, map: { map } } = this;
 
-    this.poly = new Poly({ map, routerMoveStart });
+    this.poly = new Poly({ map, routerMoveStart, lockMapClicks });
     this.stickers = new Stickers({ map, lockMapClicks });
     this.router = new Router({ map, lockMapClicks });
+    this.shotter = new Shotter({ map });
 
     this.setMode = setMode;
     this.mode = mode;
@@ -28,6 +30,9 @@ export class Editor {
       },
       [MODES.ROUTER]: {
         start: this.routerSetStart,
+      },
+      [MODES.SHOTTER]: {
+        start: this.shotter.makeShot,
       }
     };
 
