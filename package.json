@@ -63,7 +63,9 @@
     "scrypt": "^6.0.3",
     "styled-components": "^3.2.6",
     "styled-theming": "^2.2.0",
-    "webpack-git-hash": "^1.0.2"
+    "typeface-montserrat": "0.0.54",
+    "webpack-git-hash": "^1.0.2",
+    "wfk-montserrat": "^1.0.0"
   },
   "flow-coverage-report": {
     "includeGlob": [

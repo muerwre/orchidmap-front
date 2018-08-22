@@ -7,37 +7,38 @@ import { Fills } from '$components/Fills';
 export class App extends React.Component {
   state = {
     mode: 'none',
-    editor: null,
+    routerPoints: 0,
   };
-
-  componentDidMount() {
-    const container = 'map';
-    const { mode } = this.state;
-
-    const editor = new Editor({
-      container,
-      mode,
-      setMode: this.setMode,
-    });
-
-    this.setState({ editor })
-  }
 
   setMode = mode => {
     this.setState({ mode });
   };
+  setRouterPoints = routerPoints => {
+    this.setState({ routerPoints });
+  };
+
+  editor = new Editor({
+    container: 'map',
+    mode: this.state.mode,
+    setMode: this.setMode,
+    setRouterPoints: this.setRouterPoints,
+  });
 
   render() {
     const {
-      state: { mode, editor },
+      editor,
+      state: { mode, routerPoints },
     } = this;
 
 
     return (
       <div>
         <Fills />
-        <div id="map" />
-        <EditorPanel editor={editor} mode={mode} />
+        <EditorPanel
+          editor={editor}
+          mode={mode}
+          routerPoints={routerPoints}
+        />
       </div>
     );
   }

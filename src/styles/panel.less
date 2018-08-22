@@ -1,0 +1,92 @@
+.control-bar {
+  background: #333333;
+  border-radius: 3px;
+  display: flex;
+  box-shadow: rgba(0,0,0,0.3) 0 2px 0, inset rgba(255, 255, 255, 0.05) 1px 1px;
+}
+
+.control-sep {
+  height: 44px;
+  background: #222222;
+  width: 3px;
+}
+
+.panel {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  z-index: 3;
+  color: white;
+  display: flex;
+  align-items: center;
+
+  &.right {
+    left: auto;
+    right: 10px;
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    padding: 8px;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    color: white;
+    align-items: center;
+    transition: background-color 500ms;
+    height: 48px;
+    box-sizing: border-box;
+
+    &:hover {
+      background: rgba(100, 100, 100, 0.2);
+    }
+
+    span {
+      margin-right: 8px;
+      font-size: 14px;
+      font-weight: 200;
+      margin-left: 8px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    &.active {
+      svg {
+        fill: url(#activeButtonGradient);
+        stroke: url(#activeButtonGradient);
+      }
+    }
+
+    &.highlighted {
+      background: linear-gradient(150deg, #05a4ff, #7137c8);
+    }
+
+    svg {
+      fill: white;
+      stroke: white;
+      display: inline;
+    }
+  }
+}
+
+.panel-separator {
+  height: 48px;
+  width: 4px;
+  background: #222222;
+}
+
+#control-dialog {
+  background: #222222;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 3px;
+  z-index: 2;
+  color: white;
+  box-sizing: border-box;
+  padding-bottom: 48px;
+  box-shadow: rgba(0,0,0,0.3) 0 2px 0, inset rgba(255, 255, 255, 0.05) 1px 1px;
+}

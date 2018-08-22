@@ -1,0 +1,35 @@
+.button {
+  background: #444444;
+  padding: 4px 16px;
+  height: 18px;
+  line-height: 1em;
+  border-radius: 2px;
+  font-family: sans-serif;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+
+  &.primary {
+    background: #3c78db;
+  }
+
+  &.danger {
+    background: #ed2f3b;
+  }
+}
+
+.button-group {
+  .button {
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}

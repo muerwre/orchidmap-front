@@ -4,11 +4,13 @@ import { CONFIG } from '$config';
 import { DomMarker } from '$utils/DomMarker';
 
 export class Router {
-  constructor({ map, lockMapClicks }) {
+  constructor({ map, lockMapClicks, setRouterPoints }) {
     const routeLine = r => Routing.line(r, {
       styles: [
         { color: 'white', opacity: 0.8, weight: 6 },
-        { color: '#4597d0', opacity: 1, weight: 4, dashArray: '15,10' }
+        {
+          color: '#4597d0', opacity: 1, weight: 4, dashArray: '15,10'
+        }
       ],
       addWaypoints: true,
     }).on('linetouched', this.lockPropagations);
@@ -30,14 +32,13 @@ export class Router {
         routeWhileDragging: true,
       }),
       routeWhileDragging: true
-    });
-    // .on('waypointschanged', this.updateWaypointsByEvent);
+    }).on('waypointschanged', this.updateWaypointsCount);
 
     this.router.addTo(map);
 
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
-
+    this.setRouterPoints = setRouterPoints;
     // this.router._line.on('mousedown', console.log);
   }
   //
@@ -46,22 +47,7 @@ export class Router {
     console.log('push', waypoints);
     this.router.setWaypoints([...waypoints, { lat, lng }]);
   };
-  //
-  // pushWaypoint = latlng => {
-  //   this.waypoints.push(latlng);
-  //   this.updateWaypoints();
-  // };
-  //
-  // updateWaypointsByEvent = (e) => {
-  //   console.log('upd', e);
-  //   // this.waypoints = waypoints.map(({ latlng }) => latlng);
-  //
-  // };
-  //
-  // updateWaypoints = () => {
-  //   this.router.setWaypoints(this.waypoints);
-  // };
-  //
+
   createWaypointMarker = () => {
     const element = document.createElement('div');
 
@@ -119,4 +105,9 @@ export class Router {
 
     this.router.setWaypoints(waypoints);
   };
+
+  updateWaypointsCount = () => {
+    const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
+    this.setRouterPoints(waypoints.length);
+  }
 }

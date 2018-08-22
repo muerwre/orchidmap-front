@@ -1,0 +1,36 @@
+.router-waypoint {
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  outline: none;
+  z-index: 10001;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px #4597d0;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+.router-helper {
+  width: 500px;
+  padding: 10px;
+  font-weight: 200;
+  font-size: 14px;
+  display: flex;
+}
+
+.router-helper__text {
+  width: 100%;
+}
+
+.router-helper__buttons {
+  display: flex;
+  align-items: center;
+}

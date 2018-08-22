@@ -9,7 +9,8 @@ export class Editor {
   constructor({
     container,
     mode,
-    setMode
+    setMode,
+    setRouterPoints,
   }) {
     this.map = new Map({ container });
 
@@ -17,7 +18,7 @@ export class Editor {
 
     this.poly = new Poly({ map, routerMoveStart, lockMapClicks });
     this.stickers = new Stickers({ map, lockMapClicks });
-    this.router = new Router({ map, lockMapClicks });
+    this.router = new Router({ map, lockMapClicks, setRouterPoints });
     this.shotter = new Shotter({ map });
 
     this.setMode = setMode;
@@ -91,7 +92,7 @@ export class Editor {
 
     if (!latlngs || !latlngs.length) return;
 
-    this.router.startFrom(latlngs.pop());
+    this.router.startFrom(latlngs[latlngs.length - 1]);
   };
 
   routerMoveStart = () => {

@@ -1,6 +1,7 @@
 import { polyline } from "leaflet";
 
-const polyStyle = { color: 'url(#activePathGradient)', weight: '5' };
+const polyStyle = { color: 'url(#activePathGradient)', weight: '6' };
+// const polyStyle = { color: '#ff3344', weight: '5' };
 
 export class Poly {
   constructor({ map, routerMoveStart, lockMapClicks }) {

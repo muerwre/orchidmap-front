@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { App } from '$containers/App';
 
-import '$styles/map.less';
-import '$styles/controls.less';
+import '$styles/main.less';
 
 export const Index = () => (
   <App />
