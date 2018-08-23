@@ -34,38 +34,44 @@
   width: 48px;
   height: 48px;
   position: absolute;
-  background: white;
-  border-radius: 32px;
+  //background: white;
+  //border-radius: 32px;
   left: 0;
   top: 0;
   outline: none;
 
-  &:after {
-    content: ' ';
-    box-shadow: 0 0 0 1px #ff3344;
-    width: 80px;
-    height: 80px;
-    left: -16px;
-    top: -16px;
-    position: absolute;
-    border-radius: 40px;
-    pointer-events: none;
-    opacity: 0;
+  //&:after {
+  //  content: ' ';
+  //  box-shadow: 0 0 0 1px #ff3344;
+  //  width: 80px;
+  //  height: 80px;
+  //  left: -16px;
+  //  top: -16px;
+  //  position: absolute;
+  //  border-radius: 40px;
+  //  pointer-events: none;
+  //  opacity: 0;
+  //}
+
+  svg {
+    left: -8px;
+    top: -8px;
+    position: relative;
+    z-index: 0;
   }
 }
 
 .sticker-arrow {
   position: absolute;
-  background: red;
   transform-origin: 0 0;
   left: 0;
   top: 0;
 
   &:after {
     content: ' ';
-    background: #ff3344;
-    width: 24px;
-    height: 24px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38' preserveAspectRatio='none'%3E%3Cpolygon points='0,0 38,20 38,38 20,38' style='fill:%23ff4433;' /%3E%3C/svg%3E") no-repeat;
+    width: 50px;
+    height: 50px;
     transform-origin: 0 0;
     transform: rotate(-45deg);
     left: 0;

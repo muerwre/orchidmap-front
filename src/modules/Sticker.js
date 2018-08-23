@@ -3,6 +3,8 @@ import 'leaflet-editable';
 
 import { DomMarker } from '$utils/DomMarker';
 
+import stickers from '$sprites/stickers.svg';
+
 export class Sticker {
   constructor({
     latlng, deleteSticker, map, lockMapClicks
@@ -23,6 +25,8 @@ export class Sticker {
     this.stickerImage.className = 'sticker-label';
     this.stickerArrow.className = 'sticker-arrow';
     this.stickerDelete.className = 'sticker-delete';
+
+    this.stickerImage.innerHTML = this.generateStickerSVG('green-sm');
 
     this.element.appendChild(this.stickerArrow);
     this.element.appendChild(this.stickerImage);
@@ -95,8 +99,8 @@ export class Sticker {
   setAngle = angle => {
     // $(active_sticker.container).css('left',6+x-parseInt(active_sticker.ctrl.css('left'))).css('top',6+y-parseInt(active_sticker.ctrl.css('top')));
     //
-    const rad = 30;
-    const mrad = 48;
+    const rad = 44;
+    const mrad = 76;
     const x = ((Math.cos(angle + 3.14) * rad) - 30);
     const y = ((Math.sin(angle + 3.14) * rad) - 30);
 
@@ -111,4 +115,12 @@ export class Sticker {
 
     this.stickerArrow.style.transform = `rotate(${angle + 3.14}rad)`;
   }
+
+  generateStickerSVG = sticker => (
+    `
+    <svg width="64" height="64">
+       <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
+    </svg>
+    `
+  )
 }
