@@ -124,9 +124,11 @@ export class Router {
     const [route] = this.router._routes;
     if (!route) return;
 
-    const { coordinates, summary: { totalDistance } } = route;
+    const { coordinates } = route;
     this.pushPolyPoints(coordinates);
-    this.router.setWaypoints([]);
-    this.changeMode(MODES.POLY);
+    const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
+    this.router.setWaypoints(waypoints[waypoints.length-1]);
+
+    // this.changeMode(MODES.POLY);
   };
 }

@@ -38,22 +38,22 @@ export class EditorPanel extends React.PureComponent {
               <span>РЕДАКТОР</span>
             </button>
           </div>
-        </div>
-
-        <div className="panel right">
           <div className="control-dist">
             {(totalDistance > 0)
               ?
-                <React.Fragment>
-                  {totalDistance} км
-                  <Icon icon="icon-cycle" size={32} />
-                  {
-                    (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
-                  }
-                </React.Fragment>
+              <React.Fragment>
+                {totalDistance} км
+                <Icon icon="icon-cycle" size={32} />
+                {
+                  (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
+                }
+              </React.Fragment>
               : <div>Начните рисовать --&gt;</div>
             }
           </div>
+        </div>
+
+        <div className="panel right">
           <div className="control-bar">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
