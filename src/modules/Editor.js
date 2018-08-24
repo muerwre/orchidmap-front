@@ -42,6 +42,9 @@ export class Editor {
       },
       [MODES.SHOTTER]: {
         start: this.shotter.makeShot,
+      },
+      [MODES.STICKERS]: {
+        toggle: this.clearSticker,
       }
     };
 
@@ -68,9 +71,13 @@ export class Editor {
 
   changeMode = mode => {
     if (this.mode === mode) {
-      this.disableMode(mode);
-      this.setMode(MODES.NONE);
-      this.mode = MODES.NONE;
+      if (this.switches[mode].toggle) {
+        this.switches[mode].toggle(); // if we have special function on mode when it toggles
+      } else {
+        this.disableMode(mode);
+        this.setMode(MODES.NONE);
+        this.mode = MODES.NONE;
+      }
     } else {
       this.disableMode(this.mode);
       this.setMode(mode);
@@ -129,10 +136,16 @@ export class Editor {
     this.setActiveSticker(sticker);
   };
 
+  clearSticker = () => {
+    this.setSticker(null);
+  };
+
   clearAll = () => {
     this.poly.clearAll();
     this.router.clearAll();
+    this.stickers.clearAll();
 
+    this.setSticker(null);
     this.changeMode(MODES.NONE);
   }
 }

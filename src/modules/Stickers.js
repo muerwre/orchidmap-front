@@ -11,13 +11,13 @@ export class Stickers {
 
     this.layer.addTo(this.map);
   }
-
-  createOnClick = e => {
-    if (!e || !e.latlng) return;
-
-    const { latlng } = e;
-    this.createSticker({ latlng });
-  };
+  //
+  // createOnClick = e => {
+  //   if (!e || !e.latlng) return;
+  //
+  //   const { latlng } = e;
+  //   this.createSticker({ latlng });
+  // };
 
   createSticker = ({ latlng, sticker }) => {
     const marker = new Sticker({
@@ -41,4 +41,12 @@ export class Stickers {
     this.map.removeLayer(ref.sticker);
     this.stickers.splice(index, 1);
   };
+
+  clearAll = () => {
+    const target = [...this.stickers];
+    target.map(sticker => {
+      this.deleteStickerByReference(sticker);
+      return true;
+    });
+  }
 }
