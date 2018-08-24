@@ -11,14 +11,19 @@ export class Editor {
     mode,
     setMode,
     setRouterPoints,
+    setTotalDist,
   }) {
     this.map = new Map({ container });
 
-    const { lockMapClicks, routerMoveStart, map: { map } } = this;
+    const {
+      lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
+    } = this;
 
-    this.poly = new Poly({ map, routerMoveStart, lockMapClicks });
+    this.poly = new Poly({ map, routerMoveStart, lockMapClicks, setTotalDist });
     this.stickers = new Stickers({ map, lockMapClicks });
-    this.router = new Router({ map, lockMapClicks, setRouterPoints });
+    this.router = new Router({
+      map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints
+    });
     this.shotter = new Shotter({ map });
 
     this.setMode = setMode;
@@ -98,6 +103,10 @@ export class Editor {
   routerMoveStart = () => {
     const { _latlngs } = this.poly.poly;
 
-    if (_latlngs) this.router.moveStart(_latlngs[_latlngs.length-1]);
+    if (_latlngs) this.router.moveStart(_latlngs[_latlngs.length - 1]);
+  };
+
+  pushPolyPoints = latlngs => {
+    this.poly.pushPoints(latlngs);
   }
 }

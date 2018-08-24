@@ -2,6 +2,8 @@ import React from 'react';
 import { MODES } from '$constants/modes';
 import classnames from 'classnames';
 
+import { toHours } from '$utils/time';
+
 import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
 
@@ -15,7 +17,9 @@ export class EditorPanel extends React.PureComponent {
   startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
 
   render() {
-    const { mode, routerPoints } = this.props;
+    const {
+      mode, routerPoints, editor, totalDistance, estimateTime
+    } = this.props;
 
     return (
       <div>
@@ -23,6 +27,7 @@ export class EditorPanel extends React.PureComponent {
         <EditorDialog
           mode={mode}
           routerPoints={routerPoints}
+          editor={editor}
         />
 
         <div className="panel">
@@ -36,6 +41,12 @@ export class EditorPanel extends React.PureComponent {
         </div>
 
         <div className="panel right">
+          <div className="control-dist">
+            {totalDistance} км
+            {
+              (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
+            }
+          </div>
           <div className="control-bar">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
@@ -69,11 +80,18 @@ export class EditorPanel extends React.PureComponent {
             </button>
 
             <button
-              className={classnames('highlighted', { active: mode === MODES.SHOTTER })}
+              className={classnames({ active: mode === MODES.TRASH })}
+              onClick={this.startShotterMode}
+            >
+              <Icon icon="icon-trash" />
+            </button>
+
+            <button
+              className="highlighted"
               onClick={this.startShotterMode}
             >
               <span>СХОРОНИТЬ</span>
-              <Icon icon="icon-shooter" />
+              <Icon icon="icon-save" />
             </button>
           </div>
 
@@ -81,4 +99,4 @@ export class EditorPanel extends React.PureComponent {
       </div>
     );
   }
-};
+}

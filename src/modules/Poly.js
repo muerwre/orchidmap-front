@@ -1,16 +1,21 @@
-import { polyline } from "leaflet";
+import L from 'leaflet';
+import 'leaflet-geometryutil';
+import { simplify } from '$utils/simplify';
 
 const polyStyle = { color: 'url(#activePathGradient)', weight: '6' };
 // const polyStyle = { color: '#ff3344', weight: '5' };
 
 export class Poly {
-  constructor({ map, routerMoveStart, lockMapClicks }) {
-    this.poly = polyline([], polyStyle);
+  constructor({
+    map, routerMoveStart, lockMapClicks, setTotalDist
+  }) {
+    this.poly = L.polyline([], polyStyle);
     this.latlngs = [];
     this.poly.addTo(map);
     this.map = map;
 
     this.routerMoveStart = routerMoveStart;
+    this.setTotalDist = setTotalDist;
     this.lockMapClicks = lockMapClicks;
     this.bindEvents();
   }
@@ -19,7 +24,10 @@ export class Poly {
     console.log('upd');
     const coords = this.poly.toGeoJSON().geometry.coordinates;
     this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
+    const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
+    const kilometers = (meters && parseFloat(meters.toFixed(1))) || 0;
 
+    this.setTotalDist(kilometers);
     this.routerMoveStart();
   };
 
@@ -59,9 +67,11 @@ export class Poly {
 
   continue = () => {
     if (this.latlngs && this.latlngs.length) {
+      console.log('continue?');
       this.poly.enableEdit().continueForward();
       this.poly.editor.reset();
     } else {
+      console.log('start over');
       this.poly = this.map.editTools.startPolyline();
       this.poly.setStyle(polyStyle);
     }
@@ -78,5 +88,17 @@ export class Poly {
 
   lockMap = () => {
     this.lockMapClicks(true);
+  };
+
+  pushPoints = latlngs => {
+    const { map } = this;
+    const simplified = simplify({ map, latlngs });
+    const summary = [
+      ...this.poly.getLatLngs(),
+      ...simplified,
+    ];
+
+    this.poly.setLatLngs(summary);
+    this.updateMarks();
   }
 }

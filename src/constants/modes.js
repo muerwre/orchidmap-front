@@ -3,5 +3,6 @@ export const MODES = {
   STICKERS: 'STICKERS',
   ROUTER: 'ROUTER',
   SHOTTER: 'SHOTTER',
+  TRASH: 'TRASH',
   NONE: 'NONE',
 };

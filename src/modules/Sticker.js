@@ -118,9 +118,9 @@ export class Sticker {
 
   generateStickerSVG = sticker => (
     `
-    <svg width="64" height="64">
-       <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
-    </svg>
+      <svg width="64" height="64">
+         <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
+      </svg>
     `
   )
 }
