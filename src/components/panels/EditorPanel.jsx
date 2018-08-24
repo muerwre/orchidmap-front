@@ -18,7 +18,7 @@ export class EditorPanel extends React.PureComponent {
 
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker
     } = this.props;
 
     return (
@@ -27,6 +27,7 @@ export class EditorPanel extends React.PureComponent {
         <EditorDialog
           mode={mode}
           routerPoints={routerPoints}
+          activeSticker={activeSticker}
           editor={editor}
         />
 
@@ -44,14 +45,14 @@ export class EditorPanel extends React.PureComponent {
           <div className="control-dist">
             {(totalDistance > 0)
               ?
-              <React.Fragment>
-                {totalDistance} км
-                <Icon icon="icon-cycle" size={32} />
-                {
-                  (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
-                }
-              </React.Fragment>
-              : <div onClick={() => editor.changeMode(MODES.ROUTER)}>Начнать рисовать</div>
+                <React.Fragment>
+                  {totalDistance} км
+                  <Icon icon="icon-cycle" size={32} />
+                  {
+                    (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
+                  }
+                </React.Fragment>
+              : <div onClick={() => editor.changeMode(MODES.ROUTER)}>Начать рисовать</div>
             }
           </div>
 

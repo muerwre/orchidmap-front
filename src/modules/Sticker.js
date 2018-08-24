@@ -7,7 +7,7 @@ import stickers from '$sprites/stickers.svg';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks
+    latlng, deleteSticker, map, lockMapClicks, sticker
   }) {
     this.angle = 2.2;
     this.isDragging = false;
@@ -26,7 +26,7 @@ export class Sticker {
     this.stickerArrow.className = 'sticker-arrow';
     this.stickerDelete.className = 'sticker-delete';
 
-    this.stickerImage.innerHTML = this.generateStickerSVG('green-sm');
+    this.stickerImage.innerHTML = this.generateStickerSVG(sticker);
 
     this.element.appendChild(this.stickerArrow);
     this.element.appendChild(this.stickerImage);

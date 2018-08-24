@@ -12,6 +12,7 @@ export class Editor {
     setMode,
     setRouterPoints,
     setTotalDist,
+    setActiveSticker,
   }) {
     this.map = new Map({ container });
 
@@ -19,7 +20,9 @@ export class Editor {
       lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
     } = this;
 
-    this.poly = new Poly({ map, routerMoveStart, lockMapClicks, setTotalDist });
+    this.poly = new Poly({
+      map, routerMoveStart, lockMapClicks, setTotalDist
+    });
     this.stickers = new Stickers({ map, lockMapClicks });
     this.router = new Router({
       map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints
@@ -43,14 +46,25 @@ export class Editor {
     };
 
     this.clickHandlers = {
-      [MODES.STICKERS]: this.stickers.createOnClick,
+      [MODES.STICKERS]: this.createStickerOnClick,
       [MODES.ROUTER]: this.router.pushWaypointOnClick,
     };
+
+    this.activeSticker = null;
+    this.setActiveSticker = setActiveSticker;
 
     map.addEventListener('mouseup', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
+
+  createStickerOnClick = (e) => {
+    if (!e || !e.latlng || !this.activeSticker) return;
+    const { latlng } = e;
+
+    this.stickers.createSticker({ latlng, sticker: this.activeSticker });
+    this.setSticker(null);
+  };
 
   changeMode = mode => {
     if (this.mode === mode) {
@@ -108,5 +122,10 @@ export class Editor {
 
   pushPolyPoints = latlngs => {
     this.poly.pushPoints(latlngs);
-  }
+  };
+
+  setSticker = sticker => {
+    this.activeSticker = sticker;
+    this.setActiveSticker(sticker);
+  };
 }

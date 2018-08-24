@@ -10,6 +10,7 @@ export class App extends React.Component {
     routerPoints: 0,
     totalDistance: 0,
     estimateTime: 0,
+    activeSticker: null,
   };
 
   setMode = mode => {
@@ -26,18 +27,25 @@ export class App extends React.Component {
     this.setState({ totalDistance, estimateTime });
   };
 
+  setActiveSticker = activeSticker => {
+    this.setState({ activeSticker });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
     setMode: this.setMode,
     setRouterPoints: this.setRouterPoints,
     setTotalDist: this.setTotalDist,
+    setActiveSticker: this.setActiveSticker,
   });
 
   render() {
     const {
       editor,
-      state: { mode, routerPoints, totalDistance, estimateTime },
+      state: {
+        mode, routerPoints, totalDistance, estimateTime, activeSticker
+      },
     } = this;
 
 
@@ -50,6 +58,7 @@ export class App extends React.Component {
           routerPoints={routerPoints}
           totalDistance={totalDistance}
           estimateTime={estimateTime}
+          activeSticker={activeSticker}
         />
       </div>
     );

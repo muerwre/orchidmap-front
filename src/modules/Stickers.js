@@ -19,17 +19,18 @@ export class Stickers {
     this.createSticker({ latlng });
   };
 
-  createSticker = ({ latlng }) => {
-    const sticker = new Sticker({
+  createSticker = ({ latlng, sticker }) => {
+    const marker = new Sticker({
       latlng,
       deleteSticker: this.deleteStickerByReference,
       map: this.map,
       lockMapClicks: this.lockMapClicks,
+      sticker,
     });
-    this.stickers.push(sticker);
+    this.stickers.push(marker);
 
-    sticker.sticker.addTo(this.map);
-    sticker.sticker.enableEdit();
+    marker.sticker.addTo(this.map);
+    marker.sticker.enableEdit();
   };
 
   deleteStickerByReference = ref => {
