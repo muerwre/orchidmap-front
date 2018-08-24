@@ -38,6 +38,9 @@ export class EditorPanel extends React.PureComponent {
               <span>РЕДАКТОР</span>
             </button>
           </div>
+        </div>
+
+        <div className="panel right">
           <div className="control-dist">
             {(totalDistance > 0)
               ?
@@ -48,12 +51,10 @@ export class EditorPanel extends React.PureComponent {
                   (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
                 }
               </React.Fragment>
-              : <div>Начните рисовать --&gt;</div>
+              : <div onClick={() => editor.changeMode(MODES.ROUTER)}>Начнать рисовать</div>
             }
           </div>
-        </div>
 
-        <div className="panel right">
           <div className="control-bar">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
