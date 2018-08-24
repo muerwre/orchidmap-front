@@ -127,8 +127,12 @@ export class Router {
     const { coordinates } = route;
     this.pushPolyPoints(coordinates);
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
-    this.router.setWaypoints(waypoints[waypoints.length-1]);
+    this.router.setWaypoints(waypoints[waypoints.length - 1]);
 
     // this.changeMode(MODES.POLY);
   };
+
+  clearAll = () => {
+    this.router.setWaypoints([]);
+  }
 }

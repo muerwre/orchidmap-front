@@ -128,4 +128,11 @@ export class Editor {
     this.activeSticker = sticker;
     this.setActiveSticker(sticker);
   };
+
+  clearAll = () => {
+    this.poly.clearAll();
+    this.router.clearAll();
+
+    this.changeMode(MODES.NONE);
+  }
 }

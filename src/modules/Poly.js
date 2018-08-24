@@ -99,6 +99,14 @@ export class Poly {
     ];
 
     this.poly.setLatLngs(summary);
+    this.poly.enableEdit();
+    this.poly.editor.reset();
+    this.updateMarks();
+  };
+
+  clearAll = () => {
+    this.poly.setLatLngs([]);
+    this.poly.disableEdit();
     this.updateMarks();
   }
 }

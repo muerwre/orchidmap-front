@@ -16,6 +16,8 @@ export class EditorPanel extends React.PureComponent {
 
   startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
 
+  clearAll = () => this.props.editor.clearAll();
+
   render() {
     const {
       mode, routerPoints, editor, totalDistance, estimateTime, activeSticker
@@ -90,14 +92,13 @@ export class EditorPanel extends React.PureComponent {
 
             <button
               className={classnames({ active: mode === MODES.TRASH })}
-              onClick={this.startShotterMode}
+              onClick={this.clearAll}
             >
               <Icon icon="icon-trash" />
             </button>
 
             <button
               className="highlighted"
-              onClick={this.startShotterMode}
             >
               <span>СХОРОНИТЬ</span>
               <Icon icon="icon-save" />
