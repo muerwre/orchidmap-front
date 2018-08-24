@@ -6,7 +6,7 @@ import sprite from '$sprites/stickers.svg';
 export class StickersHelper extends React.Component {
   render() {
     return (
-      <div className="stickers-helper">
+      <div className="helper stickers-helper">
         {
           stickers.map(sticker => (
             <div className="sticker-preview" key={sticker}>

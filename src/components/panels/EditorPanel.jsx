@@ -16,7 +16,7 @@ export class EditorPanel extends React.PureComponent {
 
   startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
 
-  clearAll = () => this.props.editor.clearAll();
+  startTrashMode = () =>  this.props.editor.changeMode(MODES.TRASH);
 
   render() {
     const {
@@ -92,7 +92,7 @@ export class EditorPanel extends React.PureComponent {
 
             <button
               className={classnames({ active: mode === MODES.TRASH })}
-              onClick={this.clearAll}
+              onClick={this.startTrashMode}
             >
               <Icon icon="icon-trash" />
             </button>
