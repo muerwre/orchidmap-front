@@ -131,3 +131,34 @@
   display: flex;
   align-items: center;
 }
+
+.logo-helper {
+  width: 200px;
+  flex-direction: column;
+  padding: 16px 0 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.helper-back {
+  width: 200px;
+  height: 200px;
+  z-index: -1;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  svg {
+    fill: #333333;
+  }
+}
+
+.helper-menu-item {
+  padding: 8px 20px;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

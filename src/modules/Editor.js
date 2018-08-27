@@ -4,6 +4,7 @@ import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
 import { Shotter } from '$modules/Shotter';
+import { LOGOS } from '$constants/logos';
 
 export class Editor {
   constructor({
@@ -71,7 +72,7 @@ export class Editor {
 
   changeMode = mode => {
     if (this.mode === mode) {
-      if (this.switches[mode].toggle) {
+      if (this.switches[mode] && this.switches[mode].toggle) {
         this.switches[mode].toggle(); // if we have special function on mode when it toggles
       } else {
         this.disableMode(mode);

@@ -3,7 +3,7 @@ import React from 'react';
 import { stickers } from '$constants/stickers';
 import sprite from '$sprites/stickers.svg';
 
-export class StickersHelper extends React.Component {
+export class StickersDialog extends React.Component {
   render() {
     return (
       <div className="helper stickers-helper">

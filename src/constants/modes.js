@@ -5,4 +5,5 @@ export const MODES = {
   SHOTTER: 'SHOTTER',
   TRASH: 'TRASH',
   NONE: 'NONE',
+  LOGO: 'LOGO',
 };

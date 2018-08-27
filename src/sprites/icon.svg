@@ -39,7 +39,7 @@
         </g>
 
         <g id="icon-trash">
-            <g transform="matrix(4.2 0 0 4.2 -3 -2  )" stroke="none">
+            <g transform="matrix(4.6 0 0 4.6 -4 -4)" stroke="none">
                 <path fill="white" d="M2.783 3.626h2.923v2.923H2.783z"/>
                 <path fill="white" d="M2.479 2.597h3.508v.748H2.479z"/>
                 <path fill="white" d="M3.438 1.919h1.473v.865H3.438z"/>
@@ -94,6 +94,7 @@
                     <path id="rect4978" stroke-width="1.405" d="M4.958 3.906h.444v2.315h-.444z"/>
                 </g>
             </g>
+
             <g id="g5188" transform="translate(-96)">
                 <path id="rect5180" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z"/>
                 <g id="g5322" fill="#fff" transform="translate(7.066 7.065) scale(.04494)">
@@ -114,6 +115,18 @@
                             <path id="path5493" d="M33.007 15.317c1.116 1.116 2.73 1.311 3.607.436l1.485-1.488c.877-.876.685-2.491-.434-3.606l-4.081-4.081-4.659 4.658z"/>
                         </g>
                     </g>
+                </g>
+            </g>
+
+            <g id="icon-logo">
+                <path fill="black" stroke="none" d="M0 0h32v32H0z"/>
+                <g transform="matrix(1 0 0 1 2 -1)">
+                    <path fill="none" stroke="#fff" stroke-width="2" d="M23.423 9.284c-6.673-4.127-12.713-4.175-19.269 0 .174 4.944-.354 13.294 9.635 17.855 10.323-4.9 9.545-13.305 9.634-17.855z"/>
+                    <path fill="#fff" stroke="none" d="M13.435 5.925v21.037s10.695-3.27 9.988-17.678c0 0-3.447-2.828-9.988-3.359z"/>
+                    <path fill="none" stroke-width="2" stroke="#fff" d="M5.773 15.118L15.7 6.19"/>
+                    <path fill="none" stroke-width="2" stroke="#fff" d="M6.276 20.333l7.778-7.778"/>
+                    <path fill="none" stroke-width="2" stroke="#fff" d="M8.574 23.691c.442-.53 5.612-5.612 5.612-5.612"/>
+                    <path fill="none" stroke-width="2" stroke="#fff" d="M11.932 25.636l2.343-2.342"/>
                 </g>
             </g>
         </svg>

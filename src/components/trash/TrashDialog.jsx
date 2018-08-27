@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MODES } from '$constants/modes';
 
-export class TrashHelper extends React.Component {
+export class TrashDialog extends React.Component {
   clearPoly = () => {
     this.props.editor.poly.clearAll();
     this.props.editor.changeMode(MODES.NONE);

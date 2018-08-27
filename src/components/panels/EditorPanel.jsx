@@ -18,6 +18,8 @@ export class EditorPanel extends React.PureComponent {
 
   startTrashMode = () =>  this.props.editor.changeMode(MODES.TRASH);
 
+  startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
+
   render() {
     const {
       mode, routerPoints, editor, totalDistance, estimateTime, activeSticker
@@ -95,6 +97,13 @@ export class EditorPanel extends React.PureComponent {
               onClick={this.startTrashMode}
             >
               <Icon icon="icon-trash" />
+            </button>
+
+            <button
+              className={classnames({ active: mode === MODES.LOGO })}
+              onClick={this.startLogoMode}
+            >
+              <Icon icon="icon-logo" />
             </button>
 
             <button

@@ -1,9 +1,10 @@
 import React from 'react';
 import { MODES } from '$constants/modes';
 
-import { RouterHelper } from '$components/router/RouterHelper';
-import { StickersHelper } from '$components/stickers/StickersHelper';
-import { TrashHelper } from '$components/trash/TrashHelper';
+import { RouterDialog } from '$components/router/RouterDialog';
+import { StickersDialog } from '$components/stickers/StickersDialog';
+import { TrashDialog } from '$components/trash/TrashDialog';
+import { LogoDialog } from '$components/logo/LogoDialog';
 
 export const EditorDialog = ({
   mode, routerPoints, editor, activeSticker
@@ -12,14 +13,16 @@ export const EditorDialog = ({
     mode === MODES.ROUTER
     || (mode === MODES.STICKERS && !activeSticker)
     || mode === MODES.TRASH
+    || mode === MODES.LOGO
   );
 
   return (
     showDialog &&
       <div id="control-dialog">
-        { mode === MODES.ROUTER && <RouterHelper routerPoints={routerPoints} editor={editor} /> }
-        { mode === MODES.STICKERS && <StickersHelper editor={editor} /> }
-        { mode === MODES.TRASH && <TrashHelper editor={editor} /> }
+        { mode === MODES.ROUTER && <RouterDialog routerPoints={routerPoints} editor={editor} /> }
+        { mode === MODES.STICKERS && <StickersDialog editor={editor} /> }
+        { mode === MODES.TRASH && <TrashDialog editor={editor} /> }
+        { mode === MODES.LOGO && <LogoDialog editor={editor} /> }
       </div>
   );
 };

@@ -45,7 +45,7 @@ const draggablePoints = ({ cancelDrawing, submitDrawing }) => (
   </div>
 );
 
-export class RouterHelper extends React.Component {
+export class RouterDialog extends React.Component {
   cancelDrawing = () => {
     this.props.editor.router.cancelDrawing();
   };
