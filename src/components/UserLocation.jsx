@@ -16,7 +16,6 @@ export class UserLocation extends React.Component {
     this.mark = null;
     this.map = props.editor.map.map;
     this.location = [];
-    // this.mark.addTo(props.editor.map.map);
   }
 
   componentDidMount() {
@@ -39,7 +38,6 @@ export class UserLocation extends React.Component {
     if (this.location && this.location.length === 2) {
       this.panMapTo(this.location[0], this.location[1]);
     } else {
-      console.log('hoho');
       this.getUserLocation(this.panMapTo);
     }
 
@@ -64,6 +62,6 @@ export class UserLocation extends React.Component {
   render() {
     return (
       <div className="locate-geo-button" onClick={this.centerMapOnLocation} />
-    )
+    );
   }
 }
