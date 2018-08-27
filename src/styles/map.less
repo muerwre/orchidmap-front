@@ -39,3 +39,22 @@
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }
+
+.leaflet-bar {
+  box-shadow: @bar_shadow !important;
+  border: none !important;
+}
+
+.leaflet-bar a {
+  background: #333333;
+  color: white;
+  text-shadow: none;
+  user-select: none;
+  border-bottom: none;
+
+  &:hover {
+    background: #444444;
+    color: white;
+    border-bottom: none;
+  }
+}
