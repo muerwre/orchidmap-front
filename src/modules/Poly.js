@@ -21,7 +21,6 @@ export class Poly {
   }
 
   updateMarks = () => {
-    console.log('upd');
     const coords = this.poly.toGeoJSON().geometry.coordinates;
     this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
     const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
@@ -67,11 +66,9 @@ export class Poly {
 
   continue = () => {
     if (this.latlngs && this.latlngs.length) {
-      console.log('continue?');
       this.poly.enableEdit().continueForward();
       this.poly.editor.reset();
     } else {
-      console.log('start over');
       this.poly = this.map.editTools.startPolyline();
       this.poly.setStyle(polyStyle);
     }

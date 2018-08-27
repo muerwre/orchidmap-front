@@ -58,7 +58,7 @@ export class Shotter {
     const placement = this.getTilePlacement();
 
     axios.get('http://alpha-map.vault48.org/engine/composerOrchid.php', {
-      params: { placement, mode: 'test' }
+      params: { placement }
     })
       .then(console.log)
       .catch(console.warn);
