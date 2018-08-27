@@ -12,10 +12,25 @@
     width: 20px;
     height: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 0 2px #4597d0;
-    margin-left: 10px;
-    margin-top: 10px;
+    box-shadow: 0 0 0 2px @router_line;
+    position: absolute;
+    left: 10px;
+    top: 10px;
   }
+
+  &:before {
+    content: ' ';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px @router_line;
+    background: @router_line;
+    position: absolute;
+    left: 18px;
+    top: 18px;
+  }
+
 }
 
 .router-helper {
