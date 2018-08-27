@@ -4,7 +4,7 @@ import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
 import { Shotter } from '$modules/Shotter';
-import { LOGOS } from '$constants/logos';
+import { DEFAULT_LOGO } from '$constants/logos';
 
 export class Editor {
   constructor({
@@ -14,7 +14,10 @@ export class Editor {
     setRouterPoints,
     setTotalDist,
     setActiveSticker,
+    setLogo,
   }) {
+    this.logo = DEFAULT_LOGO;
+
     this.map = new Map({ container });
 
     const {
@@ -29,9 +32,6 @@ export class Editor {
       map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints
     });
     this.shotter = new Shotter({ map });
-
-    this.setMode = setMode;
-    this.mode = mode;
 
     this.switches = {
       [MODES.POLY]: {
@@ -56,6 +56,9 @@ export class Editor {
 
     this.activeSticker = null;
     this.setActiveSticker = setActiveSticker;
+    this.setLogo = setLogo;
+    this.setMode = setMode;
+    this.mode = mode;
 
     map.addEventListener('mouseup', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
@@ -151,6 +154,12 @@ export class Editor {
     this.stickers.clearAll();
 
     this.setSticker(null);
+    this.changeMode(MODES.NONE);
+  };
+
+  changeLogo = logo => {
+    this.logo = logo;
+    this.setLogo(logo);
     this.changeMode(MODES.NONE);
   }
 }

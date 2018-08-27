@@ -6,6 +6,7 @@ import { toHours } from '$utils/time';
 
 import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
+import { LogoPreview } from '$components/logo/LogoPreview';
 
 export class EditorPanel extends React.PureComponent {
   startPolyMode = () => this.props.editor.changeMode(MODES.POLY);
@@ -22,7 +23,7 @@ export class EditorPanel extends React.PureComponent {
 
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo,
     } = this.props;
 
     return (
@@ -33,7 +34,10 @@ export class EditorPanel extends React.PureComponent {
           routerPoints={routerPoints}
           activeSticker={activeSticker}
           editor={editor}
+          logo={logo}
         />
+
+        <LogoPreview logo={logo} />
 
         <div className="panel">
           <div className="control-bar">
@@ -56,7 +60,10 @@ export class EditorPanel extends React.PureComponent {
                     (estimateTime > 0) && (estimateTime > 0) && <span>{toHours(estimateTime)}</span>
                   }
                 </React.Fragment>
-              : <div onClick={() => editor.changeMode(MODES.ROUTER)}>Начать рисовать</div>
+              :
+                <div onClick={() => editor.changeMode(MODES.ROUTER)}>
+                  <div className="button danger">Начать рисовать</div>
+                </div>
             }
           </div>
 

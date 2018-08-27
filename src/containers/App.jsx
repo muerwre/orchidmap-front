@@ -3,10 +3,12 @@ import React from 'react';
 import { Editor } from '$modules/Editor';
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
+import { DEFAULT_LOGO } from '$constants/logos';
 
 export class App extends React.Component {
   state = {
     mode: 'none',
+    logo: DEFAULT_LOGO,
     routerPoints: 0,
     totalDistance: 0,
     estimateTime: 0,
@@ -31,6 +33,10 @@ export class App extends React.Component {
     this.setState({ activeSticker });
   };
 
+  setLogo = logo => {
+    this.setState({ logo });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -38,13 +44,14 @@ export class App extends React.Component {
     setRouterPoints: this.setRouterPoints,
     setTotalDist: this.setTotalDist,
     setActiveSticker: this.setActiveSticker,
+    setLogo: this.setLogo,
   });
 
   render() {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo,
       },
     } = this;
 
@@ -59,6 +66,7 @@ export class App extends React.Component {
           totalDistance={totalDistance}
           estimateTime={estimateTime}
           activeSticker={activeSticker}
+          logo={logo}
         />
       </div>
     );

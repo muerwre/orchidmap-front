@@ -7,7 +7,7 @@ import { TrashDialog } from '$components/trash/TrashDialog';
 import { LogoDialog } from '$components/logo/LogoDialog';
 
 export const EditorDialog = ({
-  mode, routerPoints, editor, activeSticker
+  mode, routerPoints, editor, activeSticker, logo
 }) => {
   const showDialog = (
     mode === MODES.ROUTER
@@ -22,7 +22,7 @@ export const EditorDialog = ({
         { mode === MODES.ROUTER && <RouterDialog routerPoints={routerPoints} editor={editor} /> }
         { mode === MODES.STICKERS && <StickersDialog editor={editor} /> }
         { mode === MODES.TRASH && <TrashDialog editor={editor} /> }
-        { mode === MODES.LOGO && <LogoDialog editor={editor} /> }
+        { mode === MODES.LOGO && <LogoDialog editor={editor} logo={logo} /> }
       </div>
   );
 };

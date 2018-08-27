@@ -78,7 +78,8 @@
     }
 
     &.highlighted {
-      background: linear-gradient(150deg, #05a4ff, #7137c8);
+      background: linear-gradient(150deg, @blue_primary, @blue_secondary) 50% 50% no-repeat;
+      background-size: 100% 100%;
     }
 
     svg {
@@ -107,7 +108,7 @@
   right: 10px;
   bottom: 12px;
   border-radius: 3px;
-  z-index: 2;
+  z-index: 3;
   color: white;
   box-sizing: border-box;
   padding-bottom: 48px;
@@ -157,8 +158,21 @@
   padding: 8px 20px;
   user-select: none;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    &::after {
+      content: ' ';
+      width: 16px;
+      height: 4px;
+      left: 0;
+      top: 14px;
+      position: absolute;
+      background: white;
+    }
   }
 }
