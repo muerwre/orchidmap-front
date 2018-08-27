@@ -1,6 +1,7 @@
 import React from 'react';
 import L, { marker } from 'leaflet';
 import { DomMarker } from '$utils/DomMarker';
+import { Icon } from '$components/panels/Icon';
 
 export class UserLocation extends React.Component {
   constructor(props) {
@@ -61,7 +62,9 @@ export class UserLocation extends React.Component {
 
   render() {
     return (
-      <div className="locate-geo-button" onClick={this.centerMapOnLocation} />
+      <div className="locate-geo-button" onClick={this.centerMapOnLocation}>
+        <Icon icon="icon-locate" size={30} />
+      </div>
     );
   }
 }
