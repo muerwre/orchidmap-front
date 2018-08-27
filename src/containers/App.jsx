@@ -4,6 +4,8 @@ import { Editor } from '$modules/Editor';
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
+import { getUserLocation } from '$utils/geolocation';
+import { UserLocation } from '$components/UserLocation';
 
 export class App extends React.Component {
   state = {
@@ -36,6 +38,20 @@ export class App extends React.Component {
   setLogo = logo => {
     this.setState({ logo });
   };
+  //
+  // locateByGeo = () => {
+  //   getUserLocation(this.setMapCenterByGeo);
+  // };
+  //
+  // setMapCenterByGeo = position => {
+  //   if (!position || !position.coords || !position.coords.latitude || !position.coords.longitude) return;
+  //
+  //   const { latitude, longitude } = position.coords;
+  //
+  //   console.log('panning to', { latitude, longitude });
+  //
+  //   this.editor.map.map.panTo([latitude, longitude]);
+  // };
 
   editor = new Editor({
     container: 'map',
@@ -59,6 +75,9 @@ export class App extends React.Component {
     return (
       <div>
         <Fills />
+
+        <UserLocation editor={editor} />
+
         <EditorPanel
           editor={editor}
           mode={mode}

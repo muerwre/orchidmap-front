@@ -46,15 +46,63 @@
 }
 
 .leaflet-bar a {
-  background: #333333;
+  background: @bar_background;
   color: white;
   text-shadow: none;
   user-select: none;
   border-bottom: none;
 
   &:hover {
-    background: #444444;
+    background: @bar_background;
     color: white;
     border-bottom: none;
   }
+}
+
+.locate-geo-button {
+  background: @bar_background;
+  width: 32px;
+  height: 32px;
+  position: fixed;
+  top: 80px;
+  left: 10px;
+  border-radius: 2px;
+  z-index: 3;
+  box-shadow: @bar_shadow;
+  cursor: pointer;
+}
+
+.location-marker {
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  outline: none;
+  z-index: 10001;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px @location_line;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  &:before {
+    content: ' ';
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 2px @location_line;
+    background: @location_line;
+    position: absolute;
+    left: 19px;
+    top: 19px;
+  }
+
 }
