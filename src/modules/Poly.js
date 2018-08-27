@@ -31,26 +31,27 @@ export class Poly {
 
   drawArrows = () => {
     this.arrows.clearLayers();
-
     const { latlngs } = this;
 
     if (!latlngs || latlngs.length <= 1) return;
 
     latlngs.map((latlng, i) => {
       if (i === 0) return;
+
       const mid = middleCoord(latlngs[i], latlngs[i - 1]);
       const dist = findDistance(latlngs[i - 1].lat, latlngs[i - 1].lng, latlngs[i].lat, latlngs[i].lng);
 
-      if (dist > 1.5) {
-        const slide = new L.Polyline(
-          [
-            latlngs[i - 1],
-            [mid.lat, mid.lng]
-          ],
-          { color: 'none', weight: '5' }
-        ).addTo(this.arrows);
-        slide._path.setAttribute('marker-end', 'url(#long-arrow)');
-      }
+      if (dist <= 1.5) return;
+
+      const slide = new L.Polyline(
+        [
+          latlngs[i - 1],
+          [mid.lat, mid.lng]
+        ],
+        { color: 'none', weight: '5' }
+      ).addTo(this.arrows);
+
+      slide._path.setAttribute('marker-end', 'url(#long-arrow)');
     });
   };
 
@@ -74,6 +75,7 @@ export class Poly {
     this.map.editTools.addEventListener('editable:vertex:new', this.updateMarks);
 
     this.map.editTools.addEventListener('editable:vertex:dragstart', this.lockMap);
+    this.map.editTools.addEventListener('editable:vertex:dragstart', this.clearArrows);
 
     // После удаления точки - продолжить рисование
     this.map.editTools.addEventListener('editable:vertex:deleted', this.continueForward);
@@ -140,5 +142,7 @@ export class Poly {
     this.poly.setLatLngs([]);
     this.poly.disableEdit();
     this.updateMarks();
-  }
+  };
+
+  clearArrows = () => this.arrows.clearLayers();
 }
