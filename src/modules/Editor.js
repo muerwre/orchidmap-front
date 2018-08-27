@@ -138,7 +138,11 @@ export class Editor {
   };
 
   clearSticker = () => {
-    this.setSticker(null);
+    if (this.activeSticker) {
+      this.setSticker(null);
+    } else {
+      this.changeMode(MODES.NONE);
+    }
   };
 
   clearAll = () => {
