@@ -51,11 +51,11 @@ export class EditorPanel extends React.PureComponent {
 
         <div className="panel right">
           <div className="control-dist">
-              {totalDistance} км
-              <Icon icon="icon-cycle" size={32} />
-              {
-                <span>{toHours(estimateTime)}</span>
-              }
+            {totalDistance} км
+            <Icon icon="icon-cycle" size={32} />
+            {
+              <span>{toHours(estimateTime)}</span>
+            }
           </div>
 
           <div className="control-bar">
