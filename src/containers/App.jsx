@@ -5,6 +5,10 @@ import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { UserLocation } from '$components/UserLocation';
+import { DEFAULT_USER } from '$constants/auth';
+import { getGuestToken, checkUserToken } from '$utils/api';
+import { storeData, getData } from '$utils/storage';
+import { UserPanel } from '$components/panels/UserPanel';
 
 export class App extends React.Component {
   state = {
@@ -14,7 +18,14 @@ export class App extends React.Component {
     totalDistance: 0,
     estimateTime: 0,
     activeSticker: null,
+    user: {
+      ...DEFAULT_USER,
+    },
   };
+
+  componentDidMount() {
+    this.authInit();
+  }
 
   setMode = mode => {
     this.setState({ mode });
@@ -48,11 +59,54 @@ export class App extends React.Component {
     setLogo: this.setLogo,
   });
 
+  authInit = () => {
+    const user = this.getUserData();
+
+    const { id, token } = (user || {});
+    const fallback = () => getGuestToken({ callback: this.setUser });
+
+    if (id && token) {
+      console.log('checking');
+      checkUserToken({
+        callback: this.setUser,
+        fallback,
+        id,
+        token
+      });
+    } else {
+      getGuestToken({ callback: fallback });
+    }
+  };
+
+  setUser = user => {
+    console.log('hup', user);
+    if (!user.token || !user.id) return;
+
+    console.log('setting', user);
+
+    this.setState({
+      user: {
+        ...DEFAULT_USER,
+        ...user,
+      }
+    });
+
+    this.storeUserData();
+  };
+
+  storeUserData = () => {
+    storeData('user', this.state.user);
+  };
+
+  getUserData = () => {
+    return getData('user') || null;
+  };
+
   render() {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user,
       },
     } = this;
 
@@ -63,6 +117,11 @@ export class App extends React.Component {
 
         <UserLocation editor={editor} />
 
+        <UserPanel
+          user={user}
+          setUser={this.setUser}
+        />
+
         <EditorPanel
           editor={editor}
           mode={mode}
@@ -71,6 +130,7 @@ export class App extends React.Component {
           estimateTime={estimateTime}
           activeSticker={activeSticker}
           logo={logo}
+          user={user}
         />
       </div>
     );

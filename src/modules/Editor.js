@@ -46,6 +46,9 @@ export class Editor {
       },
       [MODES.STICKERS]: {
         toggle: this.clearSticker,
+      },
+      [MODES.TRASH]: {
+        toggle: this.clearAll,
       }
     };
 

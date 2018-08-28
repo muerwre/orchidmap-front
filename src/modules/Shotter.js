@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getMergedImage } from '$utils/api';
 
 export class Shotter {
   constructor({ map }) {
@@ -54,13 +55,8 @@ export class Shotter {
   }
 
   makeShot = () => {
-    // console.log('shot', this.getTilePlacement());
     const placement = this.getTilePlacement();
 
-    axios.get('http://alpha-map.vault48.org/engine/composerOrchid.php', {
-      params: { placement }
-    })
-      .then(console.log)
-      .catch(console.warn);
+    getMergedImage(placement);
   }
 }

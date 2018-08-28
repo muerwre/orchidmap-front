@@ -50,7 +50,7 @@ const resolve = {
 module.exports = () => {
   /* Export */
   const plugins = [
-    concatPlugin,
+    // concatPlugin,
     htmlPlugin,
     // flowPlugin,
     gitPlugin,

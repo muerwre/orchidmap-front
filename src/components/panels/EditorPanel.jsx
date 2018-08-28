@@ -39,16 +39,6 @@ export class EditorPanel extends React.PureComponent {
 
         <LogoPreview logo={logo} />
 
-        <div className="panel">
-          <div className="control-bar">
-            <button
-              onClick={this.startShotterMode}
-            >
-              <span>РЕДАКТОР</span>
-            </button>
-          </div>
-        </div>
-
         <div className="panel right">
           <div className="control-dist">
             {totalDistance} км
