@@ -4,12 +4,14 @@ import { GuestButton } from '$components/user/GuestButton';
 import { SERVER } from '$constants/api';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
-import { Icon } from '$components/panels/Icon';
+import { UserMenu } from '$components/user/UserMenu';
 
 export class UserPanel extends React.PureComponent {
-  componentDidMount() {
-    window.doLogin = console.log;
+  state = {
+    menuOpened: false,
+  };
 
+  componentDidMount() {
     window.addEventListener('message', e => {
       const { data } = e;
 
@@ -32,9 +34,12 @@ export class UserPanel extends React.PureComponent {
         }
       };
 
+      this.setState({ menuOpened: false });
       this.props.setUser(user);
     });
   }
+
+  setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
 
   openOauthFrame = () => {
     const width = parseInt(window.innerWidth, 10);
@@ -51,27 +56,24 @@ export class UserPanel extends React.PureComponent {
 
   render() {
     const {
-      user
-    } = this.props;
+      props: { user, userLogout },
+      state: { menuOpened },
+    } = this;
 
     return (
       <div>
         <div className="panel">
-          <div className="control-bar">
-            <button
-              onClick={this.startShotterMode}
-            >
-              <Icon icon="icon-poly" />
-            </button>
+          <div className="user-panel">
+            {
+              !user || user.role === ROLES.guest
+              ? <GuestButton onClick={this.openOauthFrame} />
+              : <UserButton user={user} setMenuOpened={this.setMenuOpened} />
+            }
+            {
+              (user && user.role && user.role !== 'guest' && menuOpened) &&
+              <UserMenu user={user} userLogout={userLogout} />
+            }
           </div>
-
-          <div className="control-sep" />
-
-          {
-            !user || user.role === ROLES.guest
-            ? <GuestButton onClick={this.openOauthFrame} />
-            : <UserButton user={user} />
-          }
         </div>
       </div>
     );

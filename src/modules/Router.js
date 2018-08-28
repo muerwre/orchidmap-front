@@ -48,7 +48,6 @@ export class Router {
   //
   pushWaypointOnClick = ({ latlng: { lat, lng } }) => {
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
-    console.log('push', waypoints);
     this.router.setWaypoints([...waypoints, { lat, lng }]);
   };
 

@@ -66,7 +66,6 @@ export class App extends React.Component {
     const fallback = () => getGuestToken({ callback: this.setUser });
 
     if (id && token) {
-      console.log('checking');
       checkUserToken({
         callback: this.setUser,
         fallback,
@@ -79,10 +78,7 @@ export class App extends React.Component {
   };
 
   setUser = user => {
-    console.log('hup', user);
     if (!user.token || !user.id) return;
-
-    console.log('setting', user);
 
     this.setState({
       user: {
@@ -100,6 +96,16 @@ export class App extends React.Component {
 
   getUserData = () => {
     return getData('user') || null;
+  };
+
+  userLogout = () => {
+    this.setState({
+      user: {
+        ...DEFAULT_USER,
+      }
+    });
+
+    this.storeUserData();
   };
 
   render() {
@@ -120,6 +126,7 @@ export class App extends React.Component {
         <UserPanel
           user={user}
           setUser={this.setUser}
+          userLogout={this.userLogout}
         />
 
         <EditorPanel

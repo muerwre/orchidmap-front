@@ -41,7 +41,7 @@ export class Poly {
       const mid = middleCoord(latlngs[i], latlngs[i - 1]);
       const dist = findDistance(latlngs[i - 1].lat, latlngs[i - 1].lng, latlngs[i].lat, latlngs[i].lng);
 
-      if (dist <= 1.5) return;
+      if (dist <= 1) return;
 
       const slide = new L.Polyline(
         [

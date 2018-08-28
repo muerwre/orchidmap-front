@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
@@ -26,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="-4.6277031"
-     inkscape:cy="14.448652"
+     inkscape:zoom="2"
+     inkscape:cx="-83.901329"
+     inkscape:cy="9.506994"
      inkscape:document-units="px"
      inkscape:current-layer="svg8"
      showgrid="false"
@@ -39,7 +38,7 @@
      inkscape:window-maximized="1"
      units="px"
      inkscape:showpageshadow="false"
-     inkscape:snap-global="true" />
+     inkscape:snap-global="false" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -57,59 +56,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-288.53332)" />
-  <image
-     sodipodi:absref="/Users/user/Desktop/Screen Shot 2018-08-24 at 10.18.53.png"
-     y="-102.07228"
-     x="-88.096359"
-     id="image4827"
-     xlink:href="file:///Users/user/Desktop/Screen%20Shot%202018-08-24%20at%2010.18.53.png"
-     preserveAspectRatio="none"
-     height="85.460419"
-     width="191.82292" />
-  <g
-     id="g4909"
-     transform="translate(-0.0543344,0.88815665)">
-    <path
-       sodipodi:nodetypes="ccccc"
-       inkscape:connector-curvature="0"
-       id="rect4855"
-       d="m 16.271875,-27.384377 h 4.266407 l -0.396875,4.29948 h -3.538803 z"
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.81110585;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647" />
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.42985451;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
-       id="rect4857"
-       width="5.1924481"
-       height="0.99218786"
-       x="15.808854"
-       y="-28.938803" />
-    <path
-       inkscape:connector-curvature="0"
-       id="rect4879"
-       d="m 17.24555,-29.944984 v 1.122495 h 0.586422 v -0.659725 h 1.005136 v 0.659725 h 0.586422 v -1.122495 z"
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.50171793;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647" />
-    <g
-       id="g4900">
-      <path
-         style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.26458335px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 16.884753,-26.893092 0.187089,3.507912 h 0.537879 l -0.140315,-3.507912 z"
-         id="path4885"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccc" />
-      <path
-         sodipodi:nodetypes="ccccc"
-         inkscape:connector-curvature="0"
-         id="path4887"
-         d="m 19.98341,-26.893092 -0.187089,3.507912 h -0.537879 l 0.140315,-3.507912 z"
-         style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.26458335px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <rect
-         style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.8209722;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
-         id="rect4889"
-         width="0.53787994"
-         height="3.4728332"
-         x="18.165142"
-         y="-26.881401" />
-    </g>
-  </g>
   <g
      id="icon-save"
      transform="translate(-64)">
@@ -494,7 +440,8 @@
        style="fill:#ececec;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
   <g
-     id="icon-locate">
+     id="icon-locate"
+     transform="translate(-224)">
     <rect
        y="0"
        x="0"
@@ -528,5 +475,15 @@
        id="path5847"
        d="M 6.6291246,16.134291 H 10.871766"
        style="opacity:1;fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     id="g6048">
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
+       id="rect6036"
+       width="32"
+       height="32"
+       x="0"
+       y="0" />
   </g>
 </svg>

@@ -2,16 +2,17 @@ import React from 'react';
 import { UserPicture } from '$components/user/UserPicture';
 
 export const UserButton = ({
-   user: {
-     id,
-     userdata: {
-       name,
-       photo,
-     }
+  setMenuOpened,
+  user: {
+   id,
+   userdata: {
+     name,
+     photo,
    }
+  }
 }) => (
   <div className="control-bar user-bar">
-    <div className="user-button">
+    <div className="user-button" onClick={setMenuOpened}>
       <UserPicture photo={photo} />
 
       <div className="user-button-fields">
