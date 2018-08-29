@@ -9,7 +9,7 @@ import { DEFAULT_USER } from '$constants/auth';
 import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
-import { getPath } from '$utils/history';
+import { getUrlData, replacePath } from '$utils/history';
 
 export class App extends React.Component {
   state = {
@@ -26,12 +26,34 @@ export class App extends React.Component {
 
   componentDidMount() {
     this.authInit();
-    this.mapInit();
   }
 
   mapInit = () => {
-    const path = getPath();
-    if (path) getStoredMap({ name: path, callback: this.setDataOnLoad });
+    const { path, mode } = getUrlData();
+
+    if (path) {
+      getStoredMap({ name: path })
+        .then(this.setDataOnLoad)
+        .then(() => {
+          if (mode && mode === 'edit') {
+            this.editor.startEditing();
+          } else {
+            this.editor.stopEditing();
+          }
+        })
+        .catch(this.hideLoader);
+    } else {
+      // this.hideLoader();
+      this.startEmptyEditor();
+    }
+  };
+
+  startEmptyEditor = () => {
+    const { user } = this.state;
+    if (!user || !user.random_url) return;
+
+    replacePath(`/${user.random_url}/edit`);
+    this.hideLoader();
   };
 
   setDataOnLoad = data => {
@@ -80,17 +102,18 @@ export class App extends React.Component {
     const user = this.getUserData();
 
     const { id, token } = (user || {});
-    const fallback = () => getGuestToken({ callback: this.setUser });
 
     if (id && token) {
       checkUserToken({
-        callback: this.setUser,
-        fallback,
         id,
         token
-      });
+      })
+        .then(this.setUser)
+        .then(this.mapInit);
     } else {
-      getGuestToken({ callback: fallback });
+      getGuestToken()
+        .then(this.setUser)
+        .then(this.mapInit);
     }
   };
 

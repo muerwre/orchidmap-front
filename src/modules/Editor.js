@@ -181,5 +181,13 @@ export class Editor {
       }));
     }
     this.map.map.fitBounds(this.poly.poly.getBounds());
+  };
+
+  startEditing = () => {
+    this.poly.poly.enableEdit();
+  };
+
+  stopEditing = () => {
+    this.poly.poly.disableEdit();
   }
 }
