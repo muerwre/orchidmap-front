@@ -26,6 +26,7 @@ export class App extends React.Component {
 
   componentDidMount() {
     this.authInit();
+    window.editor = this.editor;
   }
 
   mapInit = () => {
@@ -41,7 +42,7 @@ export class App extends React.Component {
             this.editor.stopEditing();
           }
         })
-        .catch(this.hideLoader);
+        .catch(this.startEmptyEditor);
     } else {
       // this.hideLoader();
       this.startEmptyEditor();
@@ -50,9 +51,13 @@ export class App extends React.Component {
 
   startEmptyEditor = () => {
     const { user } = this.state;
-    if (!user || !user.random_url) return;
+    if (!user || !user.random_url || !user.id) return;
 
     replacePath(`/${user.random_url}/edit`);
+
+    this.editor.owner = user.id;
+    this.editor.startEditing();
+
     this.hideLoader();
   };
 

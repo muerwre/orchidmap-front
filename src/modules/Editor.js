@@ -19,7 +19,7 @@ export class Editor {
     setLogo,
   }) {
     this.logo = DEFAULT_LOGO;
-
+    this.owner = null;
     this.map = new Map({ container });
 
     const {
@@ -166,9 +166,9 @@ export class Editor {
     this.logo = logo;
     this.setLogo(logo);
     this.changeMode(MODES.NONE);
-  }
+  };
 
-  setData = ({ route, stickers, format = 'old' }) => {
+  setData = ({ route, stickers, format = 'old', owner }) => {
     if (route) {
       this.poly.setPoints(route);
     }
@@ -180,6 +180,11 @@ export class Editor {
         sticker: parseStickerStyle({ style, format }),
       }));
     }
+
+    if (owner) {
+      this.owner = owner;
+    }
+
     this.map.map.fitBounds(this.poly.poly.getBounds());
   };
 
