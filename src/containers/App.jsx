@@ -6,9 +6,10 @@ import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { UserLocation } from '$components/UserLocation';
 import { DEFAULT_USER } from '$constants/auth';
-import { getGuestToken, checkUserToken } from '$utils/api';
+import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
+import { getPath } from '$utils/history';
 
 export class App extends React.Component {
   state = {
@@ -25,7 +26,13 @@ export class App extends React.Component {
 
   componentDidMount() {
     this.authInit();
+    this.mapInit();
   }
+
+  mapInit = () => {
+    const path = getPath();
+    if (path) getStoredMap({ name: path, callback: this.editor.setData });
+  };
 
   setMode = mode => {
     this.setState({ mode });

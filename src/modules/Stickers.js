@@ -19,9 +19,10 @@ export class Stickers {
   //   this.createSticker({ latlng });
   // };
 
-  createSticker = ({ latlng, sticker }) => {
+  createSticker = ({ latlng, sticker, angle = 2.2 }) => {
     const marker = new Sticker({
       latlng,
+      angle,
       deleteSticker: this.deleteStickerByReference,
       map: this.map,
       lockMapClicks: this.lockMapClicks,

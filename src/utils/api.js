@@ -7,7 +7,7 @@ const report = console.warn;
 export const checkUserToken = ({
   callback, fallback, id, token
 }) => (
-  axios.get(API.GET_GUEST, {
+  axios.get(API.CHECK_TOKEN, {
     params: { action: 'check_token', id, token }
   })
     .then(result => (result && result.data))
@@ -31,3 +31,13 @@ export const getMergedImage = ({ placement, callback }) => (
     .then(callback)
     .catch(report)
 );
+
+export const getStoredMap = ({ name, callback }) => (
+  axios.get(API.GET_MAP, {
+    params: { name, action: 'load' }
+  })
+    .then(result => (result && result.data &&result.data.data))
+    .then(data => ({ ...data }))
+    .then(callback)
+    .catch(report)
+)

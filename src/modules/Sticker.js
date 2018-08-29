@@ -7,9 +7,9 @@ import stickers from '$sprites/stickers.svg';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker
+    latlng, deleteSticker, map, lockMapClicks, sticker, angle = 2.2
   }) {
-    this.angle = 2.2;
+    this.angle = angle;
     this.isDragging = false;
     this.map = map;
 
@@ -39,7 +39,7 @@ export class Sticker {
 
     this.sticker = marker(latlng, { icon: mark });
 
-    this.setAngle(this.angle);
+    this.setAngle(angle);
 
     this.stickerImage.addEventListener('mousedown', this.onDragStart);
     this.stickerImage.addEventListener('mouseup', this.onDragStop);

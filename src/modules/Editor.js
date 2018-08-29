@@ -6,6 +6,8 @@ import { Router } from '$modules/Router';
 import { Shotter } from '$modules/Shotter';
 import { DEFAULT_LOGO } from '$constants/logos';
 
+import { parseStickerAngle, parseStickerStyle } from '$utils/import';
+
 export class Editor {
   constructor({
     container,
@@ -164,5 +166,20 @@ export class Editor {
     this.logo = logo;
     this.setLogo(logo);
     this.changeMode(MODES.NONE);
+  }
+
+  setData = ({ route, stickers, format = 'old' }) => {
+    if (route) {
+      this.poly.setPoints(route);
+    }
+
+    if (stickers) {
+      stickers.map(({ latlng, ang: angle, style }) => this.stickers.createSticker({
+        latlng,
+        angle: parseStickerAngle({ angle, format }),
+        sticker: parseStickerStyle({ style, format }),
+      }));
+    }
+    this.map.map.fitBounds(this.poly.poly.getBounds());
   }
 }

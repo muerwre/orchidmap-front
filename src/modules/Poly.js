@@ -124,6 +124,11 @@ export class Poly {
     this.lockMapClicks(true);
   };
 
+  setPoints = latlngs => {
+    if (!latlngs || latlngs.length <= 1) return;
+    this.poly.setLatLngs(latlngs);
+  };
+
   pushPoints = latlngs => {
     const { map } = this;
     const simplified = simplify({ map, latlngs });
