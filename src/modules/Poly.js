@@ -127,6 +127,8 @@ export class Poly {
   setPoints = latlngs => {
     if (!latlngs || latlngs.length <= 1) return;
     this.poly.setLatLngs(latlngs);
+
+    this.updateMarks();
   };
 
   pushPoints = latlngs => {

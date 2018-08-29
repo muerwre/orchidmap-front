@@ -9,9 +9,21 @@
   <link rel="shortcut icon" href="/favicon.png?wd" type="image/png">
   <meta property="og:image" content="/misc/vk_preview.png" />
   <meta content="/misc/vk_preview.png">
+  <style>
+    #loader {
+      position: fixed;
+      background: #576066;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      transition: opacity 1s;
+    }
+  </style>
 </head>
 <body>
-
+  <section id="loader"></section>
   <section id="index"></section>
-  <div id="map" />
+  <section id="map"></section>
 </body>

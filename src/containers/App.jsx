@@ -31,7 +31,17 @@ export class App extends React.Component {
 
   mapInit = () => {
     const path = getPath();
-    if (path) getStoredMap({ name: path, callback: this.editor.setData });
+    if (path) getStoredMap({ name: path, callback: this.setDataOnLoad });
+  };
+
+  setDataOnLoad = data => {
+    this.editor.setData(data);
+    this.hideLoader();
+  };
+
+  hideLoader = () => {
+    document.getElementById('loader').style.opacity = 0;
+    document.getElementById('loader').style.pointerEvents = 'none';
   };
 
   setMode = mode => {
@@ -101,9 +111,7 @@ export class App extends React.Component {
     storeData('user', this.state.user);
   };
 
-  getUserData = () => {
-    return getData('user') || null;
-  };
+  getUserData = () => getData('user') || null;
 
   userLogout = () => {
     this.setState({
