@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import { App } from '$containers/App';
 import '$styles/main.less';
 
+import 'raleway-cyrillic';
+
 // import { Provider } from 'react-redux';
 // import { ConnectedRouter } from 'react-router-redux';
 // import { PersistGate } from 'redux-persist/integration/react';

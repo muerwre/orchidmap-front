@@ -9,7 +9,7 @@ import { DEFAULT_USER } from '$constants/auth';
 import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
-import { getUrlData, replacePath } from '$utils/history';
+import { getUrlData, pushPath } from '$utils/history';
 
 export class App extends React.Component {
   state = {
@@ -31,7 +31,6 @@ export class App extends React.Component {
 
   mapInit = () => {
     const { path, mode } = getUrlData();
-
     if (path) {
       getStoredMap({ name: path })
         .then(this.setDataOnLoad)
@@ -42,6 +41,7 @@ export class App extends React.Component {
             this.editor.stopEditing();
           }
         })
+        .catch(console.warn)
         .catch(this.startEmptyEditor);
     } else {
       // this.hideLoader();
@@ -50,10 +50,11 @@ export class App extends React.Component {
   };
 
   startEmptyEditor = () => {
+    console.log('starting empty');
     const { user } = this.state;
     if (!user || !user.random_url || !user.id) return;
 
-    replacePath(`/${user.random_url}/edit`);
+    pushPath(`/${user.random_url}/edit`);
 
     this.editor.owner = user.id;
     this.editor.startEditing();

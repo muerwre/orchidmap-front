@@ -20,6 +20,7 @@ export class Stickers {
   // };
 
   createSticker = ({ latlng, sticker, angle = 2.2 }) => {
+    console.log('creating', latlng, sticker, angle);
     const marker = new Sticker({
       latlng,
       angle,
@@ -30,8 +31,8 @@ export class Stickers {
     });
     this.stickers.push(marker);
 
-    marker.sticker.addTo(this.map);
-    marker.sticker.enableEdit();
+    marker.marker.addTo(this.map);
+    marker.marker.enableEdit();
   };
 
   deleteStickerByReference = ref => {
@@ -39,7 +40,7 @@ export class Stickers {
 
     if (index < 0) return;
 
-    this.map.removeLayer(ref.sticker);
+    this.map.removeLayer(ref.marker);
     this.stickers.splice(index, 1);
   };
 
@@ -49,5 +50,7 @@ export class Stickers {
       this.deleteStickerByReference(sticker);
       return true;
     });
-  }
+  };
+
+  dumpData = () => this.stickers.map(sticker => sticker.dumpData());
 }

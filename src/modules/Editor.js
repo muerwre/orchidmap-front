@@ -168,16 +168,17 @@ export class Editor {
     this.changeMode(MODES.NONE);
   };
 
-  setData = ({ route, stickers, format = 'old', owner }) => {
+  setData = ({ route, stickers, version = 1, owner }) => {
+    console.log('setting?', stickers);
     if (route) {
       this.poly.setPoints(route);
     }
 
     if (stickers) {
-      stickers.map(({ latlng, ang: angle, style }) => this.stickers.createSticker({
-        latlng,
-        angle: parseStickerAngle({ angle, format }),
-        sticker: parseStickerStyle({ style, format }),
+      stickers.map(sticker => this.stickers.createSticker({
+        latlng: sticker.latlng,
+        angle: parseStickerAngle({ sticker, version }),
+        sticker: parseStickerStyle({ sticker, version }),
       }));
     }
 
@@ -185,7 +186,11 @@ export class Editor {
       this.owner = owner;
     }
 
-    this.map.map.fitBounds(this.poly.poly.getBounds());
+    if (!route || route.length <= 1) return;
+
+    const bounds = this.poly.poly.getBounds();
+
+    if (Object.values(bounds)) this.map.map.fitBounds(bounds);
   };
 
   startEditing = () => {
@@ -194,5 +199,10 @@ export class Editor {
 
   stopEditing = () => {
     this.poly.poly.disableEdit();
-  }
+  };
+
+  dumpData = () => ({
+    route: this.poly.dumpData(),
+    stickers: this.stickers.dumpData(),
+  });
 }

@@ -6,4 +6,5 @@ export const MODES = {
   TRASH: 'TRASH',
   NONE: 'NONE',
   LOGO: 'LOGO',
+  SAVE: 'SAVE',
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { MODES } from '$constants/modes';
 import classnames from 'classnames';
 
-import { toHours } from '$utils/time';
+import { toHours } from '$utils/format';
 
 import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
@@ -21,9 +21,11 @@ export class EditorPanel extends React.PureComponent {
 
   startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
 
+  startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
+
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo,
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user
     } = this.props;
 
     return (
@@ -35,6 +37,7 @@ export class EditorPanel extends React.PureComponent {
           activeSticker={activeSticker}
           editor={editor}
           logo={logo}
+          user={user}
         />
 
         <LogoPreview logo={logo} />
@@ -96,6 +99,7 @@ export class EditorPanel extends React.PureComponent {
 
             <button
               className="highlighted"
+              onClick={this.startSaveMode}
             >
               <span>СХОРОНИТЬ</span>
               <Icon icon="icon-save" />

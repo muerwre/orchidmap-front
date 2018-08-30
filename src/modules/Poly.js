@@ -152,4 +152,6 @@ export class Poly {
   };
 
   clearArrows = () => this.arrows.clearLayers();
+
+  dumpData = () => this.latlngs;
 }
