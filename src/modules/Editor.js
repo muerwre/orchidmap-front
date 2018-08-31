@@ -17,6 +17,7 @@ export class Editor {
     setTotalDist,
     setActiveSticker,
     setLogo,
+    setEditing,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -63,6 +64,7 @@ export class Editor {
     this.setActiveSticker = setActiveSticker;
     this.setLogo = setLogo;
     this.setMode = setMode;
+    this.setEditing = setEditing;
     this.mode = mode;
 
     map.addEventListener('mouseup', this.onClick);
@@ -196,11 +198,13 @@ export class Editor {
   startEditing = () => {
     this.poly.poly.enableEdit();
     this.stickers.startEditing();
+    this.setEditing(true);
   };
 
   stopEditing = () => {
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
+    this.setEditing(false);
   };
 
   dumpData = () => ({

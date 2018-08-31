@@ -14,6 +14,7 @@ import { getUrlData, pushPath } from '$utils/history';
 export class App extends React.Component {
   state = {
     mode: 'none',
+    editing: false,
     logo: DEFAULT_LOGO,
     routerPoints: 0,
     totalDistance: 0,
@@ -93,6 +94,11 @@ export class App extends React.Component {
     this.setState({ logo });
   };
 
+  setEditing = editing => {
+    console.log('editing', editing);
+    this.setState({ editing });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -101,6 +107,7 @@ export class App extends React.Component {
     setTotalDist: this.setTotalDist,
     setActiveSticker: this.setActiveSticker,
     setLogo: this.setLogo,
+    setEditing: this.setEditing,
   });
 
   authInit = () => {
@@ -155,7 +162,7 @@ export class App extends React.Component {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing,
       },
     } = this;
 
@@ -167,6 +174,8 @@ export class App extends React.Component {
         <UserLocation editor={editor} />
 
         <UserPanel
+          editor={editor}
+          editing={editing}
           user={user}
           setUser={this.setUser}
           userLogout={this.userLogout}
