@@ -58,7 +58,8 @@
      transform="translate(0,-288.53332)" />
   <g
      id="icon-save"
-     transform="translate(-64)">
+     transform="translate(-64)"
+     style="">
     <rect
        y="0"
        x="0"
@@ -99,7 +100,8 @@
   </g>
   <g
      id="g4982"
-     transform="translate(-32)">
+     transform="translate(-32)"
+     style="">
     <rect
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
        id="rect4964"
@@ -164,7 +166,8 @@
   </g>
   <g
      id="g5188"
-     transform="translate(-96)">
+     transform="translate(-96)"
+     style="">
     <rect
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
        id="rect5180"
@@ -230,7 +233,8 @@
   </g>
   <g
      id="g5360"
-     transform="translate(-128)">
+     transform="translate(-128)"
+     style="">
     <rect
        y="0"
        x="0"
@@ -375,7 +379,8 @@
   </g>
   <g
      id="icon-logo"
-     transform="translate(-160)">
+     transform="translate(-160)"
+     style="">
     <rect
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
        id="rect5611"
@@ -420,7 +425,8 @@
     </g>
   </g>
   <g
-     id="g5817">
+     id="g5817"
+     style="">
     <g
        transform="translate(-192)"
        id="g5812">
@@ -441,7 +447,8 @@
   </g>
   <g
      id="icon-locate"
-     transform="translate(-224)">
+     transform="translate(-224)"
+     style="">
     <rect
        y="0"
        x="0"
@@ -477,7 +484,8 @@
        style="opacity:1;fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
   <g
-     id="g6048">
+     id="g6048"
+     style="">
     <rect
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
        id="rect6036"

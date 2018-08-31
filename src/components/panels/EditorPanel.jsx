@@ -128,7 +128,7 @@ export class EditorPanel extends React.PureComponent {
             <button className="success" onClick={this.startEditing}>
               <Icon icon="icon-router" />
               <span>
-                РЕДАКТОРОВАТЬ
+                РЕДАКТИРОВАТЬ
               </span>
             </button>
           </div>

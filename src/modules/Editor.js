@@ -7,6 +7,7 @@ import { Shotter } from '$modules/Shotter';
 import { DEFAULT_LOGO } from '$constants/logos';
 
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
+import { getUrlData, pushPath } from '$utils/history';
 
 export class Editor {
   constructor({
@@ -196,12 +197,18 @@ export class Editor {
   };
 
   startEditing = () => {
+    const { path } = getUrlData();
+    pushPath(`/${path}/edit`);
+
     this.poly.poly.enableEdit();
     this.stickers.startEditing();
     this.setEditing(true);
   };
 
   stopEditing = () => {
+    const { path } = getUrlData();
+    pushPath(`/${path}`);
+
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
     this.setEditing(false);
