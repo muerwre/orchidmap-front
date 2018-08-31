@@ -175,7 +175,6 @@ export class App extends React.Component {
 
         <UserPanel
           editor={editor}
-          editing={editing}
           user={user}
           setUser={this.setUser}
           userLogout={this.userLogout}
@@ -190,6 +189,7 @@ export class App extends React.Component {
           activeSticker={activeSticker}
           logo={logo}
           user={user}
+          editing={editing}
         />
       </div>
     );

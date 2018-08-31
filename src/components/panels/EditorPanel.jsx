@@ -23,9 +23,13 @@ export class EditorPanel extends React.PureComponent {
 
   startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
 
+  stopEditing = () => this.props.editor.stopEditing();
+
+  startEditing = () => this.props.editor.startEditing();
+
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing,
     } = this.props;
 
     return (
@@ -42,7 +46,7 @@ export class EditorPanel extends React.PureComponent {
 
         <LogoPreview logo={logo} />
 
-        <div className="panel right">
+        <div className={classnames('panel right', { active: editing })}>
           <div className="control-dist">
             {totalDistance} км
             <Icon icon="icon-cycle" size={32} />
@@ -96,9 +100,20 @@ export class EditorPanel extends React.PureComponent {
             >
               <Icon icon="icon-logo" />
             </button>
+          </div>
 
+          <div className="control-sep" />
+
+          <div className="control-bar">
             <button
               className="highlighted"
+              onClick={this.stopEditing}
+            >
+              <span>ОТМЕНА</span>
+            </button>
+
+            <button
+              className="primary"
               onClick={this.startSaveMode}
             >
               <span>СХОРОНИТЬ</span>
@@ -106,6 +121,17 @@ export class EditorPanel extends React.PureComponent {
             </button>
           </div>
 
+        </div>
+
+        <div className={classnames('panel right', { active: !editing })}>
+          <div className="control-bar">
+            <button className="success" onClick={this.startEditing}>
+              <Icon icon="icon-router" />
+              <span>
+                РЕДАКТОРОВАТЬ
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     );

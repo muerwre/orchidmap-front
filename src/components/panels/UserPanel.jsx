@@ -62,7 +62,7 @@ export class UserPanel extends React.PureComponent {
 
     return (
       <div>
-        <div className="panel">
+        <div className="panel active">
           <div className="user-panel">
             {
               !user || user.role === ROLES.guest
@@ -73,26 +73,6 @@ export class UserPanel extends React.PureComponent {
               (user && user.role && user.role !== 'guest' && menuOpened) &&
               <UserMenu user={user} userLogout={userLogout} />
             }
-          </div>
-
-          <div className="control-sep" />
-
-          <div className="control-bar">
-            {
-              editing
-              ?
-                <button>
-                  <span>
-                    РЕДАКТОР
-                  </span>
-                </button>
-              : <button>
-                  <span>
-                    ПРОСМОТР
-                  </span>
-                </button>
-            }
-
           </div>
         </div>
       </div>
