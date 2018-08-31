@@ -14,6 +14,7 @@ export class Sticker {
     this.isDragging = false;
     this.map = map;
     this.sticker = sticker;
+    this.editable = true;
 
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
@@ -129,4 +130,8 @@ export class Sticker {
     latlng: this.latlng,
     sticker: this.sticker,
   })
+
+  stopEditing = () => ({
+
+  });
 }

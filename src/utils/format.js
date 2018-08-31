@@ -9,4 +9,4 @@ export const toHours = (info) => {
 };
 
 
-export const toTranslit = string => ru.reduce((text, el, i) => (text.replace(new RegExp(ru[i], 'g'), en[i])), string);
+export const toTranslit = string => ru.reduce((text, el, i) => (text.replace(new RegExp(ru[i], 'g'), en[i])), (String(string) || ''));

@@ -13,6 +13,7 @@ export class SaveDialog extends React.Component {
     sending: false,
     finished: false,
     success: false,
+    overwriting: false,
   };
 
   setTitle = ({ target: { value } }) => this.setState({ title: (value || '') });
@@ -25,6 +26,7 @@ export class SaveDialog extends React.Component {
     const { route, stickers } = this.props.editor.dumpData();
     const { title, address } = this.state;
     const { id, token } = this.props.user;
+    const { path, host } = getUrlData();
 
     postMap({
       id,
@@ -32,7 +34,7 @@ export class SaveDialog extends React.Component {
       route,
       stickers,
       title,
-      address,
+      address: (toTranslit(address.trim()) || toTranslit(title.trim()) || toTranslit(path.trim())),
     }).then(console.log).catch(console.warn);
   };
 
