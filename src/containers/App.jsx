@@ -41,7 +41,6 @@ export class App extends React.Component {
             this.editor.stopEditing();
           }
         })
-        .catch(console.warn)
         .catch(this.startEmptyEditor);
     } else {
       // this.hideLoader();

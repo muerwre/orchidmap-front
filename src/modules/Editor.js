@@ -195,10 +195,12 @@ export class Editor {
 
   startEditing = () => {
     this.poly.poly.enableEdit();
+    this.stickers.startEditing();
   };
 
   stopEditing = () => {
     this.poly.poly.disableEdit();
+    this.stickers.stopEditing();
   };
 
   dumpData = () => ({

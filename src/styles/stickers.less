@@ -1,6 +1,7 @@
 .sticker-container {
   outline: none;
   position: relative;
+  transition: transform 250ms;
 
   &:before {
     content: ' ';
@@ -26,6 +27,14 @@
     &:before {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  &.inactive {
+    pointer-events: none;
+
+    .sticker-delete {
+      display: none;
     }
   }
 }

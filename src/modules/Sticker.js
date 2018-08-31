@@ -129,9 +129,13 @@ export class Sticker {
     angle: this.angle,
     latlng: this.latlng,
     sticker: this.sticker,
-  })
-
-  stopEditing = () => ({
-
   });
+
+  stopEditing = () => {
+    this.element.className = 'sticker-container inactive';
+  };
+
+  startEditing = () => {
+    this.element.className = 'sticker-container';
+  };
 }

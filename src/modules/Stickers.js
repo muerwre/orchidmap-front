@@ -53,4 +53,12 @@ export class Stickers {
   };
 
   dumpData = () => this.stickers.map(sticker => sticker.dumpData());
+
+  startEditing = () => {
+    this.stickers.map(sticker => sticker.startEditing());
+  }
+
+  stopEditing = () => {
+    this.stickers.map(sticker => sticker.stopEditing());
+  }
 }

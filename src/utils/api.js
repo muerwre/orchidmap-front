@@ -31,10 +31,10 @@ export const getStoredMap = ({ name }) => axios.get(API.GET_MAP, {
     name,
     action: 'load'
   }
-}).then(result => (result && result.data && result.data.data && result.data.owner && { ...result.data.data, owner: result.data.owner }));
+}).then(result => (result && result.data && result.data.data && { ...result.data.data, owner: (result.data.owner || null) }));
 
 export const postMap = ({
-  title, address, route, stickers, id, token
+  title, address, route, stickers, id, token, force,
 }) => axios.post(API.POST_MAP, {
   action: 'store',
   title,
@@ -43,4 +43,5 @@ export const postMap = ({
   stickers,
   id,
   token,
-}).then(result => (result && result.data && result.data.data && result.data.owner && { ...result.data.data, owner: result.data.owner }));
+  force,
+}).then(result => (result && result.data && result.data));

@@ -1,9 +1,11 @@
 import React from 'react';
-import { getUrlData } from '$utils/history';
+import { getUrlData, pushPath } from '$utils/history';
 import { toTranslit } from '$utils/format';
 import { TIPS } from '$constants/tips';
 import { MODES } from '$constants/modes';
 import { postMap } from '$utils/api';
+
+import classnames from 'classnames';
 
 export class SaveDialog extends React.Component {
   state = {
@@ -12,8 +14,13 @@ export class SaveDialog extends React.Component {
     error: '',
     sending: false,
     finished: false,
-    success: false,
     overwriting: false,
+  };
+
+  getAddress = () => {
+    const { path } = getUrlData();
+    const { title, address } = this.state;
+    return toTranslit(address.trim()) || toTranslit(title.trim()) || toTranslit(path.trim());
   };
 
   setTitle = ({ target: { value } }) => this.setState({ title: (value || '') });
@@ -22,11 +29,10 @@ export class SaveDialog extends React.Component {
 
   cancelSaving = () => this.props.editor.changeMode(MODES.NONE);
 
-  sendSaveRequest = () => {
+  sendSaveRequest = (e, force = false) => {
     const { route, stickers } = this.props.editor.dumpData();
-    const { title, address } = this.state;
+    const { title } = this.state;
     const { id, token } = this.props.user;
-    const { path, host } = getUrlData();
 
     postMap({
       id,
@@ -34,13 +40,40 @@ export class SaveDialog extends React.Component {
       route,
       stickers,
       title,
-      address: (toTranslit(address.trim()) || toTranslit(title.trim()) || toTranslit(path.trim())),
-    }).then(console.log).catch(console.warn);
+      force,
+      address: this.getAddress(),
+    }).then(this.parseResponse).catch(console.warn);
   };
 
+  forceSaveRequest = e => this.sendSaveRequest(e, true);
+
+  parseResponse = data => {
+    if (data.success) return this.setSuccess(data);
+    if (data.mode === 'overwriting') return this.setOverwrite(data.description);
+    return this.setError(data.description);
+  };
+
+  setSuccess = ({ address, description }) => {
+    pushPath(`/${address}/edit`);
+
+    this.setState({
+      error: description, finished: true, sending: true, overwriting: false
+    });
+  };
+
+  setOverwrite = error => this.setState({
+    error, finished: false, sending: true, overwriting: true
+  });
+
+  setError = error => this.setState({
+    error, finished: false, sending: true, overwriting: false
+  });
+
   render() {
-    const { address, title, error } = this.state;
-    const { path, host } = getUrlData();
+    const {
+      title, error, finished, overwriting, sending
+    } = this.state;
+    const { host } = getUrlData();
 
     return (
       <div className="helper save-helper">
@@ -54,7 +87,7 @@ export class SaveDialog extends React.Component {
         <div className="save-description">
           <div className="save-address-input">
             <label className="save-address-label">http://{host}/</label>
-            <input type="text" value={toTranslit(address.trim() || title.trim() || path).substr(0, 32)} onChange={this.setAddress} />
+            <input type="text" value={this.getAddress().substr(0, 32)} onChange={this.setAddress} />
           </div>
 
           <div className="save-text">
@@ -65,9 +98,26 @@ export class SaveDialog extends React.Component {
 
           <div className="save-buttons">
             <div className="save-buttons-text" />
-            <div className="button-group">
+            <div className={classnames({ 'button-group': !finished })}>
+
+              { !finished &&
               <div className="button" onClick={this.cancelSaving}>Отмена</div>
-              <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
+              }
+
+              {
+                (!sending || (sending && !overwriting && !finished)) &&
+                  <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
+              }
+
+              {
+                sending && overwriting &&
+                  <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
+              }
+
+              { finished &&
+              <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>
+              }
+
             </div>
           </div>
         </div>
@@ -76,4 +126,4 @@ export class SaveDialog extends React.Component {
       </div>
     );
   }
-};
+}
