@@ -138,6 +138,65 @@
                 <path id="path5845" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M20.948 16.134h4.243"/>
                 <path id="path5847" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M6.63 16.134h4.242"/>
             </g>
+
+            <g id="icon-shot-2" stroke="none" transform="scale(1.2) translate(-2 -2)">
+                <path id="rect5819" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
+                <rect id="rect6617" width="21" height="13.89" x="6.25" y="9.833" fill="#fff" rx="2" ry="2"/>
+                <path id="rect6619" fill="#fff" stroke-width="1.979" d="M13.812 7.009h6.282c.45 0 .749.528 1.147 1.039l3.096 3.974c.398.51-3.793 6.989-4.243 6.989h-6.282c-.45 0-4.889-6.747-4.475-7.24l3.19-3.802c.415-.493.836-.96 1.285-.96z"/>
+                <circle id="path6621" cx="16.627" cy="16.311" r="6.158" fill="black"/>
+                <circle id="circle6628" cx="16.627" cy="16.311" r="3.533" fill="#fff" />
+            </g>
+
+            <g id="icon-trash-2" stroke="none">
+                <g transform="translate(-4 -3) scale(3.82445) scale(1.2)">
+                    <rect id="rect4966" width="3.125" height="2.893" x="2.671" y="3.751" fill="#fff" rx=".36" ry=".403"/>
+                    <rect id="rect4968" width="3.663" height=".87" x="2.401" y="2.423" fill="#fff" rx=".435" ry=".435"/>
+                    <rect id="rect4970" width="2.924" height="1.306" x="2.771" y="1.698" fill="#fff" rx=".653" ry=".653"/>
+                    <rect id="rect4972" width="1.933" height=".523" x="3.266" y="2.114" fill="black" rx=".261" ry=".261"/>
+
+                    <g id="g4918" stroke-width=".523" transform="matrix(1.3497 0 0 1.3497 -1.613 -1.674)">
+                        <rect id="rect4912" width="2.059" height=".425" x="5.622" y=".289" rx=".237" ry=".21" transform="rotate(45)" fill="black"/>
+                        <rect id="rect4914" width="2.047" height=".389" x="-.491" y="-6.803" rx=".237" ry=".195" transform="rotate(135)" fill="black"/>
+                    </g>
+                </g>
+            </g>
+
+            <g id="icon-logo-2" transform="scale(1.2) translate(-3 -2)">
+                <path id="rect5611" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none"/>
+                <g id="g5792" fill="none" stroke="#fff" stroke-width="2.37" transform="matrix(.84382 0 0 .84382 4.366 1.93)">
+                    <path id="path5774" fill-rule="evenodd" d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z"/>
+                </g>
+                <g id="g8284" fill="#fff" stroke-width="3.052" transform="matrix(.40236 0 0 .40236 10.45 8.978)">
+                    <path d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z" stroke="none" />
+                </g>
+            </g>
+
+            <g id="icon-sticker-2" transform="scale(1.2) translate(-3 -2)" stroke="none">
+                <g id="g4867" transform="matrix(.94996 0 0 .94996 -.16 .083)">
+                    <path id="path4859" fill="#fff" fill-rule="evenodd" stroke-width=".767" d="M13.47 22.847l3.045 5.275 3.12-5.405z"/>
+                    <circle id="path4863" cx="16.552" cy="14.98" r="8.712" fill="#fff" stroke-width="1.851"/>
+                    <circle id="circle4869" cx="16.552" cy="14.98" r="5" fill="black" />
+                </g>
+            </g>
+
+            <g id="icon-route-2" transform="scale(1.2) translate(32 -2)" stroke="none">
+                <g fill="white">
+                    <circle id="path5642" cx="-24.357" cy="23.576" r="2.507" fill="#fff" stroke-width="4.363"/>
+                    <path id="path5644" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.621" d="M-24.289 21.588V10.61c0-4.22 6.62-4.194 6.62 0V21.42c0 4.011 6.828 4.027 6.828 0v-10.98"/>
+                    <circle id="circle5646" cx="-10.93" cy="8.462" r="2.507" fill="#fff" stroke-width="4.363"/>
+                </g>
+            </g>
+
+            <g id="icon-poly-2" transform="scale(1.2) translate(-3 -2)" stroke="none">
+                <g fill="white">
+                    <path id="path6375" fill="none" fill-rule="evenodd" stroke="#fff" stroke-linejoin="round" stroke-width="2.387" d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12"/>
+                    <circle id="path6363" cx="14.711" cy="-4.523" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
+                    <circle id="circle6367" cx="12.17" cy="-13.883" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
+                    <circle id="circle6371" cx="20.342" cy="-19.194" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
+                    <circle id="circle6373" cx="24.138" cy="-3.701" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
+                    <circle id="circle6774" cx="27.918" cy="-13.025" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
+                </g>
+            </g>
         </svg>
     </defs>
 </svg>

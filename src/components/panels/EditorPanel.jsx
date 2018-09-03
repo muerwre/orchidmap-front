@@ -60,19 +60,19 @@ export class EditorPanel extends React.PureComponent {
               className={classnames({ active: mode === MODES.ROUTER })}
               onClick={this.startRouterMode}
             >
-              <Icon icon="icon-router" />
+              <Icon icon="icon-route-2" />
             </button>
             <button
               className={classnames({ active: mode === MODES.POLY })}
               onClick={this.startPolyMode}
             >
-              <Icon icon="icon-poly" />
+              <Icon icon="icon-poly-2" />
             </button>
             <button
               className={classnames({ active: mode === MODES.STICKERS })}
               onClick={this.startStickerMode}
             >
-              <Icon icon="icon-sticker" />
+              <Icon icon="icon-sticker-2" />
             </button>
 
           </div>
@@ -84,21 +84,21 @@ export class EditorPanel extends React.PureComponent {
               className={classnames({ active: mode === MODES.SHOTTER })}
               onClick={this.startShotterMode}
             >
-              <Icon icon="icon-shooter" />
+              <Icon icon="icon-shot-2" />
             </button>
 
             <button
               className={classnames({ active: mode === MODES.TRASH })}
               onClick={this.startTrashMode}
             >
-              <Icon icon="icon-trash" />
+              <Icon icon="icon-trash-2" />
             </button>
 
             <button
               className={classnames({ active: mode === MODES.LOGO })}
               onClick={this.startLogoMode}
             >
-              <Icon icon="icon-logo" />
+              <Icon icon="icon-logo-2" />
             </button>
           </div>
 
