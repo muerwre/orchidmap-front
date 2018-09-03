@@ -22,6 +22,7 @@ export class Editor {
     setTitle,
     setAddress,
     getUser,
+    triggerOnChange,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -32,9 +33,9 @@ export class Editor {
     } = this;
 
     this.poly = new Poly({
-      map, routerMoveStart, lockMapClicks, setTotalDist
+      map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange
     });
-    this.stickers = new Stickers({ map, lockMapClicks });
+    this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
       map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints
     });

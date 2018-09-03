@@ -25,6 +25,7 @@ export class App extends React.Component {
     },
     title: '',
     address: '',
+    changed: false,
   };
 
   componentDidMount() {
@@ -61,12 +62,15 @@ export class App extends React.Component {
     this.editor.startEditing();
 
     this.hideLoader();
+
+    this.setState({ changed: false });
   };
 
   setTitle = title => this.setState({ title });
   setAddress = address => this.setState({ address });
 
   setDataOnLoad = data => {
+    this.setState({ changed: false });
     this.editor.setData(data);
     this.hideLoader();
   };
@@ -104,6 +108,12 @@ export class App extends React.Component {
 
   getUser = () => this.state.user;
 
+  triggerOnChange = () => {
+    if (!this.state.editing) return;
+    console.log('CHANGED!');
+    this.setState({ changed: true });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -116,6 +126,7 @@ export class App extends React.Component {
     setTitle: this.setTitle,
     setAddress: this.setAddress,
     getUser: this.getUser,
+    triggerOnChange: this.triggerOnChange,
   });
 
   authInit = () => {
@@ -176,7 +187,7 @@ export class App extends React.Component {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
       },
     } = this;
 
@@ -206,6 +217,7 @@ export class App extends React.Component {
           editing={editing}
           title={title}
           address={address}
+          changed={changed}
         />
       </div>
     );

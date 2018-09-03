@@ -12,7 +12,7 @@ const polyStyle = {
 
 export class Poly {
   constructor({
-    map, routerMoveStart, lockMapClicks, setTotalDist
+    map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange,
   }) {
     this.poly = L.polyline([], polyStyle);
 
@@ -23,6 +23,7 @@ export class Poly {
 
     this.routerMoveStart = routerMoveStart;
     this.setTotalDist = setTotalDist;
+    this.triggerOnChange = triggerOnChange;
     this.lockMapClicks = lockMapClicks;
     this.bindEvents();
 
@@ -63,7 +64,10 @@ export class Poly {
 
     this.setTotalDist(kilometers);
     this.routerMoveStart();
+
     this.drawArrows();
+
+    if (coords.length > 1) this.triggerOnChange();
   };
 
   bindEvents = () => {
@@ -148,6 +152,7 @@ export class Poly {
   clearAll = () => {
     this.poly.setLatLngs([]);
     this.poly.disableEdit();
+
     this.updateMarks();
   };
 

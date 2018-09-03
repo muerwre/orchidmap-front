@@ -7,7 +7,7 @@ import stickers from '$sprites/stickers.svg';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker, angle = 2.2
+    latlng, deleteSticker, map, lockMapClicks, sticker, triggerOnChange, angle = 2.2
   }) {
     this.latlng = latlng;
     this.angle = angle;
@@ -15,6 +15,7 @@ export class Sticker {
     this.map = map;
     this.sticker = sticker;
     this.editable = true;
+    this.triggerOnChange = triggerOnChange;
 
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
@@ -49,9 +50,14 @@ export class Sticker {
 
     this.element.addEventListener('mouseup', this.preventPropagations);
     this.stickerDelete.addEventListener('click', this.onDelete);
+
+    this.marker.addEventListener('dragend', this.triggerOnChange);
+
+    this.triggerOnChange();
   }
 
   onDelete = () => {
+    this.triggerOnChange();
     if (!this.isDragging) this.deleteSticker(this);
   };
 
@@ -77,6 +83,7 @@ export class Sticker {
   onDragStop = e => {
     this.preventPropagations(e);
 
+    this.triggerOnChange();
     this.isDragging = false;
     this.marker.enableEdit();
 

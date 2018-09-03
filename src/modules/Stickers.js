@@ -2,9 +2,10 @@ import { layerGroup } from 'leaflet';
 import { Sticker } from '$modules/Sticker';
 
 export class Stickers {
-  constructor({ map, lockMapClicks }) {
+  constructor({ map, lockMapClicks, triggerOnChange }) {
     this.map = map;
     this.layer = layerGroup();
+    this.triggerOnChange = triggerOnChange;
 
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];
@@ -27,6 +28,7 @@ export class Stickers {
       map: this.map,
       lockMapClicks: this.lockMapClicks,
       sticker,
+      triggerOnChange: this.triggerOnChange,
     });
     this.stickers.push(marker);
 

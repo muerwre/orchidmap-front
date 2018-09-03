@@ -29,7 +29,7 @@ export class EditorPanel extends React.PureComponent {
 
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address,
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
     } = this.props;
 
     return (
@@ -49,6 +49,7 @@ export class EditorPanel extends React.PureComponent {
         <LogoPreview logo={logo} />
 
         <div className="control-dist">
+          {changed && '(ch) '}
           {totalDistance} км
           <Icon icon="icon-cycle" size={32} />
           {
