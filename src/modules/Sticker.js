@@ -128,7 +128,7 @@ export class Sticker {
 
   dumpData = () => ({
     angle: this.angle,
-    latlng: this.latlng,
+    latlng: { ...this.marker.getLatLng() },
     sticker: this.sticker,
   });
 
