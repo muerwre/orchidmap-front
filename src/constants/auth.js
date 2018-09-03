@@ -10,6 +10,8 @@ export const DEFAULT_USER = {
   role: ROLES.guest,
   routes: [],
   success: false,
+  id: null,
+  token: null,
   userdata: {
     name: '',
     agent: '',

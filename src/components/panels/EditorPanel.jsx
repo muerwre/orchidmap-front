@@ -29,7 +29,7 @@ export class EditorPanel extends React.PureComponent {
 
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing,
+      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address,
     } = this.props;
 
     return (
@@ -42,6 +42,8 @@ export class EditorPanel extends React.PureComponent {
           editor={editor}
           logo={logo}
           user={user}
+          title={title}
+          address={address}
         />
 
         <LogoPreview logo={logo} />

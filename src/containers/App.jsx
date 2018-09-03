@@ -23,6 +23,8 @@ export class App extends React.Component {
     user: {
       ...DEFAULT_USER,
     },
+    title: '',
+    address: '',
   };
 
   componentDidMount() {
@@ -50,7 +52,6 @@ export class App extends React.Component {
   };
 
   startEmptyEditor = () => {
-    console.log('starting empty');
     const { user } = this.state;
     if (!user || !user.random_url || !user.id) return;
 
@@ -61,6 +62,9 @@ export class App extends React.Component {
 
     this.hideLoader();
   };
+
+  setTitle = title => this.setState({ title });
+  setAddress = address => this.setState({ address });
 
   setDataOnLoad = data => {
     this.editor.setData(data);
@@ -99,6 +103,8 @@ export class App extends React.Component {
     this.setState({ editing });
   };
 
+  getUser = () => this.state.user;
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -108,6 +114,9 @@ export class App extends React.Component {
     setActiveSticker: this.setActiveSticker,
     setLogo: this.setLogo,
     setEditing: this.setEditing,
+    setTitle: this.setTitle,
+    setAddress: this.setAddress,
+    getUser: this.getUser,
   });
 
   authInit = () => {
@@ -132,6 +141,10 @@ export class App extends React.Component {
   setUser = user => {
     if (!user.token || !user.id) return;
 
+    if (this.state.user.id === this.editor.owner) {
+      this.editor.owner = user.id;
+    }
+
     this.setState({
       user: {
         ...DEFAULT_USER,
@@ -149,6 +162,10 @@ export class App extends React.Component {
   getUserData = () => getData('user') || null;
 
   userLogout = () => {
+    if (this.state.user.id === this.editor.owner) {
+      this.editor.owner = null;
+    }
+
     this.setState({
       user: {
         ...DEFAULT_USER,
@@ -162,7 +179,7 @@ export class App extends React.Component {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address
       },
     } = this;
 
@@ -190,6 +207,8 @@ export class App extends React.Component {
           logo={logo}
           user={user}
           editing={editing}
+          title={title}
+          address={address}
         />
       </div>
     );

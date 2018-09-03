@@ -19,6 +19,9 @@ export class Editor {
     setActiveSticker,
     setLogo,
     setEditing,
+    setTitle,
+    setAddress,
+    getUser,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -66,6 +69,9 @@ export class Editor {
     this.setLogo = setLogo;
     this.setMode = setMode;
     this.setEditing = setEditing;
+    this.setTitle = setTitle;
+    this.setAddress = setAddress;
+    this.getUser = getUser;
     this.mode = mode;
 
     map.addEventListener('mouseup', this.onClick);
@@ -171,8 +177,12 @@ export class Editor {
     this.changeMode(MODES.NONE);
   };
 
-  setData = ({ route, stickers, version = 1, owner }) => {
-    console.log('setting?', stickers);
+  setData = ({ route, stickers, version = 1, owner, title, address }) => {
+    this.setTitle(title || '');
+    this.setAddress(address || '');
+
+    console.log('setting address', address);
+
     if (route) {
       this.poly.setPoints(route);
     }
@@ -198,7 +208,14 @@ export class Editor {
 
   startEditing = () => {
     const { path } = getUrlData();
-    pushPath(`/${path}/edit`);
+    const { random_url, id } = this.getUser();
+
+    // console.log('ID', id, this.owner);
+
+    const url = (this.owner && this.owner === id) ? path : random_url;
+
+    this.setAddress(url);
+    pushPath(`/${url}/edit`);
 
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
 

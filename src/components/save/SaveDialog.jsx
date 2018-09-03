@@ -8,14 +8,18 @@ import { postMap } from '$utils/api';
 import classnames from 'classnames';
 
 export class SaveDialog extends React.Component {
-  state = {
-    address: '',
-    title: '',
-    error: '',
-    sending: false,
-    finished: false,
-    overwriting: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      address: props.address || '',
+      title: props.title || '',
+      error: '',
+      sending: false,
+      finished: false,
+      overwriting: false,
+    };
+  }
 
   getAddress = () => {
     const { path } = getUrlData();

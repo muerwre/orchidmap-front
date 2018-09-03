@@ -8,7 +8,7 @@ import { LogoDialog } from '$components/logo/LogoDialog';
 import { SaveDialog } from '$components/save/SaveDialog';
 
 export const EditorDialog = ({
-  mode, routerPoints, editor, activeSticker, logo, user,
+  mode, routerPoints, editor, activeSticker, logo, user, title, address,
 }) => {
   const showDialog = (
     mode === MODES.ROUTER
@@ -25,7 +25,7 @@ export const EditorDialog = ({
         { mode === MODES.STICKERS && <StickersDialog editor={editor} /> }
         { mode === MODES.TRASH && <TrashDialog editor={editor} /> }
         { mode === MODES.LOGO && <LogoDialog editor={editor} logo={logo} /> }
-        { mode === MODES.SAVE && <SaveDialog editor={editor} user={user} /> }
+        { mode === MODES.SAVE && <SaveDialog editor={editor} user={user} title={title} address={address} /> }
       </div>
   );
 };
