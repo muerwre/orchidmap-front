@@ -99,7 +99,6 @@ export class App extends React.Component {
   };
 
   setEditing = editing => {
-    console.log('editing', editing);
     this.setState({ editing });
   };
 
@@ -165,14 +164,12 @@ export class App extends React.Component {
     if (this.state.user.id === this.editor.owner) {
       this.editor.owner = null;
     }
-
+    //
     this.setState({
-      user: {
-        ...DEFAULT_USER,
-      }
+      user: DEFAULT_USER,
     });
 
-    this.storeUserData();
+    setTimeout(this.storeUserData, 0);
   };
 
   render() {

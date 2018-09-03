@@ -20,7 +20,6 @@ export class Stickers {
   // };
 
   createSticker = ({ latlng, sticker, angle = 2.2 }) => {
-    console.log('creating', latlng, sticker, angle);
     const marker = new Sticker({
       latlng,
       angle,

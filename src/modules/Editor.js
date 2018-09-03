@@ -181,8 +181,6 @@ export class Editor {
     this.setTitle(title || '');
     this.setAddress(address || '');
 
-    console.log('setting address', address);
-
     if (route) {
       this.poly.setPoints(route);
     }

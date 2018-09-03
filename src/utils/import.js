@@ -3,7 +3,6 @@
  */
 
 export const parseStickerAngle = ({ sticker, version }) => {
-  console.log('stick', sticker, version);
   return sticker && version && parseInt(version, 10) === 2
     ? parseFloat(sticker.angle)
     : parseFloat(sticker.ang - 3.14);
