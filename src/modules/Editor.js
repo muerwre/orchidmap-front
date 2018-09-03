@@ -23,6 +23,7 @@ export class Editor {
     setAddress,
     getUser,
     triggerOnChange,
+    clearChanged,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -57,6 +58,9 @@ export class Editor {
       },
       [MODES.TRASH]: {
         toggle: this.clearAll,
+      },
+      [MODES.CONFIRM_CANCEL]: {
+        toggle: this.stopEditing,
       }
     };
 
@@ -66,6 +70,7 @@ export class Editor {
     };
 
     this.activeSticker = null;
+    this.clearChanged = clearChanged;
     this.setActiveSticker = setActiveSticker;
     this.setLogo = setLogo;
     this.setMode = setMode;
@@ -170,6 +175,8 @@ export class Editor {
 
     this.setSticker(null);
     this.changeMode(MODES.NONE);
+
+    this.clearChanged();
   };
 
   changeLogo = logo => {

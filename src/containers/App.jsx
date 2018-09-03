@@ -63,14 +63,14 @@ export class App extends React.Component {
 
     this.hideLoader();
 
-    this.setState({ changed: false });
+    this.clearChanged();
   };
 
   setTitle = title => this.setState({ title });
   setAddress = address => this.setState({ address });
 
   setDataOnLoad = data => {
-    this.setState({ changed: false });
+    this.clearChanged();
     this.editor.setData(data);
     this.hideLoader();
   };
@@ -114,6 +114,11 @@ export class App extends React.Component {
     this.setState({ changed: true });
   };
 
+  clearChanged = () => {
+    console.log('clearing');
+    this.setState({ changed: false });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -127,6 +132,7 @@ export class App extends React.Component {
     setAddress: this.setAddress,
     getUser: this.getUser,
     triggerOnChange: this.triggerOnChange,
+    clearChanged: this.clearChanged,
   });
 
   authInit = () => {
