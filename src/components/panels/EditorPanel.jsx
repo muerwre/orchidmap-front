@@ -125,7 +125,7 @@ export class EditorPanel extends React.PureComponent {
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
-            <button className="success" onClick={this.startEditing}>
+            <button className="success single" onClick={this.startEditing}>
               <Icon icon="icon-router" />
               <span>
                 РЕДАКТИРОВАТЬ

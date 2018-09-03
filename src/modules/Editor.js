@@ -209,6 +209,7 @@ export class Editor {
     const { path } = getUrlData();
     pushPath(`/${path}`);
 
+    this.changeMode(MODES.NONE);
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
     this.setEditing(false);

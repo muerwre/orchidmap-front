@@ -1,10 +1,8 @@
 .control-bar {
   background: @bar_background;
-  border-radius: 3px;
+  border-radius: 4px;
   display: flex;
   box-shadow: @bar_shadow;
-
-
 }
 
 .control-dist {
@@ -101,6 +99,10 @@
     &.success {
       background: linear-gradient(150deg, @green_primary, @green_secondary) 50% 50% no-repeat;
       background-size: 100% 100%;
+    }
+
+    &.single {
+      border-radius: 3px;
     }
 
     svg {
