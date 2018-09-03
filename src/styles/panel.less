@@ -60,6 +60,7 @@
     transition: background-color 500ms;
     height: 48px;
     box-sizing: border-box;
+    user-select: none;
 
     &:hover {
       background: rgba(100, 100, 100, 0.2);
@@ -89,6 +90,10 @@
 
     &.highlighted {
       background: #555555;
+    }
+
+    &.cancel {
+      background: linear-gradient(270deg, #0f5871, #444444 60%);
     }
 
     &.primary {

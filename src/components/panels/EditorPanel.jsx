@@ -106,7 +106,7 @@ export class EditorPanel extends React.PureComponent {
 
           <div className="control-bar">
             <button
-              className="highlighted"
+              className="highlighted  cancel"
               onClick={this.stopEditing}
             >
               <span>ОТМЕНА</span>
@@ -117,7 +117,7 @@ export class EditorPanel extends React.PureComponent {
               onClick={this.startSaveMode}
             >
               <span>СХОРОНИТЬ</span>
-              <Icon icon="icon-save" />
+              <Icon icon="icon-save-2" />
             </button>
           </div>
 
