@@ -24,10 +24,12 @@ export class Editor {
     getUser,
     triggerOnChange,
     clearChanged,
+    getTitle,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
     this.map = new Map({ container });
+    this.initialData = {};
 
     const {
       lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
@@ -60,7 +62,7 @@ export class Editor {
         toggle: this.clearAll,
       },
       [MODES.CONFIRM_CANCEL]: {
-        toggle: this.stopEditing,
+        toggle: this.cancelEditing,
       }
     };
 
@@ -79,6 +81,7 @@ export class Editor {
     this.setAddress = setAddress;
     this.getUser = getUser;
     this.mode = mode;
+    this.getTitle = getTitle;
 
     map.addEventListener('mouseup', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
@@ -220,18 +223,31 @@ export class Editor {
 
     const url = (this.owner && this.owner === id) ? path : random_url;
 
-    this.setAddress(url);
     pushPath(`/${url}/edit`);
 
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
 
     this.stickers.startEditing();
     this.setEditing(true);
+
+    const { route, stickers } = this.dumpData();
+
+    this.initialData = {
+      version: 2,
+      title: this.getTitle(),
+      owner: this.owner,
+      address: this.owner === id ? path : null,
+      path: path,
+      route,
+      stickers,
+    };
+
+    console.log(this.initialData);
   };
 
   stopEditing = () => {
     const { path } = getUrlData();
-    pushPath(`/${path}`);
+    pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
     this.changeMode(MODES.NONE);
     this.poly.poly.disableEdit();
@@ -239,8 +255,35 @@ export class Editor {
     this.setEditing(false);
   };
 
+  cancelEditing = () => {
+    this.stopEditing();
+
+    console.log('trying to set initial data');
+
+    if (this.hasEmptyHistory()) {
+      this.clearAll();
+      this.startEditing();
+    } else {
+      this.setData(this.initialData);
+    }
+
+    this.clearChanged();
+  };
+
   dumpData = () => ({
     route: this.poly.dumpData(),
     stickers: this.stickers.dumpData(),
   });
+
+  isEmpty = () => {
+    const { route, stickers } = this.dumpData();
+
+    return (route.length > 1 && stickers.length > 0);
+  };
+
+  hasEmptyHistory = () => {
+    const { route, stickers } = this.initialData;
+
+    return !(route && route.length >= 1 && stickers && stickers.length > 0);
+  }
 }

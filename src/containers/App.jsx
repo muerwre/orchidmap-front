@@ -69,6 +69,8 @@ export class App extends React.Component {
   setTitle = title => this.setState({ title });
   setAddress = address => this.setState({ address });
 
+  getTitle = () => this.state.title;
+
   setDataOnLoad = data => {
     this.clearChanged();
     this.editor.setData(data);
@@ -133,6 +135,7 @@ export class App extends React.Component {
     getUser: this.getUser,
     triggerOnChange: this.triggerOnChange,
     clearChanged: this.clearChanged,
+    getTitle: this.getTitle,
   });
 
   authInit = () => {

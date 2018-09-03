@@ -25,7 +25,7 @@ export class EditorPanel extends React.PureComponent {
 
   stopEditing = () => {
     if (!this.props.changed){
-      this.props.editor.stopEditing();
+      this.props.editor.cancelEditing();
     } else {
       this.props.editor.changeMode(MODES.CONFIRM_CANCEL);
     }
