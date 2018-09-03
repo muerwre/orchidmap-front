@@ -23,7 +23,13 @@ export class EditorPanel extends React.PureComponent {
 
   startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
 
-  stopEditing = () => this.props.editor.stopEditing();
+  stopEditing = () => {
+    if (!this.props.changed){
+      this.props.editor.stopEditing();
+    } else {
+      this.props.editor.changeMode(MODES.CONFIRM_CANCEL);
+    }
+  };
 
   startEditing = () => this.props.editor.startEditing();
 

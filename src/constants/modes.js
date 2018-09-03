@@ -7,4 +7,5 @@ export const MODES = {
   NONE: 'NONE',
   LOGO: 'LOGO',
   SAVE: 'SAVE',
+  CONFIRM_CANCEL: 'CONFIRM_CANCEL'
 };
