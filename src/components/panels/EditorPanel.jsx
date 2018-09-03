@@ -46,15 +46,15 @@ export class EditorPanel extends React.PureComponent {
 
         <LogoPreview logo={logo} />
 
-        <div className={classnames('panel right', { active: editing })}>
-          <div className="control-dist">
-            {totalDistance} км
-            <Icon icon="icon-cycle" size={32} />
-            {
-              <span>{toHours(estimateTime)}</span>
-            }
-          </div>
+        <div className="control-dist">
+          {totalDistance} км
+          <Icon icon="icon-cycle" size={32} />
+          {
+            <span>{toHours(estimateTime)}</span>
+          }
+        </div>
 
+        <div className={classnames('panel right', { active: editing })}>
           <div className="control-bar">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
@@ -125,8 +125,8 @@ export class EditorPanel extends React.PureComponent {
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
-            <button className="success single" onClick={this.startEditing}>
-              <Icon icon="icon-router" />
+            <button className="primary single" onClick={this.startEditing}>
+              <Icon icon="icon-route-2" />
               <span>
                 РЕДАКТИРОВАТЬ
               </span>

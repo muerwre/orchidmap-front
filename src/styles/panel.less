@@ -6,16 +6,20 @@
 }
 
 .control-dist {
-  height: 44px;
   background: #222222;
   padding: 0 10px;
   display: flex;
   align-items: center;
-  border-radius: 3px 0 0 3px;
   font-weight: 200;
   color: #cccccc;
   user-select: none;
   box-shadow: @bar_shadow;
+  position: fixed;
+  top: 10px;
+  left: 42px;
+  z-index: 2;
+  height: 32px;
+  border-radius: 0 3px 3px 0;
 
   svg {
     fill: #cccccc;
@@ -101,7 +105,7 @@
       background-size: 100% 100%;
     }
 
-    &.success {
+    &.danger {
       background: linear-gradient(150deg, @red_primary, @red_secondary) 50% 50% no-repeat;
       background-size: 100% 100%;
     }

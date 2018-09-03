@@ -200,7 +200,8 @@ export class Editor {
     const { path } = getUrlData();
     pushPath(`/${path}/edit`);
 
-    this.poly.poly.enableEdit();
+    if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
+
     this.stickers.startEditing();
     this.setEditing(true);
   };
