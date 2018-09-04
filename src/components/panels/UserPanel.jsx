@@ -56,13 +56,13 @@ export class UserPanel extends React.PureComponent {
 
   render() {
     const {
-      props: { user, userLogout },
+      props: { user, userLogout, editor, editing },
       state: { menuOpened },
     } = this;
 
     return (
       <div>
-        <div className="panel">
+        <div className="panel active">
           <div className="user-panel">
             {
               !user || user.role === ROLES.guest

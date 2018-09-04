@@ -105,10 +105,10 @@ module.exports = () => {
     resolve,
     plugins,
     entry: {
-      // loader: './src/loader.js',
       app: './src/index.js',
     },
     output: {
+      publicPath: '/',
       filename: '[name].bundle.[githash].js',
     },
     optimization: {

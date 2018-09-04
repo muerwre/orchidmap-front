@@ -6,13 +6,15 @@ import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { UserLocation } from '$components/UserLocation';
 import { DEFAULT_USER } from '$constants/auth';
-import { getGuestToken, checkUserToken } from '$utils/api';
+import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
+import { getUrlData, pushPath } from '$utils/history';
 
 export class App extends React.Component {
   state = {
     mode: 'none',
+    editing: false,
     logo: DEFAULT_LOGO,
     routerPoints: 0,
     totalDistance: 0,
@@ -21,11 +23,67 @@ export class App extends React.Component {
     user: {
       ...DEFAULT_USER,
     },
+    title: '',
+    address: '',
+    changed: false,
   };
 
   componentDidMount() {
     this.authInit();
+    window.editor = this.editor;
   }
+
+  mapInit = () => {
+    const { path, mode } = getUrlData();
+    if (path) {
+      getStoredMap({ name: path })
+        .then(this.setDataOnLoad)
+        .then(() => {
+          if (mode && mode === 'edit') {
+            this.editor.startEditing();
+          } else {
+            this.editor.stopEditing();
+          }
+        })
+        .catch(this.startEmptyEditor);
+    } else {
+      // this.hideLoader();
+      this.startEmptyEditor();
+    }
+  };
+
+  startEmptyEditor = () => {
+    const { user } = this.state;
+    if (!user || !user.random_url || !user.id) return;
+
+    pushPath(`/${user.random_url}/edit`);
+
+    this.editor.owner = user.id;
+    this.editor.startEditing();
+
+    this.hideLoader();
+
+    this.clearChanged();
+  };
+
+  setTitle = title => this.setState({ title });
+  setAddress = address => {
+    console.log('SAT', address);
+    this.setState({ address });
+  };
+
+  getTitle = () => this.state.title;
+
+  setDataOnLoad = data => {
+    this.clearChanged();
+    this.editor.setData(data);
+    this.hideLoader();
+  };
+
+  hideLoader = () => {
+    document.getElementById('loader').style.opacity = 0;
+    document.getElementById('loader').style.pointerEvents = 'none';
+  };
 
   setMode = mode => {
     this.setState({ mode });
@@ -49,6 +107,23 @@ export class App extends React.Component {
     this.setState({ logo });
   };
 
+  setEditing = editing => {
+    this.setState({ editing });
+  };
+
+  getUser = () => this.state.user;
+
+  triggerOnChange = () => {
+    if (!this.state.editing) return;
+    console.log('CHANGED!');
+    this.setState({ changed: true });
+  };
+
+  clearChanged = () => {
+    console.log('clearing');
+    this.setState({ changed: false });
+  };
+
   editor = new Editor({
     container: 'map',
     mode: this.state.mode,
@@ -57,28 +132,40 @@ export class App extends React.Component {
     setTotalDist: this.setTotalDist,
     setActiveSticker: this.setActiveSticker,
     setLogo: this.setLogo,
+    setEditing: this.setEditing,
+    setTitle: this.setTitle,
+    setAddress: this.setAddress,
+    getUser: this.getUser,
+    triggerOnChange: this.triggerOnChange,
+    clearChanged: this.clearChanged,
+    getTitle: this.getTitle,
   });
 
   authInit = () => {
     const user = this.getUserData();
 
     const { id, token } = (user || {});
-    const fallback = () => getGuestToken({ callback: this.setUser });
 
     if (id && token) {
       checkUserToken({
-        callback: this.setUser,
-        fallback,
         id,
         token
-      });
+      })
+        .then(this.setUser)
+        .then(this.mapInit);
     } else {
-      getGuestToken({ callback: fallback });
+      getGuestToken()
+        .then(this.setUser)
+        .then(this.mapInit);
     }
   };
 
   setUser = user => {
     if (!user.token || !user.id) return;
+
+    if (this.state.user.id === this.editor.owner) {
+      this.editor.owner = user.id;
+    }
 
     this.setState({
       user: {
@@ -94,25 +181,25 @@ export class App extends React.Component {
     storeData('user', this.state.user);
   };
 
-  getUserData = () => {
-    return getData('user') || null;
-  };
+  getUserData = () => getData('user') || null;
 
   userLogout = () => {
+    if (this.state.user.id === this.editor.owner) {
+      this.editor.owner = null;
+    }
+    //
     this.setState({
-      user: {
-        ...DEFAULT_USER,
-      }
+      user: DEFAULT_USER,
     });
 
-    this.storeUserData();
+    setTimeout(this.storeUserData, 0);
   };
 
   render() {
     const {
       editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
       },
     } = this;
 
@@ -124,6 +211,7 @@ export class App extends React.Component {
         <UserLocation editor={editor} />
 
         <UserPanel
+          editor={editor}
           user={user}
           setUser={this.setUser}
           userLogout={this.userLogout}
@@ -138,6 +226,10 @@ export class App extends React.Component {
           activeSticker={activeSticker}
           logo={logo}
           user={user}
+          editing={editing}
+          title={title}
+          address={address}
+          changed={changed}
         />
       </div>
     );

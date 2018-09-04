@@ -7,11 +7,15 @@ import stickers from '$sprites/stickers.svg';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker
+    latlng, deleteSticker, map, lockMapClicks, sticker, triggerOnChange, angle = 2.2
   }) {
-    this.angle = 2.2;
+    this.latlng = latlng;
+    this.angle = angle;
     this.isDragging = false;
     this.map = map;
+    this.sticker = sticker;
+    this.editable = true;
+    this.triggerOnChange = triggerOnChange;
 
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
@@ -37,18 +41,23 @@ export class Sticker {
       className: 'sticker-container',
     });
 
-    this.sticker = marker(latlng, { icon: mark });
+    this.marker = marker(latlng, { icon: mark });
 
-    this.setAngle(this.angle);
+    this.setAngle(angle);
 
     this.stickerImage.addEventListener('mousedown', this.onDragStart);
     this.stickerImage.addEventListener('mouseup', this.onDragStop);
 
     this.element.addEventListener('mouseup', this.preventPropagations);
     this.stickerDelete.addEventListener('click', this.onDelete);
+
+    this.marker.addEventListener('dragend', this.triggerOnChange);
+
+    this.triggerOnChange();
   }
 
   onDelete = () => {
+    this.triggerOnChange();
     if (!this.isDragging) this.deleteSticker(this);
   };
 
@@ -56,7 +65,7 @@ export class Sticker {
     this.preventPropagations(e);
 
     this.isDragging = true;
-    this.sticker.disableEdit();
+    this.marker.disableEdit();
 
     this.lockMapClicks(true);
 
@@ -74,8 +83,9 @@ export class Sticker {
   onDragStop = e => {
     this.preventPropagations(e);
 
+    this.triggerOnChange();
     this.isDragging = false;
-    this.sticker.enableEdit();
+    this.marker.enableEdit();
 
     window.removeEventListener('mousemove', this.onDrag);
     window.removeEventListener('mouseup', this.onDragStop);
@@ -89,6 +99,7 @@ export class Sticker {
   };
 
   estimateAngle = e => {
+    console.log('est');
     const { x, y } = this.element.getBoundingClientRect();
     const { pageX, pageY } = e;
     this.angle = Math.atan2((y - pageY), (x - pageX));
@@ -97,8 +108,6 @@ export class Sticker {
   };
 
   setAngle = angle => {
-    // $(active_sticker.container).css('left',6+x-parseInt(active_sticker.ctrl.css('left'))).css('top',6+y-parseInt(active_sticker.ctrl.css('top')));
-    //
     const rad = 44;
     const mrad = 76;
     const x = ((Math.cos(angle + 3.14) * rad) - 30);
@@ -114,7 +123,7 @@ export class Sticker {
     this.stickerDelete.style.top = ay;
 
     this.stickerArrow.style.transform = `rotate(${angle + 3.14}rad)`;
-  }
+  };
 
   generateStickerSVG = sticker => (
     `
@@ -122,5 +131,19 @@ export class Sticker {
          <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
       </svg>
     `
-  )
+  );
+
+  dumpData = () => ({
+    angle: this.angle,
+    latlng: { ...this.marker.getLatLng() },
+    sticker: this.sticker,
+  });
+
+  stopEditing = () => {
+    this.element.className = 'sticker-container inactive';
+  };
+
+  startEditing = () => {
+    this.element.className = 'sticker-container';
+  };
 }
