@@ -67,7 +67,10 @@ export class App extends React.Component {
   };
 
   setTitle = title => this.setState({ title });
-  setAddress = address => this.setState({ address });
+  setAddress = address => {
+    console.log('SAT', address);
+    this.setState({ address });
+  };
 
   getTitle = () => this.state.title;
 

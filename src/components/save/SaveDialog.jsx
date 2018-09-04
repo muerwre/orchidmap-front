@@ -60,6 +60,12 @@ export class SaveDialog extends React.Component {
   setSuccess = ({ address, description }) => {
     pushPath(`/${address}/edit`);
 
+    console.log('addr?', address);
+    this.props.editor.setAddress(address);
+    this.props.editor.owner = this.props.user.id;
+
+    this.props.editor.setInitialData();
+
     this.setState({
       error: description, finished: true, sending: true, overwriting: false
     });

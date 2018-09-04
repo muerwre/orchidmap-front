@@ -190,7 +190,9 @@ export class Editor {
 
   setData = ({ route, stickers, version = 1, owner, title, address }) => {
     this.setTitle(title || '');
-    this.setAddress(address || '');
+    const { id } = this.getUser();
+
+    if (address && id && owner && id === owner) this.setAddress(address);
 
     if (route) {
       this.poly.setPoints(route);
@@ -215,21 +217,9 @@ export class Editor {
     if (Object.values(bounds)) this.map.map.fitBounds(bounds);
   };
 
-  startEditing = () => {
+  setInitialData = () => {
     const { path } = getUrlData();
-    const { random_url, id } = this.getUser();
-
-    // console.log('ID', id, this.owner);
-
-    const url = (this.owner && this.owner === id) ? path : random_url;
-
-    pushPath(`/${url}/edit`);
-
-    if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
-
-    this.stickers.startEditing();
-    this.setEditing(true);
-
+    const { id } = this.getUser();
     const { route, stickers } = this.dumpData();
 
     this.initialData = {
@@ -241,6 +231,22 @@ export class Editor {
       route,
       stickers,
     };
+  };
+
+  startEditing = () => {
+    const { path } = getUrlData();
+    const { random_url, id } = this.getUser();
+
+    this.setInitialData();
+
+    const url = (this.owner && this.owner === id) ? path : random_url;
+
+    pushPath(`/${url}/edit`);
+
+    if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
+
+    this.stickers.startEditing();
+    this.setEditing(true);
 
     console.log(this.initialData);
   };
@@ -284,6 +290,6 @@ export class Editor {
   hasEmptyHistory = () => {
     const { route, stickers } = this.initialData;
 
-    return !(route && route.length >= 1 && stickers && stickers.length > 0);
+    return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
   }
 }
