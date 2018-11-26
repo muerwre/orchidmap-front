@@ -227,7 +227,7 @@ export class Editor {
       title: this.getTitle(),
       owner: this.owner,
       address: this.owner === id ? path : null,
-      path: path,
+      path,
       route,
       stickers,
     };

@@ -115,12 +115,11 @@ export class App extends React.Component {
 
   triggerOnChange = () => {
     if (!this.state.editing) return;
-    console.log('CHANGED!');
+
     this.setState({ changed: true });
   };
 
   clearChanged = () => {
-    console.log('clearing');
     this.setState({ changed: false });
   };
 
