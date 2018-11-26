@@ -30,8 +30,9 @@ export class CancelDialog extends React.Component<Props, void> {
         </div>
         <div className="helper__buttons">
           <div className="button danger router-helper__button" onClick={this.cancel}>
-            Удалить все
+            Удалить измения
           </div>
+
           <div className="button primary router-helper__button" onClick={this.proceed}>
             Вернуться
           </div>
