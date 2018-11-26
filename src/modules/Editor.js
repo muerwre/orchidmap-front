@@ -244,7 +244,6 @@ export class Editor {
   };
 
   startEditing = () => {
-    console.log('ED START');
     const { path } = getUrlData();
     const { random_url, id } = this.getUser();
 
@@ -257,13 +256,9 @@ export class Editor {
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
 
     this.stickers.startEditing();
-
-    // this.setEditing(true);
-    // console.log(this.initialData);
   };
 
   stopEditing = () => {
-    console.log('ED STOP');
     const { path } = getUrlData();
     pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
@@ -274,20 +269,14 @@ export class Editor {
   };
 
   cancelEditing = () => {
-    this.stopEditing();
-
-    console.log('trying to set initial data');
-
     if (this.hasEmptyHistory()) {
-      console.log('empty history');
       this.clearAll();
       this.startEditing();
     } else {
-      console.log('setting initial');
       this.setData(this.initialData);
-      console.log('setting initial - done');
     }
 
+    this.stopEditing();
     this.clearChanged();
 
     return true;

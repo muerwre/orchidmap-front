@@ -48,16 +48,14 @@ function* stopEditingSaga() {
   const { changed, editing, mode } = yield select(getState);
 
   if (!editing) return;
-
-  if (!changed) {
-    yield editor.cancelEditing();
-    yield put(setEditing(false));
-    yield put(setMode(MODES.NONE));
-  } else {
-    // editor.changeMode(MODES.CONFIRM_CANCEL);
-    // this.props.setMode(MODES.CONFIRM_CANCEL);
+  if (changed && mode !== MODES.CONFIRM_CANCEL) {
     yield put(setMode(MODES.CONFIRM_CANCEL));
+    return;
   }
+
+  yield editor.cancelEditing();
+  yield put(setEditing(false));
+  yield put(setMode(MODES.NONE));
 }
 
 function* mapInitSaga() {
@@ -67,8 +65,6 @@ function* mapInitSaga() {
     const map = yield call(getStoredMap, { name: path });
 
     if (map) {
-      console.log('setting!', map, mode);
-
       yield editor.setData(map);
       yield put(setChanged(false));
 
@@ -77,10 +73,9 @@ function* mapInitSaga() {
         // yield put(setEditing(true));
         // editor.startEditing();
       } else {
-        console.log('stopping edit');
         yield put(setEditing(false));
         // yield call(stopEditingSaga);
-        // editor.stopEditing();
+        editor.stopEditing();
       }
 
       return hideLoader();

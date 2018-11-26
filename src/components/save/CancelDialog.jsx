@@ -11,10 +11,10 @@ type Props = {
 
 export class CancelDialog extends React.Component<Props, void> {
   cancel = () => {
-    editor.cancelEditing();
-    // this.props.stopEditing();
-    this.props.setEditing(false);
-    this.props.setMode(MODES.NONE);
+    this.props.stopEditing();
+    // editor.cancelEditing();
+    // this.props.setEditing(false);
+    // this.props.setMode(MODES.NONE);
   };
 
   proceed = () => {

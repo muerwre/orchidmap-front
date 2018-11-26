@@ -57,9 +57,9 @@ export class Stickers {
 
   startEditing = () => {
     this.stickers.map(sticker => sticker.startEditing());
-  }
+  };
 
   stopEditing = () => {
     this.stickers.map(sticker => sticker.stopEditing());
-  }
+  };
 }
