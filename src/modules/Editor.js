@@ -9,23 +9,31 @@ import { DEFAULT_LOGO } from '$constants/logos';
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData, pushPath } from '$utils/history';
 import { store } from '$redux/store';
-import { setChanged, setDistance, setEditing, setMode } from '$redux/user/actions';
+import {
+  setActiveSticker, setAddress,
+  setChanged,
+  setDistance,
+  setEditing,
+  setLogo,
+  setRouterPoints,
+  setTitle
+} from '$redux/user/actions';
 
 export class Editor {
   constructor({
     // container,
     // mode,
     // setMode,
-    setRouterPoints,
+    // setRouterPoints,
     // setTotalDist,
-    setActiveSticker,
-    setLogo,
     // setEditing,
-    setTitle,
-    setAddress,
     // triggerOnChange,
-    clearChanged,
     // getTitle,
+    // clearChanged,
+    // setActiveSticker,
+    // setLogo,
+    // setTitle,
+    // setAddress,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -33,7 +41,8 @@ export class Editor {
     this.initialData = {};
 
     const {
-      triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
+      triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints,
+      map: { map }
     } = this;
 
     this.poly = new Poly({
@@ -41,7 +50,7 @@ export class Editor {
     });
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
-      map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints
+      map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
     });
     this.shotter = new Shotter({ map });
 
@@ -73,15 +82,15 @@ export class Editor {
     };
 
     this.activeSticker = null;
-    this.clearChanged = clearChanged;
-    this.setActiveSticker = setActiveSticker;
-    this.setLogo = setLogo;
+    this.mode = MODES.NONE;
+    // this.clearChanged = clearChanged;
+    // this.setActiveSticker = setActiveSticker;
+    // this.setLogo = setLogo;
     // this.setMode = setMode;
     // this.setEditing = setEditing;
-    this.setTitle = setTitle;
-    this.setAddress = setAddress;
+    // this.setTitle = setTitle;
+    // this.setAddress = setAddress;
     // this.getUser = getUser;
-    this.mode = MODES.NONE;
     // this.getTitle = getTitle;
 
     map.addEventListener('mouseup', this.onClick);
@@ -93,10 +102,16 @@ export class Editor {
   getTitle = () => store.getState().title;
   getEditing = () => store.getState().editing;
 
-  setEditing = editing => store.dispatch(setEditing(editing));
-  setMode = mode => store.dispatch(setMode(mode));
-  setDistance = distance => store.dispatch(setDistance(distance));
-  setChanged = changed => store.dispatch(setChanged(changed));
+  setEditing = value => store.dispatch(setEditing(value));
+  setDistance = value => store.dispatch(setDistance(value));
+  setChanged = value => store.dispatch(setChanged(value));
+  setRouterPoints = value => store.dispatch(setRouterPoints(value));
+  setActiveSticker = value => store.dispatch(setActiveSticker(value));
+  setLogo = value => store.dispatch(setLogo(value));
+  setTitle = value => store.dispatch(setTitle(value));
+  setAddress = value => store.dispatch(setAddress(value));
+
+  clearChanged = () => store.direction(setChanged(false));
 
   triggerOnChange = () => {
     if (!this.getEditing()) return;
@@ -312,15 +327,16 @@ export class Editor {
 
 export const editor = new Editor({
   // setMode: this.setMode,
-  // setRouterPoints: this.setRouterPoints,
   // setTotalDist: this.setTotalDist,
-  // setActiveSticker: this.setActiveSticker,
-  // setLogo: this.setLogo,
   // setEditing: this.setEditing,
-  // setTitle: this.setTitle,
-  // setAddress: this.setAddress,
   // getUser: this.getUser,
   // triggerOnChange: this.triggerOnChange,
-  // clearChanged: this.clearChanged,
   // getTitle: this.getTitle,
+
+  // setRouterPoints: this.setRouterPoints,
+  // setActiveSticker: this.setActiveSticker,
+  // setLogo: this.setLogo,
+  // setTitle: this.setTitle,
+  // setAddress: this.setAddress,
+  // clearChanged: this.clearChanged,
 });
