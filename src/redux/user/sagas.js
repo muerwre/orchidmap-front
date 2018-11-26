@@ -1,12 +1,15 @@
 import { REHYDRATE } from 'redux-persist';
 import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
 import { checkUserToken, getGuestToken, getStoredMap } from '$utils/api';
-import { setUser } from '$redux/user/actions';
+import { setEditing, setMode, setUser } from '$redux/user/actions';
 import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
+import { MODES } from '$constants/modes';
 
 const getUser = state => (state.user.user);
+const getState = state => (state.user);
+
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = 0;
   document.getElementById('loader').style.pointerEvents = 'none';
@@ -79,9 +82,31 @@ function* setModeSaga({ mode }) {
   // console.log('change', mode);
 }
 
+function* startEditingSaga() {
+  yield editor.startEditing();
+  yield put(setEditing(true));
+}
+
+function* stopEditingSaga() {
+  const { changed } = yield select(getState);
+
+  if (!changed) {
+    yield editor.cancelEditing();
+    yield put(setEditing(false));
+    yield put(setMode(MODES.NONE));
+  } else {
+    // editor.changeMode(MODES.CONFIRM_CANCEL);
+    // this.props.setMode(MODES.CONFIRM_CANCEL);
+    yield put(setMode(MODES.CONFIRM_CANCEL));
+  }
+}
+
 export function* userSaga() {
   // Login
   // yield takeLatest(AUTH_ACTIONS.SEND_LOGIN_REQUEST, sendLoginRequestSaga);
   yield takeLatest(REHYDRATE, authChechSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
+
+  yield takeEvery(ACTIONS.START_EDITING, startEditingSaga);
+  yield takeEvery(ACTIONS.STOP_EDITING, stopEditingSaga);
 }

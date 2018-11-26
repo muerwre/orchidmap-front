@@ -9,7 +9,7 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing } from '$redux/user/actions';
 import type { UserType } from '$constants/types';
 import { editor } from '$modules/Editor';
 
@@ -19,19 +19,17 @@ type Props = {
   mode: String,
   changed: Boolean,
   distance: Number,
-  // not implemented
   title: String,
   address: String,
-  mode: String,
-  editing: Boolean,
   logo: String,
   routerPoints: Number,
-  estimateTime: Number,
   activeSticker: String,
-  title: String,
-  address: String,
+  estimateTime: Number, // todo: implement!
 
   setMode: Function,
+  startEditing: Function,
+  stopEditing: Function,
+
 }
 
 class Component extends React.PureComponent<Props, void> {
@@ -50,15 +48,16 @@ class Component extends React.PureComponent<Props, void> {
   // startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
   // startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
 
-  stopEditing = () => {
-    if (!this.props.changed) {
-      editor.cancelEditing();
-    } else {
-      editor.changeMode(MODES.CONFIRM_CANCEL);
-    }
-  };
+  // stopEditing = () => {
+  //   if (!this.props.changed) {
+  //     editor.cancelEditing();
+  //   } else {
+  //     // editor.changeMode(MODES.CONFIRM_CANCEL);
+  //     this.props.setMode(MODES.CONFIRM_CANCEL);
+  //   }
+  // };
 
-  startEditing = () => editor.startEditing();
+  // startEditing = () => editor.startEditing();
 
   render() {
     const {
@@ -145,7 +144,7 @@ class Component extends React.PureComponent<Props, void> {
           <div className="control-bar">
             <button
               className="highlighted  cancel"
-              onClick={this.stopEditing}
+              onClick={this.props.stopEditing}
             >
               <span>ОТМЕНА</span>
             </button>
@@ -163,7 +162,7 @@ class Component extends React.PureComponent<Props, void> {
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
-            <button className="primary single" onClick={this.startEditing}>
+            <button className="primary single" onClick={this.props.startEditing}>
               <Icon icon="icon-route-2" />
               <span>
                 РЕДАКТИРОВАТЬ
@@ -181,7 +180,15 @@ function mapStateToProps(state) {
     user: {
       user,
       editing,
-      mode, routerPoints, distance, estimateTime, activeSticker, logo, title, address, changed,
+      mode,
+      routerPoints,
+      distance,
+      estimateTime,
+      activeSticker,
+      logo,
+      title,
+      address,
+      changed,
     },
   } = state;
 
@@ -202,6 +209,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   setMode,
+  startEditing,
+  stopEditing,
 }, dispatch);
 
 export const EditorPanel = connect(

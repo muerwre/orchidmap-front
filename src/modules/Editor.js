@@ -99,8 +99,9 @@ export class Editor {
   }
 
   getUser = () => store.getState().user.user;
-  getTitle = () => store.getState().title;
-  getEditing = () => store.getState().editing;
+  getTitle = () => store.getState().user.title;
+  getEditing = () => store.getState().user.editing;
+  getChanged = () => store.getState().user.changed;
 
   setEditing = value => store.dispatch(setEditing(value));
   setDistance = value => store.dispatch(setDistance(value));
@@ -111,10 +112,10 @@ export class Editor {
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
 
-  clearChanged = () => store.direction(setChanged(false));
+  clearChanged = () => store.dispatch(setChanged(false));
 
   triggerOnChange = () => {
-    if (!this.getEditing()) return;
+    if (!this.getEditing() && this.getChanged()) return;
 
     this.setChanged(true);
   };
@@ -277,7 +278,7 @@ export class Editor {
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
 
     this.stickers.startEditing();
-    this.setEditing(true);
+    // this.setEditing(true);
 
     console.log(this.initialData);
   };

@@ -13,6 +13,7 @@ const setUser = (state, { user }) => ({
 });
 
 const setEditing = (state, { editing }) => ({ ...state, editing });
+const setChanged = (state, { changed }) => ({ ...state, changed });
 const setMode = (state, { mode }) => ({ ...state, mode });
 const setDistance = (state, { distance }) => ({ ...state, distance });
 const setRouterPoints = (state, { routerPoints }) => ({ ...state, routerPoints });
@@ -25,6 +26,7 @@ const setAddress = (state, { address }) => ({ ...state, address });
 const HANDLERS = {
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
+  [ACTIONS.SET_CHANGED]: setChanged,
   [ACTIONS.SET_MODE]: setMode,
   [ACTIONS.SET_DISTANCE]: setDistance,
   [ACTIONS.SET_ROUTER_POINTS]: setRouterPoints,
