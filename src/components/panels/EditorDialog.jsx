@@ -29,11 +29,12 @@ import {
 type Props = {
   mode: String,
   activeSticker: String,
+  windth: Number,
 }
 
 export const Component = (props: Props) => {
   const {
-    mode, activeSticker,
+    mode, activeSticker, width
   } = props;
 
   const showDialog = (
@@ -47,7 +48,7 @@ export const Component = (props: Props) => {
 
   return (
     showDialog &&
-      <div id="control-dialog">
+      <div id="control-dialog" style={{ width }}>
         { mode === MODES.ROUTER && <RouterDialog {...props} /> }
         { mode === MODES.STICKERS && <StickersDialog {...props} /> }
         { mode === MODES.TRASH && <TrashDialog {...props} /> }

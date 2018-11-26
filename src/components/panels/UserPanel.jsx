@@ -9,6 +9,9 @@ import { setUser, userLogout } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
+import { MODES } from '$constants/modes';
+import classnames from 'classnames';
+import { Icon } from '$components/panels/Icon';
 
 type Props = {
   user: UserType,

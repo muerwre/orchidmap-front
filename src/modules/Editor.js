@@ -219,8 +219,6 @@ export class Editor {
     }
 
     if (owner) this.owner = owner;
-
-    // if (!route || route.length <= 1) return;
   };
 
   fitDrawing = () => {

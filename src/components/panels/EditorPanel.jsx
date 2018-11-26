@@ -33,6 +33,17 @@ type Props = {
 }
 
 class Component extends React.PureComponent<Props, void> {
+  componentDidMount() {
+    const obj = document.getElementById('control-dialog');
+    const { width } = this.panel.getBoundingClientRect();
+
+    console.log(obj, this.panel);
+
+    if (!this.panel || !obj) return;
+
+    obj.style.width = width;
+  }
+
   startPolyMode = () => this.props.setMode(MODES.POLY);
   startStickerMode = () => this.props.setMode(MODES.STICKERS);
   startRouterMode = () => this.props.setMode(MODES.ROUTER);
@@ -40,44 +51,14 @@ class Component extends React.PureComponent<Props, void> {
   startTrashMode = () => this.props.setMode(MODES.TRASH);
   startLogoMode = () => this.props.setMode(MODES.LOGO);
   startSaveMode = () => this.props.setMode(MODES.SAVE);
-  // startPolyMode = () => this.props.editor.changeMode(MODES.POLY);
-  // startStickerMode = () => this.props.editor.changeMode(MODES.STICKERS);
-  // startRouterMode = () => this.props.editor.changeMode(MODES.ROUTER);
-  // startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
-  // startTrashMode = () =>  this.props.editor.changeMode(MODES.TRASH);
-  // startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
-  // startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
-
-  // stopEditing = () => {
-  //   if (!this.props.changed) {
-  //     editor.cancelEditing();
-  //   } else {
-  //     // editor.changeMode(MODES.CONFIRM_CANCEL);
-  //     this.props.setMode(MODES.CONFIRM_CANCEL);
-  //   }
-  // };
-
-  // startEditing = () => editor.startEditing();
 
   render() {
     const {
-      mode, routerPoints, distance, estimated, activeSticker, logo, user, editing, title, address, changed,
+      mode, routerPoints, distance, estimated, activeSticker, logo, user, editing, title, address,
     } = this.props;
 
     return (
       <div>
-
-        <EditorDialog
-          mode={mode}
-          routerPoints={routerPoints}
-          activeSticker={activeSticker}
-          editor={editor}
-          logo={logo}
-          user={user}
-          title={title}
-          address={address}
-          setLogo={this.props.setLogo}
-        />
 
         <LogoPreview logo={logo} />
 
@@ -91,7 +72,7 @@ class Component extends React.PureComponent<Props, void> {
           }
         </div>
 
-        <div className={classnames('panel right', { active: editing })}>
+        <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
           <div className="control-bar">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
@@ -162,6 +143,20 @@ class Component extends React.PureComponent<Props, void> {
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
+            <button
+              className={classnames({ active: mode === MODES.SHOTTER })}
+              onClick={this.startShotterMode}
+            >
+              <Icon icon="icon-shot-2" />
+              <span>
+                СНИМОК
+              </span>
+            </button>
+          </div>
+
+          <div className="control-sep" />
+
+          <div className="control-bar">
             <button className="primary single" onClick={this.props.startEditing}>
               <Icon icon="icon-route-2" />
               <span>
@@ -170,6 +165,11 @@ class Component extends React.PureComponent<Props, void> {
             </button>
           </div>
         </div>
+
+        <EditorDialog
+          width={((this.panel && this.panel.getBoundingClientRect().width) || 0)}
+        />
+
       </div>
     );
   }

@@ -28,8 +28,8 @@ export class CancelDialog extends React.Component<Props, void> {
           <div className="big white">Изменения не сохранены!</div>
           <div className="small gray">Закрыть редактор?</div>
         </div>
-        <div className="helper__buttons button-group">
-          <div className="button router-helper__button" onClick={this.cancel}>
+        <div className="helper__buttons">
+          <div className="button danger router-helper__button" onClick={this.cancel}>
             Удалить все
           </div>
           <div className="button primary router-helper__button" onClick={this.proceed}>
