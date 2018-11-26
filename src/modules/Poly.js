@@ -159,4 +159,6 @@ export class Poly {
   clearArrows = () => this.arrows.clearLayers();
 
   dumpData = () => this.latlngs;
+
+  isEmpty = () => !this.latlngs || Object.values(this.latlngs).length < 0;
 }

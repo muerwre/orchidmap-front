@@ -220,11 +220,14 @@ export class Editor {
 
     if (owner) this.owner = owner;
 
-    if (!route || route.length <= 1) return;
+    // if (!route || route.length <= 1) return;
+  };
+
+  fitDrawing = () => {
+    if (this.poly.isEmpty()) return;
 
     const bounds = this.poly.poly.getBounds();
-
-    if (route && bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
+    if (bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
   };
 
   setInitialData = () => {

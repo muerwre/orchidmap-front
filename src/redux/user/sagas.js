@@ -66,6 +66,7 @@ function* mapInitSaga() {
 
     if (map) {
       yield editor.setData(map);
+      yield editor.fitDrawing();
       yield put(setChanged(false));
 
       if (mode && mode === 'edit') {
