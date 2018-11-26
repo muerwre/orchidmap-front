@@ -127,6 +127,20 @@ function* setLogoSaga({ logo }) {
   }
 }
 
+function* routerCancelSaga() {
+  yield call(editor.router.cancelDrawing);
+  yield put(setMode(MODES.NONE));
+
+  return true;
+}
+
+function* routerSubmitSaga() {
+  yield call(editor.router.submitDrawing);
+  yield put(setMode(MODES.NONE));
+
+  return true;
+}
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 
@@ -139,4 +153,7 @@ export function* userSaga() {
   yield takeEvery(ACTIONS.USER_LOGOUT, userLogoutSaga);
   yield takeEvery(ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
   yield takeEvery(ACTIONS.SET_LOGO, setLogoSaga);
+
+  yield takeEvery(ACTIONS.ROUTER_CANCEL, routerCancelSaga);
+  yield takeEvery(ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
 }

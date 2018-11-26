@@ -8,6 +8,10 @@ import { LogoDialog } from '$components/logo/LogoDialog';
 import { SaveDialog } from '$components/save/SaveDialog';
 import { CancelDialog } from '$components/save/CancelDialog';
 import type { UserType } from '$constants/types';
+import { setLogo, routerCancel, routerSubmit } from '$redux/user/actions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { editor } from '$modules/Editor';
 
 type Props = {
   mode: String,
@@ -20,10 +24,15 @@ type Props = {
   address: String,
 
   setLogo: Function,
+  routerSubmit: Function,
+  routerCancel: Function,
 }
-export const EditorDialog = ({
-  mode, routerPoints, editor, activeSticker, logo, user, title, address, setLogo
-}: Props) => {
+
+export const Component = (props: Props) => {
+  const {
+    mode, activeSticker, logo, user, title, address
+  } = props;
+
   const showDialog = (
     mode === MODES.ROUTER
     || (mode === MODES.STICKERS && !activeSticker)
@@ -36,7 +45,7 @@ export const EditorDialog = ({
   return (
     showDialog &&
       <div id="control-dialog">
-        { mode === MODES.ROUTER && <RouterDialog routerPoints={routerPoints} editor={editor} /> }
+        { mode === MODES.ROUTER && <RouterDialog {...props} /> }
         { mode === MODES.STICKERS && <StickersDialog editor={editor} /> }
         { mode === MODES.TRASH && <TrashDialog editor={editor} /> }
         { mode === MODES.LOGO && <LogoDialog editor={editor} logo={logo} setLogo={setLogo} /> }
@@ -45,3 +54,34 @@ export const EditorDialog = ({
       </div>
   );
 };
+
+function mapStateToProps(state) {
+  const {
+    user: {
+      mode, routerPoints, activeSticker, logo, user, title, address,
+    },
+  } = state;
+
+  return {
+    mode,
+    routerPoints,
+    activeSticker,
+    logo,
+    user,
+    title,
+    address,
+    editor,
+  };
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  routerCancel,
+  routerSubmit,
+  setLogo,
+}, dispatch);
+
+export const EditorDialog = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);
+

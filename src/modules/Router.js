@@ -2,14 +2,13 @@ import L from 'leaflet';
 import Routing from 'leaflet-routing-machine/src/index';
 import { CONFIG } from '$config';
 import { DomMarker } from '$utils/DomMarker';
-import { MODES } from '$constants/modes';
 
 export class Router {
-  constructor({ map, lockMapClicks, setRouterPoints, changeMode, pushPolyPoints }) {
+  constructor({ map, lockMapClicks, setRouterPoints, pushPolyPoints }) {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
     this.setRouterPoints = setRouterPoints;
-    this.changeMode = changeMode;
+    // this.changeMode = changeMode;
     this.pushPolyPoints = pushPolyPoints;
 
     const routeLine = r => Routing.line(r, {
@@ -45,6 +44,8 @@ export class Router {
 
     // this.router._line.on('mousedown', console.log);
   }
+
+  // changeMode = value => store.dispatch(setMode(value));
   //
   pushWaypointOnClick = ({ latlng: { lat, lng } }) => {
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
@@ -116,7 +117,8 @@ export class Router {
 
   cancelDrawing = () => {
     this.router.setWaypoints([]);
-    this.changeMode(MODES.NONE);
+    // this.router.
+    // this.changeMode(MODES.NONE);
   };
 
   submitDrawing = () => {
@@ -125,10 +127,12 @@ export class Router {
 
     const { coordinates } = route;
     this.pushPolyPoints(coordinates);
-    const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
-    this.router.setWaypoints(waypoints[waypoints.length - 1]);
 
-    // this.changeMode(MODES.POLY);
+    this.router.setWaypoints([]);
+
+    // UNCOMMENT THIS TO CONTINUE DRAWING
+    // const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
+    // this.router.setWaypoints(waypoints[waypoints.length - 1]);
   };
 
   clearAll = () => {

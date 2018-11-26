@@ -16,3 +16,6 @@ export const setAddress = address => ({ type: ACTIONS.SET_ADDRESS, address });
 
 export const startEditing = () => ({ type: ACTIONS.START_EDITING });
 export const stopEditing = () => ({ type: ACTIONS.STOP_EDITING });
+
+export const routerCancel = () => ({ type: ACTIONS.ROUTER_CANCEL });
+export const routerSubmit = () => ({ type: ACTIONS.ROUTER_SUBMIT });
