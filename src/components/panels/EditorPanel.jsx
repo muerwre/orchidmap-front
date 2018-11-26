@@ -24,7 +24,7 @@ type Props = {
   logo: String,
   routerPoints: Number,
   activeSticker: String,
-  estimateTime: Number, // todo: implement!
+  estimated: Number, // todo: implement!
 
   setMode: Function,
   startEditing: Function,
@@ -61,7 +61,7 @@ class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      mode, routerPoints, distance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
+      mode, routerPoints, distance, estimated, activeSticker, logo, user, editing, title, address, changed,
     } = this.props;
 
     return (
@@ -87,8 +87,8 @@ class Component extends React.PureComponent<Props, void> {
           <Icon icon="icon-cycle" size={32} />
           {
             <span>{
-              // toHours(estimateTime)
-            }HOURS HERE</span>
+              toHours(estimated)
+            }</span>
           }
         </div>
 
@@ -184,7 +184,7 @@ function mapStateToProps(state) {
       mode,
       routerPoints,
       distance,
-      estimateTime,
+      estimated,
       activeSticker,
       logo,
       title,
@@ -199,7 +199,7 @@ function mapStateToProps(state) {
     mode,
     routerPoints,
     distance,
-    estimateTime,
+    estimated,
     activeSticker,
     logo,
     title,

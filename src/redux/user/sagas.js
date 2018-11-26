@@ -126,6 +126,7 @@ function* setLogoSaga({ logo }) {
     yield put(setMode(MODES.NONE));
   }
 }
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 

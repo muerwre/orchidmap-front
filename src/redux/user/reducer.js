@@ -4,6 +4,11 @@ import { DEFAULT_USER } from '$constants/auth';
 import { MODES } from '$constants/modes';
 import { DEFAULT_LOGO } from '$constants/logos';
 
+const getEstimated = distance => {
+  const time = (distance && (distance / 15)) || 0;
+  return (time && parseFloat(time.toFixed(1)));
+};
+
 const setUser = (state, { user }) => ({
   ...state,
   user: {
@@ -15,7 +20,12 @@ const setUser = (state, { user }) => ({
 const setEditing = (state, { editing }) => ({ ...state, editing });
 const setChanged = (state, { changed }) => ({ ...state, changed });
 const setMode = (state, { mode }) => ({ ...state, mode });
-const setDistance = (state, { distance }) => ({ ...state, distance });
+const setDistance = (state, { distance }) => ({
+  ...state,
+  distance,
+  estimated: getEstimated(distance),
+});
+
 const setRouterPoints = (state, { routerPoints }) => ({ ...state, routerPoints });
 
 const setActiveSticker = (state, { activeSticker }) => ({ ...state, activeSticker });
@@ -43,7 +53,7 @@ export const INITIAL_STATE = {
   logo: DEFAULT_LOGO,
   routerPoints: 0,
   distance: 0,
-  estimateTime: 0,
+  estimated: 0,
   activeSticker: null,
   title: 0,
   address: '',

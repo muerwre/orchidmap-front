@@ -200,21 +200,11 @@ class Component extends React.Component<Props, void> {
   // };
 
   render() {
-    const { props: { user } } = this;
-
     return (
       <div>
         <Fills />
-
-        <UserLocation editor={editor} />
-
-        <UserPanel
-          editor={editor}
-          user={user}
-          // setUser={this.setUser}
-          // userLogout={this.userLogout}
-        />
-
+        <UserLocation />
+        <UserPanel />
         <EditorPanel />
       </div>
     );
@@ -229,7 +219,7 @@ function mapStateToProps(state) {
       mode,
       routerPoints,
       totalDistance,
-      estimateTime,
+      estimated,
       activeSticker,
       logo,
       title,
@@ -244,7 +234,7 @@ function mapStateToProps(state) {
     mode,
     routerPoints,
     totalDistance,
-    estimateTime,
+    estimated,
     activeSticker,
     logo,
     title,

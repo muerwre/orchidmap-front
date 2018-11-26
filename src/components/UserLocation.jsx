@@ -1,7 +1,8 @@
 import React from 'react';
-import L, { marker } from 'leaflet';
+import { marker } from 'leaflet';
 import { DomMarker } from '$utils/DomMarker';
 import { Icon } from '$components/panels/Icon';
+import { editor } from '$modules/Editor';
 
 export class UserLocation extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export class UserLocation extends React.Component {
     });
 
     this.mark = null;
-    this.map = props.editor.map.map;
+    this.map = editor.map.map;
     this.location = [];
   }
 
@@ -24,6 +25,7 @@ export class UserLocation extends React.Component {
   }
 
   getUserLocation = callback => {
+    // todo: TO SAGAS
     if (!window.navigator || !window.navigator.geolocation) return;
 
     window.navigator.geolocation.getCurrentPosition(position => {

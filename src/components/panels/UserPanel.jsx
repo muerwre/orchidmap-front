@@ -91,18 +91,7 @@ export class Component extends React.PureComponent<Props, void> {
 }
 
 
-function mapStateToProps(state) {
-  const { user: { user } } = state;
+const mapStateToProps = ({ user: { user } }) => ({ user });
+const mapDispatchToProps = dispatch => bindActionCreators({ setUser, userLogout }, dispatch);
 
-  return { user };
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  setUser,
-  userLogout,
-}, dispatch);
-
-export const UserPanel = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Component);
+export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);
