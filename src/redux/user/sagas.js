@@ -1,9 +1,10 @@
 import { REHYDRATE } from 'redux-persist';
-import { takeLatest, select, call, put } from 'redux-saga/effects';
+import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
 import { checkUserToken, getGuestToken, getStoredMap } from '$utils/api';
 import { setUser } from '$redux/user/actions';
 import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
+import { ACTIONS } from '$redux/user/constants';
 
 const getUser = state => (state.user.user);
 const hideLoader = () => {
@@ -73,8 +74,14 @@ function* authChechSaga() {
   return yield call(mapInitSaga);
 }
 
+function* setModeSaga({ mode }) {
+  return yield editor.changeMode(mode);
+  // console.log('change', mode);
+}
+
 export function* userSaga() {
   // Login
   // yield takeLatest(AUTH_ACTIONS.SEND_LOGIN_REQUEST, sendLoginRequestSaga);
   yield takeLatest(REHYDRATE, authChechSaga);
+  yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
 }

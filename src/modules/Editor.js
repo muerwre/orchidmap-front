@@ -118,12 +118,12 @@ export class Editor {
         this.switches[mode].toggle(); // if we have special function on mode when it toggles
       } else {
         this.disableMode(mode);
-        this.setMode(MODES.NONE);
+        // this.setMode(MODES.NONE);
         this.mode = MODES.NONE;
       }
     } else {
       this.disableMode(this.mode);
-      this.setMode(mode);
+      // this.setMode(mode);
       this.mode = mode;
       this.enableMode(mode);
     }

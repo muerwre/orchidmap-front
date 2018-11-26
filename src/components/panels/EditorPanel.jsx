@@ -7,35 +7,62 @@ import { toHours } from '$utils/format';
 import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setMode } from '$redux/user/actions';
+import type { UserType } from '$constants/types';
+import { editor } from '$modules/Editor';
 
-export class EditorPanel extends React.PureComponent {
-  startPolyMode = () => this.props.editor.changeMode(MODES.POLY);
+type Props = {
+  user: UserType,
+  editing: false,
+  mode: String,
+  changed: Boolean,
+  distance: Number,
+  // not implemented
+  title: String,
+  address: String,
+  mode: String,
+  editing: Boolean,
+  logo: String,
+  routerPoints: Number,
+  estimateTime: Number,
+  activeSticker: String,
+  title: String,
+  address: String,
 
-  startStickerMode = () => this.props.editor.changeMode(MODES.STICKERS);
+  setMode: Function,
+}
 
-  startRouterMode = () => this.props.editor.changeMode(MODES.ROUTER);
-
-  startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
-
-  startTrashMode = () =>  this.props.editor.changeMode(MODES.TRASH);
-
-  startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
-
-  startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
+class Component extends React.PureComponent<Props, void> {
+  startPolyMode = () => this.props.setMode(MODES.POLY);
+  startStickerMode = () => this.props.setMode(MODES.STICKERS);
+  startRouterMode = () => this.props.setMode(MODES.ROUTER);
+  startShotterMode = () => this.props.setMode(MODES.SHOTTER);
+  startTrashMode = () => this.props.setMode(MODES.TRASH);
+  startLogoMode = () => this.props.setMode(MODES.LOGO);
+  startSaveMode = () => this.props.setMode(MODES.SAVE);
+  // startPolyMode = () => this.props.editor.changeMode(MODES.POLY);
+  // startStickerMode = () => this.props.editor.changeMode(MODES.STICKERS);
+  // startRouterMode = () => this.props.editor.changeMode(MODES.ROUTER);
+  // startShotterMode = () => this.props.editor.changeMode(MODES.SHOTTER);
+  // startTrashMode = () =>  this.props.editor.changeMode(MODES.TRASH);
+  // startLogoMode = () => this.props.editor.changeMode(MODES.LOGO);
+  // startSaveMode = () => this.props.editor.changeMode(MODES.SAVE);
 
   stopEditing = () => {
-    if (!this.props.changed){
-      this.props.editor.cancelEditing();
+    if (!this.props.changed) {
+      editor.cancelEditing();
     } else {
-      this.props.editor.changeMode(MODES.CONFIRM_CANCEL);
+      editor.changeMode(MODES.CONFIRM_CANCEL);
     }
   };
 
-  startEditing = () => this.props.editor.startEditing();
+  startEditing = () => editor.startEditing();
 
   render() {
     const {
-      mode, routerPoints, editor, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
+      mode, routerPoints, distance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
     } = this.props;
 
     return (
@@ -56,10 +83,12 @@ export class EditorPanel extends React.PureComponent {
 
         <div className="control-dist">
           {changed && '(ch) '}
-          {totalDistance} км
+          {distance} км
           <Icon icon="icon-cycle" size={32} />
           {
-            <span>{toHours(estimateTime)}</span>
+            <span>{
+              // toHours(estimateTime)
+            }HOURS HERE</span>
           }
         </div>
 
@@ -146,3 +175,36 @@ export class EditorPanel extends React.PureComponent {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const {
+    user: {
+      user,
+      editing,
+      mode, routerPoints, distance, estimateTime, activeSticker, logo, title, address, changed,
+    },
+  } = state;
+
+  return {
+    user,
+    editing,
+    mode,
+    routerPoints,
+    distance,
+    estimateTime,
+    activeSticker,
+    logo,
+    title,
+    address,
+    changed,
+  };
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setMode,
+}, dispatch);
+
+export const EditorPanel = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);

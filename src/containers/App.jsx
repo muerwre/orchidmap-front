@@ -17,18 +17,14 @@ import { hot } from 'react-hot-loader';
 import type { UserType } from '$constants/types';
 
 type Props = {
+  // todo: clean this!
   user: UserType,
   editing: false,
   mode: String,
-
-  // not implemented
+  changed: Boolean,
+  distance: Number,
   title: String,
   address: String,
-  changed: Boolean,
-  totalDistance: Number,
-}
-
-type State = {
   mode: String,
   editing: Boolean,
   logo: String,
@@ -37,7 +33,10 @@ type State = {
   activeSticker: String,
   title: String,
   address: String,
-  changed: Boolean,
+}
+
+type State = {
+
 }
 
 class Component extends React.Component<Props, State> {
@@ -224,12 +223,7 @@ class Component extends React.Component<Props, State> {
 
   render() {
     const {
-      state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo,  title, address, changed,
-      },
-      props: {
-        user, editing,
-      }
+      props: { user }
     } = this;
 
     return (
@@ -245,20 +239,7 @@ class Component extends React.Component<Props, State> {
           userLogout={this.userLogout}
         />
 
-        <EditorPanel
-          editor={editor}
-          mode={mode}
-          routerPoints={routerPoints}
-          totalDistance={totalDistance}
-          estimateTime={estimateTime}
-          activeSticker={activeSticker}
-          logo={logo}
-          user={user}
-          editing={editing}
-          title={title}
-          address={address}
-          changed={changed}
-        />
+        <EditorPanel />
       </div>
     );
   }
@@ -269,12 +250,30 @@ function mapStateToProps(state) {
     user: {
       user,
       editing,
+      mode,
+      routerPoints,
+      totalDistance,
+      estimateTime,
+      activeSticker,
+      logo,
+      title,
+      address,
+      changed,
     },
   } = state;
 
   return {
     user,
     editing,
+    mode,
+    routerPoints,
+    totalDistance,
+    estimateTime,
+    activeSticker,
+    logo,
+    title,
+    address,
+    changed,
   };
 }
 
