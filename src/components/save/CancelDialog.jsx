@@ -1,18 +1,24 @@
 import React from 'react';
 
 import { MODES } from '$constants/modes';
+import { editor } from '$modules/Editor';
 
-export class CancelDialog extends React.Component {
+type Props = {
+  stopEditing: Function,
+  setMode: Function,
+  setEditing: Function,
+};
+
+export class CancelDialog extends React.Component<Props, void> {
   cancel = () => {
-    this.props.editor.stopEditing();
+    editor.cancelEditing();
+    // this.props.stopEditing();
+    this.props.setEditing(false);
+    this.props.setMode(MODES.NONE);
   };
 
   proceed = () => {
-    this.props.editor.changeMode(MODES.NONE);
-  };
-
-  save = () => {
-    this.props.editor.changeMode(MODES.SAVE);
+    this.props.setMode(MODES.NONE);
   };
 
   render() {
@@ -24,13 +30,10 @@ export class CancelDialog extends React.Component {
         </div>
         <div className="helper__buttons button-group">
           <div className="button router-helper__button" onClick={this.cancel}>
-            Закрыть
+            Удалить все
           </div>
-          <div className="button success router-helper__button" onClick={this.proceed}>
-            Продолжить
-          </div>
-          <div className="button primary router-helper__button" onClick={this.save}>
-            Сохранить
+          <div className="button primary router-helper__button" onClick={this.proceed}>
+            Вернуться
           </div>
         </div>
       </div>

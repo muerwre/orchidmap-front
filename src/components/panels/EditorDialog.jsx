@@ -7,12 +7,13 @@ import { TrashDialog } from '$components/trash/TrashDialog';
 import { LogoDialog } from '$components/logo/LogoDialog';
 import { SaveDialog } from '$components/save/SaveDialog';
 import { CancelDialog } from '$components/save/CancelDialog';
-import type { UserType } from '$constants/types';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { editor } from '$modules/Editor';
+
 
 import {
+  setMode,
   setLogo,
   routerCancel,
   routerSubmit,
@@ -21,31 +22,18 @@ import {
   clearPoly,
   clearAll,
   clearCancel,
+  stopEditing,
+  setEditing,
 } from '$redux/user/actions';
 
 type Props = {
   mode: String,
-  routerPoints: Number,
-  editor: Object,
   activeSticker: String,
-  logo: String,
-  user: UserType,
-  title: String,
-  address: String,
-
-  setLogo: Function,
-  routerSubmit: Function,
-  routerCancel: Function,
-  setActiveSticker: Function,
-  clearStickers: Function,
-  clearPoly: Function,
-  clearAll: Function,
-  clearCancel: Function,
 }
 
 export const Component = (props: Props) => {
   const {
-    mode, activeSticker, logo, user, title, address
+    mode, activeSticker,
   } = props;
 
   const showDialog = (
@@ -63,31 +51,14 @@ export const Component = (props: Props) => {
         { mode === MODES.ROUTER && <RouterDialog {...props} /> }
         { mode === MODES.STICKERS && <StickersDialog {...props} /> }
         { mode === MODES.TRASH && <TrashDialog {...props} /> }
-        { mode === MODES.LOGO && <LogoDialog editor={editor} logo={logo} setLogo={setLogo} /> }
-        { mode === MODES.SAVE && <SaveDialog editor={editor} user={user} title={title} address={address} /> }
-        { mode === MODES.CONFIRM_CANCEL && <CancelDialog editor={editor} /> }
+        { mode === MODES.LOGO && <LogoDialog {...props} /> }
+        { mode === MODES.SAVE && <SaveDialog {...props} /> }
+        { mode === MODES.CONFIRM_CANCEL && <CancelDialog {...props} /> }
       </div>
   );
 };
 
-function mapStateToProps(state) {
-  const {
-    user: {
-      mode, routerPoints, activeSticker, logo, user, title, address,
-    },
-  } = state;
-
-  return {
-    mode,
-    routerPoints,
-    activeSticker,
-    logo,
-    user,
-    title,
-    address,
-    editor,
-  };
-}
+const mapStateToProps = ({ user }) => ({ ...user });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   routerCancel,
@@ -98,6 +69,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   clearPoly,
   clearAll,
   clearCancel,
+  stopEditing,
+  setEditing,
+  setMode,
 }, dispatch);
 
 export const EditorDialog = connect(

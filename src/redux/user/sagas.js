@@ -1,7 +1,7 @@
 import { REHYDRATE } from 'redux-persist';
 import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
 import { checkUserToken, getGuestToken, getStoredMap } from '$utils/api';
-import { setEditing, setMode, setUser } from '$redux/user/actions';
+import { setActiveSticker, setChanged, setEditing, setMode, setUser } from '$redux/user/actions';
 import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
@@ -39,6 +39,27 @@ function* startEmptyEditorSaga() {
   // todo: this.clearChanged();
 }
 
+function* startEditingSaga() {
+  yield editor.startEditing();
+  yield put(setEditing(true));
+}
+
+function* stopEditingSaga() {
+  const { changed, editing, mode } = yield select(getState);
+
+  if (!editing) return;
+
+  if (!changed) {
+    yield editor.cancelEditing();
+    yield put(setEditing(false));
+    yield put(setMode(MODES.NONE));
+  } else {
+    // editor.changeMode(MODES.CONFIRM_CANCEL);
+    // this.props.setMode(MODES.CONFIRM_CANCEL);
+    yield put(setMode(MODES.CONFIRM_CANCEL));
+  }
+}
+
 function* mapInitSaga() {
   const { path, mode } = getUrlData();
 
@@ -46,13 +67,20 @@ function* mapInitSaga() {
     const map = yield call(getStoredMap, { name: path });
 
     if (map) {
-      // todo: this.clearChanged();
-      editor.setData(map);
+      console.log('setting!', map, mode);
+
+      yield editor.setData(map);
+      yield put(setChanged(false));
 
       if (mode && mode === 'edit') {
-        editor.startEditing();
+        yield call(startEditingSaga);
+        // yield put(setEditing(true));
+        // editor.startEditing();
       } else {
-        editor.stopEditing();
+        console.log('stopping edit');
+        yield put(setEditing(false));
+        // yield call(stopEditingSaga);
+        // editor.stopEditing();
       }
 
       return hideLoader();
@@ -81,25 +109,6 @@ function* authChechSaga() {
 function* setModeSaga({ mode }) {
   return yield editor.changeMode(mode);
   // console.log('change', mode);
-}
-
-function* startEditingSaga() {
-  yield editor.startEditing();
-  yield put(setEditing(true));
-}
-
-function* stopEditingSaga() {
-  const { changed } = yield select(getState);
-
-  if (!changed) {
-    yield editor.cancelEditing();
-    yield put(setEditing(false));
-    yield put(setMode(MODES.NONE));
-  } else {
-    // editor.changeMode(MODES.CONFIRM_CANCEL);
-    // this.props.setMode(MODES.CONFIRM_CANCEL);
-    yield put(setMode(MODES.CONFIRM_CANCEL));
-  }
 }
 
 function* userLogoutSaga() {
@@ -141,24 +150,26 @@ function* routerSubmitSaga() {
   return true;
 }
 
-function* clearSaga({ type }){
+function* clearSaga({ type }) {
   switch (type) {
     case ACTIONS.CLEAR_POLY:
-      editor.poly.clearAll();
-      editor.router.clearAll();
+      yield editor.poly.clearAll();
+      yield editor.router.clearAll();
       break;
 
     case ACTIONS.CLEAR_STICKERS:
-      editor.stickers.clearAll();
+      yield editor.stickers.clearAll();
       break;
 
     case ACTIONS.CLEAR_ALL:
-      editor.clearAll();
+      yield editor.clearAll();
+      yield put(setChanged(false));
       break;
 
     default: break;
   }
 
+  yield put(setActiveSticker(null));
   yield put(setMode(MODES.NONE));
 }
 

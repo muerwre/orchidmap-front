@@ -82,7 +82,6 @@ class Component extends React.PureComponent<Props, void> {
         <LogoPreview logo={logo} />
 
         <div className="control-dist">
-          {changed && '(ch) '}
           {distance} км
           <Icon icon="icon-cycle" size={32} />
           {

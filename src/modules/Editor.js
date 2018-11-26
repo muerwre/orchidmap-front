@@ -89,7 +89,6 @@ export class Editor {
   getEditing = () => store.getState().user.editing;
   getChanged = () => store.getState().user.changed;
 
-  setEditing = value => store.dispatch(setEditing(value));
   setMode = value => store.dispatch(setMode(value));
   setDistance = value => store.dispatch(setDistance(value));
   setChanged = value => store.dispatch(setChanged(value));
@@ -102,7 +101,7 @@ export class Editor {
   clearChanged = () => store.dispatch(setChanged(false));
 
   triggerOnChange = () => {
-    if (!this.getEditing() && this.getChanged()) return;
+    if (!this.getEditing() || this.getChanged()) return;
 
     this.setChanged(true);
   };
@@ -194,18 +193,11 @@ export class Editor {
     this.router.clearAll();
     this.stickers.clearAll();
 
-    this.setActiveSticker(null);
-    this.setMode(MODES.NONE);
-
-    this.clearChanged();
+    // this.setActiveSticker(null);
+    // this.setMode(MODES.NONE);
+    // this.clearChanged();
   };
 
-  changeLogo = logo => {
-    // todo: move to sagas
-    this.logo = logo;
-    this.setLogo(logo);
-    this.changeMode(MODES.NONE);
-  };
 
   setData = ({
     route, stickers, version = 1, owner, title, address
@@ -217,6 +209,7 @@ export class Editor {
 
     if (route) this.poly.setPoints(route);
 
+    this.stickers.clearAll();
     if (stickers) {
       stickers.map(sticker => this.stickers.createSticker({
         latlng: sticker.latlng,
@@ -231,7 +224,7 @@ export class Editor {
 
     const bounds = this.poly.poly.getBounds();
 
-    if (Object.values(bounds)) this.map.map.fitBounds(bounds);
+    if (route && bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
   };
 
   setInitialData = () => {
@@ -251,6 +244,7 @@ export class Editor {
   };
 
   startEditing = () => {
+    console.log('ED START');
     const { path } = getUrlData();
     const { random_url, id } = this.getUser();
 
@@ -269,6 +263,7 @@ export class Editor {
   };
 
   stopEditing = () => {
+    console.log('ED STOP');
     const { path } = getUrlData();
     pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
@@ -284,13 +279,18 @@ export class Editor {
     console.log('trying to set initial data');
 
     if (this.hasEmptyHistory()) {
+      console.log('empty history');
       this.clearAll();
       this.startEditing();
     } else {
+      console.log('setting initial');
       this.setData(this.initialData);
+      console.log('setting initial - done');
     }
 
     this.clearChanged();
+
+    return true;
   };
 
   dumpData = () => ({

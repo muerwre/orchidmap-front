@@ -122,6 +122,7 @@ export class Router {
   };
 
   submitDrawing = () => {
+    console.log('ROUT', this.router);
     const [route] = this.router._routes;
     if (!route) return;
 
