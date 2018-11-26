@@ -19,3 +19,8 @@ export const stopEditing = () => ({ type: ACTIONS.STOP_EDITING });
 
 export const routerCancel = () => ({ type: ACTIONS.ROUTER_CANCEL });
 export const routerSubmit = () => ({ type: ACTIONS.ROUTER_SUBMIT });
+
+export const clearPoly = () => ({ type: ACTIONS.CLEAR_POLY });
+export const clearStickers = () => ({ type: ACTIONS.CLEAR_STICKERS });
+export const clearAll = () => ({ type: ACTIONS.CLEAR_ALL });
+export const clearCancel = () => ({ type: ACTIONS.CLEAR_CANCEL });

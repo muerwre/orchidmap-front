@@ -141,6 +141,27 @@ function* routerSubmitSaga() {
   return true;
 }
 
+function* clearSaga({ type }){
+  switch (type) {
+    case ACTIONS.CLEAR_POLY:
+      editor.poly.clearAll();
+      editor.router.clearAll();
+      break;
+
+    case ACTIONS.CLEAR_STICKERS:
+      editor.stickers.clearAll();
+      break;
+
+    case ACTIONS.CLEAR_ALL:
+      editor.clearAll();
+      break;
+
+    default: break;
+  }
+
+  yield put(setMode(MODES.NONE));
+}
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 
@@ -156,4 +177,11 @@ export function* userSaga() {
 
   yield takeEvery(ACTIONS.ROUTER_CANCEL, routerCancelSaga);
   yield takeEvery(ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
+  yield takeEvery([
+    ACTIONS.CLEAR_POLY,
+    ACTIONS.CLEAR_STICKERS,
+    ACTIONS.CLEAR_ALL,
+    ACTIONS.CLEAR_CANCEL,
+  ], clearSaga);
+
 }

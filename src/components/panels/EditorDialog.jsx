@@ -8,10 +8,20 @@ import { LogoDialog } from '$components/logo/LogoDialog';
 import { SaveDialog } from '$components/save/SaveDialog';
 import { CancelDialog } from '$components/save/CancelDialog';
 import type { UserType } from '$constants/types';
-import { setLogo, routerCancel, routerSubmit } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { editor } from '$modules/Editor';
+
+import {
+  setLogo,
+  routerCancel,
+  routerSubmit,
+  setActiveSticker,
+  clearStickers,
+  clearPoly,
+  clearAll,
+  clearCancel,
+} from '$redux/user/actions';
 
 type Props = {
   mode: String,
@@ -26,6 +36,11 @@ type Props = {
   setLogo: Function,
   routerSubmit: Function,
   routerCancel: Function,
+  setActiveSticker: Function,
+  clearStickers: Function,
+  clearPoly: Function,
+  clearAll: Function,
+  clearCancel: Function,
 }
 
 export const Component = (props: Props) => {
@@ -46,8 +61,8 @@ export const Component = (props: Props) => {
     showDialog &&
       <div id="control-dialog">
         { mode === MODES.ROUTER && <RouterDialog {...props} /> }
-        { mode === MODES.STICKERS && <StickersDialog editor={editor} /> }
-        { mode === MODES.TRASH && <TrashDialog editor={editor} /> }
+        { mode === MODES.STICKERS && <StickersDialog {...props} /> }
+        { mode === MODES.TRASH && <TrashDialog {...props} /> }
         { mode === MODES.LOGO && <LogoDialog editor={editor} logo={logo} setLogo={setLogo} /> }
         { mode === MODES.SAVE && <SaveDialog editor={editor} user={user} title={title} address={address} /> }
         { mode === MODES.CONFIRM_CANCEL && <CancelDialog editor={editor} /> }
@@ -78,6 +93,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   routerCancel,
   routerSubmit,
   setLogo,
+  setActiveSticker,
+  clearStickers,
+  clearPoly,
+  clearAll,
+  clearCancel,
 }, dispatch);
 
 export const EditorDialog = connect(

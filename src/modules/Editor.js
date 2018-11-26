@@ -180,11 +180,6 @@ export class Editor {
     this.poly.pushPoints(latlngs);
   };
 
-  // setSticker = sticker => {
-  //   this.activeSticker = sticker;
-  //   this.setActiveSticker(sticker);
-  // };
-
   clearSticker = () => {
     if (this.activeSticker) {
       this.setActiveSticker(null);
