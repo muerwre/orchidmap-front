@@ -9,7 +9,7 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing, setLogo } from '$redux/user/actions';
 import type { UserType } from '$constants/types';
 import { editor } from '$modules/Editor';
 
@@ -29,7 +29,7 @@ type Props = {
   setMode: Function,
   startEditing: Function,
   stopEditing: Function,
-
+  setLogo: Function,
 }
 
 class Component extends React.PureComponent<Props, void> {
@@ -76,6 +76,7 @@ class Component extends React.PureComponent<Props, void> {
           user={user}
           title={title}
           address={address}
+          setLogo={this.props.setLogo}
         />
 
         <LogoPreview logo={logo} />
@@ -209,6 +210,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   setMode,
+  setLogo,
   startEditing,
   stopEditing,
 }, dispatch);

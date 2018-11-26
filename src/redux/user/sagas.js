@@ -6,6 +6,7 @@ import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
+import { DEFAULT_USER } from '$constants/auth';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -101,12 +102,40 @@ function* stopEditingSaga() {
   }
 }
 
+function* userLogoutSaga() {
+  const { id } = yield select(getUser);
+
+  if (id === editor.owner) {
+    editor.owner = null;
+  }
+
+  yield put(setUser(DEFAULT_USER));
+  yield call(generateGuestSaga);
+}
+
+function* setActiveStickerSaga({ activeSticker }) {
+  yield editor.activeSticker = activeSticker;
+  return true;
+}
+
+function* setLogoSaga({ logo }) {
+  const { mode } = yield select(getState);
+  editor.logo = logo;
+
+  if (mode === MODES.LOGO) {
+    yield put(setMode(MODES.NONE));
+  }
+}
 export function* userSaga() {
-  // Login
-  // yield takeLatest(AUTH_ACTIONS.SEND_LOGIN_REQUEST, sendLoginRequestSaga);
+  // ASYNCHRONOUS!!! :-)
+
   yield takeLatest(REHYDRATE, authChechSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
 
   yield takeEvery(ACTIONS.START_EDITING, startEditingSaga);
   yield takeEvery(ACTIONS.STOP_EDITING, stopEditingSaga);
+
+  yield takeEvery(ACTIONS.USER_LOGOUT, userLogoutSaga);
+  yield takeEvery(ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
+  yield takeEvery(ACTIONS.SET_LOGO, setLogoSaga);
 }

@@ -4,12 +4,8 @@ import React from 'react';
 import { editor } from '$modules/Editor';
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
-import { DEFAULT_LOGO } from '$constants/logos';
 import { UserLocation } from '$components/UserLocation';
-import { DEFAULT_USER } from '$constants/auth';
-import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
-import { pushPath } from '$utils/history';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -17,44 +13,26 @@ import { hot } from 'react-hot-loader';
 import type { UserType } from '$constants/types';
 
 type Props = {
-  // todo: clean this!
   user: UserType,
-  editing: false,
-  mode: String,
-  changed: Boolean,
-  distance: Number,
-  title: String,
-  address: String,
-  mode: String,
-  editing: Boolean,
-  logo: String,
-  routerPoints: Number,
-  estimateTime: Number,
-  activeSticker: String,
-  title: String,
-  address: String,
 }
 
-type State = {
 
-}
-
-class Component extends React.Component<Props, State> {
-  state = {
-    // mode: 'none',
-    // editing: false,
-    logo: DEFAULT_LOGO,
-    routerPoints: 0,
-    totalDistance: 0,
-    estimateTime: 0,
-    activeSticker: null,
-    // user: {
-    //   ...DEFAULT_USER,
-    // },
-    // title: '',
-    // address: '',
-    // changed: false,
-  };
+class Component extends React.Component<Props, void> {
+  // state = {
+  //   // mode: 'none',
+  //   // editing: false,
+  //   logo: DEFAULT_LOGO,
+  //   routerPoints: 0,
+  //   totalDistance: 0,
+  //   estimateTime: 0,
+  //   activeSticker: null,
+  //   // user: {
+  //   //   ...DEFAULT_USER,
+  //   // },
+  //   // title: '',
+  //   // address: '',
+  //   // changed: false,
+  // };
 
   componentDidMount() {
     // this.authInit();
@@ -79,76 +57,76 @@ class Component extends React.Component<Props, State> {
   //     this.startEmptyEditor();
   //   }
   // };
-
-  startEmptyEditor = () => {
-    const { user } = this.state;
-    if (!user || !user.random_url || !user.id) return;
-
-    pushPath(`/${user.random_url}/edit`);
-
-    editor.owner = user.id;
-    editor.startEditing();
-
-    this.hideLoader();
-
-    this.clearChanged();
-  };
-
-  setTitle = title => this.setState({ title });
-  setAddress = address => {
-    this.setState({ address });
-  };
-
-  getTitle = () => this.state.title;
-
-  setDataOnLoad = data => {
-    this.clearChanged();
-    editor.setData(data);
-    this.hideLoader();
-  };
-
-  hideLoader = () => {
-    document.getElementById('loader').style.opacity = 0;
-    document.getElementById('loader').style.pointerEvents = 'none';
-  };
-
-  setMode = mode => {
-    this.setState({ mode });
-  };
-
-  setRouterPoints = routerPoints => {
-    this.setState({ routerPoints });
-  };
-
-  setTotalDist = totalDistance => {
-    const time = (totalDistance && (totalDistance / 15)) || 0;
-    const estimateTime = (time && parseFloat(time.toFixed(1)));
-    this.setState({ totalDistance, estimateTime });
-  };
-
-  setActiveSticker = activeSticker => {
-    this.setState({ activeSticker });
-  };
-
-  setLogo = logo => {
-    this.setState({ logo });
-  };
-
-  setEditing = editing => {
-    this.setState({ editing });
-  };
-
-  getUser = () => this.state.user;
   //
-  // triggerOnChange = () => {
-  //   if (!this.state.editing) return;
+  // startEmptyEditor = () => {
+  //   const { user } = this.state;
+  //   if (!user || !user.random_url || !user.id) return;
   //
-  //   this.setState({ changed: true });
+  //   pushPath(`/${user.random_url}/edit`);
+  //
+  //   editor.owner = user.id;
+  //   editor.startEditing();
+  //
+  //   this.hideLoader();
+  //
+  //   this.clearChanged();
   // };
-
-  clearChanged = () => {
-    this.setState({ changed: false });
-  };
+  //
+  // setTitle = title => this.setState({ title });
+  // setAddress = address => {
+  //   this.setState({ address });
+  // };
+  //
+  // getTitle = () => this.state.title;
+  //
+  // setDataOnLoad = data => {
+  //   this.clearChanged();
+  //   editor.setData(data);
+  //   this.hideLoader();
+  // };
+  //
+  // hideLoader = () => {
+  //   document.getElementById('loader').style.opacity = 0;
+  //   document.getElementById('loader').style.pointerEvents = 'none';
+  // };
+  //
+  // setMode = mode => {
+  //   this.setState({ mode });
+  // };
+  //
+  // setRouterPoints = routerPoints => {
+  //   this.setState({ routerPoints });
+  // };
+  //
+  // setTotalDist = totalDistance => {
+  //   const time = (totalDistance && (totalDistance / 15)) || 0;
+  //   const estimateTime = (time && parseFloat(time.toFixed(1)));
+  //   this.setState({ totalDistance, estimateTime });
+  // };
+  //
+  // setActiveSticker = activeSticker => {
+  //   this.setState({ activeSticker });
+  // };
+  //
+  // setLogo = logo => {
+  //   this.setState({ logo });
+  // };
+  //
+  // setEditing = editing => {
+  //   this.setState({ editing });
+  // };
+  //
+  // getUser = () => this.state.user;
+  // //
+  // // triggerOnChange = () => {
+  // //   if (!this.state.editing) return;
+  // //
+  // //   this.setState({ changed: true });
+  // // };
+  //
+  // clearChanged = () => {
+  //   this.setState({ changed: false });
+  // };
 
   // editor = new Editor({
   //   container: 'map',
@@ -186,45 +164,43 @@ class Component extends React.Component<Props, State> {
   //   }
   // };
 
-  setUser = user => {
-    if (!user.token || !user.id) return;
+  // setUser = user => {
+  //   if (!user.token || !user.id) return;
+  //
+  //   if (this.state.user.id === editor.owner) {
+  //     editor.owner = user.id;
+  //   }
+  //
+  //   this.setState({
+  //     user: {
+  //       ...DEFAULT_USER,
+  //       ...user,
+  //     }
+  //   });
+  //
+  //   this.storeUserData();
+  // };
 
-    if (this.state.user.id === editor.owner) {
-      editor.owner = user.id;
-    }
+  // storeUserData = () => {
+  //   storeData('user', this.state.user);
+  // };
 
-    this.setState({
-      user: {
-        ...DEFAULT_USER,
-        ...user,
-      }
-    });
-
-    this.storeUserData();
-  };
-
-  storeUserData = () => {
-    storeData('user', this.state.user);
-  };
-
-  getUserData = () => getData('user') || null;
-
-  userLogout = () => {
-    if (this.state.user.id === editor.owner) {
-      editor.owner = null;
-    }
-    //
-    this.setState({
-      user: DEFAULT_USER,
-    });
-
-    setTimeout(this.storeUserData, 0);
-  };
+  // getUserData = () => getData('user') || null;
+  //
+  // userLogout = () => {
+  //   if (this.state.user.id === editor.owner) {
+  //     editor.owner = null;
+  //   }
+  //   //
+  //   this.setState({
+  //     user: DEFAULT_USER,
+  //   });
+  //
+  //   setTimeout(this.storeUserData, 0);
+  // };
 
   render() {
-    const {
-      props: { user }
-    } = this;
+    const { props: { user } } = this;
 
     return (
       <div>
@@ -235,8 +211,8 @@ class Component extends React.Component<Props, State> {
         <UserPanel
           editor={editor}
           user={user}
-          setUser={this.setUser}
-          userLogout={this.userLogout}
+          // setUser={this.setUser}
+          // userLogout={this.userLogout}
         />
 
         <EditorPanel />

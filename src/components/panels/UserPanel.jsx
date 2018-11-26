@@ -5,8 +5,18 @@ import { SERVER } from '$constants/api';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
+import { setUser, userLogout } from '$redux/user/actions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import type { UserType } from '$constants/types';
 
-export class UserPanel extends React.PureComponent {
+type Props = {
+  user: UserType,
+  userLogout: Function,
+  setUser: Function,
+};
+
+export class Component extends React.PureComponent<Props, void> {
   state = {
     menuOpened: false,
   };
@@ -56,7 +66,7 @@ export class UserPanel extends React.PureComponent {
 
   render() {
     const {
-      props: { user, userLogout, editor, editing },
+      props: { user },
       state: { menuOpened },
     } = this;
 
@@ -71,7 +81,7 @@ export class UserPanel extends React.PureComponent {
             }
             {
               (user && user.role && user.role !== 'guest' && menuOpened) &&
-              <UserMenu user={user} userLogout={userLogout} />
+              <UserMenu user={user} userLogout={this.props.userLogout} />
             }
           </div>
         </div>
@@ -79,3 +89,20 @@ export class UserPanel extends React.PureComponent {
     );
   }
 }
+
+
+function mapStateToProps(state) {
+  const { user: { user } } = state;
+
+  return { user };
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setUser,
+  userLogout,
+}, dispatch);
+
+export const UserPanel = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);

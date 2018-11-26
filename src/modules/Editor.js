@@ -14,31 +14,19 @@ import {
   setChanged,
   setDistance,
   setEditing,
-  setLogo,
+  setLogo, setMode,
   setRouterPoints,
   setTitle
 } from '$redux/user/actions';
 
 export class Editor {
-  constructor({
-    // container,
-    // mode,
-    // setMode,
-    // setRouterPoints,
-    // setTotalDist,
-    // setEditing,
-    // triggerOnChange,
-    // getTitle,
-    // clearChanged,
-    // setActiveSticker,
-    // setLogo,
-    // setTitle,
-    // setAddress,
-  }) {
+  constructor() {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
     this.map = new Map({ container: 'map' });
     this.initialData = {};
+    this.activeSticker = null;
+    this.mode = MODES.NONE;
 
     const {
       triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints,
@@ -81,8 +69,6 @@ export class Editor {
       [MODES.ROUTER]: this.router.pushWaypointOnClick,
     };
 
-    this.activeSticker = null;
-    this.mode = MODES.NONE;
     // this.clearChanged = clearChanged;
     // this.setActiveSticker = setActiveSticker;
     // this.setLogo = setLogo;
@@ -104,6 +90,7 @@ export class Editor {
   getChanged = () => store.getState().user.changed;
 
   setEditing = value => store.dispatch(setEditing(value));
+  setMode = value => store.dispatch(setMode(value));
   setDistance = value => store.dispatch(setDistance(value));
   setChanged = value => store.dispatch(setChanged(value));
   setRouterPoints = value => store.dispatch(setRouterPoints(value));
@@ -121,17 +108,20 @@ export class Editor {
   };
 
   createStickerOnClick = (e) => {
+    // todo: move to sagas?
     if (!e || !e.latlng || !this.activeSticker) return;
     const { latlng } = e;
 
     this.stickers.createSticker({ latlng, sticker: this.activeSticker });
-    this.setSticker(null);
+    this.setActiveSticker(null);
   };
 
   changeMode = mode => {
+    // todo: check if TOGGLING works (we changing MODE from the sagas now)
     if (this.mode === mode) {
       if (this.switches[mode] && this.switches[mode].toggle) {
-        this.switches[mode].toggle(); // if we have special function on mode when it toggles
+        // if we have special function on mode when it clicked again
+        this.switches[mode].toggle();
       } else {
         this.disableMode(mode);
         // this.setMode(MODES.NONE);
@@ -154,7 +144,7 @@ export class Editor {
   };
 
   onClick = e => {
-    if (e.originalEvent.which === 3) return; // skip right click
+    if (e.originalEvent.which === 3) return; // skip right / middle click
     if (this.clickHandlers[this.mode]) this.clickHandlers[this.mode](e);
   };
 
@@ -190,45 +180,47 @@ export class Editor {
     this.poly.pushPoints(latlngs);
   };
 
-  setSticker = sticker => {
-    this.activeSticker = sticker;
-    this.setActiveSticker(sticker);
-  };
+  // setSticker = sticker => {
+  //   this.activeSticker = sticker;
+  //   this.setActiveSticker(sticker);
+  // };
 
   clearSticker = () => {
     if (this.activeSticker) {
-      this.setSticker(null);
+      this.setActiveSticker(null);
     } else {
-      this.changeMode(MODES.NONE);
+      this.setMode(MODES.NONE);
     }
   };
 
   clearAll = () => {
+    // todo: move to sagas
     this.poly.clearAll();
     this.router.clearAll();
     this.stickers.clearAll();
 
-    this.setSticker(null);
-    this.changeMode(MODES.NONE);
+    this.setActiveSticker(null);
+    this.setMode(MODES.NONE);
 
     this.clearChanged();
   };
 
   changeLogo = logo => {
+    // todo: move to sagas
     this.logo = logo;
     this.setLogo(logo);
     this.changeMode(MODES.NONE);
   };
 
-  setData = ({ route, stickers, version = 1, owner, title, address }) => {
+  setData = ({
+    route, stickers, version = 1, owner, title, address
+  }) => {
     this.setTitle(title || '');
     const { id } = this.getUser();
 
     if (address && id && owner && id === owner) this.setAddress(address);
 
-    if (route) {
-      this.poly.setPoints(route);
-    }
+    if (route) this.poly.setPoints(route);
 
     if (stickers) {
       stickers.map(sticker => this.stickers.createSticker({
@@ -238,9 +230,7 @@ export class Editor {
       }));
     }
 
-    if (owner) {
-      this.owner = owner;
-    }
+    if (owner) this.owner = owner;
 
     if (!route || route.length <= 1) return;
 
@@ -258,7 +248,7 @@ export class Editor {
       version: 2,
       title: this.getTitle(),
       owner: this.owner,
-      address: this.owner === id ? path : null,
+      address: (this.owner === id ? path : null),
       path,
       route,
       stickers,
@@ -278,19 +268,19 @@ export class Editor {
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
 
     this.stickers.startEditing();
-    // this.setEditing(true);
 
-    console.log(this.initialData);
+    // this.setEditing(true);
+    // console.log(this.initialData);
   };
 
   stopEditing = () => {
     const { path } = getUrlData();
     pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
-    this.changeMode(MODES.NONE);
+    // this.changeMode(MODES.NONE);
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
-    this.setEditing(false);
+    // this.setEditing(false);
   };
 
   cancelEditing = () => {
@@ -313,11 +303,11 @@ export class Editor {
     stickers: this.stickers.dumpData(),
   });
 
-  isEmpty = () => {
-    const { route, stickers } = this.dumpData();
-
-    return (route.length > 1 && stickers.length > 0);
-  };
+  // isEmpty = () => {
+  //   const { route, stickers } = this.dumpData();
+  //
+  //   return (route.length > 1 && stickers.length > 0);
+  // };
 
   hasEmptyHistory = () => {
     const { route, stickers } = this.initialData;
@@ -326,18 +316,4 @@ export class Editor {
   }
 }
 
-export const editor = new Editor({
-  // setMode: this.setMode,
-  // setTotalDist: this.setTotalDist,
-  // setEditing: this.setEditing,
-  // getUser: this.getUser,
-  // triggerOnChange: this.triggerOnChange,
-  // getTitle: this.getTitle,
-
-  // setRouterPoints: this.setRouterPoints,
-  // setActiveSticker: this.setActiveSticker,
-  // setLogo: this.setLogo,
-  // setTitle: this.setTitle,
-  // setAddress: this.setAddress,
-  // clearChanged: this.clearChanged,
-});
+export const editor = new Editor({});
