@@ -10,7 +10,7 @@ export const checkUserToken = ({ id, token }) => axios.get(API.CHECK_TOKEN, {
     token,
     action: 'check_token',
   }
-}).then(result => (result && result.data && { ...result.data, id, token }))
+}).then(result => (result && result.data && { ...result.data, id, token }));
 
 export const getGuestToken = () => axios.get(API.GET_GUEST, {
   params: {

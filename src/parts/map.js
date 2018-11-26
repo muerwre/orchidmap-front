@@ -25,8 +25,8 @@ const point_array = {
 
 const points = L.layerGroup();
 
-let mode = 'none';
-const current_map_style = 'default';
+// let mode = 'none';
+const current_map_style = 'dgis';
 
 // Интересные места;
 // const places_layer;

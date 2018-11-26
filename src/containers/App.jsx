@@ -1,6 +1,7 @@
+// @flow
 import React from 'react';
 
-import { Editor } from '$modules/Editor';
+import { Editor, editor } from '$modules/Editor';
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
@@ -10,14 +11,30 @@ import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
 import { getUrlData, pushPath } from '$utils/history';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { configureStore } from '$redux/store';
+import { hot } from 'react-hot-loader';
+import type { UserType } from '$constants/types';
 
-const { store, persistor } = configureStore();
+type Props = {
+  user: UserType,
+}
 
-export class App extends React.Component {
+type State = {
+  mode: String,
+  editing: Boolean,
+  logo: String,
+  routerPoints: Number,
+  totalDistance: Number,
+  estimateTime: Number,
+  activeSticker: String,
+  title: String,
+  address: String,
+  changed: Boolean,
+}
+
+class Component extends React.Component<Props, State> {
   state = {
     mode: 'none',
     editing: false,
@@ -35,28 +52,28 @@ export class App extends React.Component {
   };
 
   componentDidMount() {
-    this.authInit();
-    window.editor = this.editor;
+    // this.authInit();
+    window.editor = editor;
   }
-
-  mapInit = () => {
-    const { path, mode } = getUrlData();
-    if (path) {
-      getStoredMap({ name: path })
-        .then(this.setDataOnLoad)
-        .then(() => {
-          if (mode && mode === 'edit') {
-            this.editor.startEditing();
-          } else {
-            this.editor.stopEditing();
-          }
-        })
-        .catch(this.startEmptyEditor);
-    } else {
-      // this.hideLoader();
-      this.startEmptyEditor();
-    }
-  };
+  //
+  // mapInit = () => {
+  //   const { path, mode } = getUrlData();
+  //   if (path) {
+  //     getStoredMap({ name: path })
+  //       .then(this.setDataOnLoad)
+  //       .then(() => {
+  //         if (mode && mode === 'edit') {
+  //           editor.startEditing();
+  //         } else {
+  //           editor.stopEditing();
+  //         }
+  //       })
+  //       .catch(this.startEmptyEditor);
+  //   } else {
+  //     // this.hideLoader();
+  //     this.startEmptyEditor();
+  //   }
+  // };
 
   startEmptyEditor = () => {
     const { user } = this.state;
@@ -64,8 +81,8 @@ export class App extends React.Component {
 
     pushPath(`/${user.random_url}/edit`);
 
-    this.editor.owner = user.id;
-    this.editor.startEditing();
+    editor.owner = user.id;
+    editor.startEditing();
 
     this.hideLoader();
 
@@ -81,7 +98,7 @@ export class App extends React.Component {
 
   setDataOnLoad = data => {
     this.clearChanged();
-    this.editor.setData(data);
+    editor.setData(data);
     this.hideLoader();
   };
 
@@ -128,47 +145,47 @@ export class App extends React.Component {
     this.setState({ changed: false });
   };
 
-  editor = new Editor({
-    container: 'map',
-    mode: this.state.mode,
-    setMode: this.setMode,
-    setRouterPoints: this.setRouterPoints,
-    setTotalDist: this.setTotalDist,
-    setActiveSticker: this.setActiveSticker,
-    setLogo: this.setLogo,
-    setEditing: this.setEditing,
-    setTitle: this.setTitle,
-    setAddress: this.setAddress,
-    getUser: this.getUser,
-    triggerOnChange: this.triggerOnChange,
-    clearChanged: this.clearChanged,
-    getTitle: this.getTitle,
-  });
+  // editor = new Editor({
+  //   container: 'map',
+  //   mode: this.state.mode,
+  //   setMode: this.setMode,
+  //   setRouterPoints: this.setRouterPoints,
+  //   setTotalDist: this.setTotalDist,
+  //   setActiveSticker: this.setActiveSticker,
+  //   setLogo: this.setLogo,
+  //   setEditing: this.setEditing,
+  //   setTitle: this.setTitle,
+  //   setAddress: this.setAddress,
+  //   getUser: this.getUser,
+  //   triggerOnChange: this.triggerOnChange,
+  //   clearChanged: this.clearChanged,
+  //   getTitle: this.getTitle,
+  // });
 
-  authInit = () => {
-    const user = this.getUserData();
-
-    const { id, token } = (user || {});
-
-    if (id && token) {
-      checkUserToken({
-        id,
-        token
-      })
-        .then(this.setUser)
-        .then(this.mapInit);
-    } else {
-      getGuestToken()
-        .then(this.setUser)
-        .then(this.mapInit);
-    }
-  };
+  // authInit = () => {
+  //   const user = this.getUserData();
+  //
+  //   const { id, token } = (user || {});
+  //
+  //   if (id && token) {
+  //     checkUserToken({
+  //       id,
+  //       token
+  //     })
+  //       .then(this.setUser)
+  //       .then(this.mapInit);
+  //   } else {
+  //     getGuestToken()
+  //       .then(this.setUser)
+  //       .then(this.mapInit);
+  //   }
+  // };
 
   setUser = user => {
     if (!user.token || !user.id) return;
 
-    if (this.state.user.id === this.editor.owner) {
-      this.editor.owner = user.id;
+    if (this.state.user.id === editor.owner) {
+      editor.owner = user.id;
     }
 
     this.setState({
@@ -188,8 +205,8 @@ export class App extends React.Component {
   getUserData = () => getData('user') || null;
 
   userLogout = () => {
-    if (this.state.user.id === this.editor.owner) {
-      this.editor.owner = null;
+    if (this.state.user.id === editor.owner) {
+      editor.owner = null;
     }
     //
     this.setState({
@@ -201,45 +218,61 @@ export class App extends React.Component {
 
   render() {
     const {
-      editor,
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, user, editing, title, address, changed,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, editing, title, address, changed,
       },
+      props: {
+        user,
+      }
     } = this;
 
-
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <div>
-            <Fills />
+      <div>
+        <Fills />
 
-            <UserLocation editor={editor} />
+        <UserLocation editor={editor} />
 
-            <UserPanel
-              editor={editor}
-              user={user}
-              setUser={this.setUser}
-              userLogout={this.userLogout}
-            />
+        <UserPanel
+          editor={editor}
+          user={user}
+          setUser={this.setUser}
+          userLogout={this.userLogout}
+        />
 
-            <EditorPanel
-              editor={editor}
-              mode={mode}
-              routerPoints={routerPoints}
-              totalDistance={totalDistance}
-              estimateTime={estimateTime}
-              activeSticker={activeSticker}
-              logo={logo}
-              user={user}
-              editing={editing}
-              title={title}
-              address={address}
-              changed={changed}
-            />
-          </div>
-        </PersistGate>
-      </Provider>
+        <EditorPanel
+          editor={editor}
+          mode={mode}
+          routerPoints={routerPoints}
+          totalDistance={totalDistance}
+          estimateTime={estimateTime}
+          activeSticker={activeSticker}
+          logo={logo}
+          user={user}
+          editing={editing}
+          title={title}
+          address={address}
+          changed={changed}
+        />
+      </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const {
+    user,
+  } = state;
+
+  return {
+    user
+  };
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+
+}, dispatch);
+
+export const App = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(hot(module)(Component));

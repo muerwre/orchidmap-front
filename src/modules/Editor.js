@@ -8,27 +8,28 @@ import { DEFAULT_LOGO } from '$constants/logos';
 
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData, pushPath } from '$utils/history';
+import { store } from '$redux/store';
+import { setEditing } from '$redux/user/actions';
 
 export class Editor {
   constructor({
-    container,
-    mode,
+    // container,
+    // mode,
     setMode,
     setRouterPoints,
     setTotalDist,
     setActiveSticker,
     setLogo,
-    setEditing,
+    // setEditing,
     setTitle,
     setAddress,
-    getUser,
     triggerOnChange,
     clearChanged,
-    getTitle,
+    // getTitle,
   }) {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
-    this.map = new Map({ container });
+    this.map = new Map({ container: 'map' });
     this.initialData = {};
 
     const {
@@ -76,17 +77,21 @@ export class Editor {
     this.setActiveSticker = setActiveSticker;
     this.setLogo = setLogo;
     this.setMode = setMode;
-    this.setEditing = setEditing;
+    // this.setEditing = setEditing;
     this.setTitle = setTitle;
     this.setAddress = setAddress;
-    this.getUser = getUser;
-    this.mode = mode;
-    this.getTitle = getTitle;
+    // this.getUser = getUser;
+    this.mode = 'none';
+    // this.getTitle = getTitle;
 
     map.addEventListener('mouseup', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
+
+  getUser = () => store.getState().user;
+  getTitle = () => store.getState().title;
+  setEditing = editing => store.dispatch(setEditing(editing));
 
   createStickerOnClick = (e) => {
     if (!e || !e.latlng || !this.activeSticker) return;
@@ -293,3 +298,20 @@ export class Editor {
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
   }
 }
+
+export const editor = new Editor({
+  container: 'map',
+  mode: 'none',
+  // setMode: this.setMode,
+  // setRouterPoints: this.setRouterPoints,
+  // setTotalDist: this.setTotalDist,
+  // setActiveSticker: this.setActiveSticker,
+  // setLogo: this.setLogo,
+  // setEditing: this.setEditing,
+  // setTitle: this.setTitle,
+  // setAddress: this.setAddress,
+  // getUser: this.getUser,
+  // triggerOnChange: this.triggerOnChange,
+  // clearChanged: this.clearChanged,
+  // getTitle: this.getTitle,
+});

@@ -3,15 +3,16 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
-import createHistory from 'history/createBrowserHistory';
+
+// import createHistory from 'history/createBrowserHistory';
 // import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import { authReducer } from '$redux/auth/reducer';
-import { authSaga } from '$redux/auth/sagas';
+import { userReducer } from '$redux/user/reducer';
+import { userSaga } from '$redux/user/sagas';
 
-const authPersistConfig = {
-  key: 'auth',
-  blacklist: [],
+const userPersistConfig = {
+  key: 'user',
+  blacklist: ['editing'],
   storage,
 };
 
@@ -31,18 +32,15 @@ const composeEnhancers =
 
 export const store = createStore(
   combineReducers({
-    auth: persistReducer(authPersistConfig, authReducer),
+    user: persistReducer(userPersistConfig, userReducer),
     // routing: routerReducer
   }),
-  composeEnhancers(applyMiddleware(
-    // routerMiddleware(history),
-    sagaMiddleware
-  ))
+  composeEnhancers(applyMiddleware(/* routerMiddleware(history), */ sagaMiddleware))
 );
 
 export function configureStore() {
   // run sagas
-  sagaMiddleware.run(authSaga);
+  sagaMiddleware.run(userSaga);
 
   const persistor = persistStore(store);
 

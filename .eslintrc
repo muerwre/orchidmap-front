@@ -16,7 +16,6 @@
     "global-require": 1,
     "react/no-multi-comp": 1,
     "react/jsx-filename-extension": 0,
-    "camelcase": 1,
     "import/no-unresolved": 1,
     "import/prefer-default-export": 0,
     "import/extensions": 1,
@@ -29,7 +28,9 @@
     "jsx-a11y/no-autofocus": 0,
     "react/jsx-closing-tag-location": 0,
     "prefer-promise-reject-errors": 0,
-    "jsx-a11y/mouse-events-have-key-events": 0
+    "jsx-a11y/mouse-events-have-key-events": 0,
+    "camelcase": 0,
+    "no-trailing-spaces": 0,
   },
   "globals": {
     "document": false,
