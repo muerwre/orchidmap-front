@@ -1,4 +1,4 @@
-export const AUTH_ACTIONS = {
+export const ACTIONS = {
 
 };
 

@@ -1,5 +1,5 @@
 import { createReducer } from 'reduxsauce';
-import { AUTH_ACTIONS, EMPTY_USER } from '$redux/auth/constants';
+import { ACTIONS, EMPTY_USER } from '$redux/auth/constants';
 
 const HANDLERS = {
 

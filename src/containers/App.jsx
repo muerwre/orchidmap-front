@@ -10,6 +10,12 @@ import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
 import { getUrlData, pushPath } from '$utils/history';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { configureStore } from '$redux/store';
+
+const { store, persistor } = configureStore();
 
 export class App extends React.Component {
   state = {
@@ -68,7 +74,6 @@ export class App extends React.Component {
 
   setTitle = title => this.setState({ title });
   setAddress = address => {
-    console.log('SAT', address);
     this.setState({ address });
   };
 
@@ -204,33 +209,37 @@ export class App extends React.Component {
 
 
     return (
-      <div>
-        <Fills />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <div>
+            <Fills />
 
-        <UserLocation editor={editor} />
+            <UserLocation editor={editor} />
 
-        <UserPanel
-          editor={editor}
-          user={user}
-          setUser={this.setUser}
-          userLogout={this.userLogout}
-        />
+            <UserPanel
+              editor={editor}
+              user={user}
+              setUser={this.setUser}
+              userLogout={this.userLogout}
+            />
 
-        <EditorPanel
-          editor={editor}
-          mode={mode}
-          routerPoints={routerPoints}
-          totalDistance={totalDistance}
-          estimateTime={estimateTime}
-          activeSticker={activeSticker}
-          logo={logo}
-          user={user}
-          editing={editing}
-          title={title}
-          address={address}
-          changed={changed}
-        />
-      </div>
+            <EditorPanel
+              editor={editor}
+              mode={mode}
+              routerPoints={routerPoints}
+              totalDistance={totalDistance}
+              estimateTime={estimateTime}
+              activeSticker={activeSticker}
+              logo={logo}
+              user={user}
+              editing={editing}
+              title={title}
+              address={address}
+              changed={changed}
+            />
+          </div>
+        </PersistGate>
+      </Provider>
     );
   }
 }
