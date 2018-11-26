@@ -5,7 +5,7 @@ import { setUser } from '$redux/user/actions';
 import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 
-const getUser = state => (state.user);
+const getUser = state => (state.user.user);
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = 0;
   document.getElementById('loader').style.pointerEvents = 'none';

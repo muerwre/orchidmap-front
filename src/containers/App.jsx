@@ -1,16 +1,15 @@
 // @flow
 import React from 'react';
 
-import { Editor, editor } from '$modules/Editor';
+import { editor } from '$modules/Editor';
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { UserLocation } from '$components/UserLocation';
 import { DEFAULT_USER } from '$constants/auth';
-import { getGuestToken, checkUserToken, getStoredMap } from '$utils/api';
 import { storeData, getData } from '$utils/storage';
 import { UserPanel } from '$components/panels/UserPanel';
-import { getUrlData, pushPath } from '$utils/history';
+import { pushPath } from '$utils/history';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -19,6 +18,14 @@ import type { UserType } from '$constants/types';
 
 type Props = {
   user: UserType,
+  editing: false,
+  mode: String,
+
+  // not implemented
+  title: String,
+  address: String,
+  changed: Boolean,
+  totalDistance: Number,
 }
 
 type State = {
@@ -26,7 +33,6 @@ type State = {
   editing: Boolean,
   logo: String,
   routerPoints: Number,
-  totalDistance: Number,
   estimateTime: Number,
   activeSticker: String,
   title: String,
@@ -36,19 +42,19 @@ type State = {
 
 class Component extends React.Component<Props, State> {
   state = {
-    mode: 'none',
-    editing: false,
+    // mode: 'none',
+    // editing: false,
     logo: DEFAULT_LOGO,
     routerPoints: 0,
     totalDistance: 0,
     estimateTime: 0,
     activeSticker: null,
-    user: {
-      ...DEFAULT_USER,
-    },
-    title: '',
-    address: '',
-    changed: false,
+    // user: {
+    //   ...DEFAULT_USER,
+    // },
+    // title: '',
+    // address: '',
+    // changed: false,
   };
 
   componentDidMount() {
@@ -134,12 +140,12 @@ class Component extends React.Component<Props, State> {
   };
 
   getUser = () => this.state.user;
-
-  triggerOnChange = () => {
-    if (!this.state.editing) return;
-
-    this.setState({ changed: true });
-  };
+  //
+  // triggerOnChange = () => {
+  //   if (!this.state.editing) return;
+  //
+  //   this.setState({ changed: true });
+  // };
 
   clearChanged = () => {
     this.setState({ changed: false });
@@ -219,10 +225,10 @@ class Component extends React.Component<Props, State> {
   render() {
     const {
       state: {
-        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo, editing, title, address, changed,
+        mode, routerPoints, totalDistance, estimateTime, activeSticker, logo,  title, address, changed,
       },
       props: {
-        user,
+        user, editing,
       }
     } = this;
 
@@ -260,11 +266,15 @@ class Component extends React.Component<Props, State> {
 
 function mapStateToProps(state) {
   const {
-    user,
+    user: {
+      user,
+      editing,
+    },
   } = state;
 
   return {
-    user
+    user,
+    editing,
   };
 }
 

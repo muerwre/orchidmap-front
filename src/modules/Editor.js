@@ -9,21 +9,21 @@ import { DEFAULT_LOGO } from '$constants/logos';
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData, pushPath } from '$utils/history';
 import { store } from '$redux/store';
-import { setEditing } from '$redux/user/actions';
+import { setChanged, setDistance, setEditing, setMode } from '$redux/user/actions';
 
 export class Editor {
   constructor({
     // container,
     // mode,
-    setMode,
+    // setMode,
     setRouterPoints,
-    setTotalDist,
+    // setTotalDist,
     setActiveSticker,
     setLogo,
     // setEditing,
     setTitle,
     setAddress,
-    triggerOnChange,
+    // triggerOnChange,
     clearChanged,
     // getTitle,
   }) {
@@ -33,11 +33,11 @@ export class Editor {
     this.initialData = {};
 
     const {
-      lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
+      triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints, map: { map }
     } = this;
 
     this.poly = new Poly({
-      map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange
+      map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange
     });
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
@@ -76,12 +76,12 @@ export class Editor {
     this.clearChanged = clearChanged;
     this.setActiveSticker = setActiveSticker;
     this.setLogo = setLogo;
-    this.setMode = setMode;
+    // this.setMode = setMode;
     // this.setEditing = setEditing;
     this.setTitle = setTitle;
     this.setAddress = setAddress;
     // this.getUser = getUser;
-    this.mode = 'none';
+    this.mode = MODES.NONE;
     // this.getTitle = getTitle;
 
     map.addEventListener('mouseup', this.onClick);
@@ -89,9 +89,20 @@ export class Editor {
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
 
-  getUser = () => store.getState().user;
+  getUser = () => store.getState().user.user;
   getTitle = () => store.getState().title;
+  getEditing = () => store.getState().editing;
+
   setEditing = editing => store.dispatch(setEditing(editing));
+  setMode = mode => store.dispatch(setMode(mode));
+  setDistance = distance => store.dispatch(setDistance(distance));
+  setChanged = changed => store.dispatch(setChanged(changed));
+
+  triggerOnChange = () => {
+    if (!this.getEditing()) return;
+
+    this.setChanged(true);
+  };
 
   createStickerOnClick = (e) => {
     if (!e || !e.latlng || !this.activeSticker) return;
@@ -300,8 +311,6 @@ export class Editor {
 }
 
 export const editor = new Editor({
-  container: 'map',
-  mode: 'none',
   // setMode: this.setMode,
   // setRouterPoints: this.setRouterPoints,
   // setTotalDist: this.setTotalDist,
