@@ -1,3 +1,12 @@
+/*
+  todo hotkeys via sagas
+  todo shot mechanism
+  todo crop mechanism
+  todo map catalogue
+  todo tooltips
+
+  todo client-side shot mechanism
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 
