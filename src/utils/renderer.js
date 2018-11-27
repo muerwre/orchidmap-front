@@ -55,7 +55,7 @@ export const getTilePlacement = () => {
     maxY,
 
     shiftX: (rsw.x - msw.x),
-    shiftY: (height + (rsw.y - msw.y)),
+    shiftY: (height + (rsw.y - msw.y)) + 3,
 
     size: 256,
     width,

@@ -32,3 +32,5 @@ export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...p
 export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
 export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });
 
+export const showRenderer = () => ({ type: ACTIONS.SHOW_RENDERER });
+export const hideRenderer = () => ({ type: ACTIONS.HIDE_RENDERER });

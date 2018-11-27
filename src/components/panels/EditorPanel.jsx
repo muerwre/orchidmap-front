@@ -9,7 +9,7 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, setLogo } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing, setLogo, showRenderer } from '$redux/user/actions';
 import type { UserType } from '$constants/types';
 import { editor } from '$modules/Editor';
 import { getTilePlacement } from '$utils/renderer';
@@ -31,6 +31,7 @@ type Props = {
   startEditing: Function,
   stopEditing: Function,
   setLogo: Function,
+  showRenderer: Function,
 }
 
 class Component extends React.PureComponent<Props, void> {
@@ -108,8 +109,8 @@ class Component extends React.PureComponent<Props, void> {
 
             <button
               className={classnames('disabled', { active: mode === MODES.SHOTTER })}
-              // onClick={this.startShotterMode}
-              onClick={getTilePlacement}
+              onClick={this.props.showRenderer}
+              // onClick={getTilePlacement}
             >
               <Icon icon="icon-shot-3" />
             </button>
@@ -220,6 +221,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setLogo,
   startEditing,
   stopEditing,
+  showRenderer,
 }, dispatch);
 
 export const EditorPanel = connect(

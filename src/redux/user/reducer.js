@@ -51,6 +51,9 @@ const resetSaveDialog = state => ({
   ...state, save_overwriting: false, save_finished: false, save_processing: false, save_error: '',
 });
 
+const showRenderer = state => ({ ...state, renderer_active: true });
+const hideRenderer = state => ({ ...state, renderer_active: false });
+
 const HANDLERS = {
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -68,6 +71,9 @@ const HANDLERS = {
   [ACTIONS.SET_SAVE_SUCCESS]: setSaveSuccess,
   [ACTIONS.SEND_SAVE_REQUEST]: sendSaveRequest,
   [ACTIONS.RESET_SAVE_DIALOG]: resetSaveDialog,
+
+  [ACTIONS.SHOW_RENDERER]: showRenderer,
+  [ACTIONS.HIDE_RENDERER]: hideRenderer,
 };
 
 export const INITIAL_STATE = {
@@ -87,6 +93,8 @@ export const INITIAL_STATE = {
   save_finished: false,
   save_overwriting: false,
   save_processing: false,
+
+  renderer_active: false
 };
 
 export const userReducer = createReducer(INITIAL_STATE, HANDLERS);

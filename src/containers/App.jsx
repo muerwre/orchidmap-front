@@ -9,17 +9,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { hot } from 'react-hot-loader';
+import { Renderer } from '$components/renderer/Renderer';
+import { hideRenderer } from '$redux/user/actions';
 
-const Component = () => (
+type Props = {
+  renderer_active: Boolean,
+  hideRenderer: Function,
+}
+
+const Component = (props: Props) => (
   <div>
     <Fills />
     <UserLocation />
     <UserPanel />
     <EditorPanel />
+    {
+      props.renderer_active &&
+        <Renderer onClick={props.hideRenderer} />
+    }
   </div>
 );
 
 
-const mapStateToProps = () => ({});
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapStateToProps = ({ user }) => ({
+  renderer_active: user.renderer_active
+});
+const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer }, dispatch);
 export const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(Component));
