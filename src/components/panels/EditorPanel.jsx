@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { setMode, startEditing, stopEditing, setLogo } from '$redux/user/actions';
 import type { UserType } from '$constants/types';
 import { editor } from '$modules/Editor';
+import { getTilePlacement } from '$utils/renderer';
 
 type Props = {
   user: UserType,
@@ -108,6 +109,7 @@ class Component extends React.PureComponent<Props, void> {
             <button
               className={classnames('disabled', { active: mode === MODES.SHOTTER })}
               // onClick={this.startShotterMode}
+              onClick={getTilePlacement}
             >
               <Icon icon="icon-shot-3" />
             </button>
