@@ -12,8 +12,9 @@ export const TrashDialog = ({
   clearPoly, clearStickers, clearAll, clearCancel
 }: Props) => (
   <div className="helper trash-helper">
-    <div className="helper__text">
-      <div className="big white upper">Уверены?</div>
+    <div className="helper__text danger">
+      <Icon icon="icon-trash-4" />
+      <div className="big upper">Уверены?</div>
     </div>
     <div className="helper__buttons">
       <div className="button-group">
@@ -23,7 +24,7 @@ export const TrashDialog = ({
         <div className="button router-helper__button" onClick={clearStickers}>
           Стикеры
         </div>
-        <div className="button danger router-helper__button" onClick={clearAll}>
+        <div className="button router-helper__button" onClick={clearAll}>
           Удалить все
         </div>
       </div>

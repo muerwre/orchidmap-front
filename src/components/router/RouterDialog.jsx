@@ -27,7 +27,7 @@ const firstPoint = ({ routerCancel }: Props) => (
   <div className="helper router-helper">
     <div className="helper__text">
       <Icon icon="icon-pin-1" />
-      <div className="big white upper">Теперь - следующую</div>
+      <div className="big white upper">УКАЖИТЕ СЛЕДУЮЩУЮ ТОЧКУ</div>
     </div>
     <div className="helper__buttons">
       <div className="button router-helper__button" onClick={routerCancel}>
