@@ -28,15 +28,15 @@ function* generateGuestSaga() {
 function* startEmptyEditorSaga() {
   const { id, random_url } = yield select(getUser);
 
-  console.log('RURL', random_url);
   pushPath(`/${random_url}/edit`);
 
   editor.owner = id;
   editor.startEditing();
 
-  return hideLoader();
+  yield put(setChanged(false));
+  yield put(setEditing(true));
 
-  // todo: this.clearChanged();
+  return hideLoader();
 }
 
 function* startEditingSaga() {
@@ -54,8 +54,11 @@ function* stopEditingSaga() {
   }
 
   yield editor.cancelEditing();
-  yield put(setEditing(false));
   yield put(setMode(MODES.NONE));
+
+  yield put(setChanged(false));
+
+  yield put(setEditing(editor.hasEmptyHistory())); // don't close editor if no previous map
 }
 
 function* mapInitSaga() {
