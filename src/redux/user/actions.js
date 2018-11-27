@@ -26,7 +26,7 @@ export const clearAll = () => ({ type: ACTIONS.CLEAR_ALL });
 export const clearCancel = () => ({ type: ACTIONS.CLEAR_CANCEL });
 
 export const sendSaveRequest = payload => ({ type: ACTIONS.SEND_SAVE_REQUEST, ...payload });
-export const cancelSaveRequest = () => ({ type: ACTIONS.CANCEL_SAVE_REQUEST });
+export const resetSaveDialog = () => ({ type: ACTIONS.RESET_SAVE_DIALOG });
 
 export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...payload });
 export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });

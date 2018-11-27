@@ -54,7 +54,7 @@ class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      mode, routerPoints, distance, estimated, activeSticker, logo, user, editing, title, address,
+      mode, distance, estimated, changed, logo, editing,
     } = this.props;
 
     return (
@@ -130,14 +130,14 @@ class Component extends React.PureComponent<Props, void> {
 
           <div className="control-bar">
             <button
-              className="highlighted  cancel"
+              className="highlighted cancel"
               onClick={this.props.stopEditing}
             >
               <Icon icon="icon-cancel-1" />
             </button>
 
             <button
-              className="primary"
+              className={classnames({ primary: changed, disabled: !changed })}
               onClick={this.startSaveMode}
             >
               <span>СХОРОНИТЬ</span>

@@ -195,7 +195,7 @@ function* sendSaveRequestSaga({ title, address, force }) {
       id, token, route, stickers, title, force, address
     }),
     timeout: delay(10000),
-    cancel: take(ACTIONS.CANCEL_SAVE_REQUEST),
+    cancel: take(ACTIONS.RESET_SAVE_DIALOG),
   });
 
   if (cancel) return yield put(setMode(MODES.NONE));

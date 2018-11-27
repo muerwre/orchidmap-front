@@ -10,13 +10,13 @@ import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData, pushPath } from '$utils/history';
 import { store } from '$redux/store';
 import {
+  resetSaveDialog,
   setActiveSticker, setAddress,
   setChanged,
   setDistance,
-  setEditing,
-  setLogo, setMode,
+  setMode,
   setRouterPoints,
-  setTitle
+  setTitle,
 } from '$redux/user/actions';
 
 export class Editor {
@@ -67,6 +67,9 @@ export class Editor {
       },
       [MODES.LOGO]: {
         toggle: this.clearMode,
+      },
+      [MODES.SAVE]: {
+        stop: this.resetSaveDialog,
       }
     };
 
@@ -98,14 +101,19 @@ export class Editor {
   getDistance = () => store.getState().user.distance;
 
   setMode = value => store.dispatch(setMode(value));
-  setChanged = value => store.dispatch(setChanged(value));
   setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker = value => store.dispatch(setActiveSticker(value));
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
 
+  resetSaveDialog = () => store.dispatch(resetSaveDialog());
+
   setDistance = value => {
     if (this.getDistance() !== value) store.dispatch(setDistance(value));
+  };
+
+  setChanged = value => {
+    if (this.getChanged() !== value) store.dispatch(setChanged(value));
   };
 
   clearMode = () => this.setMode(MODES.NONE);

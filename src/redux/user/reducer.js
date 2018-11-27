@@ -3,6 +3,7 @@ import { ACTIONS } from '$redux/user/constants';
 import { DEFAULT_USER } from '$constants/auth';
 import { MODES } from '$constants/modes';
 import { DEFAULT_LOGO } from '$constants/logos';
+import { TIPS } from '$constants/tips';
 
 const getEstimated = distance => {
   const time = (distance && (distance / 15)) || 0;
@@ -18,9 +19,7 @@ const setUser = (state, { user }) => ({
 });
 
 const setEditing = (state, { editing }) => ({ ...state, editing });
-const setChanged = (state, { changed }) => ({
-  ...state, changed, ...state, save_overwriting: false, save_finished: false, save_processing: false, save_error: '',
-});
+const setChanged = (state, { changed }) => ({ ...state, changed });
 const setMode = (state, { mode }) => ({ ...state, mode });
 const setDistance = (state, { distance }) => ({
   ...state,
@@ -39,11 +38,17 @@ const sendSaveRequest = state => ({ ...state, save_processing: true, });
 const setSaveError = (state, { save_error }) => ({
   ...state, save_error, save_finished: false, save_processing: false
 });
+
 const setSaveOverwrite = state => ({
-  ...state, save_overwriting: true, save_finished: false, save_processing: false
+  ...state, save_overwriting: true, save_finished: false, save_processing: false, save_error: TIPS.SAVE_OVERWRITE,
 });
+
 const setSaveSuccess = (state, { save_error }) => ({
   ...state, save_overwriting: false, save_finished: true, save_processing: false, save_error
+});
+
+const resetSaveDialog = state => ({
+  ...state, save_overwriting: false, save_finished: false, save_processing: false, save_error: '',
 });
 
 const HANDLERS = {
@@ -62,6 +67,7 @@ const HANDLERS = {
   [ACTIONS.SET_SAVE_OVERWRITE]: setSaveOverwrite,
   [ACTIONS.SET_SAVE_SUCCESS]: setSaveSuccess,
   [ACTIONS.SEND_SAVE_REQUEST]: sendSaveRequest,
+  [ACTIONS.RESET_SAVE_DIALOG]: resetSaveDialog,
 };
 
 export const INITIAL_STATE = {
@@ -73,7 +79,7 @@ export const INITIAL_STATE = {
   distance: 0,
   estimated: 0,
   activeSticker: null,
-  title: 0,
+  title: '',
   address: '',
   changed: false,
 
