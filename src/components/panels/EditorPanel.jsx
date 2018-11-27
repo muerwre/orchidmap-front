@@ -73,7 +73,7 @@ class Component extends React.PureComponent<Props, void> {
         </div>
 
         <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
-          <div className="control-bar">
+          <div className="control-bar control-bar-padded">
             <button
               className={classnames({ active: mode === MODES.ROUTER })}
               onClick={this.startRouterMode}
@@ -84,39 +84,45 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ active: mode === MODES.POLY })}
               onClick={this.startPolyMode}
             >
-              <Icon icon="icon-poly-2" />
+              <Icon icon="icon-poly-3" />
             </button>
             <button
               className={classnames({ active: mode === MODES.STICKERS })}
               onClick={this.startStickerMode}
             >
-              <Icon icon="icon-sticker-2" />
+              <Icon icon="icon-sticker-3" />
             </button>
 
           </div>
 
           <div className="control-sep" />
 
-          <div className="control-bar">
-            <button
-              className={classnames({ active: mode === MODES.SHOTTER })}
-              onClick={this.startShotterMode}
-            >
-              <Icon icon="icon-shot-2" />
-            </button>
-
+          <div className="control-bar control-bar-padded">
             <button
               className={classnames({ active: mode === MODES.TRASH })}
               onClick={this.startTrashMode}
             >
-              <Icon icon="icon-trash-2" />
+              <Icon icon="icon-trash-4" />
+            </button>
+
+            <button
+              className={classnames('disabled', { active: mode === MODES.SHOTTER })}
+              // onClick={this.startShotterMode}
+            >
+              <Icon icon="icon-shot-3" />
+            </button>
+
+            <button
+              className={classnames('disabled', { active: mode === MODES.LOGO })}
+            >
+              <Icon icon="icon-map-1" />
             </button>
 
             <button
               className={classnames({ active: mode === MODES.LOGO })}
               onClick={this.startLogoMode}
             >
-              <Icon icon="icon-logo-2" />
+              <Icon icon="icon-logo-3" />
             </button>
           </div>
 
@@ -127,7 +133,7 @@ class Component extends React.PureComponent<Props, void> {
               className="highlighted  cancel"
               onClick={this.props.stopEditing}
             >
-              <span>ОТМЕНА</span>
+              <Icon icon="icon-cancel-1" />
             </button>
 
             <button
@@ -135,7 +141,7 @@ class Component extends React.PureComponent<Props, void> {
               onClick={this.startSaveMode}
             >
               <span>СХОРОНИТЬ</span>
-              <Icon icon="icon-save-2" />
+              <Icon icon="icon-check-1" />
             </button>
           </div>
 

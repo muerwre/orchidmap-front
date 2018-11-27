@@ -71,6 +71,7 @@
     "scrypt": "^6.0.3",
     "styled-components": "^3.2.6",
     "styled-theming": "^2.2.0",
+    "typeface-pt-sans": "0.0.54",
     "webpack-git-hash": "^1.0.2"
   },
   "flow-coverage-report": {

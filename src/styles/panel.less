@@ -1,8 +1,12 @@
 .control-bar {
   background: @bar_background;
-  border-radius: 4px;
+  border-radius: @panel_radius;
   display: flex;
   box-shadow: @bar_shadow;
+}
+
+.control-bar-padded {
+  padding: 0 5px;
 }
 
 .control-dist {
@@ -78,17 +82,23 @@
     }
 
     &:first-child {
-      border-radius: 4px 0 0 4px;
+      border-radius: @panel_radius 0 0 @panel_radius;
     }
 
     &:last-child {
-      border-radius: 0 4px 4px 0;
+      border-radius: 0 @panel_radius @panel_radius 0;
     }
 
     &.active {
       svg {
         fill: url(#activeButtonGradient);
         stroke: url(#activeButtonGradient);
+      }
+    }
+
+    &.disabled {
+      svg {
+        fill: #999999;
       }
     }
 
@@ -151,13 +161,29 @@
   // width: 500px;
   padding: 12px;
   font-weight: 200;
-  font-size: 14px;
+  font-size: 1em;
   display: flex;
 }
 
 
 .helper__text {
   width: 100%;
+  display: flex;
+  align-items: center;
+
+  svg {
+    fill: white;
+    width: 24px;
+    margin-right: 6px;
+  }
+
+  &.success {
+    color: @color_success;
+
+    svg {
+      fill: @color_success;
+    }
+  }
 }
 
 .helper__buttons {

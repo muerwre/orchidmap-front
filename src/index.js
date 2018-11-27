@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import { App } from '$containers/App';
 import '$styles/main.less';
 
-import 'raleway-cyrillic/raleway.css';
+// import 'raleway-cyrillic/raleway.css';
+// import 'typeface-pt-sans';
 
 import { Provider } from 'react-redux';
 // import { ConnectedRouter } from 'react-router-redux';
