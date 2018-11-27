@@ -95,20 +95,23 @@ export class Editor {
   getEditing = () => store.getState().user.editing;
   getChanged = () => store.getState().user.changed;
   getRouterPoints = () => store.getState().user.routerPoints;
+  getDistance = () => store.getState().user.distance;
 
   setMode = value => store.dispatch(setMode(value));
-  setDistance = value => store.dispatch(setDistance(value));
   setChanged = value => store.dispatch(setChanged(value));
   setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker = value => store.dispatch(setActiveSticker(value));
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
 
+  setDistance = value => {
+    if (this.getDistance() !== value) store.dispatch(setDistance(value));
+  };
+
   clearMode = () => this.setMode(MODES.NONE);
   clearChanged = () => store.dispatch(setChanged(false));
 
   startPoly = () => {
-    console.log(this.getRouterPoints());
     if (this.getRouterPoints()) this.router.clearAll();
 
     this.poly.continue();
@@ -121,16 +124,15 @@ export class Editor {
   };
 
   createStickerOnClick = (e) => {
-    // todo: move to sagas?
     if (!e || !e.latlng || !this.activeSticker) return;
     const { latlng } = e;
 
     this.stickers.createSticker({ latlng, sticker: this.activeSticker });
     this.setActiveSticker(null);
+    this.setChanged(true);
   };
 
   changeMode = mode => {
-    // todo: check if TOGGLING works (we changing MODE from the sagas now)
     if (this.mode === mode) {
       if (this.switches[mode] && this.switches[mode].toggle) {
         // if we have special function on mode when it clicked again
@@ -202,14 +204,9 @@ export class Editor {
   };
 
   clearAll = () => {
-    // todo: move to sagas
     this.poly.clearAll();
     this.router.clearAll();
     this.stickers.clearAll();
-
-    // this.setActiveSticker(null);
-    // this.setMode(MODES.NONE);
-    // this.clearChanged();
   };
 
 
@@ -308,11 +305,17 @@ export class Editor {
   //   return (route.length > 1 && stickers.length > 0);
   // };
 
+  isEmpty = () => {
+    const { route, stickers } = this.dumpData();
+
+    return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
+  };
+
   hasEmptyHistory = () => {
     const { route, stickers } = this.initialData;
 
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
-  }
+  };
 }
 
 export const editor = new Editor({});

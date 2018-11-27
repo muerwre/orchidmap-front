@@ -11,7 +11,6 @@ import { CancelDialog } from '$components/save/CancelDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-
 import {
   setMode,
   setLogo,
@@ -24,12 +23,13 @@ import {
   clearCancel,
   stopEditing,
   setEditing,
+  sendSaveRequest,
 } from '$redux/user/actions';
 
 type Props = {
   mode: String,
   activeSticker: String,
-  windth: Number,
+  width: Number,
 }
 
 export const Component = (props: Props) => {
@@ -83,6 +83,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   stopEditing,
   setEditing,
   setMode,
+  sendSaveRequest,
 }, dispatch);
 
 export const EditorDialog = connect(

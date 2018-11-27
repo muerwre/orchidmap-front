@@ -1,5 +1,4 @@
 .save-helper {
-  width: 443px;
   padding: 0;
   flex-direction: column;
 }
@@ -7,9 +6,9 @@
 .save-title {
   padding: 10px;
   width: 100%;
-  background: linear-gradient(160deg, @green_primary, @green_secondary);
+  background: linear-gradient(150deg, @green_primary, @green_secondary);
   flex-direction: column;
-  border-radius: 3px 3px 0 0;
+  border-radius: @panel_radius @panel_radius 0 0;
   font-weight: 200;
   box-sizing: border-box;
 }
@@ -19,8 +18,8 @@
 }
 
 .save-title-input {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: @panel_radius;
   display: flex;
 
   input {
@@ -72,11 +71,18 @@
 
 .save-text {
   padding: 10px;
+  line-height: 1.1em;
+  min-height: 2.2em;
 }
 
 .save-buttons {
   display: flex;
-  padding: 10px;
+  padding: 0px;
+  margin-top: 20px;
+
+  .button {
+    margin-left: 10px;
+  }
 }
 
 .save-buttons-text {

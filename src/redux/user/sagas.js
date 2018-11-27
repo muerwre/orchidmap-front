@@ -1,12 +1,22 @@
 import { REHYDRATE } from 'redux-persist';
-import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
-import { checkUserToken, getGuestToken, getStoredMap } from '$utils/api';
-import { setActiveSticker, setChanged, setEditing, setMode, setUser } from '$redux/user/actions';
+import { delay } from 'redux-saga';
+import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
+import { checkUserToken, getGuestToken, getStoredMap, postMap } from '$utils/api';
+import {
+  setActiveSticker, setAddress,
+  setChanged,
+  setEditing,
+  setMode,
+  setSaveError,
+  setSaveOverwrite, setSaveSuccess, setTitle,
+  setUser
+} from '$redux/user/actions';
 import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
 import { DEFAULT_USER } from '$constants/auth';
+import { TIPS } from '$constants/tips';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -172,6 +182,41 @@ function* clearSaga({ type }) {
   yield put(setMode(MODES.NONE));
 }
 
+function* sendSaveRequestSaga({ title, address, force }) {
+  if (editor.isEmpty()) {
+    return yield put(setSaveError(TIPS.SAVE_EMPTY));
+  }
+
+  const { route, stickers } = editor.dumpData();
+  const { id, token } = yield select(getUser);
+
+  const { result, timeout, cancel } = yield race({
+    result: postMap({
+      id, token, route, stickers, title, force, address
+    }),
+    timeout: delay(10000),
+    cancel: take(ACTIONS.CANCEL_SAVE_REQUEST),
+  });
+
+  if (cancel) return yield put(setMode(MODES.NONE));
+  if (result && result.mode === 'overwriting') return yield put(setSaveOverwrite());
+  if (timeout || !result || !result.success || !result.address) return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
+
+  return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title }));
+}
+
+function* setSaveSuccessSaga({ address, title }) {
+  const { id } = yield select(getUser);
+
+  pushPath(`/${address}/edit`);
+  yield put(setTitle(title));
+  yield put(setAddress(address));
+  // yield editor.setAddress(address);
+  yield editor.owner = id;
+
+  return yield editor.setInitialData();
+}
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 
@@ -194,4 +239,6 @@ export function* userSaga() {
     ACTIONS.CLEAR_CANCEL,
   ], clearSaga);
 
+  yield takeLatest(ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
+  yield takeLatest(ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
 }

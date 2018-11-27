@@ -1,7 +1,7 @@
 import { ACTIONS } from '$redux/user/constants';
 
 export const setUser = user => ({ type: ACTIONS.SET_USER, user });
-export const userLogout = user => ({ type: ACTIONS.USER_LOGOUT });
+export const userLogout = () => ({ type: ACTIONS.USER_LOGOUT });
 
 
 export const setEditing = editing => ({ type: ACTIONS.SET_EDITING, editing });
@@ -24,3 +24,11 @@ export const clearPoly = () => ({ type: ACTIONS.CLEAR_POLY });
 export const clearStickers = () => ({ type: ACTIONS.CLEAR_STICKERS });
 export const clearAll = () => ({ type: ACTIONS.CLEAR_ALL });
 export const clearCancel = () => ({ type: ACTIONS.CLEAR_CANCEL });
+
+export const sendSaveRequest = payload => ({ type: ACTIONS.SEND_SAVE_REQUEST, ...payload });
+export const cancelSaveRequest = () => ({ type: ACTIONS.CANCEL_SAVE_REQUEST });
+
+export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...payload });
+export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
+export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });
+
