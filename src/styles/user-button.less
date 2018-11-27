@@ -56,7 +56,7 @@
   font-size: 12px;
   opacity: 0.5;
   padding-top: 2px;
-  font-weight: 200;
+  font-weight: 500;
 }
 
 
@@ -66,12 +66,12 @@
 
 .user-panel-menu {
   position: absolute;
-  bottom: 45px;
+  bottom: 58px;
   left: 0;
-  width: 100%;
+  width: 219px;
   background: @dialog_background;
-  border-radius: 3px;
-  padding: 0 0 3px 0;
+  border-radius: @panel_radius;
+  padding: 0;
   box-sizing: border-box;
   z-index: -1
 }
@@ -88,7 +88,6 @@
   display: block;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   text-decoration: none;
-  font-weight: 200;
 
   &:first-child::after {
     border-radius: 3px 3px 0 0;

@@ -44,10 +44,12 @@ export class Editor {
 
     this.switches = {
       [MODES.POLY]: {
-        start: this.poly.continue,
+        start: this.startPoly,
         stop: this.poly.stop,
+        toggle: this.clearMode,
       },
       [MODES.ROUTER]: {
+        toggle: this.clearMode,
         start: this.routerSetStart,
       },
       [MODES.SHOTTER]: {
@@ -57,10 +59,14 @@ export class Editor {
         toggle: this.clearSticker,
       },
       [MODES.TRASH]: {
-        toggle: this.clearAll,
+        // toggle: this.clearAll,
+        toggle: this.clearMode,
       },
       [MODES.CONFIRM_CANCEL]: {
         toggle: this.cancelEditing,
+      },
+      [MODES.LOGO]: {
+        toggle: this.clearMode,
       }
     };
 
@@ -88,17 +94,25 @@ export class Editor {
   getTitle = () => store.getState().user.title;
   getEditing = () => store.getState().user.editing;
   getChanged = () => store.getState().user.changed;
+  getRouterPoints = () => store.getState().user.routerPoints;
 
   setMode = value => store.dispatch(setMode(value));
   setDistance = value => store.dispatch(setDistance(value));
   setChanged = value => store.dispatch(setChanged(value));
   setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker = value => store.dispatch(setActiveSticker(value));
-  setLogo = value => store.dispatch(setLogo(value));
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
 
+  clearMode = () => this.setMode(MODES.NONE);
   clearChanged = () => store.dispatch(setChanged(false));
+
+  startPoly = () => {
+    console.log(this.getRouterPoints());
+    if (this.getRouterPoints()) this.router.clearAll();
+
+    this.poly.continue();
+  };
 
   triggerOnChange = () => {
     if (!this.getEditing() || this.getChanged()) return;

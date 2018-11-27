@@ -46,9 +46,19 @@ export const Component = (props: Props) => {
     || mode === MODES.CONFIRM_CANCEL
   );
 
+  const dialogIsSmall = (
+    mode === MODES.LOGO
+  );
+
   return (
     showDialog &&
-      <div id="control-dialog" style={{ width }}>
+      <div
+        id="control-dialog"
+        style={{
+          width: dialogIsSmall ? 201 : width,
+          right: dialogIsSmall ? 217 : 10,
+        }}
+      >
         { mode === MODES.ROUTER && <RouterDialog {...props} /> }
         { mode === MODES.STICKERS && <StickersDialog {...props} /> }
         { mode === MODES.TRASH && <TrashDialog {...props} /> }

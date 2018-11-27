@@ -14,7 +14,7 @@ export const TrashDialog = ({
   <div className="helper trash-helper">
     <div className="helper__text danger">
       <Icon icon="icon-trash-4" />
-      <div className="big upper">Уверены?</div>
+      <div className="big upper">Удалить:</div>
     </div>
     <div className="helper__buttons">
       <div className="button-group">

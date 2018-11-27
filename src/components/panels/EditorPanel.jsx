@@ -150,10 +150,10 @@ class Component extends React.PureComponent<Props, void> {
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
             <button
-              className={classnames({ active: mode === MODES.SHOTTER })}
+              className={classnames('disabled', { active: mode === MODES.SHOTTER })}
               onClick={this.startShotterMode}
             >
-              <Icon icon="icon-shot-2" />
+              <Icon icon="icon-shot-3" />
               <span>
                 СНИМОК
               </span>

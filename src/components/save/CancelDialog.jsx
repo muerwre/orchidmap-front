@@ -2,6 +2,7 @@ import React from 'react';
 
 import { MODES } from '$constants/modes';
 import { editor } from '$modules/Editor';
+import { Icon } from '$components/panels/Icon';
 
 type Props = {
   stopEditing: Function,
@@ -24,12 +25,12 @@ export class CancelDialog extends React.Component<Props, void> {
   render() {
     return (
       <div className="helper cancel-helper">
-        <div className="helper__text">
-          <div className="big white">Изменения не сохранены!</div>
-          <div className="small gray">Закрыть редактор?</div>
+        <div className="helper__text danger">
+          <Icon icon="icon-cancel-1" />
+          <div className="big upper">Закрыть редактор?</div>
         </div>
         <div className="helper__buttons">
-          <div className="button danger router-helper__button" onClick={this.cancel}>
+          <div className="button router-helper__button" onClick={this.cancel}>
             Удалить измения
           </div>
 

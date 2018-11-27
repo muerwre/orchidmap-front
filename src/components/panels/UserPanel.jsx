@@ -87,6 +87,18 @@ export class Component extends React.PureComponent<Props, void> {
               <UserMenu user={user} userLogout={this.props.userLogout} />
             }
           </div>
+
+          <div className="control-sep" />
+
+          <div className="control-bar">
+            <button
+              className="disabled"
+              // className={classnames({ active: mode === MODES.SHOTTER })}
+              // onClick={this.startShotterMode}
+            >
+              <Icon icon="icon-shot-3" />
+            </button>
+          </div>
         </div>
       </div>
     );
