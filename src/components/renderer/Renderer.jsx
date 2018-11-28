@@ -16,15 +16,20 @@ type Props = {
 };
 
 type State = {
-
+  opacity: Number,
 };
 
 class Component extends React.Component<Props, State> {
+  state = {
+    opacity: 0,
+  };
+
   onImageLoaded = () => {
     this.croppr = new Croppr(this.image, {
-      onCropMove: this.moveLogo,
       onInitialize: this.onCropInit,
     });
+
+    this.setState({ opacity: 1 });
   };
 
   componentWillUnmount() {
@@ -32,12 +37,8 @@ class Component extends React.Component<Props, State> {
   }
 
   onCropInit = (crop) => {
-
-
     const { regionEl, box } = crop;
     const scale = ((box.x2 - box.x1) / window.innerWidth);
-
-    console.log('CROP', crop, scale);
 
     this.logo = document.createElement('div');
     this.logo.className = 'renderer-logo';
@@ -50,20 +51,13 @@ class Component extends React.Component<Props, State> {
     regionEl.append(this.logo);
   };
 
-  moveLogo = ({ x, y, width, height }) => {
-    if (!this.logo) return;
-
-    this.logo.style.color = 'blue';
-  };
-
   croppr;
 
-  getImage = () => {
-    this.props.cropAShot(this.croppr.getValue());
-  };
+  getImage = () => this.props.cropAShot(this.croppr.getValue());
 
   render() {
     const { data } = this.props;
+    const { opacity } = this.state;
     const { innerWidth, innerHeight } = window;
     const padding = 30;
     const paddingBottom = 80;
@@ -80,13 +74,10 @@ class Component extends React.Component<Props, State> {
       <div>
         <div
           className="renderer-shade"
-          style={{
-            padding,
-            paddingBottom,
-          }}
+          style={{ padding, paddingBottom }}
         >
           <div
-            style={{ width, height }}
+            style={{ width, height, opacity }}
           >
             <img
               src={data}
@@ -121,6 +112,7 @@ class Component extends React.Component<Props, State> {
               onClick={this.props.hideRenderer}
             >
               <Icon icon="icon-cancel-1" />
+              <span>Отмена</span>
             </button>
 
             <button

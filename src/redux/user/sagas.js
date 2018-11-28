@@ -264,10 +264,13 @@ function* getCropData({
   canvas.height = height;
   const ctx = canvas.getContext('2d');
   const image = yield imageFetcher(data);
-  const logoImage = yield imageFetcher(LOGOS[logo][1]);
 
   ctx.drawImage(image, -x, -y);
-  ctx.drawImage(logoImage, width - logoImage.width, height - logoImage.height);
+
+  if (logo && LOGOS[logo][1]) {
+    const logoImage = yield imageFetcher(LOGOS[logo][1]);
+    ctx.drawImage(logoImage, width - logoImage.width, height - logoImage.height);
+  }
 
   return yield canvas.toDataURL('image/jpeg');
 }

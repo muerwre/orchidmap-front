@@ -104,14 +104,6 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
-              className={classnames('disabled', { active: mode === MODES.SHOTTER })}
-              onClick={this.props.takeAShot}
-              // onClick={getTilePlacement}
-            >
-              <Icon icon="icon-shot-3" />
-            </button>
-
-            <button
               className={classnames('disabled', { active: mode === MODES.LOGO })}
             >
               <Icon icon="icon-map-1" />
@@ -147,20 +139,6 @@ class Component extends React.PureComponent<Props, void> {
         </div>
 
         <div className={classnames('panel right', { active: !editing })}>
-          <div className="control-bar">
-            <button
-              className={classnames('disabled', { active: mode === MODES.SHOTTER })}
-              onClick={this.startShotterMode}
-            >
-              <Icon icon="icon-shot-3" />
-              <span>
-                СНИМОК
-              </span>
-            </button>
-          </div>
-
-          <div className="control-sep" />
-
           <div className="control-bar">
             <button className="primary single" onClick={this.props.startEditing}>
               <Icon icon="icon-route-2" />

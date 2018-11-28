@@ -5,18 +5,17 @@ import { SERVER } from '$constants/api';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout } from '$redux/user/actions';
+import { setUser, userLogout, takeAShot } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
-import { MODES } from '$constants/modes';
-import classnames from 'classnames';
 import { Icon } from '$components/panels/Icon';
 
 type Props = {
   user: UserType,
   userLogout: Function,
   setUser: Function,
+  takeAShot: Function,
 };
 
 export class Component extends React.PureComponent<Props, void> {
@@ -92,9 +91,7 @@ export class Component extends React.PureComponent<Props, void> {
 
           <div className="control-bar">
             <button
-              className="disabled"
-              // className={classnames({ active: mode === MODES.SHOTTER })}
-              // onClick={this.startShotterMode}
+              onClick={this.props.takeAShot}
             >
               <Icon icon="icon-shot-3" />
             </button>
@@ -107,6 +104,6 @@ export class Component extends React.PureComponent<Props, void> {
 
 
 const mapStateToProps = ({ user: { user } }) => ({ user });
-const mapDispatchToProps = dispatch => bindActionCreators({ setUser, userLogout }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setUser, userLogout, takeAShot }, dispatch);
 
 export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);
