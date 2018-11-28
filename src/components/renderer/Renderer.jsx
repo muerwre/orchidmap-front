@@ -15,10 +15,14 @@ export class Renderer extends React.Component {
     this.fetchImages(ctx, geometry)
       .then(images => this.composeImages({ geometry, images, ctx }))
       .then(() => this.composePoly({ geometry, points, ctx }))
+      .then(() => this.canvas.toDataURL('image/jpeg'))
+      .then(image => window.open().document.write(`<img src="${image}" />`))
   }
 
   fetchImages = (ctx, geometry) => {
-    const { minX, maxX, minY, maxY, zoom } = geometry;
+    const {
+      minX, maxX, minY, maxY, zoom
+    } = geometry;
 
     const images = [];
     for (let x = minX; x <= maxX; x += 1) {
@@ -34,6 +38,7 @@ export class Renderer extends React.Component {
 
   imageFetcher = source => new Promise((resolve, reject) => {
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
     img.onerror = () => reject(img);
 
@@ -88,6 +93,8 @@ export class Renderer extends React.Component {
     ctx.strokeStyle = gradient;
     ctx.stroke();
     ctx.closePath();
+
+    return true;
   };
 
   render() {
