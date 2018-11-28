@@ -20,8 +20,6 @@ const tileToLatLng = point => {
   return { lat, lng };
 };
 
-window.tileToLatLng = tileToLatLng;
-
 export const getTilePlacement = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -39,43 +37,20 @@ export const getTilePlacement = () => {
 
   // actual coords of file's corners (they're shifted from view)
   const southWestTileCoords = tileToLatLng(southWestTile);
-  const northEastTileCoords = tileToLatLng(northEastTile);
-
-  // console.log({ southWestTileCoords, northEastTileCoords });
-
-  const rsw = map.latLngToContainerPoint(southWestTileCoords);
-  const msw = map.latLngToContainerPoint(southWest);
 
   const tileTransformTranslate = map.latLngToLayerPoint(southWestTileCoords);
   const msw2 = map.latLngToLayerPoint(southWest);
 
-  console.log({ rsw, msw, tileTransformTranslate, msw2, });
-  // console.log({x: rsw.x-msw.x, y: h+rsw.y-msw.y, orig_x: sw.x, orig_y: sw.y})
-  // console.log('going from '+sw.x+','+sw.y+' to '+ne.x+','+ne.y+' shift '+(rsw.x-msw.x)+','+(h+rsw.y-msw.y));
-  // console.log('original shift: '+map.latLngToContainerPoint(original_shift))
-  const data = {
+  return {
     minX,
     maxX,
     minY,
     maxY,
-
-    // shiftX: (rsw.x - msw.x),
-    // shiftY: (height + (rsw.y - msw.y)),
-
     shiftX: tileTransformTranslate.x - msw2.x,
     shiftY: window.innerHeight + (tileTransformTranslate.y - msw2.y),
-    // shiftY: 815,
-
-
     size: 256,
     width,
     height,
-
     zoom,
-    // provider: current_map_style
   };
-
-  console.log('DATA IS', data);
-
-  return data;
 };

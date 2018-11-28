@@ -12,12 +12,6 @@ export class Renderer extends React.Component {
 
     this.fetchImages(ctx, geometry)
       .then(images => this.composeImages({ geometry, images, ctx }));
-
-    // myimage = new Image();
-    // myimage.onload = function() {
-    //   ctx.drawImage(myimage, x, y);
-    // }
-    // myimage.src = 'http://myserver/nextimage.cgi';
   }
 
   fetchImages = (ctx, geometry) => {
@@ -60,12 +54,13 @@ export class Renderer extends React.Component {
 
       return ctx.drawImage(image, posX, posY, 256, 256);
     });
+
   };
 
   render() {
     return (
       <div className="renderer-shade" onClick={this.props.onClick}>
-        <canvas width={window.innerWidth} height={window.innerWidth} ref={el => { this.canvas = el; }} />
+        <canvas width={window.innerWidth} height={window.innerHeight} ref={el => { this.canvas = el; }} />
       </div>
     );
   }
