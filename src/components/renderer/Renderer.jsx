@@ -7,6 +7,7 @@ import Croppr from 'croppr';
 import 'croppr/dist/croppr.css';
 import { Icon } from '$components/panels/Icon';
 import { LOGOS } from '$constants/logos';
+import { RendererPanel } from '$components/panels/RendererPanel';
 
 type Props = {
   data: String,
@@ -45,7 +46,7 @@ class Component extends React.Component<Props, State> {
     this.logo.style.transform = `scale(${scale})`;
 
     this.logoImg = document.createElement('img');
-    this.logoImg.src = LOGOS[this.props.logo][1];
+    if (this.props.logo && LOGOS[this.props.logo][1]) this.logoImg.src = LOGOS[this.props.logo][1];
 
     this.logo.append(this.logoImg);
     regionEl.append(this.logo);
@@ -89,41 +90,10 @@ class Component extends React.Component<Props, State> {
           </div>
         </div>
 
-        <div
-          className="panel active"
-          style={{
-            zIndex: 1000,
-            left: '50%',
-            right: 'auto',
-            transform: 'translateX(-50%)',
-          }}
-        >
-          <div className="control-bar control-bar-padded">
-            <button>
-              <Icon icon="icon-logo-3" />
-            </button>
-          </div>
-
-          <div className="control-sep" />
-
-          <div className="control-bar">
-            <button
-              className="highlighted cancel"
-              onClick={this.props.hideRenderer}
-            >
-              <Icon icon="icon-cancel-1" />
-              <span>Отмена</span>
-            </button>
-
-            <button
-              className="success"
-              onClick={this.getImage}
-            >
-              <span>СКАЧАТЬ</span>
-              <Icon icon="icon-get-1" />
-            </button>
-          </div>
-        </div>
+        <RendererPanel
+          onCancel={this.props.hideRenderer}
+          onSubmit={this.getImage}
+        />
       </div>
     );
   }

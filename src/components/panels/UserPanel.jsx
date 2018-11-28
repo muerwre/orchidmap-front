@@ -93,7 +93,7 @@ export class Component extends React.PureComponent<Props, void> {
             <button
               onClick={this.props.takeAShot}
             >
-              <Icon icon="icon-shot-3" />
+              <Icon icon="icon-shot-2" />
             </button>
           </div>
         </div>

@@ -4,15 +4,12 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
-// import createHistory from 'history/createBrowserHistory';
-// import { routerReducer, routerMiddleware } from 'react-router-redux';
-
 import { userReducer } from '$redux/user/reducer';
 import { userSaga } from '$redux/user/sagas';
 
 const userPersistConfig = {
   key: 'user',
-  whitelist: ['user'],
+  whitelist: ['user', 'logo'],
   storage,
 };
 
@@ -39,13 +36,9 @@ export const store = createStore(
 );
 
 export function configureStore() {
-  // run sagas
   sagaMiddleware.run(userSaga);
 
   const persistor = persistStore(store);
 
-  return {
-    store,
-    persistor
-  };
+  return { store, persistor };
 }
