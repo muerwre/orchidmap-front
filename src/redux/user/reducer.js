@@ -40,7 +40,11 @@ const setSaveError = (state, { save_error }) => ({
 });
 
 const setSaveOverwrite = state => ({
-  ...state, save_overwriting: true, save_finished: false, save_processing: false, save_error: TIPS.SAVE_OVERWRITE,
+  ...state,
+  save_overwriting: true,
+  save_finished: false,
+  save_processing: false,
+  save_error: TIPS.SAVE_OVERWRITE,
 });
 
 const setSaveSuccess = (state, { save_error }) => ({
@@ -51,8 +55,15 @@ const resetSaveDialog = state => ({
   ...state, save_overwriting: false, save_finished: false, save_processing: false, save_error: '',
 });
 
-const showRenderer = state => ({ ...state, renderer_active: true });
-const hideRenderer = state => ({ ...state, renderer_active: false });
+const showRenderer = state => ({
+  ...state,
+  renderer: { ...state.renderer, renderer_active: true }
+});
+
+const hideRenderer = state => ({
+  ...state,
+  renderer: { ...state.renderer, renderer_active: false }
+});
 
 const HANDLERS = {
   [ACTIONS.SET_USER]: setUser,
@@ -94,7 +105,12 @@ export const INITIAL_STATE = {
   save_overwriting: false,
   save_processing: false,
 
-  renderer_active: false
+  renderer: {
+    data: '',
+    width: 0,
+    height: 0,
+    renderer_active: false,
+  }
 };
 
 export const userReducer = createReducer(INITIAL_STATE, HANDLERS);

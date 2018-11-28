@@ -32,7 +32,7 @@ const Component = (props: Props) => (
 
 
 const mapStateToProps = ({ user }) => ({
-  renderer_active: user.renderer_active
+  renderer_active: user.renderer.renderer_active
 });
 const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer }, dispatch);
 export const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(Component));
