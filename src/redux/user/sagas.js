@@ -3,10 +3,11 @@ import { delay } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
 import { checkUserToken, getGuestToken, getStoredMap, postMap } from '$utils/api';
 import {
+  hideRenderer,
   setActiveSticker, setAddress,
   setChanged,
   setEditing,
-  setMode,
+  setMode, setRenderer,
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
@@ -17,6 +18,15 @@ import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
 import { DEFAULT_USER } from '$constants/auth';
 import { TIPS } from '$constants/tips';
+import {
+  composeImages,
+  composePoly, downloadCanvas,
+  fetchImages,
+  getPolyPlacement,
+  getTilePlacement,
+  imageFetcher
+} from '$utils/renderer';
+import { LOGOS } from '$constants/logos';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -217,6 +227,61 @@ function* setSaveSuccessSaga({ address, title }) {
   return yield editor.setInitialData();
 }
 
+function* getRenderData() {
+  const canvas = document.getElementById('renderer');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+
+  const geometry = getTilePlacement();
+  const points = getPolyPlacement();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const images = yield fetchImages(ctx, geometry);
+  yield composeImages({ geometry, images, ctx });
+  yield composePoly({ points, ctx });
+
+  return yield canvas.toDataURL('image/jpeg');
+}
+
+function* takeAShotSaga() {
+  const data = yield call(getRenderData);
+
+  yield put(setRenderer({
+    data, renderer_active: true, width: window.innerWidth, height: window.innerHeight
+  }));
+
+  return true;
+}
+
+
+function* getCropData({
+  x, y, width, height
+}) {
+  const { logo, renderer: { data } } = yield select(getState);
+  const canvas = document.getElementById('renderer');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  const image = yield imageFetcher(data);
+  const logoImage = yield imageFetcher(LOGOS[logo][1]);
+
+  ctx.drawImage(image, -x, -y);
+  ctx.drawImage(logoImage, width - logoImage.width, height - logoImage.height);
+
+  return yield canvas.toDataURL('image/jpeg');
+}
+
+function* cropAShotSaga(params) {
+  const { title, address } = yield select(getState);
+  yield call(getCropData, params);
+  const canvas = document.getElementById('renderer');
+
+  downloadCanvas(canvas, (title || address));
+
+  return yield put(hideRenderer());
+}
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 
@@ -241,4 +306,6 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
   yield takeLatest(ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
+  yield takeLatest(ACTIONS.TAKE_A_SHOT, takeAShotSaga);
+  yield takeLatest(ACTIONS.CROP_A_SHOT, cropAShotSaga);
 }

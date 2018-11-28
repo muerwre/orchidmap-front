@@ -1,10 +1,9 @@
 import { editor } from '$modules/Editor';
 import { COLORS, CONFIG } from '$config';
-
-const { map } = editor.map;
-map.addEventListener('mousedown', ({ latlng }) => console.log('CLICK', latlng));
+import saveAs from 'file-saver';
 
 const latLngToTile = latlng => {
+  const { map } = editor.map;
   const zoom = map.getZoom();
   const xtile = parseInt(Math.floor((latlng.lng + 180) / 360 * (1 << zoom)));
   const ytile = parseInt(Math.floor((1 - Math.log(Math.tan(latlng.lat * Math.PI / 180) + 1 / Math.cos(latlng.lat * Math.PI / 180)) / Math.PI) / 2 * (1 << zoom)));
@@ -13,6 +12,7 @@ const latLngToTile = latlng => {
 };
 
 const tileToLatLng = point => {
+  const { map } = editor.map;
   const z = map.getZoom();
   const lng = (point.x / Math.pow(2, z) * 360 - 180);
   const n = Math.PI - 2 * Math.PI * point.y / Math.pow(2, z);
@@ -22,6 +22,7 @@ const tileToLatLng = point => {
 };
 
 export const getTilePlacement = () => {
+  const { map } = editor.map;
   const width = window.innerWidth;
   const height = window.innerHeight;
 
@@ -60,12 +61,12 @@ export const getTilePlacement = () => {
 export const getPolyPlacement = () => (
   (!editor.poly.poly || !editor.poly.poly.getLatLngs() || editor.poly.poly.getLatLngs().length <= 0)
     ? []
-    : editor.poly.poly.getLatLngs().map((latlng) => ({ ...map.latLngToContainerPoint(latlng) }))
+    : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
 );
 
 const getImageSource = ({ x, y, zoom }) => (`http://b.basemaps.cartocdn.com/light_all/${zoom}/${x}/${y}.png`);
 
-const imageFetcher = source => new Promise((resolve, reject) => {
+export const imageFetcher = source => new Promise((resolve, reject) => {
   const img = new Image();
   img.crossOrigin = 'anonymous';
   img.onload = () => resolve(img);
@@ -140,3 +141,6 @@ export const composePoly = ({ points, ctx }) => {
 
   return true;
 };
+
+export const downloadCanvas = (canvas, title) => canvas.toBlob(blob => saveAs(blob, title));
+

@@ -26,9 +26,16 @@
       padding: 0;
       margin: 0;
     }
+
+    canvas#renderer {
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
   </style>
 </head>
 <body>
+  <canvas id="renderer"></canvas>
   <section id="map" style="position: absolute; width: 100%; height: 100%;"></section>
   <section id="loader"></section>
   <section id="index"></section>

@@ -34,3 +34,7 @@ export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });
 
 export const showRenderer = () => ({ type: ACTIONS.SHOW_RENDERER });
 export const hideRenderer = () => ({ type: ACTIONS.HIDE_RENDERER });
+export const setRenderer = payload => ({ type: ACTIONS.SET_RENDERER, payload });
+export const takeAShot = () => ({ type: ACTIONS.TAKE_A_SHOT });
+export const cropAShot = payload => ({ type: ACTIONS.CROP_A_SHOT, ...payload });
+

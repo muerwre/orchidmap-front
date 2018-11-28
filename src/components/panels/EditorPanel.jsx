@@ -9,10 +9,8 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, setLogo, showRenderer } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing, setLogo, takeAShot } from '$redux/user/actions';
 import type { UserType } from '$constants/types';
-import { editor } from '$modules/Editor';
-import { getTilePlacement } from '$utils/renderer';
 
 type Props = {
   user: UserType,
@@ -31,15 +29,13 @@ type Props = {
   startEditing: Function,
   stopEditing: Function,
   setLogo: Function,
-  showRenderer: Function,
+  takeAShot: Function,
 }
 
 class Component extends React.PureComponent<Props, void> {
   componentDidMount() {
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
-
-    console.log(obj, this.panel);
 
     if (!this.panel || !obj) return;
 
@@ -109,7 +105,7 @@ class Component extends React.PureComponent<Props, void> {
 
             <button
               className={classnames('disabled', { active: mode === MODES.SHOTTER })}
-              onClick={this.props.showRenderer}
+              onClick={this.props.takeAShot}
               // onClick={getTilePlacement}
             >
               <Icon icon="icon-shot-3" />
@@ -221,7 +217,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setLogo,
   startEditing,
   stopEditing,
-  showRenderer,
+  takeAShot,
 }, dispatch);
 
 export const EditorPanel = connect(

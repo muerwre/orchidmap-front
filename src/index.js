@@ -1,11 +1,14 @@
 /*
+  todo shot mechanism (50%)
+    done client-side shot mechanism
+    todo croppr.js
+    todo shot stickers
+
   todo hotkeys via sagas
-  todo shot mechanism
-  todo crop mechanism
   todo map catalogue
+  todo map preview on save
   todo tooltips
 
-  todo client-side shot mechanism
  */
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -65,6 +65,11 @@ const hideRenderer = state => ({
   renderer: { ...state.renderer, renderer_active: false }
 });
 
+const setRenderer = (state, { payload }) => ({
+  ...state,
+  renderer: { ...state.renderer, ...payload }
+});
+
 const HANDLERS = {
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -85,6 +90,7 @@ const HANDLERS = {
 
   [ACTIONS.SHOW_RENDERER]: showRenderer,
   [ACTIONS.HIDE_RENDERER]: hideRenderer,
+  [ACTIONS.SET_RENDERER]: setRenderer,
 };
 
 export const INITIAL_STATE = {
