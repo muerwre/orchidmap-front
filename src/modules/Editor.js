@@ -327,3 +327,5 @@ export class Editor {
 }
 
 export const editor = new Editor({});
+
+window.editor = editor;

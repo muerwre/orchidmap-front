@@ -13,12 +13,14 @@ const latLngToTile = latlng => {
 
 const tileToLatLng = point => {
   const z = map.getZoom();
-  const lon = (point.x / Math.pow(2, z) * 360 - 180);
+  const lng = (point.x / Math.pow(2, z) * 360 - 180);
   const n = Math.PI - 2 * Math.PI * point.y / Math.pow(2, z);
   const lat = (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))));
 
-  return { lat, lng: lon };
+  return { lat, lng };
 };
+
+window.tileToLatLng = tileToLatLng;
 
 export const getTilePlacement = () => {
   const width = window.innerWidth;
@@ -39,12 +41,15 @@ export const getTilePlacement = () => {
   const southWestTileCoords = tileToLatLng(southWestTile);
   const northEastTileCoords = tileToLatLng(northEastTile);
 
-  console.log({ southWestTileCoords, northEastTileCoords });
+  // console.log({ southWestTileCoords, northEastTileCoords });
 
   const rsw = map.latLngToContainerPoint(southWestTileCoords);
   const msw = map.latLngToContainerPoint(southWest);
 
-  console.log({ southWest, northEast });
+  const tileTransformTranslate = map.latLngToLayerPoint(southWestTileCoords);
+  const msw2 = map.latLngToLayerPoint(southWest);
+
+  console.log({ rsw, msw, tileTransformTranslate, msw2, });
   // console.log({x: rsw.x-msw.x, y: h+rsw.y-msw.y, orig_x: sw.x, orig_y: sw.y})
   // console.log('going from '+sw.x+','+sw.y+' to '+ne.x+','+ne.y+' shift '+(rsw.x-msw.x)+','+(h+rsw.y-msw.y));
   // console.log('original shift: '+map.latLngToContainerPoint(original_shift))
@@ -54,8 +59,13 @@ export const getTilePlacement = () => {
     minY,
     maxY,
 
-    shiftX: (rsw.x - msw.x),
-    shiftY: (height + (rsw.y - msw.y)) + 3,
+    // shiftX: (rsw.x - msw.x),
+    // shiftY: (height + (rsw.y - msw.y)),
+
+    shiftX: tileTransformTranslate.x - msw2.x,
+    shiftY: window.innerHeight + (tileTransformTranslate.y - msw2.y),
+    // shiftY: 815,
+
 
     size: 256,
     width,

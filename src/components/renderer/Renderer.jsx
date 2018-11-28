@@ -49,12 +49,14 @@ export class Renderer extends React.Component {
 
   composeImages = ({ images, geometry, ctx }) => {
     const {
-      minX, minY, shiftX, shiftY, size
+      minX, minY, maxY, shiftX, shiftY, size
     } = geometry;
 
     images.map(({ x, y, image }) => {
+      const verticalShift = (maxY - minY) * size;
+
       const posX = ((x - minX) * size) + shiftX;
-      const posY = ((y - minY) * size) + (window.innerHeight - shiftY - size);
+      const posY = ((y - minY) * size) - (verticalShift - shiftY);
 
       return ctx.drawImage(image, posX, posY, 256, 256);
     });
