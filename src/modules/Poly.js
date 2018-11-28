@@ -2,6 +2,7 @@ import L from 'leaflet';
 import 'leaflet-geometryutil';
 import { simplify } from '$utils/simplify';
 import { findDistance, middleCoord } from '$utils/geom';
+import { CONFIG } from '$config';
 
 const polyStyle = {
   color: 'url(#activePathGradient)',
@@ -49,7 +50,7 @@ export class Poly {
           latlngs[i - 1],
           [mid.lat, mid.lng]
         ],
-        { color: 'none', weight: '5' }
+        { color: 'none', weight: CONFIG.STROKE_WIDTH }
       ).addTo(this.arrows);
 
       slide._path.setAttribute('marker-end', 'url(#long-arrow)');

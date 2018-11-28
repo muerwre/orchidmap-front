@@ -9,7 +9,7 @@ export const Fills = () => (
         <stop offset="100%" stopColor="#7137c8" />
       </linearGradient>
 
-      <linearGradient id="activePathGradient" x1="-20%" x2="50%" y1="0%" y2="140%">
+      <linearGradient id="activePathGradient" x1="0%" x2="0%" y1="0%" y2="100%">
         <stop offset="0%" stopColor="#ff7700" />
         <stop offset="100%" stopColor="#ff3344" />
       </linearGradient>

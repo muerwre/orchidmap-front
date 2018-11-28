@@ -47,10 +47,17 @@ export const getTilePlacement = () => {
     minY,
     maxY,
     shiftX: tileTransformTranslate.x - msw2.x,
-    shiftY: window.innerHeight + (tileTransformTranslate.y - msw2.y),
+    // shiftY: window.innerHeight + (tileTransformTranslate.y - msw2.y),
+    shiftY: ((maxY - minY) * 256) - (window.innerHeight + (tileTransformTranslate.y - msw2.y)),
     size: 256,
     width,
     height,
     zoom,
   };
 };
+
+export const getPolyPlacement = () => (
+  (!editor.poly.poly || !editor.poly.poly.getLatLngs() || editor.poly.poly.getLatLngs().length <= 0)
+    ? []
+    : editor.poly.poly.getLatLngs().map((latlng) => ({ ...map.latLngToContainerPoint(latlng) }))
+);

@@ -1,4 +1,6 @@
 import { map, tileLayer } from 'leaflet';
+// import { Map as map } from 'leaflet/src/map/Map';
+// import { TileLayer as tileLayer } from 'leaflet/src/layer/tile/TileLayer';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-editable';
