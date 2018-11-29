@@ -9,7 +9,7 @@ import { userSaga } from '$redux/user/sagas';
 
 const userPersistConfig = {
   key: 'user',
-  whitelist: ['user', 'logo'],
+  whitelist: ['user', 'logo', 'provider'],
   storage,
 };
 

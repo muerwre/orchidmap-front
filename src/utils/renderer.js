@@ -1,6 +1,7 @@
 import { editor } from '$modules/Editor';
 import { COLORS, CONFIG } from '$config';
 import saveAs from 'file-saver';
+import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 
 const latLngToTile = latlng => {
   const { map } = editor.map;
@@ -64,7 +65,14 @@ export const getPolyPlacement = () => (
     : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
 );
 
-const getImageSource = ({ x, y, zoom }) => (`http://b.basemaps.cartocdn.com/light_all/${zoom}/${x}/${y}.png`);
+const replaceProviderUrl = (provider, { x, y, zoom }) => {
+  const { url, range } = (PROVIDERS[editor.provider] || PROVIDERS[DEFAULT_PROVIDER]);
+  const random = (range && range.length >= 2) ? Math.round((Math.random() * (range[1] - range[0])) + range[0]) : 1;
+
+  return url.replace('{x}', x).replace('{y}', y).replace('{z}', zoom).replace('{s}', random);
+};
+
+const getImageSource = coords => replaceProviderUrl(editor.provider, coords);
 
 export const imageFetcher = source => new Promise((resolve, reject) => {
   const img = new Image();
@@ -108,6 +116,8 @@ export const composeImages = ({ images, geometry, ctx }) => {
 };
 
 export const composePoly = ({ points, ctx }) => {
+  if (editor.poly.isEmpty) return;
+
   let minX = points[0].x;
   let maxX = points[0].x;
   let minY = points[0].y;

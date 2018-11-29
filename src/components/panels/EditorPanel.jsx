@@ -104,6 +104,13 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
+              className={classnames({ active: mode === MODES.TRASH })}
+              onClick={this.props.takeAShot}
+            >
+              <Icon icon="icon-shot-3" />
+            </button>
+
+            <button
               className={classnames('disabled', { active: mode === MODES.LOGO })}
             >
               <Icon icon="icon-map-1" />

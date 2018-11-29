@@ -38,3 +38,4 @@ export const setRenderer = payload => ({ type: ACTIONS.SET_RENDERER, payload });
 export const takeAShot = () => ({ type: ACTIONS.TAKE_A_SHOT });
 export const cropAShot = payload => ({ type: ACTIONS.CROP_A_SHOT, ...payload });
 
+export const setProvider = provider => ({ type: ACTIONS.SET_PROVIDER, provider });

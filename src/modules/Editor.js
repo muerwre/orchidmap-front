@@ -18,6 +18,7 @@ import {
   setRouterPoints,
   setTitle,
 } from '$redux/user/actions';
+import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 
 export class Editor {
   constructor() {
@@ -27,6 +28,7 @@ export class Editor {
     this.initialData = {};
     this.activeSticker = null;
     this.mode = MODES.NONE;
+    this.provider = PROVIDERS[DEFAULT_PROVIDER];
 
     const {
       triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints,
@@ -241,7 +243,7 @@ export class Editor {
   };
 
   fitDrawing = () => {
-    if (this.poly.isEmpty()) return;
+    if (this.poly.isEmpty) return;
 
     const bounds = this.poly.poly.getBounds();
     if (bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
@@ -289,7 +291,7 @@ export class Editor {
   };
 
   cancelEditing = () => {
-    if (this.hasEmptyHistory()) {
+    if (this.hasEmptyHistory) {
       this.clearAll();
       this.startEditing();
     } else {
@@ -307,19 +309,18 @@ export class Editor {
     stickers: this.stickers.dumpData(),
   });
 
-  // isEmpty = () => {
-  //   const { route, stickers } = this.dumpData();
-  //
-  //   return (route.length > 1 && stickers.length > 0);
-  // };
+  setProvider = provider => {
+    this.provider = provider;
+    this.map.setProvider(provider);
+  };
 
-  isEmpty = () => {
+  get isEmpty() {
     const { route, stickers } = this.dumpData();
 
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
-  };
+  }
 
-  hasEmptyHistory = () => {
+  get hasEmptyHistory() {
     const { route, stickers } = this.initialData;
 
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);

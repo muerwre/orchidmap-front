@@ -4,6 +4,7 @@ import { DEFAULT_USER } from '$constants/auth';
 import { MODES } from '$constants/modes';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { TIPS } from '$constants/tips';
+import { DEFAULT_PROVIDER } from '$constants/providers';
 
 const getEstimated = distance => {
   const time = (distance && (distance / 15)) || 0;
@@ -70,6 +71,8 @@ const setRenderer = (state, { payload }) => ({
   renderer: { ...state.renderer, ...payload }
 });
 
+const setProvider = (state, { provider }) => ({ ...state, provider });
+
 const HANDLERS = {
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -91,6 +94,8 @@ const HANDLERS = {
   [ACTIONS.SHOW_RENDERER]: showRenderer,
   [ACTIONS.HIDE_RENDERER]: hideRenderer,
   [ACTIONS.SET_RENDERER]: setRenderer,
+
+  [ACTIONS.SET_PROVIDER]: setProvider,
 };
 
 export const INITIAL_STATE = {
@@ -105,6 +110,7 @@ export const INITIAL_STATE = {
   title: '',
   address: '',
   changed: false,
+  provider: DEFAULT_PROVIDER,
 
   save_error: '',
   save_finished: false,

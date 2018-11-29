@@ -27,6 +27,7 @@ import {
   imageFetcher
 } from '$utils/renderer';
 import { LOGOS } from '$constants/logos';
+import { DEFAULT_PROVIDER } from '$constants/providers';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -46,11 +47,12 @@ function* generateGuestSaga() {
 }
 
 function* startEmptyEditorSaga() {
-  const { id, random_url } = yield select(getUser);
+  const { id, random_url, provider = DEFAULT_PROVIDER } = yield select(getUser);
 
   pushPath(`/${random_url}/edit`);
 
   editor.owner = id;
+  editor.setProvider(provider);
   editor.startEditing();
 
   yield put(setChanged(false));
@@ -78,7 +80,7 @@ function* stopEditingSaga() {
 
   yield put(setChanged(false));
 
-  yield put(setEditing(editor.hasEmptyHistory())); // don't close editor if no previous map
+  yield put(setEditing(editor.hasEmptyHistory)); // don't close editor if no previous map
 }
 
 function* mapInitSaga() {
@@ -193,9 +195,7 @@ function* clearSaga({ type }) {
 }
 
 function* sendSaveRequestSaga({ title, address, force }) {
-  if (editor.isEmpty()) {
-    return yield put(setSaveError(TIPS.SAVE_EMPTY));
-  }
+  if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
   const { route, stickers } = editor.dumpData();
   const { id, token } = yield select(getUser);
@@ -239,6 +239,7 @@ function* getRenderData() {
 
   const images = yield fetchImages(ctx, geometry);
   yield composeImages({ geometry, images, ctx });
+
   yield composePoly({ points, ctx });
 
   return yield canvas.toDataURL('image/jpeg');
@@ -253,7 +254,6 @@ function* takeAShotSaga() {
 
   return true;
 }
-
 
 function* getCropData({
   x, y, width, height
@@ -285,6 +285,10 @@ function* cropAShotSaga(params) {
   return yield put(hideRenderer());
 }
 
+function setProviderSaga({ provider }) {
+  editor.setProvider(provider);
+}
+
 export function* userSaga() {
   // ASYNCHRONOUS!!! :-)
 
@@ -311,4 +315,6 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
   yield takeLatest(ACTIONS.TAKE_A_SHOT, takeAShotSaga);
   yield takeLatest(ACTIONS.CROP_A_SHOT, cropAShotSaga);
+
+  yield takeEvery(ACTIONS.SET_PROVIDER, setProviderSaga);
 }

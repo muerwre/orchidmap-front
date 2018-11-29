@@ -161,5 +161,7 @@ export class Poly {
 
   dumpData = () => this.latlngs;
 
-  isEmpty = () => !this.latlngs || Object.values(this.latlngs).length < 0;
+  get isEmpty() {
+    return (!this.latlngs || Object.values(this.latlngs).length <= 0);
+  }
 }

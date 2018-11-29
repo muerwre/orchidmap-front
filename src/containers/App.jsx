@@ -23,10 +23,7 @@ const Component = (props: Props) => (
     <UserLocation />
     <UserPanel />
     <EditorPanel />
-    {
-      props.renderer_active &&
-        <Renderer onClick={props.hideRenderer} />
-    }
+    { props.renderer_active && <Renderer onClick={props.hideRenderer} /> }
   </div>
 );
 
