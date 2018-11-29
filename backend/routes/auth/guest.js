@@ -21,7 +21,14 @@ const generateUser = id => {
 const saveUser = user => {
   const model = new User({ ...user });
 
-  return model.save();
+  return model.save()
+    .then(() => model.toObject())
+    .catch(() => ({
+      ...user,
+      success: false,
+      error: 'Error saving user model',
+      error_code: 1232,
+    }));
 };
 
 const generateRandomUrl = () => Promise.resolve(genRandomSequence(16));
@@ -35,10 +42,9 @@ const generateGuest = async () => {
 };
 
 module.exports = async (req, res) => {
-  const user = await generateGuest();
-  await saveUser(user);
+  const user = await generateGuest().then(saveUser);
 
-  res.send({ success: 'true', ...user });
+  res.send({ success: true, ...user });
 };
 
 module.exports.generateGuest = generateGuest;
