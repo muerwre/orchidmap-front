@@ -1,6 +1,6 @@
-const { UserModel } = require('../../config/db');
+const { User } = require('../../models/User');
 
-module.exports = (req, res) => UserModel.find((err, articles) => {
+module.exports = (req, res) => User.find((err, articles) => {
   if (!err) return res.send(articles);
 
   res.statusCode = 500;

@@ -1,10 +1,10 @@
 const { genRandomSequence } = require('../../utils/gen');
-const { UserModel } = require('../../config/db');
+const { User } = require('../../models/User');
 
 const generateGuestToken = () => {
-  const id = `guest:${genRandomSequence(32)}`;
+  const id = `guest:${genRandomSequence(16)}`;
 
-  return UserModel.find({ id }).then(user => {
+  return User.find({ id }).then(user => {
     if (user.length) return generateGuestToken();
 
     return id;
@@ -19,14 +19,27 @@ const generateUser = id => {
 };
 
 const saveUser = user => {
-  const model = new UserModel({ ...user });
+  const model = new User({ ...user });
 
   return model.save();
 };
 
-module.exports = (req, res) => (
-  generateGuestToken()
-    .then(generateUser)
-    .then(saveUser)
-    .then(result => res.send({ success: 'true', type: 'guest', token: result }))
-);
+const generateRandomUrl = () => Promise.resolve(genRandomSequence(16));
+
+const generateGuest = async () => {
+  const user = await generateGuestToken()
+    .then(generateUser);
+  const random_url = await generateRandomUrl();
+
+  return { ...user, random_url };
+};
+
+module.exports = async (req, res) => {
+  const user = await generateGuest();
+  await saveUser(user);
+
+  res.send({ success: 'true', ...user });
+};
+
+module.exports.generateGuest = generateGuest;
+module.exports.generateRandomUrl = generateRandomUrl;

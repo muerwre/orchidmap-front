@@ -1,10 +1,12 @@
 const express = require('express');
-const createGuest = require('./auth/guest');
-const listUsers = require('./auth/list');
+const guest = require('./auth/guest');
+const list = require('./auth/list');
+const check = require('./auth/check');
 
 const router = express.Router();
 
-router.get('/', listUsers);
-router.get('/guest', createGuest);
+router.get('/', check);
+router.get('/list', list);
+router.get('/guest', guest);
 
 module.exports = router;
