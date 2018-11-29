@@ -11,6 +11,8 @@ module.exports = async (req, res) => {
   }
 
   const guest = await generateGuest();
-  return res.send({ success: false, ...guest, random_url });
+  return res.send({
+    success: false, error: 'user not found', error_code: 1231, ...guest, random_url
+  });
 };
 

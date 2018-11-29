@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GuestButton } from '$components/user/GuestButton';
-import { SERVER } from '$constants/api';
+import { SERVER, TEST } from '$constants/api';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
@@ -60,7 +60,8 @@ export class Component extends React.PureComponent<Props, void> {
     const left = (width - 700) / 2;
 
     window.open(
-      `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${SERVER}/engine/oauthOrchid.php&response_type=code`,
+      // `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${SERVER}/engine/oauthOrchid.php&response_type=code`,
+      `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${TEST}/auth/social/vk`,
       'socialPopupWindow',
       `location=no,width=700,height=370,scrollbars=no,top=${top},left=${left},resizable=no`
     );

@@ -11,9 +11,8 @@ const generateGuestToken = () => {
   });
 };
 
-const generateUser = id => {
+const generateUser = (id, role = 'guest') => {
   const token = `seq:${genRandomSequence(32)}`;
-  const role = 'guest';
 
   return { id, token, role };
 };
@@ -47,5 +46,7 @@ module.exports = async (req, res) => {
   res.send({ success: true, ...user });
 };
 
+module.exports.generateUser = generateUser;
 module.exports.generateGuest = generateGuest;
+module.exports.generateGuestToken = generateGuestToken;
 module.exports.generateRandomUrl = generateRandomUrl;
