@@ -45,7 +45,7 @@ class Component extends React.PureComponent<Props, void> {
   startPolyMode = () => this.props.setMode(MODES.POLY);
   startStickerMode = () => this.props.setMode(MODES.STICKERS);
   startRouterMode = () => this.props.setMode(MODES.ROUTER);
-  startShotterMode = () => this.props.setMode(MODES.SHOTTER);
+  startProviderMode = () => this.props.setMode(MODES.PROVIDER);
   startTrashMode = () => this.props.setMode(MODES.TRASH);
   startLogoMode = () => this.props.setMode(MODES.LOGO);
   startSaveMode = () => this.props.setMode(MODES.SAVE);
@@ -111,7 +111,8 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
-              className={classnames('disabled', { active: mode === MODES.LOGO })}
+              className={classnames({ active: mode === MODES.PROVIDER })}
+              onClick={this.startProviderMode}
             >
               <Icon icon="icon-map-1" />
             </button>

@@ -72,6 +72,9 @@ export class Editor {
       },
       [MODES.SAVE]: {
         stop: this.resetSaveDialog,
+      },
+      [MODES.PROVIDER]: {
+        toggle: this.clearMode,
       }
     };
 
@@ -310,6 +313,8 @@ export class Editor {
   });
 
   setProvider = provider => {
+    if (provider === this.provider) return;
+
     this.provider = provider;
     this.map.setProvider(provider);
   };

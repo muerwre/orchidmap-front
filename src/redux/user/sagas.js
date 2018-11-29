@@ -286,7 +286,9 @@ function* cropAShotSaga(params) {
 }
 
 function setProviderSaga({ provider }) {
-  editor.setProvider(provider);
+  return editor.setProvider(provider);
+
+  // return put(setMode(MODES.NONE))
 }
 
 export function* userSaga() {

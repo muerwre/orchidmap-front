@@ -1,7 +1,7 @@
 import { editor } from '$modules/Editor';
 import { COLORS, CONFIG } from '$config';
 import saveAs from 'file-saver';
-import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
+import { DEFAULT_PROVIDER, PROVIDERS, replaceProviderUrl } from '$constants/providers';
 
 const latLngToTile = latlng => {
   const { map } = editor.map;
@@ -64,13 +64,6 @@ export const getPolyPlacement = () => (
     ? []
     : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
 );
-
-const replaceProviderUrl = (provider, { x, y, zoom }) => {
-  const { url, range } = (PROVIDERS[editor.provider] || PROVIDERS[DEFAULT_PROVIDER]);
-  const random = (range && range.length >= 2) ? Math.round((Math.random() * (range[1] - range[0])) + range[0]) : 1;
-
-  return url.replace('{x}', x).replace('{y}', y).replace('{z}', zoom).replace('{s}', random);
-};
 
 const getImageSource = coords => replaceProviderUrl(editor.provider, coords);
 

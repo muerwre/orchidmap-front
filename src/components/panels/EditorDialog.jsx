@@ -1,12 +1,12 @@
 import React from 'react';
 import { MODES } from '$constants/modes';
 
-import { RouterDialog } from '$components/router/RouterDialog';
-import { StickersDialog } from '$components/stickers/StickersDialog';
-import { TrashDialog } from '$components/trash/TrashDialog';
-import { LogoDialog } from '$components/logo/LogoDialog';
-import { SaveDialog } from '$components/save/SaveDialog';
-import { CancelDialog } from '$components/save/CancelDialog';
+import { RouterDialog } from '$components/dialogs/RouterDialog';
+import { StickersDialog } from '$components/dialogs/StickersDialog';
+import { TrashDialog } from '$components/dialogs/TrashDialog';
+import { LogoDialog } from '$components/dialogs/LogoDialog';
+import { SaveDialog } from '$components/dialogs/SaveDialog';
+import { CancelDialog } from '$components/dialogs/CancelDialog';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -24,7 +24,9 @@ import {
   stopEditing,
   setEditing,
   sendSaveRequest,
+  setProvider,
 } from '$redux/user/actions';
+import { ProviderDialog } from '$components/dialogs/ProviderDialog';
 
 type Props = {
   mode: String,
@@ -44,6 +46,7 @@ export const Component = (props: Props) => {
     || mode === MODES.LOGO
     || mode === MODES.SAVE
     || mode === MODES.CONFIRM_CANCEL
+    || mode === MODES.PROVIDER
   );
 
   const dialogIsSmall = (
@@ -65,6 +68,7 @@ export const Component = (props: Props) => {
         { mode === MODES.LOGO && <LogoDialog {...props} /> }
         { mode === MODES.SAVE && <SaveDialog {...props} /> }
         { mode === MODES.CONFIRM_CANCEL && <CancelDialog {...props} /> }
+        { mode === MODES.PROVIDER && <ProviderDialog {...props} /> }
       </div>
   );
 };
@@ -84,6 +88,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setEditing,
   setMode,
   sendSaveRequest,
+  setProvider,
 }, dispatch);
 
 export const EditorDialog = connect(
