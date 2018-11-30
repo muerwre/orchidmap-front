@@ -37,4 +37,4 @@ Take a look at ```./backend/config/``` files, especially at ```db.js```. Your ap
 
 For development launch ```npm serve-dev```, it will launch dev server, reloading on every code update
 
-For production launch ```npm serve``` and make it running in background by any desireable way, such as ```forever```
+For production launch ```npm serve``` and make it running in background by any desirable way, such as ```forever```
