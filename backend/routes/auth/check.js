@@ -7,8 +7,6 @@ module.exports = async (req, res) => {
   const user = await User.findOne({ _id: id, token });
   const random_url = await generateRandomUrl();
 
-  console.log('USER', { id, token });
-
   if (user) {
     return res.send({ success: true, ...user.toObject(), id: user._id, random_url });
   }

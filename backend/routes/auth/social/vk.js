@@ -65,13 +65,9 @@ module.exports = async (req, res) => {
       first_name, last_name, name, photo
     }).save();
 
-    console.log('AUTH', auth.toObject());
     res.render('social/success', { title: STRINGS.OAUTH.SUCCESS_TITLE, ...user, token: auth.token });
   } else {
     const created = await User.create(user, (err, result) => {
-      if (err) console.log('ERRRRRR', err);
-
-      console.log('USER', result);
       return result.toObject();
     });
 

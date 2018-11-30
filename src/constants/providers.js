@@ -58,7 +58,6 @@ export const PROVIDERS = ENABLED.reduce((obj, provider) => ({
 }), {});
 
 export const replaceProviderUrl = (provider, { x, y, zoom }) => {
-  console.log('got provider', provider);
   const { url, range } = (PROVIDERS[provider] || PROVIDERS[DEFAULT_PROVIDER]);
   const random = (range && range.length >= 2) ? range[Math.round((Math.random() * (range.length - 1)))] : 1;
 

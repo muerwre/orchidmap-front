@@ -99,7 +99,6 @@ export class Sticker {
   };
 
   estimateAngle = e => {
-    console.log('est');
     const { x, y } = this.element.getBoundingClientRect();
     const { pageX, pageY } = e;
     this.angle = Math.atan2((y - pageY), (x - pageX));

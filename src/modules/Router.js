@@ -65,7 +65,6 @@ export class Router {
   };
   //
   lockPropagations = () => {
-    console.log('lock');
     window.addEventListener('mouseup', this.unlockPropagations);
     this.lockMapClicks(true);
   };
