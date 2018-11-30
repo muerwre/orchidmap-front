@@ -2,7 +2,7 @@ import axios from 'axios/index';
 
 import { API } from '$constants/api';
 
-const arrayToObject = (array, key) => array.reduce((obj, el) => ({ ...obj, [el[key]]: el }));
+const arrayToObject = (array, key) => array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
 
 export const checkUserToken = ({ id, token }) => axios.get(API.CHECK_TOKEN, {
   params: { id, token }

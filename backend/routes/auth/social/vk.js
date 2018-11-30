@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
     ...newUser, first_name, last_name, photo, name,
   };
 
-  const auth = await User.findOne({ _id: user._id });
+  const auth = await User.findOne({ _id: user._id }).populate('routes');
 
   if (auth) {
     await auth.set({

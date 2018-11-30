@@ -299,8 +299,14 @@
 
                 <path xmlns="http://www.w3.org/2000/svg" d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" fill="white" stroke="white" stroke-width="1" transform="translate(4 4)"/>
             </g>
+
+            <g id="icon-folder-1" stroke="none">
+                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
+
+                <path xmlns="http://www.w3.org/2000/svg" d="M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
+            </g>
         </svg>
     </defs>
 
-    <use xlink:href="#icon-get-1" />
+    <use xlink:href="#icon-folder-1" />
 </svg>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GuestButton } from '$components/user/GuestButton';
-import { SERVER, TEST } from '$constants/api';
+import { TEST } from '$constants/api';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
@@ -10,6 +10,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
 import { Icon } from '$components/panels/Icon';
+
+import classnames from 'classnames';
 
 type Props = {
   user: UserType,
@@ -73,6 +75,8 @@ export class Component extends React.PureComponent<Props, void> {
       state: { menuOpened },
     } = this;
 
+    const route_count = Object.keys(user.routes).length;
+
     return (
       <div>
         <div className="panel active">
@@ -92,9 +96,14 @@ export class Component extends React.PureComponent<Props, void> {
 
           <div className="control-bar">
             <button
-              onClick={this.props.takeAShot}
+              className={classnames({ disabled: route_count <= 0 })}
+              // onClick={this.props.takeAShot}
             >
-              <Icon icon="icon-shot-2" />
+              <Icon icon="icon-folder-1" />
+              {
+                route_count > 0 &&
+                <div className="control-bar-counter">{route_count < 100 ? route_count : '...'}</div>
+              }
             </button>
           </div>
         </div>
