@@ -76,6 +76,7 @@ function* stopEditingSaga() {
   }
 
   yield editor.cancelEditing();
+
   yield put(setMode(MODES.NONE));
 
   yield put(setChanged(false));

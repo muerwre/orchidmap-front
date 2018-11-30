@@ -283,18 +283,19 @@ export class Editor {
 
   stopEditing = () => {
     const { path } = getUrlData();
+
     pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
-    // this.changeMode(MODES.NONE);
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
-    // this.setEditing(false);
   };
 
   cancelEditing = () => {
     if (this.hasEmptyHistory) {
       this.clearAll();
       this.startEditing();
+      this.clearChanged();
+      return;
     } else {
       this.setData(this.initialData);
     }
