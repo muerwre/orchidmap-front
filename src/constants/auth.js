@@ -8,7 +8,7 @@ export const DEFAULT_USER = {
   place_types: {},
   random_url: '',
   role: ROLES.guest,
-  routes: [],
+  routes: {},
   success: false,
   id: null,
   token: null,

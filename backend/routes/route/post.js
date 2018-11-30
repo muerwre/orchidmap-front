@@ -5,7 +5,7 @@ const { parseRoute, parseStickers, parseString, parseNumber } = require('../../u
 module.exports = async (req, res) => {
   const { body, body: { id, token, force } } = req;
 
-  const owner = await User.findOne({ _id: id, token });
+  const owner = await User.findOne({ _id: id, token }).populate('routes');
   if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
 
   const title = parseString(body.title, 32);
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     return res.send({ success: false, mode: 'empty' });
   }
 
-  const exists = await Route.findOne({ _id: address }).populate('owner');
+  const exists = await Route.findOne({ _id: address }).populate('owner', '_id');
 
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'exists' });
   if (exists && !force) return res.send({ success: false, mode: 'overwriting' });
@@ -32,9 +32,12 @@ module.exports = async (req, res) => {
     });
   }
 
-  await Route.create({
+  const created = await Route.create({
     _id: address, title, route, stickers, owner, logo, distance,
   });
+
+  await owner.routes.push(created);
+  await owner.save();
 
   return res.send({
     success: true, title, address, route, stickers
