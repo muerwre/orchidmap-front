@@ -3,7 +3,6 @@ import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
-import { Shotter } from '$modules/Shotter';
 import { DEFAULT_LOGO } from '$constants/logos';
 
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
@@ -42,7 +41,7 @@ export class Editor {
     this.router = new Router({
       map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
     });
-    this.shotter = new Shotter({ map });
+    // this.shotter = new Shotter({ map });
 
     this.switches = {
       [MODES.POLY]: {
@@ -53,9 +52,6 @@ export class Editor {
       [MODES.ROUTER]: {
         toggle: this.clearMode,
         start: this.routerSetStart,
-      },
-      [MODES.SHOTTER]: {
-        start: this.shotter.makeShot,
       },
       [MODES.STICKERS]: {
         toggle: this.clearSticker,

@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   const { body, body: { id, token, force } } = req;
 
   const owner = await User.findOne({ _id: id, token });
-  if (!owner) return res.send({ success: false, reason: 'Unauthorized' });
+  if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
 
   const title = parseString(body.title, 32);
   const address = parseString(body.address, 32);
