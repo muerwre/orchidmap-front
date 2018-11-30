@@ -17,7 +17,7 @@ export const getGuestToken = () => axios.get(API.GET_GUEST).then(result => (resu
 
 export const getStoredMap = ({ name }) => axios.get(API.GET_MAP, {
   params: { name }
-}).then(result => (result && result.data));
+}).then(result => (result && result.data && result.data.success && result.data));
 
 export const postMap = ({
   title, address, route, stickers, id, token, force, logo, distance,
