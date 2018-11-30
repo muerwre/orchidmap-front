@@ -240,11 +240,15 @@ function* getRenderData() {
   const points = getPolyPlacement();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  console.log('[RENDER] fetching images');
   const images = yield fetchImages(ctx, geometry);
+  console.log('[RENDER] ...done');
+  console.log('[RENDER] composing images');
   yield composeImages({ geometry, images, ctx });
-
+  console.log('[RENDER] ...done');
+  console.log('[RENDER] composing poly');
   yield composePoly({ points, ctx });
-
+  console.log('[RENDER] ...done');
   return yield canvas.toDataURL('image/jpeg');
 }
 
