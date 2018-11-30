@@ -5,18 +5,10 @@ import { API } from '$constants/api';
 const report = console.warn;
 
 export const checkUserToken = ({ id, token }) => axios.get(API.CHECK_TOKEN, {
-  params: {
-    id,
-    token,
-    action: 'check_token',
-  }
+  params: { id, token }
 }).then(result => (result && result.data && { ...result.data, id, token }));
 
-export const getGuestToken = () => axios.get(API.GET_GUEST, {
-  params: {
-    action: 'gen_guest_token'
-  }
-}).then(result => (result && result.data));
+export const getGuestToken = () => axios.get(API.GET_GUEST).then(result => (result && result.data));
 
 export const getMergedImage = ({ placement, callback }) => (
   axios.get(API.COMPOSE, {
@@ -27,20 +19,12 @@ export const getMergedImage = ({ placement, callback }) => (
 );
 
 export const getStoredMap = ({ name }) => axios.get(API.GET_MAP, {
-  params: {
-    name,
-    action: 'load'
-  }
-}).then(result => (result && result.data && result.data.data && {
-  ...result.data.data,
-  owner: (result.data.owner || null),
-  address: (result.data.name || name),
-}));
+  params: { name }
+}).then(result => (result && result.data));
 
 export const postMap = ({
-  title, address, route, stickers, id, token, force,
+  title, address, route, stickers, id, token, force, logo, distance,
 }) => axios.post(API.POST_MAP, {
-  action: 'store',
   title,
   address,
   route,
@@ -48,4 +32,6 @@ export const postMap = ({
   id,
   token,
   force,
+  logo,
+  distance,
 }).then(result => (result && result.data && result.data));

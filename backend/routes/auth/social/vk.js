@@ -1,4 +1,4 @@
-const { User } = require('../../../models/User');
+const { User } = require('../../../models');
 const axios = require('axios');
 const { generateUser } = require('../guest');
 const { STRINGS } = require('../../../config/strings');

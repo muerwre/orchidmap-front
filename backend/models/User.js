@@ -17,11 +17,11 @@ const UserSchema = new Schema(
     first_name: { type: String },
     last_name: { type: String },
     photo: { type: String },
+    routes: [{ type: Schema.Types.ObjectId, ref: 'Route' }]
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
   }
 );
 
-const User = mongoose.model('User', UserSchema);
-module.exports.User = User;
+module.exports.UserSchema = UserSchema;

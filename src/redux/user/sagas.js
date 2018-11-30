@@ -199,11 +199,12 @@ function* sendSaveRequestSaga({ title, address, force }) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
   const { route, stickers } = editor.dumpData();
+  const { logo, distance } = yield select(getState);
   const { id, token } = yield select(getUser);
 
   const { result, timeout, cancel } = yield race({
     result: postMap({
-      id, token, route, stickers, title, force, address
+      id, token, route, stickers, title, force, address, logo, distance,
     }),
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),

@@ -229,7 +229,9 @@ export class Editor {
     this.setTitle(title || '');
     const { id } = this.getUser();
 
-    if (address && id && owner && id === owner) this.setAddress(address);
+    if (address && id && owner && id === owner.id) {
+      this.setAddress(address);
+    }
 
     if (route) this.poly.setPoints(route);
 
@@ -274,7 +276,7 @@ export class Editor {
 
     this.setInitialData();
 
-    const url = (this.owner && this.owner === id) ? path : random_url;
+    const url = (this.owner && this.owner.id === id) ? path : random_url;
 
     pushPath(`/${url}/edit`);
 

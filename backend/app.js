@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser');
 const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+
+const routeRouter = require('./routes/route');
 const authRouter = require('./routes/auth');
 const db = require('./config/db');
 
@@ -31,9 +31,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.json());
+app.use(express.json());
+
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/route', routeRouter);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

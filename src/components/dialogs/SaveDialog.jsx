@@ -59,14 +59,14 @@ export class SaveDialog extends React.Component<Props, State> {
 
   render() {
     const { title } = this.state;
-    const { save_error, save_finished, save_overwriting, save_processing } = this.props;
+    const { save_error, save_finished, save_overwriting } = this.props;
     const { host } = getUrlData();
 
     return (
       <div className="helper save-helper">
         <div className="save-title">
           <div className="save-title-input">
-            <label className="save-title-label">Название</label>
+            <div className="save-title-label">Название</div>
             <input type="text" value={title} onChange={this.setTitle} autoFocus readOnly={save_finished} />
           </div>
         </div>
@@ -86,21 +86,21 @@ export class SaveDialog extends React.Component<Props, State> {
             <div>
 
               { !save_finished &&
-                  <div className="button" onClick={this.cancelSaving}>Отмена</div>
+                <div className="button" onClick={this.cancelSaving}>Отмена</div>
               }
 
               {
                 !save_finished && !save_overwriting &&
-                  <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
+                <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
               }
 
               {
                 save_overwriting &&
-                  <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
+                <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
               }
 
               { save_finished &&
-                  <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>
+                <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>
               }
 
             </div>

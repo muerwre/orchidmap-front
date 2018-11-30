@@ -1,4 +1,4 @@
-const { User } = require('../../models/User');
+const { User } = require('../../models');
 
 module.exports = (req, res) => User.find((err, articles) => {
   if (!err) return res.send(articles);

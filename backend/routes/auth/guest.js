@@ -1,5 +1,5 @@
 const { genRandomSequence } = require('../../utils/gen');
-const { User } = require('../../models/User');
+const { User } = require('../../models');
 
 const generateGuestToken = () => {
   const _id = `guest:${genRandomSequence(16)}`;
