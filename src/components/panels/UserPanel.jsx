@@ -100,10 +100,6 @@ export class Component extends React.PureComponent<Props, void> {
               // onClick={this.props.takeAShot}
             >
               <Icon icon="icon-folder-1" />
-              {
-                route_count > 0 &&
-                <div className="control-bar-counter">{route_count < 100 ? route_count : '...'}</div>
-              }
             </button>
           </div>
         </div>
