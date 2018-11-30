@@ -2,19 +2,19 @@ const { genRandomSequence } = require('../../utils/gen');
 const { User } = require('../../models/User');
 
 const generateGuestToken = () => {
-  const id = `guest:${genRandomSequence(16)}`;
+  const _id = `guest:${genRandomSequence(16)}`;
 
-  return User.find({ id }).then(user => {
+  return User.find({ _id }).then(user => {
     if (user.length) return generateGuestToken();
 
-    return id;
+    return _id;
   });
 };
 
-const generateUser = (id, role = 'guest') => {
+const generateUser = (_id, role = 'guest') => {
   const token = `seq:${genRandomSequence(32)}`;
 
-  return { id, token, role };
+  return { _id, token, role };
 };
 
 const saveUser = user => {
@@ -37,7 +37,7 @@ const generateGuest = async () => {
     .then(generateUser);
   const random_url = await generateRandomUrl();
 
-  return { ...user, random_url };
+  return { ...user, random_url, first_name: '', last_name: '', photo: '' };
 };
 
 module.exports = async (req, res) => {

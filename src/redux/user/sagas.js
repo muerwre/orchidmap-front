@@ -117,8 +117,9 @@ function* authChechSaga() {
   if (id && token) {
     const user = yield call(checkUserToken, { id, token });
 
-    if (user && user.success) {
+    if (user) {
       yield put(setUser(user));
+
       return yield call(mapInitSaga);
     }
   }
