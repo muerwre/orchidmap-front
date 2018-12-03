@@ -4,6 +4,7 @@ import 'leaflet-editable';
 import { DomMarker } from '$utils/DomMarker';
 
 import stickers from '$sprites/stickers.svg';
+import { STICKERS } from '$constants/stickers';
 
 export class Sticker {
   constructor({
@@ -124,11 +125,17 @@ export class Sticker {
     this.stickerArrow.style.transform = `rotate(${angle + 3.14}rad)`;
   };
 
-  generateStickerSVG = sticker => (
+  generateStickerSVG = ({ set, sticker }) => (
+    // `
+    //   <svg width="64" height="64">
+    //      <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
+    //   </svg>
+    // `
     `
-      <svg width="64" height="64">
-         <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
-      </svg>
+      <div 
+        class="sticker-image" 
+        style="background-image: url('${STICKERS[set].url}');background-position: ${-STICKERS[set].layers[sticker].off * 64} 50%">
+      </div>
     `
   );
 
