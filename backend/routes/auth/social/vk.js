@@ -18,12 +18,16 @@ const fetchUserData = async (req, res) => {
         redirect_uri: `http://${host}/auth/social/vk`,
       }
     }
-  ).catch(() => res.render('social/vk_error', {
-    title: STRINGS.OAUTH.ERROR_TITLE,
-    heading: STRINGS.OAUTH.ERROR_HEADING,
-    reason: STRINGS.OAUTH.ERROR_TEXT,
-    button: STRINGS.OAUTH.ERROR_CLOSE_BUTTON,
-  }));
+  ).catch(err => {
+    console.log('[SOCIAL] error:', err);
+
+    return res.render('social/vk_error', {
+      title: STRINGS.OAUTH.ERROR_TITLE,
+      heading: STRINGS.OAUTH.ERROR_HEADING,
+      reason: STRINGS.OAUTH.ERROR_TEXT,
+      button: STRINGS.OAUTH.ERROR_CLOSE_BUTTON,
+    });
+  });
 
   const { data } = await axios.get(
     'https://api.vk.com/method/users.get',
@@ -35,12 +39,16 @@ const fetchUserData = async (req, res) => {
         access_token,
       }
     }
-  ).catch(() => res.render('social/vk_error', {
-    title: STRINGS.OAUTH.ERROR_TITLE,
-    heading: STRINGS.OAUTH.ERROR_HEADING,
-    reason: STRINGS.OAUTH.ERROR_TEXT,
-    button: STRINGS.OAUTH.ERROR_CLOSE_BUTTON,
-  }));
+  ).catch(err => {
+    console.log('[SOCIAL] error:', err);
+
+    return res.render('social/vk_error', {
+      title: STRINGS.OAUTH.ERROR_TITLE,
+      heading: STRINGS.OAUTH.ERROR_HEADING,
+      reason: STRINGS.OAUTH.ERROR_TEXT,
+      button: STRINGS.OAUTH.ERROR_CLOSE_BUTTON,
+    });
+  });
 
   return data;
 };
