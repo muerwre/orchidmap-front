@@ -3,7 +3,6 @@ import 'leaflet-editable';
 
 import { DomMarker } from '$utils/DomMarker';
 
-import stickers from '$sprites/stickers.svg';
 import { STICKERS } from '$constants/stickers';
 
 export class Sticker {
@@ -35,7 +34,7 @@ export class Sticker {
 
     this.element.appendChild(this.stickerArrow);
     this.element.appendChild(this.stickerImage);
-    this.element.appendChild(this.stickerDelete);
+    this.stickerArrow.appendChild(this.stickerDelete);
 
     const mark = new DomMarker({
       element: this.element,
@@ -50,7 +49,7 @@ export class Sticker {
     this.stickerImage.addEventListener('mouseup', this.onDragStop);
 
     this.element.addEventListener('mouseup', this.preventPropagations);
-    this.stickerDelete.addEventListener('click', this.onDelete);
+    this.stickerDelete.addEventListener('mousedown', this.onDelete);
 
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
@@ -119,8 +118,8 @@ export class Sticker {
     this.stickerImage.style.left = 6 + x;
     this.stickerImage.style.top = 6 + y;
 
-    this.stickerDelete.style.left = ax;
-    this.stickerDelete.style.top = ay;
+    // this.stickerDelete.style.left = ax;
+    // this.stickerDelete.style.top = ay;
 
     this.stickerArrow.style.transform = `rotate(${angle + 3.14}rad)`;
   };
@@ -134,7 +133,7 @@ export class Sticker {
     `
       <div 
         class="sticker-image" 
-        style="background-image: url('${STICKERS[set].url}');background-position: ${-STICKERS[set].layers[sticker].off * 64} 50%">
+        style="background-image: url('${STICKERS[set].url}');background-position: ${-STICKERS[set].layers[sticker].off * 72} 50%">
       </div>
     `
   );

@@ -1,8 +1,9 @@
 .sticker-container {
   outline: none;
   position: relative;
-  transition: transform 250ms;
+  // transition: transform 250ms;
   cursor: pointer;
+  z-index: 10;
 
   &.leaflet-drag-target {
     transition: none !important;
@@ -22,12 +23,13 @@
     transition: opacity 250ms, transform 500ms;
   }
 
-  &:hover, &:active {
+  &:active {
     .sticker-delete {
-      transform: scale(1);
-      pointer-events: all;
+      pointer-events: none;
     }
+  }
 
+  &:hover, &:active {
     &:before {
       opacity: 0.3;
       transform: scale(1);
@@ -74,8 +76,8 @@
   }
 
   .sticker-image {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     left: -8px;
     top: -8px;
     position: relative;
@@ -112,7 +114,10 @@
   transition: transform 500ms;
   transform: scale(1);
   opacity: 1;
-  pointer-events: none;
+  pointer-events: all;
+  left: 70px;
+  top: 12px;
+  z-index: 20;
 
   &:hover {
     transform: scale(1.2) !important;
