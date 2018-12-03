@@ -2,7 +2,7 @@
 const TILEMAPS = {
   WATERCOLOR: {
     name: 'Watercolor',
-    url: 'http://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
+    url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
     range: [1, 2, 3, 4],
   },
   DGIS: {
@@ -12,27 +12,27 @@ const TILEMAPS = {
   },
   DEFAULT: {
     name: 'OpenStreetMap',
-    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     range: ['a', 'b', 'c'],
   },
   DARQ: {
     name: 'Darq',
-    url: 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
     range: [1, 2, 3, 4],
   },
   BLANK: {
     name: 'Blanque',
-    url: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
     range: [1, 2, 3, 4],
   },
   HOT: {
     name: 'Hot',
-    url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
     range: ['a', 'b', 'c'],
   },
   SAT: {
     name: 'Google Sattelite',
-    url: 'http://mt{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+    url: 'https://mt{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
     range: [0, 1, 2, 3],
   },
   YMAP: {
