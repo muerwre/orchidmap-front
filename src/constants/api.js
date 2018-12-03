@@ -1,9 +1,8 @@
-export const SERVER = 'http://alpha-map.vault48.org';
-export const TEST = 'http://localhost:3000';
+import { CLIENT } from '$config/frontend';
 
 export const API = {
-  GET_GUEST: `${TEST}/auth`,
-  CHECK_TOKEN: `${TEST}/auth`,
-  GET_MAP: `${TEST}/route`,
-  POST_MAP: `${TEST}/route`,
+  GET_GUEST: `${CLIENT.API_ADDR}/auth`,
+  CHECK_TOKEN: `${CLIENT.API_ADDR}/auth`,
+  GET_MAP: `${CLIENT.API_ADDR}/route`,
+  POST_MAP: `${CLIENT.API_ADDR}/route`,
 };

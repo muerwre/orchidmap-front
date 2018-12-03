@@ -1,6 +1,4 @@
 // Стили карт
-import { editor } from '$modules/Editor';
-
 const TILEMAPS = {
   WATERCOLOR: {
     name: 'Watercolor',

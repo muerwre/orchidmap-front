@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import Routing from 'leaflet-routing-machine/src/index';
-import { CONFIG } from '$config';
+import { CLIENT } from '$config/frontend';
 import { DomMarker } from '$utils/DomMarker';
 
 export class Router {
@@ -22,7 +22,7 @@ export class Router {
     }).on('linetouched', this.lockPropagations);
 
     this.router = Routing.control({
-      serviceUrl: CONFIG.OSRM_URL,
+      serviceUrl: CLIENT.OSRM_URL,
       profile: 'bike',
       fitSelectedRoutes: false,
       routeLine,

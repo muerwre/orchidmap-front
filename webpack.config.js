@@ -35,7 +35,7 @@ const resolve = {
     $containers: join(__dirname, 'src/containers'),
     $constants: join(__dirname, 'src/constants'),
     $sprites: join(__dirname, 'src/sprites'),
-    $config: join(__dirname, 'src/config'),
+    $config: join(__dirname, './config'),
     $styles: join(__dirname, 'src/styles'),
     $redux: join(__dirname, 'src/redux'),
     $utils: join(__dirname, 'src/utils'),

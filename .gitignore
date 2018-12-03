@@ -14,5 +14,8 @@ yarn-error.log
 /osrm/pbf
 /osrm/pbf/*
 
+/config/frontend.js
+/config/backend.js
+
 # Bundle
 *.js.map

@@ -4,7 +4,7 @@ Bicycle routes app with automatic routes, map screenshots, stickers and other fe
 ## Prerequisites
 node, osrm-server
 
-### Installing 
+### Installing
 First, download and install the project
 ```
 git clone https://github.com/muerwre/orchidMap.git
@@ -22,18 +22,20 @@ Next you need to edit start_server.sh to specify address, port for server and pa
 
 After that run start_server.sh in screen or by the way you feel comfortable.
 
-Next edit ```./src/config.js``` and specify OSRM url there. By default, OSRM starts at ```http://localhost:5000/```
+Next edit ```./config/frontend.js``` and specify OSRM url there. By default, OSRM starts at ```https://localhost:5001/```
 
-### Frontend
-Configs are placed in ```./src/config.js``` and ```./src/constants/```
+### Common setup
+Look at ```/config/``` folder, there's backend and frontend .example.js files, just rename them to .js only.
 
+### Client
+Configs are placed in ```./config/frontend.js```
 
 For development launch ```npm start``` and visit ```http://localhost:8000/```
 
 For production launch ```npm build```, the output will be placed at ```./dist``` folder, you should configure your http server to serve index html from that folder.
 
 ### Backend
-Take a look at ```./backend/config/``` files, especially at ```db.js```. Your api server will be spawned at ```http://localhost:3000/```
+Take a look at ```./config/backend.js```. By default your api server will be spawned at ```http://localhost:3000/```
 
 For development launch ```npm serve-dev```, it will launch dev server, reloading on every code update
 

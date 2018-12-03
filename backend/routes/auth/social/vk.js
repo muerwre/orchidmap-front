@@ -2,7 +2,7 @@ const { User } = require('../../../models');
 const axios = require('axios');
 const { generateUser } = require('../guest');
 const { STRINGS } = require('../../../config/strings');
-const { SOCIAL } = require('../../../config/social');
+const { CONFIG } = require('../../../../config/backend');
 
 const fetchUserData = async (req, res) => {
   const { query: { code } } = req;
@@ -12,8 +12,8 @@ const fetchUserData = async (req, res) => {
     'https://oauth.vk.com/access_token',
     {
       params: {
-        client_id: SOCIAL.VK.client_id,
-        client_secret: SOCIAL.VK.client_secret,
+        client_id: CONFIG.SOCIAL.VK.APP_ID,
+        client_secret: CONFIG.SOCIAL.VK.SECRET,
         code,
         redirect_uri: `http://${host}/auth/social/vk`,
       }

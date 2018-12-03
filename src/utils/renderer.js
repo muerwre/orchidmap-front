@@ -1,7 +1,7 @@
 import { editor } from '$modules/Editor';
-import { COLORS, CONFIG } from '$config';
+import { COLORS, CLIENT } from '$config/frontend';
 import saveAs from 'file-saver';
-import { DEFAULT_PROVIDER, PROVIDERS, replaceProviderUrl } from '$constants/providers';
+import { replaceProviderUrl } from '$constants/providers';
 
 const latLngToTile = latlng => {
   const { map } = editor.map;
@@ -119,7 +119,7 @@ export const composePoly = ({ points, ctx }) => {
   ctx.strokeStyle = 'red';
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.lineWidth = CONFIG.STROKE_WIDTH + 0.5;
+  ctx.lineWidth = CLIENT.STROKE_WIDTH + 0.5;
 
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);

@@ -54,7 +54,7 @@
               "$containers": "src/containers",
               "$constants": "src/constants",
               "$sprites": "src/sprites",
-              "$config": "src/config",
+              "$config": "config",
               "$styles": "src/styles",
               "$redux": "src/redux",
               "$utils": "src/utils",
@@ -62,8 +62,7 @@
             },
 
             "extensions": [".js", ".jsx", ".scss"],
-
-            "modules": ["src", "node_modules"]
+            "modules": ["config", "src", "node_modules"]
           }
         }
       }
