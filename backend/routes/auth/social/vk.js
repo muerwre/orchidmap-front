@@ -7,6 +7,7 @@ const { CONFIG } = require('../../../../config/backend');
 const fetchUserData = async (req, res) => {
   const { query: { code } } = req;
   const host = req.get('host');
+  const proto = req.connection.encrypted ? 'https' : 'http';
 
   const { data: { access_token, user_id } } = await axios.get(
     'https://oauth.vk.com/access_token',
@@ -15,7 +16,7 @@ const fetchUserData = async (req, res) => {
         client_id: CONFIG.SOCIAL.VK.APP_ID,
         client_secret: CONFIG.SOCIAL.VK.SECRET,
         code,
-        redirect_uri: `http://${host}/auth/social/vk`,
+        redirect_uri: `${proto}://${host}/auth/social/vk`,
       }
     }
   ).catch(err => {
