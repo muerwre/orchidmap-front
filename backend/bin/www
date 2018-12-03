@@ -8,7 +8,7 @@ const https = require('https');
 
 if (CONFIG.HTTP.ENABLED) {
   const httpPort = CONFIG.HTTP.PORT;
-  app.set('port', httpPort);
+  // app.set('port', httpPort);
 
   const httpServer = http.createServer(app);
   httpServer.listen(httpPort);
@@ -19,13 +19,13 @@ if (CONFIG.HTTP.ENABLED) {
 
 if (CONFIG.HTTPS.ENABLED) {
   const sslPort = CONFIG.HTTPS.PORT;
-  app.set('port', sslPort);
+  // app.set('port', sslPort);
 
-  const privateKey = fs.readFileSync(CONFIG.HTTPS.PRIVATE_KEY, 'utf8');
-  const certificate = fs.readFileSync(CONFIG.HTTPS.CERTIFICATE, 'utf8');
+  const key = fs.readFileSync(CONFIG.HTTPS.PRIVATE_KEY, 'utf8');
+  const cert = fs.readFileSync(CONFIG.HTTPS.CERTIFICATE, 'utf8');
   const ca = fs.readFileSync(CONFIG.HTTPS.CA, 'utf8');
 
-  const sslServer = https.createServer({ privateKey, certificate, ca }, app);
+  const sslServer = https.createServer({ key, cert, ca }, app);
 
   sslServer.listen(sslPort);
   sslServer.on('error', console.log);
