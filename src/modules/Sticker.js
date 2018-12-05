@@ -1,9 +1,10 @@
 import { marker } from 'leaflet';
 import 'leaflet-editable';
-
+import React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
 import { STICKERS } from '$constants/stickers';
+import ReactDOM from 'react-dom';
 
 export class Sticker {
   constructor({
@@ -21,20 +22,43 @@ export class Sticker {
     this.lockMapClicks = lockMapClicks;
 
     this.element = document.createElement('div');
-    this.stickerImage = document.createElement('div');
-    this.stickerArrow = document.createElement('div');
-    this.stickerDelete = document.createElement('div');
+    ReactDOM.render(
+      <React.Fragment>
+        <div
+          className="sticker-arrow"
+          ref={el => { this.stickerArrow = el; }}
+        />
+        <div
+          className="sticker-label"
+          ref={el => { this.stickerImage = el; }}
+          onMouseDown={this.onDragStart}
+          onMouseUp={this.onDragStop}
+        >
+          {this.generateStickerSVG(sticker)}
+          <div
+            className="sticker-delete"
+            onMouseDown={this.onDelete}
+          />
+        </div>
+      </React.Fragment>,
+      this.element
+    );
 
-    this.element.className = 'sticker-container';
-    this.stickerImage.className = 'sticker-label';
-    this.stickerArrow.className = 'sticker-arrow';
-    this.stickerDelete.className = 'sticker-delete';
+    // this.stickerImage = document.createElement('div');
+    // this.stickerArrow = document.createElement('div');
+    // this.stickerDelete = document.createElement('div');
 
-    this.stickerImage.innerHTML = this.generateStickerSVG(sticker);
+    // this.element.className = 'sticker-container';
 
-    this.element.appendChild(this.stickerArrow);
-    this.element.appendChild(this.stickerImage);
-    this.stickerArrow.appendChild(this.stickerDelete);
+    // this.stickerImage.className = 'sticker-label';
+    // this.stickerArrow.className = 'sticker-arrow';
+    // this.stickerDelete.className = 'sticker-delete';
+
+    // this.stickerImage.innerHTML = this.generateStickerSVG(sticker);
+
+    // this.element.appendChild(this.stickerArrow);
+    // this.element.appendChild(this.stickerImage);
+    // this.stickerImage.appendChild(this.stickerDelete);
 
     const mark = new DomMarker({
       element: this.element,
@@ -43,16 +67,16 @@ export class Sticker {
 
     this.marker = marker(latlng, { icon: mark });
 
-    this.setAngle(angle);
+    //
 
-    this.stickerImage.addEventListener('mousedown', this.onDragStart);
-    this.stickerImage.addEventListener('mouseup', this.onDragStop);
-
+    // this.stickerImage.addEventListener('mousedown', this.onDragStart);
+    // this.stickerImage.addEventListener('mouseup', this.onDragStop);
+    this.element.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.preventPropagations);
-    this.stickerDelete.addEventListener('mousedown', this.onDelete);
-
+    // this.stickerDelete.addEventListener('mousedown', this.onDelete);
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
+    this.setAngle(angle);
     this.triggerOnChange();
   }
 
@@ -62,6 +86,7 @@ export class Sticker {
   };
 
   onDragStart = e => {
+    console.log('drag start');
     this.preventPropagations(e);
 
     this.isDragging = true;
@@ -107,7 +132,7 @@ export class Sticker {
   };
 
   setAngle = angle => {
-    const rad = 44;
+    const rad = 56;
     const mrad = 76;
     const x = ((Math.cos(angle + 3.14) * rad) - 30);
     const y = ((Math.sin(angle + 3.14) * rad) - 30);
@@ -125,17 +150,13 @@ export class Sticker {
   };
 
   generateStickerSVG = ({ set, sticker }) => (
-    // `
-    //   <svg width="64" height="64">
-    //      <use xlink:href="${stickers}#sticker-${sticker}" x="0" y="0" width="64" height="64" />
-    //   </svg>
-    // `
-    `
-      <div 
-        class="sticker-image" 
-        style="background-image: url('${STICKERS[set].url}');background-position: ${-STICKERS[set].layers[sticker].off * 72} 50%">
-      </div>
-    `
+    <div
+      className="sticker-image"
+      style={{
+          backgroundImage: `url('${STICKERS[set].url}`,
+          backgroundPosition: `${-STICKERS[set].layers[sticker].off * 72} 50%`,
+        }}
+    />
   );
 
   dumpData = () => ({
