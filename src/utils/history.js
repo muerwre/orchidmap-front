@@ -1,12 +1,10 @@
-export const getPath = () => (window.location && window.location.pathname &&
-  window.location.pathname.replace(/^\//, ''));
+import { history } from '$redux/store';
 
-export const pushPath = url => window.history.pushState(url, 'Редактирование маршрута', url);
+export const getPath = () => (window.location && window.location.pathname);
+export const pushPath = url => history.push(url);
 
-export const getUrlData = () => {
-  const url = getPath();
-
-  const [path, mode] = url.split('/');
+export const getUrlData = (url = getPath()) => {
+  const [, path, mode] = url.split('/');
   const { host } = window.location;
 
   return { path, mode, host };

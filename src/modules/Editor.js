@@ -218,7 +218,6 @@ export class Editor {
     this.stickers.clearAll();
   };
 
-
   setData = ({
     route, stickers, version = 1, owner, title, address
   }) => {
@@ -272,19 +271,21 @@ export class Editor {
 
     this.setInitialData();
 
-    const url = (this.owner && this.owner.id === id) ? path : random_url;
+    // const url = (this.owner && this.owner.id === id) ? path : random_url;
+    this.owner = { id };
 
-    pushPath(`/${url}/edit`);
+    // console.log('PATH IS', path);
+    // pushPath(`/${url}/edit`);
 
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
-
     this.stickers.startEditing();
   };
 
   stopEditing = () => {
-    const { path } = getUrlData();
+    // const { path } = getUrlData();
 
-    pushPath(`/${(this.initialData && this.initialData.path) || path}`);
+    // console.log('PATH IS', path, this.initialData.path);
+    // pushPath(`/${(this.initialData && this.initialData.path) || path}`);
 
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();

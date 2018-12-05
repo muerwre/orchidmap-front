@@ -4,7 +4,7 @@ import { GuestButton } from '$components/user/GuestButton';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout, takeAShot } from '$redux/user/actions';
+import { setUser, userLogout, takeAShot, setDialog } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
@@ -12,12 +12,14 @@ import { Icon } from '$components/panels/Icon';
 
 import classnames from 'classnames';
 import { CLIENT } from '$config/frontend';
+import { DIALOGS } from '$constants/dialogs';
 
 type Props = {
   user: UserType,
   userLogout: Function,
   setUser: Function,
-  takeAShot: Function,
+  setDialog: Function,
+  dialog: String,
 };
 
 export class Component extends React.PureComponent<Props, void> {
@@ -54,6 +56,9 @@ export class Component extends React.PureComponent<Props, void> {
   }
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
+  openMapsDialog = () => {
+    this.props.setDialog({ dialog: DIALOGS.MAP_LIST });
+  };
 
   openOauthFrame = () => {
     const width = parseInt(window.innerWidth, 10);
@@ -78,7 +83,7 @@ export class Component extends React.PureComponent<Props, void> {
 
     return (
       <div>
-        <div className="panel active">
+        <div className="panel active panel-user">
           <div className="user-panel">
             {
               !user || user.role === ROLES.guest
@@ -96,7 +101,7 @@ export class Component extends React.PureComponent<Props, void> {
           <div className="control-bar">
             <button
               className={classnames({ disabled: route_count <= 0 })}
-              // onClick={this.props.takeAShot}
+              onClick={this.openMapsDialog}
             >
               <Icon icon="icon-folder-1" />
             </button>
@@ -108,7 +113,12 @@ export class Component extends React.PureComponent<Props, void> {
 }
 
 
-const mapStateToProps = ({ user: { user } }) => ({ user });
-const mapDispatchToProps = dispatch => bindActionCreators({ setUser, userLogout, takeAShot }, dispatch);
+const mapStateToProps = ({ user: { dialog, user } }) => ({ dialog, user });
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setUser,
+  userLogout,
+  takeAShot,
+  setDialog,
+}, dispatch);
 
 export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);

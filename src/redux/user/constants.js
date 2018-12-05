@@ -1,4 +1,6 @@
-export const ACTIONS = {
+// @flow
+
+export const ACTIONS = ({
   SET_USER: 'SET_USER',
   USER_LOGOUT: 'USER_LOGOUT',
 
@@ -38,4 +40,8 @@ export const ACTIONS = {
   CROP_A_SHOT: 'CROP_A_SHOT',
 
   SET_PROVIDER: 'SET_PROVIDER',
-};
+
+  SET_DIALOG: 'SET_DIALOG',
+  LOCATION_CHANGED: 'LOCATION_CHANGED',
+  SET_READY: 'SET_READY',
+}: { [key: String]: String });

@@ -14,3 +14,18 @@ export type UserType = {
     photo: String,
   }
 };
+
+type Path = Array<{ lat: Number, lng: Number }>;
+type Stickers = Array<Object>;
+
+export type Route = {
+  _id: String,
+  title: String,
+  version: Number,
+  stickers: Array<Stickers>,
+  route: Array<Path>,
+  logo: String,
+  distance: Number,
+  created_at: String,
+  updated_at: String,
+}

@@ -1,4 +1,6 @@
-export const MODES = {
+// @flow
+
+export const MODES = ({
   POLY: 'POLY',
   STICKERS: 'STICKERS',
   ROUTER: 'ROUTER',
@@ -9,4 +11,4 @@ export const MODES = {
   SAVE: 'SAVE',
   CONFIRM_CANCEL: 'CONFIRM_CANCEL',
   PROVIDER: 'PROVIDER',
-};
+}: { [key: String]: String });

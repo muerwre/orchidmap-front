@@ -1,3 +1,4 @@
+const { generateRandomUrl } = require('../auth/guest');
 const { Route } = require('../../models');
 
 module.exports = async (req, res) => {
@@ -9,6 +10,7 @@ module.exports = async (req, res) => {
 
   if (!exists) return res.send({ success: false, mode: 'not_found_2' });
   const data = exists.toObject();
+  const random_url = await generateRandomUrl();
 
   return res.send({
     success: true,
@@ -17,7 +19,8 @@ module.exports = async (req, res) => {
     owner: {
       ...data.owner,
       id: data.owner._id,
-    }
+    },
+    random_url,
   });
 };
 

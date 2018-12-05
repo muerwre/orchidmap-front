@@ -1,3 +1,4 @@
+// @flow
 import { createReducer } from 'reduxsauce';
 import { ACTIONS } from '$redux/user/constants';
 import { DEFAULT_USER } from '$constants/auth';
@@ -5,6 +6,7 @@ import { MODES } from '$constants/modes';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { TIPS } from '$constants/tips';
 import { DEFAULT_PROVIDER } from '$constants/providers';
+import { DIALOGS } from '$constants/dialogs';
 
 const getEstimated = distance => {
   const time = (distance && (distance / 15)) || 0;
@@ -73,7 +75,18 @@ const setRenderer = (state, { payload }) => ({
 
 const setProvider = (state, { provider }) => ({ ...state, provider });
 
-const HANDLERS = {
+const setDialog = (state, { dialog, dialog_active }) => ({
+  ...state,
+  dialog: dialog || state.dialog,
+  dialog_active: typeof dialog_active !== 'undefined' ? dialog_active : !state.dialog_active,
+});
+
+const setReady = (state, { ready = true }) => ({
+  ...state,
+  ready,
+});
+
+const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
   [ACTIONS.SET_CHANGED]: setChanged,
@@ -96,9 +109,13 @@ const HANDLERS = {
   [ACTIONS.SET_RENDERER]: setRenderer,
 
   [ACTIONS.SET_PROVIDER]: setProvider,
-};
+
+  [ACTIONS.SET_DIALOG]: setDialog,
+  [ACTIONS.SET_READY]: setReady,
+}: { [key: String]: Function });
 
 export const INITIAL_STATE = {
+  ready: false,
   user: { ...DEFAULT_USER },
   editing: false,
   mode: MODES.NONE,
@@ -116,6 +133,9 @@ export const INITIAL_STATE = {
   save_finished: false,
   save_overwriting: false,
   save_processing: false,
+
+  dialog: DIALOGS.NONE,
+  dialog_active: false,
 
   renderer: {
     data: '',

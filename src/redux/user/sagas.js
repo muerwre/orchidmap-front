@@ -7,7 +7,7 @@ import {
   setActiveSticker, setAddress,
   setChanged,
   setEditing,
-  setMode, setRenderer,
+  setMode, setReady, setRenderer,
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
@@ -62,12 +62,15 @@ function* startEmptyEditorSaga() {
 }
 
 function* startEditingSaga() {
-  yield editor.startEditing();
-  yield put(setEditing(true));
+  // yield put(setEditing(true));
+  // yield editor.startEditing();
+  const { path } = getUrlData();
+  yield pushPath(`/${path}/edit`);
 }
 
 function* stopEditingSaga() {
   const { changed, editing, mode } = yield select(getState);
+  const { path } = getUrlData();
 
   if (!editing) return;
   if (changed && mode !== MODES.CONFIRM_CANCEL) {
@@ -76,40 +79,59 @@ function* stopEditingSaga() {
   }
 
   yield editor.cancelEditing();
-
   yield put(setMode(MODES.NONE));
-
   yield put(setChanged(false));
-
   yield put(setEditing(editor.hasEmptyHistory)); // don't close editor if no previous map
+
+  yield pushPath(`/${path}/`);
+}
+
+function* loadMapSaga(path) {
+  const map = yield call(getStoredMap, { name: path });
+
+  if (map) {
+    yield editor.setData(map);
+    yield editor.fitDrawing();
+    yield put(setChanged(false));
+  }
+
+  return map;
 }
 
 function* mapInitSaga() {
   const { path, mode } = getUrlData();
 
   if (path) {
-    const map = yield call(getStoredMap, { name: path });
+    const map = yield call(loadMapSaga, path);
+    // const map = yield call(getStoredMap, { name: path });
 
     if (map) {
-      yield editor.setData(map);
-      yield editor.fitDrawing();
-      yield put(setChanged(false));
+    //   yield editor.setData(map);
+    //   yield editor.fitDrawing();
+    //   yield put(setChanged(false));
 
       if (mode && mode === 'edit') {
-        yield call(startEditingSaga);
+        yield put(setEditing(true));
+        editor.startEditing();
+        // yield call(startEditingSaga); // <-- this is working
         // yield put(setEditing(true));
         // editor.startEditing();
       } else {
-        yield put(setEditing(false));
+        // yield put(setEditing(false)); // <-- this is working
         // yield call(stopEditingSaga);
+        yield put(setEditing(false));
         editor.stopEditing();
       }
 
-      return hideLoader();
+      yield put(setReady(true));
+      hideLoader();
+      return true;
     }
   }
 
-  return yield call(startEmptyEditorSaga);
+  yield call(startEmptyEditorSaga);
+  yield put(setReady(true));
+  return true;
 }
 
 function* authChechSaga() {
@@ -120,7 +142,6 @@ function* authChechSaga() {
 
     if (user) {
       yield put(setUser(user));
-
       return yield call(mapInitSaga);
     }
   }
@@ -294,9 +315,37 @@ function setProviderSaga({ provider }) {
   return put(setMode(MODES.NONE));
 }
 
-export function* userSaga() {
-  // ASYNCHRONOUS!!! :-)
+function* locationChangeSaga({ location }) {
+  const { address, editing, ready, user: { id, random_url } } = yield select(getState);
 
+  if (!ready) return;
+
+  const { path, mode } = getUrlData(location);
+
+  if (address !== path) {
+    const map = yield call(loadMapSaga, path);
+
+    if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
+      pushPath(`/${map.random_url}/edit`);
+      return;
+    }
+  } else if (mode === 'edit' && editor.owner.id !== id) {
+    pushPath(`/${random_url}/edit`);
+    return;
+  }
+
+  if (editing !== (mode === 'edit')) {
+    if (mode === 'edit') {
+      yield put(setEditing(true));
+      editor.startEditing();
+    } else {
+      yield put(setEditing(false));
+      editor.stopEditing();
+    }
+  }
+}
+
+export function* userSaga() {
   yield takeLatest(REHYDRATE, authChechSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
 
@@ -322,4 +371,5 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.CROP_A_SHOT, cropAShotSaga);
 
   yield takeEvery(ACTIONS.SET_PROVIDER, setProviderSaga);
+  yield takeLatest(ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 }

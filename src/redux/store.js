@@ -6,6 +6,8 @@ import createSagaMiddleware from 'redux-saga';
 
 import { userReducer } from '$redux/user/reducer';
 import { userSaga } from '$redux/user/sagas';
+import { createBrowserHistory } from 'history';
+import { locationChanged } from '$redux/user/actions';
 
 const userPersistConfig = {
   key: 'user',
@@ -42,3 +44,8 @@ export function configureStore() {
 
   return { store, persistor };
 }
+
+export const history = createBrowserHistory();
+export const historyListener = history.listen(location => {
+  store.dispatch(locationChanged(location.pathname));
+});
