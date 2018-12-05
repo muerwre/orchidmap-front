@@ -6,7 +6,7 @@ import { Router } from '$modules/Router';
 import { DEFAULT_LOGO } from '$constants/logos';
 
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
-import { getUrlData, pushPath } from '$utils/history';
+import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
 import {
   resetSaveDialog,
@@ -236,6 +236,7 @@ export class Editor {
         latlng: sticker.latlng,
         angle: parseStickerAngle({ sticker, version }),
         sticker: parseStickerStyle({ sticker, version }),
+        text: sticker.text,
       }));
     }
 

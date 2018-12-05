@@ -19,7 +19,7 @@
     position: absolute;
     border-radius: 40px;
     opacity: 0.25;
-    transform: scale(0.6);
+    transform: scale(0.5);
     transition: opacity 250ms, transform 500ms;
   }
 
@@ -69,8 +69,8 @@
   //}
 
   svg {
-    left: -12px;
-    top: -12px;
+    left: -8px;
+    top: -8px;
     position: relative;
     z-index: 0;
   }
@@ -78,11 +78,19 @@
   .sticker-image {
     width: 72px;
     height: 72px;
-    left: -8px;
-    top: -8px;
+    left: -12px;
+    top: -12px;
     position: relative;
     z-index: 0;
     background-size: cover;
+  }
+
+  &.left {
+    .sticker-desc {
+      padding: 10px 36px 10px 10px;
+      left: auto;
+      right: 24px;
+    }
   }
 }
 
@@ -116,8 +124,8 @@
   transform: scale(1);
   opacity: 1;
   pointer-events: all;
-  left: 42px;
-  top: 0;
+  left: 28px;
+  top: -16px;
   z-index: 20;
 
   &:hover {
@@ -149,5 +157,44 @@
   &:hover {
     transform: scale(1.5);
     z-index: 2;
+  }
+}
+
+.sticker-desc {
+  min-width: 60px;
+
+  height: auto;
+  background: #222222;
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  transform: translate3d(0, -50%, 0);
+  color: white;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 36px;
+}
+
+.sticker-desc-sizer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: rgba(0,0,0,0);
+  white-space: nowrap;
+  padding: 1px;
+
+  textarea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    font: inherit;
+    padding: 0;
+    border: none;
+    background: none;
+    color: white;
+    resize: none;
+    outline: none;
+    overflow: hidden;
   }
 }

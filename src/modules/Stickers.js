@@ -20,7 +20,7 @@ export class Stickers {
   //   this.createSticker({ latlng });
   // };
 
-  createSticker = ({ latlng, sticker, angle = 2.2 }) => {
+  createSticker = ({ latlng, sticker, angle = 2.2, text = '' }) => {
     const marker = new Sticker({
       latlng,
       angle,
@@ -29,6 +29,7 @@ export class Stickers {
       lockMapClicks: this.lockMapClicks,
       sticker,
       triggerOnChange: this.triggerOnChange,
+      text,
     });
     this.stickers.push(marker);
 

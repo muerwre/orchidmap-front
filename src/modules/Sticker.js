@@ -5,11 +5,14 @@ import { DomMarker } from '$utils/DomMarker';
 
 import { STICKERS } from '$constants/stickers';
 import ReactDOM from 'react-dom';
+import { StickerDesc } from '$components/StickerDesc';
+import classnames from 'classnames';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker, triggerOnChange, angle = 2.2
+    latlng, deleteSticker, map, lockMapClicks, sticker, triggerOnChange, angle = 2.2, text = '',
   }) {
+    this.text = text;
     this.latlng = latlng;
     this.angle = angle;
     this.isDragging = false;
@@ -17,7 +20,7 @@ export class Sticker {
     this.sticker = sticker;
     this.editable = true;
     this.triggerOnChange = triggerOnChange;
-
+    this.direction = 'right';
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
 
@@ -29,11 +32,12 @@ export class Sticker {
           ref={el => { this.stickerArrow = el; }}
         />
         <div
-          className="sticker-label"
+          className={classnames('sticker-label', {})}
           ref={el => { this.stickerImage = el; }}
           onMouseDown={this.onDragStart}
           onMouseUp={this.onDragStop}
         >
+          <StickerDesc value={this.text} onChange={this.setText} />
           {this.generateStickerSVG(sticker)}
           <div
             className="sticker-delete"
@@ -80,13 +84,16 @@ export class Sticker {
     this.triggerOnChange();
   }
 
+  setText = text => {
+    this.text = text;
+  };
+
   onDelete = () => {
     this.triggerOnChange();
     if (!this.isDragging) this.deleteSticker(this);
   };
 
   onDragStart = e => {
-    console.log('drag start');
     this.preventPropagations(e);
 
     this.isDragging = true;
@@ -132,13 +139,20 @@ export class Sticker {
   };
 
   setAngle = angle => {
-    const rad = 56;
-    const mrad = 76;
-    const x = ((Math.cos(angle + 3.14) * rad) - 30);
-    const y = ((Math.sin(angle + 3.14) * rad) - 30);
+    const direction = (angle > -(Math.PI / 2) && angle < (Math.PI / 2)) ? 'left' : 'right';
 
-    const ax = ((Math.cos(angle + 3.4) * mrad) - 12);
-    const ay = ((Math.sin(angle + 3.4) * mrad) - 12);
+    if (direction !== this.direction) {
+      this.direction = direction;
+      this.stickerImage.className = `sticker-label ${direction}`;
+    }
+
+    const rad = 56;
+    // const mrad = 76;
+    const x = ((Math.cos(angle + Math.PI) * rad) - 30);
+    const y = ((Math.sin(angle + Math.PI) * rad) - 30);
+
+    // const ax = ((Math.cos(angle + 3.4) * mrad) - 12);
+    // const ay = ((Math.sin(angle + 3.4) * mrad) - 12);
 
     this.stickerImage.style.left = 6 + x;
     this.stickerImage.style.top = 6 + y;
@@ -146,7 +160,7 @@ export class Sticker {
     // this.stickerDelete.style.left = ax;
     // this.stickerDelete.style.top = ay;
 
-    this.stickerArrow.style.transform = `rotate(${angle + 3.14}rad)`;
+    this.stickerArrow.style.transform = `rotate(${angle + Math.PI}rad)`;
   };
 
   generateStickerSVG = ({ set, sticker }) => (
@@ -163,6 +177,7 @@ export class Sticker {
     angle: this.angle,
     latlng: { ...this.marker.getLatLng() },
     sticker: this.sticker,
+    text: this.text,
   });
 
   stopEditing = () => {
