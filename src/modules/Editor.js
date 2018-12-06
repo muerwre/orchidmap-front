@@ -68,6 +68,7 @@ export class Editor {
         toggle: this.clearMode,
       },
       [MODES.SAVE]: {
+        toggle: this.clearMode,
         stop: this.resetSaveDialog,
       },
       [MODES.PROVIDER]: {
