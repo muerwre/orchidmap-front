@@ -4,7 +4,7 @@ import { GuestButton } from '$components/user/GuestButton';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout, takeAShot, setDialog } from '$redux/user/actions';
+import { setUser, userLogout, takeAShot, setDialog, gotVkUser } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
@@ -19,7 +19,7 @@ type Props = {
   userLogout: Function,
   setUser: Function,
   setDialog: Function,
-  dialog: String,
+  gotVkUser: Function,
 };
 
 export class Component extends React.PureComponent<Props, void> {
@@ -51,7 +51,7 @@ export class Component extends React.PureComponent<Props, void> {
       };
 
       this.setState({ menuOpened: false });
-      this.props.setUser(user);
+      this.props.gotVkUser(user);
     });
   }
 
@@ -119,6 +119,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   userLogout,
   takeAShot,
   setDialog,
+  gotVkUser,
 }, dispatch);
 
 export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);

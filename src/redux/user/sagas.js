@@ -137,7 +137,7 @@ function* mapInitSaga() {
   return true;
 }
 
-function* authChechSaga() {
+function* authCheckSaga() {
   const { id, token } = yield select(getUser);
 
   if (id && token) {
@@ -351,8 +351,14 @@ function* locationChangeSaga({ location }) {
   }
 }
 
+function* gotVkUserSaga({ user }) {
+  const data = yield call(checkUserToken, user);
+
+  yield put(setUser(data));
+}
+
 export function* userSaga() {
-  yield takeLatest(REHYDRATE, authChechSaga);
+  yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
 
   yield takeEvery(ACTIONS.START_EDITING, startEditingSaga);
@@ -378,4 +384,6 @@ export function* userSaga() {
 
   yield takeEvery(ACTIONS.SET_PROVIDER, setProviderSaga);
   yield takeLatest(ACTIONS.LOCATION_CHANGED, locationChangeSaga);
+
+  yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
 }

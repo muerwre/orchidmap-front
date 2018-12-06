@@ -167,7 +167,7 @@ const composeStickerArrow = (ctx, x, y, angle) => {
   ctx.translate(x, y);
   ctx.rotate(angle + (Math.PI * 0.75));
   ctx.translate(-x, -y);
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = '#ff3344';
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(x + 38, y + 20);

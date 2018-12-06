@@ -14,7 +14,9 @@ export const UserButton = ({
   setMenuOpened,
   user: {
     id,
-    userdata: { name, photo }
+    // userdata: { name, photo },
+    photo,
+    name,
   }
 }: Props) => (
   <div className="control-bar user-bar">

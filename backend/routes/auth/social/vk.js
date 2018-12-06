@@ -19,9 +19,7 @@ const fetchUserData = async (req, res) => {
         redirect_uri: `${proto}://${host}/auth/social/vk`,
       }
     }
-  ).catch(err => {
-    console.log('[SOCIAL] error:', err);
-
+  ).catch(() => {
     return res.render('social/vk_error', {
       title: STRINGS.OAUTH.ERROR_TITLE,
       heading: STRINGS.OAUTH.ERROR_HEADING,
@@ -40,9 +38,7 @@ const fetchUserData = async (req, res) => {
         access_token,
       }
     }
-  ).catch(err => {
-    console.log('[SOCIAL] error:', err);
-
+  ).catch(() => {
     return res.render('social/vk_error', {
       title: STRINGS.OAUTH.ERROR_TITLE,
       heading: STRINGS.OAUTH.ERROR_HEADING,

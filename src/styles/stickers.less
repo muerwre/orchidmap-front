@@ -103,7 +103,7 @@
 
   &:after {
     content: ' ';
-    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38' preserveAspectRatio='none'%3E%3Cpolygon points='0,0 38,20 38,38 20,38' style='fill:%23ff4433;' /%3E%3C/svg%3E") no-repeat;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38' preserveAspectRatio='none'%3E%3Cpolygon points='0,0 38,20 38,38 20,38' style='fill:%23ff3344;' /%3E%3C/svg%3E") no-repeat;
     width: 50px;
     height: 50px;
     transform-origin: 0 0;
@@ -138,8 +138,32 @@
 }
 
 .stickers-helper {
-  display: grid;
-  grid-template-columns: repeat( auto-fit , minmax(48px, 1fr) );
+  flex-direction: column;
+  padding-top: 0;
+}
+
+.stickers-grid {
+  // display: grid;
+  // grid-template-columns: repeat( auto-fit , minmax(48px, 1fr) );
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stickers-set-title {
+  opacity: 0.3;
+  font-size: 0.8em;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+
+  &::after {
+    content: ' ';
+    height: 1px;
+    flex: 1;
+    background-color: #666666;
+    margin-left: 10px;
+  }
 }
 
 .sticker-preview {

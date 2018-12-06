@@ -43,3 +43,6 @@ export const setProvider = provider => ({ type: ACTIONS.SET_PROVIDER, provider }
 export const setDialog = ({ dialog, dialog_active }) => ({ type: ACTIONS.SET_DIALOG, dialog });
 export const locationChanged = location => ({ type: ACTIONS.LOCATION_CHANGED, location });
 export const setReady = ready => ({ type: ACTIONS.SET_READY, ready });
+
+
+export const gotVkUser = user => ({ type: ACTIONS.GOT_VK_USER, user });

@@ -44,4 +44,6 @@ export const ACTIONS = ({
   SET_DIALOG: 'SET_DIALOG',
   LOCATION_CHANGED: 'LOCATION_CHANGED',
   SET_READY: 'SET_READY',
+
+  GOT_VK_USER: 'GOT_VK_USER',
 }: { [key: String]: String });
