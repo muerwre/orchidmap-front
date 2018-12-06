@@ -13,22 +13,16 @@ import { setMode, startEditing, stopEditing, setLogo, takeAShot } from '$redux/u
 import type { UserType } from '$constants/types';
 
 type Props = {
-  user: UserType,
   editing: false,
   mode: String,
   changed: Boolean,
   distance: Number,
-  title: String,
-  address: String,
   logo: String,
-  routerPoints: Number,
-  activeSticker: String,
   estimated: Number, // todo: implement!
 
   setMode: Function,
   startEditing: Function,
   stopEditing: Function,
-  setLogo: Function,
   takeAShot: Function,
 }
 

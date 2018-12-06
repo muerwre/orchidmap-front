@@ -90,8 +90,11 @@ function* loadMapSaga(path) {
   const map = yield call(getStoredMap, { name: path });
 
   if (map) {
+    yield editor.clearAll();
     yield editor.setData(map);
     yield editor.fitDrawing();
+    yield editor.setInitialData();
+
     yield put(setChanged(false));
   }
 

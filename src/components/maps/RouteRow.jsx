@@ -26,13 +26,10 @@ export const RouteRow = ({
         <Icon icon="icon-link-1" />
         {_id}
       </span>
-    </div>
-    <div className="route-description">
       <span>
         <Icon icon="icon-cycle-1" />
         {(distance && `${distance} km`) || '0 km'}
       </span>
     </div>
-
   </div>
 );
