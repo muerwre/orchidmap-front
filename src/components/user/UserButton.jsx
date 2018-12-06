@@ -13,10 +13,11 @@ const getUserName = name => name.split(' ')[0];
 export const UserButton = ({
   setMenuOpened,
   user: {
-    id,
+    _id,
     // userdata: { name, photo },
     photo,
     name,
+    first_name,
   }
 }: Props) => (
   <div className="control-bar user-bar">
@@ -24,8 +25,8 @@ export const UserButton = ({
       <UserPicture photo={photo} />
 
       <div className="user-button-fields">
-        <div className="user-button-name">{((name && getUserName(name)) || id || '...')}</div>
-        <div className="user-button-text">{((name && id) || 'пользователь')}</div>
+        <div className="user-button-name">{(first_name || _id || '...')}</div>
+        <div className="user-button-text">{(_id || 'пользователь')}</div>
       </div>
     </div>
   </div>
