@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const { Schema } = mongoose;
 
 // Schemas
@@ -17,6 +16,7 @@ const UserSchema = new Schema(
     first_name: { type: String },
     last_name: { type: String },
     photo: { type: String },
+    version: { type: Number, default: 2 },
     routes: [{ type: Schema.Types.ObjectId, ref: 'Route' }]
   },
   {

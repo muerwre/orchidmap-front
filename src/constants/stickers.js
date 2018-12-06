@@ -17,13 +17,14 @@ export const STICKERS = {
       opera: { off: 11, title: 'Оперный', title_long: 'Оперный театр' },
       forest: { off: 1, title: 'Лес', title_long: 'Берёзовая роща' },
       road: { off: 2, title: 'Трасса', title_long: 'Дорога' },
-      chicken1: { off: 3, title: 'Курочка', title_long: 'Курочка' },
+      chicken: { off: 3, title: 'Курочка', title_long: 'Курочка' },
       camp: { off: 6, title: 'Палатка', title_long: 'Палаточный лагерь' },
       rocks: { off: 14, title: 'Камни', title_long: 'Кааааммммуушшшки' },
       crap: { off: 15, title: 'Щет', title_long: 'Полный щет' },
       pancake: { off: 13, title: 'Блинцы', title_long: 'Блинчики' },
       fastfood: { off: 16, title: 'Фастфуд', title_long: 'Быстрая еда' },
       beer: { off: 12, title: 'Пивко', title_long: 'Пивко' },
+      empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
   real: {

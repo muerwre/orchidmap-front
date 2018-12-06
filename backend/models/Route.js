@@ -11,11 +11,12 @@ const RouteSchema = new Schema(
     route: { type: Array, default: [] },
     stickers: { type: Array, default: [] },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
-    logo: { type: String, default: 'DEFAULT' },
     distance: { type: Number, default: 0 },
     public: { type: Boolean, default: true },
     created_at: { type: Date, default: Date.now() },
     updated_at: { type: Date, default: Date.now() },
+    logo: { type: String, default: 'DEFAULT' },
+    map_style: { type: String, default: 'DEFAULT' },
   },
 );
 
