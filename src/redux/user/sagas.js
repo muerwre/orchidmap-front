@@ -51,7 +51,7 @@ function* startEmptyEditorSaga() {
 
   pushPath(`/${random_url}/edit`);
 
-  editor.owner = id;
+  editor.owner = { id };
   editor.setProvider(provider);
   editor.startEditing();
 
@@ -161,9 +161,9 @@ function* setModeSaga({ mode }) {
 function* userLogoutSaga() {
   const { id } = yield select(getUser);
 
-  if (id === editor.owner) {
-    editor.owner = null;
-  }
+  // if (id === editor.owner) {
+  //   editor.owner = { id: null };
+  // }
 
   yield put(setUser(DEFAULT_USER));
   yield call(generateGuestSaga);
@@ -256,7 +256,7 @@ function* setSaveSuccessSaga({ address, title }) {
   yield put(setTitle(title));
   yield put(setAddress(address));
 
-  yield editor.owner = id;
+  yield editor.owner = { id };
 
   yield call(refreshUserData);
 
@@ -338,6 +338,8 @@ function* locationChangeSaga({ location }) {
   const { path, mode } = getUrlData(location);
 
   if (address !== path) {
+    console.log('LOADING NEW DATA');
+
     const map = yield call(loadMapSaga, path);
 
     if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
@@ -345,6 +347,7 @@ function* locationChangeSaga({ location }) {
       return;
     }
   } else if (mode === 'edit' && editor.owner.id !== id) {
+    console.log('NOT AN OWNER!!!', editor.owner.id, id);
     pushPath(`/${random_url}/edit`);
     return;
   }

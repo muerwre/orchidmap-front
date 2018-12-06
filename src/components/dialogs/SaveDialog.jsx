@@ -84,25 +84,20 @@ export class SaveDialog extends React.Component<Props, State> {
           <div className="save-buttons">
             <div className="save-buttons-text" />
             <div>
-
               { !save_finished &&
                 <div className="button" onClick={this.cancelSaving}>Отмена</div>
               }
-
               {
                 !save_finished && !save_overwriting &&
                 <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
               }
-
               {
                 save_overwriting &&
                 <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
               }
-
               { save_finished &&
                 <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>
               }
-
             </div>
           </div>
         </div>

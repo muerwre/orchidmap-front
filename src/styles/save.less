@@ -6,7 +6,7 @@
 .save-title {
   padding: 10px;
   width: 100%;
-  background: linear-gradient(150deg, @green_primary, @green_secondary);
+  background: linear-gradient(175deg, #abc837 -50%, #009c80 150%);
   flex-direction: column;
   border-radius: @panel_radius @panel_radius 0 0;
   font-weight: 200;
@@ -67,12 +67,14 @@
   padding: 5px 0 5px 10px;
   height: 100%;
   opacity: 0.5;
+  white-space: nowrap;
 }
 
 .save-text {
   padding: 10px;
   line-height: 1.1em;
   min-height: 2.2em;
+  font-size: 0.9em;
 }
 
 .save-buttons {
@@ -87,4 +89,18 @@
 
 .save-buttons-text {
   flex: 1;
+}
+
+.save-description {
+  textarea {
+    background: rgba(0,0,0,0.3);
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+    resize: none;
+    color: inherit;
+    font: inherit;
+    height: 5.5em;
+    padding: 0.25em;
+  }
 }

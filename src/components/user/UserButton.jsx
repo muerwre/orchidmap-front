@@ -8,15 +8,11 @@ type Props = {
   setMenuOpened: Function,
 };
 
-const getUserName = name => name.split(' ')[0];
-
 export const UserButton = ({
   setMenuOpened,
   user: {
     _id,
-    // userdata: { name, photo },
     photo,
-    name,
     first_name,
   }
 }: Props) => (
