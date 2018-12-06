@@ -35,11 +35,17 @@ export class Sticker {
         <div
           className={classnames('sticker-label', {})}
           ref={el => { this.stickerImage = el; }}
-          onMouseDown={this.onDragStart}
-          onMouseUp={this.onDragStop}
         >
           <StickerDesc value={this.text} onChange={this.setText} />
-          {this.generateStickerSVG(set, sticker)}
+          <div
+            className="sticker-image"
+            style={{
+              backgroundImage: `url('${STICKERS[set].url}`,
+              backgroundPosition: `${-STICKERS[set].layers[sticker].off * 72} 50%`,
+            }}
+            onMouseDown={this.onDragStart}
+            onMouseUp={this.onDragStop}
+          />
           <div
             className="sticker-delete"
             onMouseDown={this.onDelete}
@@ -49,22 +55,6 @@ export class Sticker {
       this.element
     );
 
-    // this.stickerImage = document.createElement('div');
-    // this.stickerArrow = document.createElement('div');
-    // this.stickerDelete = document.createElement('div');
-
-    // this.element.className = 'sticker-container';
-
-    // this.stickerImage.className = 'sticker-label';
-    // this.stickerArrow.className = 'sticker-arrow';
-    // this.stickerDelete.className = 'sticker-delete';
-
-    // this.stickerImage.innerHTML = this.generateStickerSVG(sticker);
-
-    // this.element.appendChild(this.stickerArrow);
-    // this.element.appendChild(this.stickerImage);
-    // this.stickerImage.appendChild(this.stickerDelete);
-
     const mark = new DomMarker({
       element: this.element,
       className: 'sticker-container',
@@ -72,13 +62,8 @@ export class Sticker {
 
     this.marker = marker(latlng, { icon: mark });
 
-    //
-
-    // this.stickerImage.addEventListener('mousedown', this.onDragStart);
-    // this.stickerImage.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.preventPropagations);
-    // this.stickerDelete.addEventListener('mousedown', this.onDelete);
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
     this.setAngle(angle);
@@ -98,12 +83,13 @@ export class Sticker {
     this.preventPropagations(e);
 
     this.isDragging = true;
-    this.marker.disableEdit();
 
     this.lockMapClicks(true);
 
     window.addEventListener('mousemove', this.onDrag);
     window.addEventListener('mouseup', this.onDragStop);
+
+    this.marker.disableEdit();
   };
 
   preventPropagations = e => {
@@ -116,16 +102,15 @@ export class Sticker {
   onDragStop = e => {
     this.preventPropagations(e);
 
-    if (!this.marker) return;
-
     this.triggerOnChange();
     this.isDragging = false;
-    this.marker.enableEdit();
 
     window.removeEventListener('mousemove', this.onDrag);
     window.removeEventListener('mouseup', this.onDragStop);
 
     this.lockMapClicks(false);
+
+    this.marker.enableEdit();
   };
 
   onDrag = e => {
@@ -150,32 +135,14 @@ export class Sticker {
     }
 
     const rad = 56;
-    // const mrad = 76;
+
     const x = ((Math.cos(angle + Math.PI) * rad) - 30);
     const y = ((Math.sin(angle + Math.PI) * rad) - 30);
-
-    // const ax = ((Math.cos(angle + 3.4) * mrad) - 12);
-    // const ay = ((Math.sin(angle + 3.4) * mrad) - 12);
 
     this.stickerImage.style.left = 6 + x;
     this.stickerImage.style.top = 6 + y;
 
-    // this.stickerDelete.style.left = ax;
-    // this.stickerDelete.style.top = ay;
-
     this.stickerArrow.style.transform = `rotate(${angle + Math.PI}rad)`;
-  };
-
-  generateStickerSVG = (set, sticker) => {
-    return (
-      <div
-        className="sticker-image"
-        style={{
-          backgroundImage: `url('${STICKERS[set].url}`,
-          backgroundPosition: `${-STICKERS[set].layers[sticker].off * 72} 50%`,
-        }}
-      />
-    );
   };
 
   dumpData = () => ({

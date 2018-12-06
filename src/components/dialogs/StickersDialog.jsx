@@ -11,7 +11,7 @@ export const StickersDialog = ({ setActiveSticker }: Props) => (
   <div className="helper stickers-helper">
     {
       Object.keys(STICKERS).map(set => (
-        <div>
+        <div key={set}>
           <div className="stickers-set-title">{STICKERS[set].title || null}</div>
           <div className="stickers-grid">
             {

@@ -4,17 +4,22 @@ const { generateGuest, generateRandomUrl } = require('./guest');
 module.exports = async (req, res) => {
   const { id, token } = req.query;
 
-  const user = await User.findOne({ _id: id, token }).populate({
-    path: 'routes',
-    options: {
-      limit: 100,
-      sort: { updated_at: -1 },
-    }
-  });
+  const user = await User.findOne({ _id: id, token })
+    .populate({
+      path: 'routes',
+      select: '_id title distance owner updated_at',
+      options: {
+        limit: 100,
+        sort: { updated_at: -1 },
+      }
+    });
+
   const random_url = await generateRandomUrl();
 
   if (user) {
-    return res.send({ success: true, ...user.toObject(), id: user._id, random_url });
+    return res.send({
+      success: true, ...user.toObject(), id: user._id, random_url
+    });
   }
 
   const guest = await generateGuest();

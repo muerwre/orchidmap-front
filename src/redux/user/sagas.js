@@ -242,14 +242,23 @@ function* sendSaveRequestSaga({ title, address, force }) {
   return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title }));
 }
 
+function* refreshUserData() {
+  const user = yield select(getUser);
+  const data = yield call(checkUserToken, user);
+
+  return yield put(setUser(data));
+}
+
 function* setSaveSuccessSaga({ address, title }) {
   const { id } = yield select(getUser);
 
   pushPath(`/${address}/edit`);
   yield put(setTitle(title));
   yield put(setAddress(address));
-  // yield editor.setAddress(address);
+
   yield editor.owner = id;
+
+  yield call(refreshUserData);
 
   return yield editor.setInitialData();
 }
@@ -353,7 +362,6 @@ function* locationChangeSaga({ location }) {
 
 function* gotVkUserSaga({ user }) {
   const data = yield call(checkUserToken, user);
-
   yield put(setUser(data));
 }
 
