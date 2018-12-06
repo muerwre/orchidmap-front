@@ -185,6 +185,7 @@ const measureRect = (x, y, width, height, reversed) => ({
   rectH: height + 20,
   textX: reversed ? (x - width - 36) : x + 36
 });
+
 const composeStickerText = (ctx, x, y, angle, text) => {
   const rad = 56;
   const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + x + 28;
@@ -228,10 +229,7 @@ const composeStickerImage = async (ctx, x, y, angle, set, sticker) => {
   const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + y - 4;
   const offsetX = STICKERS[set].layers[sticker].off * 72;
 
-  console.log(STICKERS[set].url);
-
   return imageFetcher(STICKERS[set].url).then(image => (
-    // ctx.drawImage(image, 0, 0, 72, 72, 100, 100, 72, 72)
     ctx.drawImage(image, offsetX, 0, 72, 72, tX, tY, 72, 72)
   ));
 
@@ -242,7 +240,8 @@ export const composeStickers = async ({ stickers, ctx }) => {
 
   stickers.map(({ x, y, angle, text }) => {
     composeStickerArrow(ctx, x, y, angle);
-    composeStickerText(ctx, x, y, angle, text);
+
+    if (text) composeStickerText(ctx, x, y, angle, text);
   });
 
   await Promise.all(stickers.map(({

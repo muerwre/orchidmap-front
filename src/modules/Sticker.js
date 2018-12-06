@@ -116,6 +116,8 @@ export class Sticker {
   onDragStop = e => {
     this.preventPropagations(e);
 
+    if (!this.marker) return;
+
     this.triggerOnChange();
     this.isDragging = false;
     this.marker.enableEdit();
