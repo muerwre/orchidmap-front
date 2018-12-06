@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     path: 'routes',
     options: {
       limit: 100,
-      sort: { updated: 1 },
+      sort: { updated_at: -1 },
     }
   });
   const random_url = await generateRandomUrl();

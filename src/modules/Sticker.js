@@ -10,7 +10,7 @@ import classnames from 'classnames';
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker, triggerOnChange, angle = 2.2, text = '',
+    latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '',
   }) {
     this.text = text;
     this.latlng = latlng;
@@ -18,6 +18,7 @@ export class Sticker {
     this.isDragging = false;
     this.map = map;
     this.sticker = sticker;
+    this.set = set;
     this.editable = true;
     this.triggerOnChange = triggerOnChange;
     this.direction = 'right';
@@ -38,7 +39,7 @@ export class Sticker {
           onMouseUp={this.onDragStop}
         >
           <StickerDesc value={this.text} onChange={this.setText} />
-          {this.generateStickerSVG(sticker)}
+          {this.generateStickerSVG(set, sticker)}
           <div
             className="sticker-delete"
             onMouseDown={this.onDelete}
@@ -163,20 +164,23 @@ export class Sticker {
     this.stickerArrow.style.transform = `rotate(${angle + Math.PI}rad)`;
   };
 
-  generateStickerSVG = ({ set, sticker }) => (
-    <div
-      className="sticker-image"
-      style={{
+  generateStickerSVG = (set, sticker) => {
+    return (
+      <div
+        className="sticker-image"
+        style={{
           backgroundImage: `url('${STICKERS[set].url}`,
           backgroundPosition: `${-STICKERS[set].layers[sticker].off * 72} 50%`,
         }}
-    />
-  );
+      />
+    );
+  };
 
   dumpData = () => ({
     angle: this.angle,
     latlng: { ...this.marker.getLatLng() },
     sticker: this.sticker,
+    set: this.set,
     text: this.text,
   });
 

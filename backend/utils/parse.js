@@ -9,7 +9,7 @@ module.exports.parseRoute = route => route.filter(el => (
 ));
 
 module.exports.parseStickers = stickers => stickers.filter(el => (
-  Object.keys(el).length === 4
+  Object.keys(el).length === 5
   && el.latlng
     && Object.keys(el.latlng).length === 2
       && el.latlng.lat

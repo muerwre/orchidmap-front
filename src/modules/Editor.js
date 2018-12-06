@@ -18,6 +18,7 @@ import {
   setTitle,
 } from '$redux/user/actions';
 import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
+import { STICKERS } from '$constants/stickers';
 
 export class Editor {
   constructor() {
@@ -136,7 +137,7 @@ export class Editor {
     if (!e || !e.latlng || !this.activeSticker) return;
     const { latlng } = e;
 
-    this.stickers.createSticker({ latlng, sticker: this.activeSticker });
+    this.stickers.createSticker({ latlng, sticker: this.activeSticker.sticker, set: this.activeSticker.set });
     this.setActiveSticker(null);
     this.setChanged(true);
   };
@@ -232,12 +233,18 @@ export class Editor {
 
     this.stickers.clearAll();
     if (stickers) {
-      stickers.map(sticker => this.stickers.createSticker({
-        latlng: sticker.latlng,
-        angle: parseStickerAngle({ sticker, version }),
-        sticker: parseStickerStyle({ sticker, version }),
-        text: sticker.text,
-      }));
+      stickers.map(sticker =>
+        sticker.set && STICKERS[sticker.set].url &&
+          this.stickers.createSticker({
+            latlng: sticker.latlng,
+            // angle: parseStickerAngle({ sticker, version }),
+            // sticker: parseStickerStyle({ sticker, version }),
+            angle: sticker.angle,
+            sticker: sticker.sticker,
+            set: sticker.set,
+            text: sticker.text,
+          })
+      );
     }
 
     if (owner) this.owner = owner;

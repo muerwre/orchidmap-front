@@ -20,9 +20,9 @@ import { DEFAULT_USER } from '$constants/auth';
 import { TIPS } from '$constants/tips';
 import {
   composeImages,
-  composePoly, downloadCanvas,
+  composePoly, composeStickers, downloadCanvas,
   fetchImages,
-  getPolyPlacement,
+  getPolyPlacement, getStickersPlacement,
   getTilePlacement,
   imageFetcher
 } from '$utils/renderer';
@@ -259,12 +259,15 @@ function* getRenderData() {
 
   const geometry = getTilePlacement();
   const points = getPolyPlacement();
+  const stickers = getStickersPlacement();
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const images = yield fetchImages(ctx, geometry);
 
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
+  yield composeStickers({ stickers, ctx });
 
   return yield canvas.toDataURL('image/jpeg');
 }

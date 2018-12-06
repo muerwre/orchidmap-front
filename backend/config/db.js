@@ -14,3 +14,5 @@ const database = mongoose.connection;
 
 database.on('error', (err) => { console.error(`Database Connection Error: ${err}`); process.exit(2); });
 database.on('connected', () => { console.info('Succesfully connected to MongoDB Database'); });
+
+console.log(`DB: mongodb://${USER}:${PASSWORD}@${HOSTNAME}:${PORT}/${DATABASE}`);

@@ -65,6 +65,17 @@ export const getPolyPlacement = () => (
     : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
 );
 
+export const getStickersPlacement = () => (
+  (!editor.stickers || editor.stickers.dumpData().length <= 0)
+    ? []
+    : editor.stickers.dumpData().map(({ latlng: { lat, lng }, text, angle, sticker }) => ({
+      ...editor.map.map.latLngToContainerPoint({ lat, lng }),
+      text,
+      sticker,
+      angle,
+    }))
+);
+
 const getImageSource = coords => replaceProviderUrl(editor.provider, coords);
 
 export const imageFetcher = source => new Promise((resolve, reject) => {
@@ -142,7 +153,74 @@ export const composePoly = ({ points, ctx }) => {
   ctx.stroke();
   ctx.closePath();
 
-  return true;
+  return;
+};
+
+const measureText = (ctx, text, lineHeight) => (
+  text.split('\n').reduce((obj, line) => (
+    {
+      width: Math.max(ctx.measureText(line).width, obj.width),
+      height: obj.height + lineHeight,
+    }
+  ), { width: 0, height: 0 })
+);
+
+const composeStickerArrow = (ctx, x, y, angle) => {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle + (Math.PI * 0.75));
+  ctx.translate(-x, -y);
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + 38, y + 20);
+  ctx.lineTo(x + 38, y + 38);
+  ctx.lineTo(x + 20, y + 38);
+  ctx.fill();
+  ctx.closePath();
+  ctx.restore();
+};
+
+const composeStickerText = (ctx, x, y, angle, text) => {
+  const rad = 56;
+  const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + x + 28;
+  const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + y + 29;
+
+  ctx.font = '12px "Helvetica Neue", Arial';
+  const lines = text.split('\n');
+  const { width, height } = measureText(ctx, text, 16);
+
+  // rectangle
+  ctx.fillStyle = '#222222';
+  ctx.beginPath();
+  ctx.rect(
+    tX,
+    tY + 3 - (height / 2) - 10,
+    width + 36 + 10,
+    height + 20,
+  );
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = 'white';
+  lines.map((line, i) => {
+    ctx.fillText(
+      line,
+      tX + 36,
+      tY + (16 * i) + 16 - (height / 2)
+    );
+  });
+};
+
+export const composeStickers = ({ stickers, ctx }) => {
+  if (!stickers || stickers.length < 0) return;
+
+  stickers.map(({ x, y, angle, text }) => {
+    composeStickerArrow(ctx, x, y, angle);
+    composeStickerText(ctx, x, y, angle, text);
+  });
+
+  return;
 };
 
 export const downloadCanvas = (canvas, title) => canvas.toBlob(blob => saveAs(blob, title));
