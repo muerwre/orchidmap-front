@@ -13,7 +13,6 @@ import { Renderer } from '$components/renderer/Renderer';
 import { hideRenderer } from '$redux/user/actions';
 import { Cursor } from '$components/Cursor';
 import { LeftDialog } from '$containers/LeftDialog';
-import { DIALOGS } from '$constants/dialogs';
 
 type Props = {
   renderer_active: Boolean,

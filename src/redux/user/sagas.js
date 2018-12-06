@@ -237,6 +237,7 @@ function* sendSaveRequestSaga({ title, address, force }) {
 
   if (cancel) return yield put(setMode(MODES.NONE));
   if (result && result.mode === 'overwriting') return yield put(setSaveOverwrite());
+  if (result && result.mode === 'exists') return yield put(setSaveError(TIPS.SAVE_EXISTS));
   if (timeout || !result || !result.success || !result.address) return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
 
   return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title }));
