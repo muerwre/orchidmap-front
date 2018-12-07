@@ -28,6 +28,11 @@
 
   @media (max-width: @mobile_breakpoint) {
     width: 100%;
+    z-index: 6;
+
+    &.active {
+      background: rgba(19, 45, 53, 0.8);
+    }
   }
 
 }
@@ -55,6 +60,13 @@
     fill: white;
     width: 40px;
     height: 40px;
+  }
+
+  @media (max-width: @mobile_breakpoint) {
+    border-radius: @panel_radius;
+    bottom: 10px;
+    right: 10px;
+    width: 49px;
   }
 }
 
