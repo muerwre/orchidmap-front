@@ -12,8 +12,10 @@ export const AppInfoDialog = () => (
       <div className="small gray">
         версия{' '}
         {(APP_INFO.VERSION || 1)}.
-        {(APP_INFO.CHANGELOG[APP_INFO.VERSION].length || 0)}
+        {(APP_INFO.CHANGELOG[APP_INFO.VERSION].length || 0)}.
+        {(APP_INFO.CHANGELOG[APP_INFO.VERSION][APP_INFO.CHANGELOG[APP_INFO.VERSION].length - 1].length - 1 || 0)}
       </div>
+      <hr />
       <div className="small app-info-list">
         <div>
           Исходный код:{' '}
@@ -50,7 +52,7 @@ export const AppInfoDialog = () => (
                       <div className="app-info-release" key={release}>
                         <div className="app-info-number">{APP_INFO.CHANGELOG[version].length - y}.</div>
                         <div className="app-info-build">
-                        {
+                          {
                           APP_INFO.CHANGELOG[version][y].map((build, z) => (
                             <div className="app-info-change" key={build}>
                               <div className="app-info-number">{(z)}.</div>

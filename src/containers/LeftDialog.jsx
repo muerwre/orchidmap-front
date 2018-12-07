@@ -16,7 +16,9 @@ const LEFT_DIALOGS = {
 };
 
 export const LeftDialog = ({ dialog, dialog_active }: Props) => (
-  <div className={classnames('dialog', { active: dialog_active })}>
-    { dialog && LEFT_DIALOGS[dialog] && React.createElement(LEFT_DIALOGS[dialog]) }
-  </div>
+  Object.keys(LEFT_DIALOGS).map(item => (
+    <div className={classnames('dialog', { active: dialog_active && (dialog === item) })} key={item}>
+      { dialog && LEFT_DIALOGS[item] && React.createElement(LEFT_DIALOGS[item]) }
+    </div>
+  ))
 );

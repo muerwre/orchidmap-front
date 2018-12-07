@@ -19,9 +19,6 @@ export const UserMenu = ({ userLogout, openAppInfoDialog }: Props) => (
     <div className="user-panel-item" onClick={openAppInfoDialog}>
       О редакторе карт
     </div>
-    <a className="user-panel-item" href="https://github.com/muerwre/orchidMap" target="_blank" rel="noopener noreferrer">
-      Проект на github
-    </a>
     <div className="user-panel-item" onClick={userLogout}>
       Выйти
     </div>
