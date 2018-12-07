@@ -13,11 +13,11 @@ type Props = {
 export const TrashDialog = ({
   clearPoly, clearStickers, clearAll, clearCancel, width,
 }: Props) => (
-  <div className="control-dialog" style={{ width }}>
+  <div className="control-dialog control-dialog-big" style={{ width }}>
     <div className="helper trash-helper">
       <div className="helper__text danger">
         <Icon icon="icon-trash-4" />
-        <div className="big upper">Удалить:</div>
+        <div className="big upper desktop-only">Удалить:</div>
       </div>
       <div className="helper__buttons">
         <div className="button-group">
@@ -28,7 +28,7 @@ export const TrashDialog = ({
             Стикеры
           </div>
           <div className="button router-helper__button" onClick={clearAll}>
-            Удалить все
+            ВСЕ
           </div>
         </div>
         <div className="button primary router-helper__button" onClick={clearCancel}>

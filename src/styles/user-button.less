@@ -18,6 +18,14 @@
 
   user-select: none;
   cursor: pointer;
+
+  @media (max-width: @mobile_breakpoint) {
+    width: 0;
+
+    .user-button-fields {
+      display: none;
+    }
+  }
 }
 
 .user-button-picture {
@@ -74,7 +82,11 @@
   border-radius: @panel_radius;
   padding: 0;
   box-sizing: border-box;
-  z-index: -1
+  z-index: -1;
+
+  @media (max-width: @mobile_breakpoint) {
+    left: 58px;
+  }
 }
 .user-panel-title {
   font-size: 20px;

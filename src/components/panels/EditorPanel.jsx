@@ -63,13 +63,11 @@ class Component extends React.PureComponent<Props, void> {
             <UserLocation />
           </div>
 
-          <div className="status-bar padded">
+          <div className="status-bar padded desktop-only">
             {distance} км&nbsp;
             <Icon icon="icon-cycle" size={32} />
             {
-              <span>{
-                toHours(estimated)
-              }</span>
+              <span>{toHours(estimated)}</span>
             }
           </div>
         </div>
@@ -143,6 +141,7 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ primary: changed, disabled: !changed })}
               onClick={this.startSaveMode}
             >
+              <span className="desktop-only">СХОРОНИТЬ</span>
               <Icon icon="icon-check-1" />
             </button>
           </div>

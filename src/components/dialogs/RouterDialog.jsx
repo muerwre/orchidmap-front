@@ -56,7 +56,7 @@ const draggablePoints = ({ routerCancel, routerSubmit }: Props) => (
 );
 
 export const RouterDialog = ({ routerPoints, routerCancel, routerSubmit, width }: Props) => (
-  <div className="control-dialog" style={{ width }}>
+  <div className="control-dialog control-dialog-big" style={{ width }}>
     {!routerPoints && noPoints({ routerCancel })}
     {routerPoints === 1 && firstPoint({ routerCancel })}
     {routerPoints >= 2 && draggablePoints({ routerCancel, routerSubmit })}
