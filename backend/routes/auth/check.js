@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       path: 'routes',
       select: '_id title distance owner updated_at',
       options: {
-        limit: 20,
+        limit: 200,
         sort: { updated_at: -1 },
       }
     });

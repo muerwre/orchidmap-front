@@ -13,21 +13,29 @@ type Props = {
 };
 
 const Component = ({ routes, editing, routes_sorted }: Props) => (
-  <Scroll
-    className="dialog-content"
-  >
-    <div className="dialog-maplist">
-      {
-          routes_sorted.map(id => (
-            <RouteRow
-              editing={editing}
-              {...routes[id]}
-              key={id}
-            />
-          ))
-        }
+  <div className="dialog-content">
+    <div className="dialog-head">
+      <div className="dialog-head-title">
+        Ваши маршруты
+      </div>
+      <div className="small gray">
+        ({routes_sorted.length} шт.)
+      </div>
     </div>
-  </Scroll>
+    <Scroll className="dialog-shader">
+      <div className="dialog-maplist">
+        {
+            routes_sorted.map(id => (
+              <RouteRow
+                editing={editing}
+                {...routes[id]}
+                key={id}
+              />
+            ))
+          }
+      </div>
+    </Scroll>
+  </div>
 );
 
 const mapStateToProps = ({ user: { editing, user: { routes } } }) => ({

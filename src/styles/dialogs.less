@@ -32,6 +32,11 @@
   border-radius: @panel_radius;
   box-shadow: @dialog_shadow;
 
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-shader {
   &::before, &::after {
     content: ' ';
     height: 40px;
@@ -103,4 +108,16 @@
     overflow: hidden;
     white-space: nowrap;
   }
+}
+
+.dialog-head {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: @panel_radius @panel_radius 0 0;
+  color: white;
+}
+
+.dialog-head-title {
+  font-size: 20px;
+  text-transform: uppercase;
 }
