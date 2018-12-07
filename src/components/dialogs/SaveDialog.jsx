@@ -64,7 +64,7 @@ export class SaveDialog extends React.Component<Props, State> {
     const { host } = getUrlData();
 
     return (
-      <div className="control-dialog" style={{ width }}>
+      <div className="control-dialog control-dialog-medium" style={{ width }}>
         <div className="helper save-helper">
           <div className="save-title">
             <div className="save-title-input">

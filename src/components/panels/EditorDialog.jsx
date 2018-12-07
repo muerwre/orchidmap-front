@@ -45,9 +45,7 @@ const DIALOG_CONTENTS = {
 };
 
 export const Component = (props: Props) => {
-  const {
-    mode
-  } = props;
+  const { mode } = props;
 
   return (
     (mode && DIALOG_CONTENTS[mode] && React.createElement(DIALOG_CONTENTS[mode], { ...props }))

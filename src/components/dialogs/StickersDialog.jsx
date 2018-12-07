@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const StickersDialog = ({ setActiveSticker, width }: Props) => (
-  <div className="control-dialog" style={{ width }}>
+  <div className="control-dialog control-dialog-big" style={{ width }}>
     <div className="helper stickers-helper">
       {
         Object.keys(STICKERS).map(set => (
