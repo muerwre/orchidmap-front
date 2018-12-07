@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 
 import { hot } from 'react-hot-loader';
 import { Renderer } from '$components/renderer/Renderer';
-import { hideRenderer } from '$redux/user/actions';
+import { hideRenderer, setDialogActive } from '$redux/user/actions';
 import { Cursor } from '$components/Cursor';
 import { LeftDialog } from '$containers/LeftDialog';
 
@@ -29,7 +29,7 @@ const Component = (props: Props) => (
     <UserPanel />
     <EditorPanel />
     <Cursor mode={props.mode} sticker={props.sticker} set={props.set} />
-    <LeftDialog dialog={props.dialog} dialog_active={props.dialog_active} />
+    <LeftDialog dialog={props.dialog} dialog_active={props.dialog_active} setDialogActive={props.setDialogActive} />
 
     { props.renderer_active &&
       <Renderer onClick={props.hideRenderer} />
@@ -50,5 +50,5 @@ const mapStateToProps = ({
   set,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer, setDialogActive }, dispatch);
 export const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(Component));

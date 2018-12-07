@@ -10,7 +10,6 @@
   z-index: 5;
 
   padding: 10px 10px 68px 10px;
-  overflow: hidden;
   box-sizing: border-box;
 
   transform: translate3d(-100%, 0, 0);
@@ -20,6 +19,11 @@
   &.active {
     transform: translate3d(0, 0, 0);
     pointer-events: all;
+
+    .dialog-close-button {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
   }
 
   @media (max-width: @mobile_breakpoint) {
@@ -28,12 +32,38 @@
 
 }
 
+.dialog-close-button {
+  position: absolute;
+  right: -38px;
+  bottom: 68px;
+  background: @red_secondary;
+  width: 48px;
+  height: 48px;
+  transform: translate3d(-48px, 0, 0);
+  border-radius: 0 @panel_radius @panel_radius 0;
+  opacity: 0;
+
+  transition: all 250ms 250ms;
+  z-index: -1;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    fill: white;
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .dialog-content {
   background: #271535;
   height: 100%;
   overflow: hidden;
   position: relative;
-  border-radius: @panel_radius;
+  border-radius: @panel_radius @panel_radius 0 @panel_radius;
   box-shadow: @dialog_shadow;
 
   display: flex;
@@ -135,6 +165,7 @@
   color: white;
   padding: 10px;
   font-size: 0.8em;
+  user-select: none;
 
   div {
     opacity: 0.8;

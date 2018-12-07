@@ -18,19 +18,17 @@ export const AppInfoDialog = () => (
       <hr />
       <div className="small app-info-list">
         <div>
-          Исходный код:{' '}
+          <div>Исходный код:</div>
           <a href="//github.com/muerwre/orchidMap" target="_blank">github.com/muerwre/orchidMap</a>
         </div>
-      </div>
-      <div className="small app-info-list">
         <div>
-          Frontend:{' '}
+          <div>Frontend:</div>
           <a href="//reactjs.org/" target="_blank">ReactJS</a>,{' '}
           <a href="//leafletjs.com" target="_blank">Leaflet</a>,{' '}
           <a href="//www.liedman.net/leaflet-routing-machine/" target="_blank">Leaflet Routing Machine</a>{' '}
         </div>
         <div>
-          Backend:{' '}
+          <div>Backend:</div>
           <a href="//project-osrm.org/" target="_blank">OSRM</a>,{' '}
           <a href="//nodejs.org/" target="_blank">NodeJS</a>,{' '}
           <a href="//expressjs.com/" target="_blank">ExpressJS</a>,{' '}
