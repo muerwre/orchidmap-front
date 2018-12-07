@@ -19,6 +19,8 @@ type Props = {
   mode: String,
   dialog: String,
   dialog_active: Boolean,
+  sticker: String,
+  set: String,
 }
 
 const Component = (props: Props) => (
@@ -26,7 +28,7 @@ const Component = (props: Props) => (
     <Fills />
     <UserPanel />
     <EditorPanel />
-    <Cursor mode={props.mode} />
+    <Cursor mode={props.mode} sticker={props.sticker} set={props.set} />
     <LeftDialog dialog={props.dialog} dialog_active={props.dialog_active} />
 
     { props.renderer_active &&
@@ -35,11 +37,17 @@ const Component = (props: Props) => (
   </div>
 );
 
-const mapStateToProps = ({ user: { mode, dialog, dialog_active, renderer } }) => ({
+const mapStateToProps = ({
+  user: {
+    mode, dialog, dialog_active, renderer, activeSticker: { sticker = null, set = null },
+  }
+}) => ({
   renderer_active: renderer.renderer_active,
   mode,
   dialog,
   dialog_active,
+  sticker,
+  set,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer }, dispatch);

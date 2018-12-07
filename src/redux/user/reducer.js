@@ -32,7 +32,10 @@ const setDistance = (state, { distance }) => ({
 
 const setRouterPoints = (state, { routerPoints }) => ({ ...state, routerPoints });
 
-const setActiveSticker = (state, { activeSticker }) => ({ ...state, activeSticker });
+const setActiveSticker = (state, { activeSticker }) => ({
+  ...state,
+  activeSticker: activeSticker || { set: null, sticker: null }
+});
 const setLogo = (state, { logo }) => ({ ...state, logo });
 const setTitle = (state, { title }) => ({ ...state, title });
 const setAddress = (state, { address }) => ({ ...state, address });
@@ -123,7 +126,7 @@ export const INITIAL_STATE = {
   routerPoints: 0,
   distance: 0,
   estimated: 0,
-  activeSticker: null,
+  activeSticker: { set: null, sticker: null },
   title: '',
   address: '',
   changed: false,

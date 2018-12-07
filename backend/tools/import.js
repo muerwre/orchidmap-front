@@ -137,7 +137,7 @@ const run = async () => {
           ...stickersParser(stickers),
           ...pointParser(points)
         ],
-        logo,
+        logo: logo === 'default' ? 'nvs' : logo,
         title: '',
         version: 1,
         distance: calcPolyDistance(route),

@@ -3,7 +3,7 @@ import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
-import { DEFAULT_LOGO } from '$constants/logos';
+import { DEFAULT_LOGO, LOGOS } from '$constants/logos';
 
 import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData } from '$utils/history';
@@ -12,7 +12,7 @@ import {
   resetSaveDialog,
   setActiveSticker, setAddress,
   setChanged,
-  setDistance,
+  setDistance, setLogo,
   setMode,
   setRouterPoints,
   setTitle,
@@ -83,7 +83,6 @@ export class Editor {
 
     // this.clearChanged = clearChanged;
     // this.setActiveSticker = setActiveSticker;
-    // this.setLogo = setLogo;
     // this.setMode = setMode;
     // this.setEditing = setEditing;
     // this.setTitle = setTitle;
@@ -103,6 +102,7 @@ export class Editor {
   getRouterPoints = () => store.getState().user.routerPoints;
   getDistance = () => store.getState().user.distance;
 
+  setLogo = logo => store.dispatch(setLogo(logo));
   setMode = value => store.dispatch(setMode(value));
   setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker = value => store.dispatch(setActiveSticker(value));
@@ -221,7 +221,7 @@ export class Editor {
   };
 
   setData = ({
-    route, stickers, version = 1, owner, title, address
+    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO,
   }) => {
     this.setTitle(title || '');
     const { id } = this.getUser();
@@ -248,6 +248,8 @@ export class Editor {
       );
     }
 
+    this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
+    this.setProvider((provider && PROVIDERS[provider] && provider) || DEFAULT_PROVIDER);
     if (owner) this.owner = owner;
   };
 

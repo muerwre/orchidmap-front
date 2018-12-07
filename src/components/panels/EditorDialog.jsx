@@ -41,7 +41,7 @@ export const Component = (props: Props) => {
 
   const showDialog = (
     mode === MODES.ROUTER
-    || (mode === MODES.STICKERS && !activeSticker)
+    || (mode === MODES.STICKERS && !activeSticker.set)
     || mode === MODES.TRASH
     || mode === MODES.LOGO
     || mode === MODES.SAVE
