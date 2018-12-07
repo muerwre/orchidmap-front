@@ -32,6 +32,19 @@
   border-radius: @panel_radius;
   box-shadow: @dialog_shadow;
 
+  &::before {
+    content: ' ';
+    height: 40px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    // background: linear-gradient(0deg, rgba(2, 13, 43, 1) 50%, rgba(2,13,43,0));
+    // background: linear-gradient(0deg, rgba(34, 34, 34, 1) 50%, rgba(34, 34, 34, 0));
+    background: linear-gradient(180deg, rgba(39, 21, 53, 1), rgba(39, 21, 53, 0));
+    position: absolute;
+    z-index: 5;
+  }
+
   &::after {
     content: ' ';
     height: 40px;

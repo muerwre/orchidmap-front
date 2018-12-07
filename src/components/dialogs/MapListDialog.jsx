@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteRow } from '$components/maps/RouteRow';
 import type { Route } from '$constants/types';
-import { compareDesc } from 'date-fns';
+import { Scroll } from '$components/Scroll';
 
 type Props = {
   routes: { [id: String]: Route },
@@ -13,27 +13,29 @@ type Props = {
 };
 
 const Component = ({ routes, editing, routes_sorted }: Props) => (
-  <div className="dialog-content dialog-maplist">
-    {
-      routes_sorted.map(id => (
-        <RouteRow
-          editing={editing}
-          {...routes[id]}
-          key={id}
-        />
-      ))
-    }
-  </div>
+  <Scroll
+    className="dialog-content"
+  >
+    <div className="dialog-maplist">
+      {
+          routes_sorted.map(id => (
+            <RouteRow
+              editing={editing}
+              {...routes[id]}
+              key={id}
+            />
+          ))
+        }
+    </div>
+  </Scroll>
 );
 
 const mapStateToProps = ({ user: { editing, user: { routes } } }) => ({
   routes,
   editing,
-  routes_sorted: Object.keys(routes).sort((a, b) => compareDesc(routes[a].updated_at, routes[b].updated_at)),
+  routes_sorted: Object.keys(routes).sort((a, b) => (Date.parse(routes[b].updated_at) - Date.parse(routes[a].updated_at))),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+// const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
-}, dispatch);
-
-export const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const MapListDialog = connect(mapStateToProps)(Component);

@@ -69,3 +69,34 @@ body {
     fill: @blue_secondary;
   }
 }
+
+.track-vertical {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 10px !important;
+}
+
+.thumb-vertical {
+  position: absolute;
+  width: 20px !important;
+  left: -10px;
+  border-radius: 4px 0 0 4px;
+  transition: background 250ms;
+  cursor: grab;
+
+  &:hover, &:active {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &::after {
+    content: ' ';
+    width: 7px;
+    height: 100%;
+    display: block;
+    right: 0;
+    position: absolute;
+    border-radius: 4px 0 0 4px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+}
