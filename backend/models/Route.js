@@ -16,7 +16,7 @@ const RouteSchema = new Schema(
     created_at: { type: Date, default: Date.now() },
     updated_at: { type: Date, default: Date.now() },
     logo: { type: String, default: 'DEFAULT' },
-    map_style: { type: String, default: 'DEFAULT' },
+    provider: { type: String, default: 'DEFAULT' },
   },
 );
 

@@ -13,7 +13,7 @@ type Props = {
 };
 
 const Component = ({ routes, editing, routes_sorted }: Props) => (
-  <div className="dialog-maplist">
+  <div className="dialog-content dialog-maplist">
     {
       routes_sorted.map(id => (
         <RouteRow

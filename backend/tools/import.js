@@ -131,7 +131,7 @@ const run = async () => {
         owner: { _id: login },
         created_at,
         updated_at: created_at,
-        map_style: mapStyleParser(map_style),
+        provider: mapStyleParser(map_style),
         route,
         stickers: [
           ...stickersParser(stickers),
