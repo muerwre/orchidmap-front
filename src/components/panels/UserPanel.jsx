@@ -4,7 +4,7 @@ import { GuestButton } from '$components/user/GuestButton';
 import { DEFAULT_USER, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout, takeAShot, setDialog, gotVkUser } from '$redux/user/actions';
+import { setUser, userLogout, takeAShot, setDialog, gotVkUser, setDialogActive } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import type { UserType } from '$constants/types';
@@ -21,6 +21,7 @@ type Props = {
 
   userLogout: Function,
   setDialog: Function,
+  setDialogActive: Function,
   gotVkUser: Function,
 };
 
@@ -59,7 +60,14 @@ export class Component extends React.PureComponent<Props, void> {
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
   openMapsDialog = () => {
-    this.props.setDialog({ dialog: DIALOGS.MAP_LIST });
+    this.props.setDialog(DIALOGS.MAP_LIST);
+    this.props.setDialogActive(this.props.dialog !== DIALOGS.MAP_LIST);
+  };
+
+  openAppInfoDialog = () => {
+    this.setMenuOpened();
+    this.props.setDialog(DIALOGS.APP_INFO);
+    this.props.setDialogActive(this.props.dialog !== DIALOGS.APP_INFO);
   };
 
   openOauthFrame = () => {
@@ -94,7 +102,7 @@ export class Component extends React.PureComponent<Props, void> {
             }
             {
               (user && user.role && user.role !== 'guest' && menuOpened) &&
-              <UserMenu user={user} userLogout={this.props.userLogout} />
+                <UserMenu user={user} userLogout={this.props.userLogout} openAppInfoDialog={this.openAppInfoDialog} />
             }
           </div>
 
@@ -125,6 +133,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   takeAShot,
   setDialog,
   gotVkUser,
+  setDialogActive,
 }, dispatch);
 
 export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);

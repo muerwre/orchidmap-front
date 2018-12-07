@@ -78,10 +78,16 @@ const setRenderer = (state, { payload }) => ({
 
 const setProvider = (state, { provider }) => ({ ...state, provider });
 
-const setDialog = (state, { dialog, dialog_active }) => ({
+const setDialog = (state, { dialog }) => ({
   ...state,
-  dialog: dialog || state.dialog,
-  dialog_active: typeof dialog_active !== 'undefined' ? dialog_active : !state.dialog_active,
+  dialog,
+  // dialog_active: typeof dialog_active !== 'undefined' ? dialog_active : !state.dialog_active,
+  // dialog_active,
+});
+
+const setDialogActive = (state, { dialog_active }) => ({
+  ...state,
+  dialog_active: dialog_active || !state.dialog_active,
 });
 
 const setReady = (state, { ready = true }) => ({
@@ -114,6 +120,7 @@ const HANDLERS = ({
   [ACTIONS.SET_PROVIDER]: setProvider,
 
   [ACTIONS.SET_DIALOG]: setDialog,
+  [ACTIONS.SET_DIALOG_ACTIVE]: setDialogActive,
   [ACTIONS.SET_READY]: setReady,
 }: { [key: String]: Function });
 

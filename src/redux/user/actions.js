@@ -40,9 +40,10 @@ export const cropAShot = payload => ({ type: ACTIONS.CROP_A_SHOT, ...payload });
 
 export const setProvider = provider => ({ type: ACTIONS.SET_PROVIDER, provider });
 
-export const setDialog = ({ dialog, dialog_active }) => ({ type: ACTIONS.SET_DIALOG, dialog });
+export const setDialog = dialog => ({ type: ACTIONS.SET_DIALOG, dialog });
+export const setDialogActive = dialog_active => ({ type: ACTIONS.SET_DIALOG_ACTIVE, dialog_active });
+
 export const locationChanged = location => ({ type: ACTIONS.LOCATION_CHANGED, location });
 export const setReady = ready => ({ type: ACTIONS.SET_READY, ready });
-
 
 export const gotVkUser = user => ({ type: ACTIONS.GOT_VK_USER, user });

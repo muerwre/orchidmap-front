@@ -1,19 +1,23 @@
 import React from 'react';
-import { CLIENT } from '$config/frontend';
+import { APP_INFO } from '$constants/app_info';
 
 type Props = {
   userLogout: Function,
+  openAppInfoDialog: Function,
 }
 
-export const UserMenu = ({ userLogout }: Props) => (
+export const UserMenu = ({ userLogout, openAppInfoDialog }: Props) => (
   <div className="user-panel-menu">
     <div className="user-panel-title">
       ORCHID
       <br />
       MAP
       <span className="user-panel-ver">
-        - { CLIENT.VER }
+        - {(APP_INFO.VERSION || 1)}.{(APP_INFO.RELEASE.length || 0)}
       </span>
+    </div>
+    <div className="user-panel-item" onClick={openAppInfoDialog}>
+      О редакторе карт
     </div>
     <a className="user-panel-item" href="https://github.com/muerwre/orchidMap" target="_blank" rel="noopener noreferrer">
       Проект на github

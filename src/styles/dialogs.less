@@ -38,6 +38,11 @@
 
   display: flex;
   flex-direction: column;
+
+  a {
+    color: white;
+    opacity: 0.8;
+  }
 }
 
 .dialog-shader {
@@ -124,4 +129,72 @@
 .dialog-head-title {
   font-size: 20px;
   text-transform: uppercase;
+}
+
+.app-info-changelog {
+  color: white;
+  padding: 10px;
+  font-size: 0.8em;
+
+  div {
+    opacity: 0.8;
+  }
+}
+
+.app-info-number {
+  width: 16px;
+}
+
+.app-info-changelog-item {
+  text-transform: uppercase;
+  display: flex;
+  flex: 1;
+
+  .app-info-current {
+    font-size: 0.9em;
+    opacity: 0.3;
+    display: inline;
+    padding-left: 10px;
+  }
+}
+
+.app-info-version {
+  padding-bottom: 5px;
+  flex: 1;
+  flex-direction: column-reverse;
+}
+
+.app-info-release {
+  padding-bottom: 5px;
+  display: flex;
+  flex: 1;
+}
+
+.app-info-build {
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  flex: 1;
+}
+
+.app-info-change {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 5px;
+
+  .app-info-number {
+    width: 20px;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+.app-info-list {
+  padding: 10px 0;
+
+  div {
+    padding: 2.5px 0;
+  }
 }
