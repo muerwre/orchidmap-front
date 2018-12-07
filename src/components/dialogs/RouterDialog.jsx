@@ -5,6 +5,7 @@ type Props = {
   routerCancel: Function,
   routerSubmit: Function,
   routerPoints: Number,
+  width: Number,
 }
 
 const noPoints = ({ routerCancel }: Props) => (
@@ -54,8 +55,8 @@ const draggablePoints = ({ routerCancel, routerSubmit }: Props) => (
   </div>
 );
 
-export const RouterDialog = ({ routerPoints, routerCancel, routerSubmit }: Props) => (
-  <div>
+export const RouterDialog = ({ routerPoints, routerCancel, routerSubmit, width }: Props) => (
+  <div className="control-dialog" style={{ width }}>
     {!routerPoints && noPoints({ routerCancel })}
     {routerPoints === 1 && firstPoint({ routerCancel })}
     {routerPoints >= 2 && draggablePoints({ routerCancel, routerSubmit })}

@@ -263,7 +263,7 @@ export class Editor {
   setInitialData = () => {
     const { path } = getUrlData();
     const { id } = this.getUser();
-    const { route, stickers } = this.dumpData();
+    const { route, stickers, provider } = this.dumpData();
 
     this.initialData = {
       version: 2,
@@ -273,6 +273,7 @@ export class Editor {
       path,
       route,
       stickers,
+      provider,
     };
   };
 
@@ -321,6 +322,7 @@ export class Editor {
   dumpData = () => ({
     route: this.poly.dumpData(),
     stickers: this.stickers.dumpData(),
+    provider: this.provider,
   });
 
   setProvider = provider => {

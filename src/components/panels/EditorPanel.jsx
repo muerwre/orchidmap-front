@@ -75,16 +75,16 @@ class Component extends React.PureComponent<Props, void> {
         </div>
 
         <div className="status-panel top right">
-          <div className="status-bar pointer top-control padded">
+          <div className="status-bar pointer top-control padded" onClick={this.startProviderMode}>
             <Icon icon="icon-map-1" size={24} />
             <div className="status-bar-sep" />
-            {(provider && PROVIDERS[provider] && PROVIDERS[provider].name) || '...'}
+            <span>{(provider && PROVIDERS[provider] && PROVIDERS[provider].name) || '...'}</span>
           </div>
 
-          <div className="status-bar pointer top-control padded">
+          <div className="status-bar pointer top-control padded" onClick={this.startLogoMode}>
             <Icon icon="icon-logo-3" size={24} />
             <div className="status-bar-sep" />
-            {(logo && LOGOS[logo] && LOGOS[logo][0]) || '...'}
+            <span>{(logo && LOGOS[logo] && LOGOS[logo][0]) || '...'}</span>
           </div>
         </div>
 
@@ -122,24 +122,10 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
-              className={classnames({ active: mode === MODES.TRASH })}
+              className={classnames({ active: false })}
               onClick={this.props.takeAShot}
             >
-              <Icon icon="icon-shot-3" />
-            </button>
-
-            <button
-              className={classnames({ active: mode === MODES.PROVIDER })}
-              onClick={this.startProviderMode}
-            >
-              <Icon icon="icon-map-1" />
-            </button>
-
-            <button
-              className={classnames({ active: mode === MODES.LOGO })}
-              onClick={this.startLogoMode}
-            >
-              <Icon icon="icon-logo-3" />
+              <Icon icon="icon-shot-2" />
             </button>
           </div>
 
@@ -157,7 +143,6 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ primary: changed, disabled: !changed })}
               onClick={this.startSaveMode}
             >
-              <span>СХОРОНИТЬ</span>
               <Icon icon="icon-check-1" />
             </button>
           </div>

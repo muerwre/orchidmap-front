@@ -9,20 +9,22 @@ type Props = {
 }
 
 export const LogoDialog = ({ logo, setLogo }: Props) => (
-  <div className="helper logo-helper">
-    <div className="helper-back">
-      <Icon icon="icon-logo" size={200} />
+  <div className="control-dialog top">
+    <div className="helper logo-helper">
+      <div className="helper-back">
+        <Icon icon="icon-logo" size={200} />
+      </div>
+      {
+        Object.keys(LOGOS).map(item => (
+          <div
+            className={classnames('helper-menu-item', { active: (item === logo) })}
+            onClick={() => setLogo(item)}
+            key={item}
+          >
+            {LOGOS[item][0]}
+          </div>
+        ))
+      }
     </div>
-    {
-      Object.keys(LOGOS).map(item => (
-        <div
-          className={classnames('helper-menu-item', { active: (item === logo) })}
-          onClick={() => setLogo(item)}
-          key={item}
-        >
-          {LOGOS[item][0]}
-        </div>
-      ))
-    }
   </div>
 );

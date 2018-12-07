@@ -34,42 +34,24 @@ type Props = {
   width: Number,
 }
 
+const DIALOG_CONTENTS = {
+  [MODES.ROUTER]: RouterDialog,
+  [MODES.STICKERS]: StickersDialog,
+  [MODES.TRASH]: TrashDialog,
+  [MODES.LOGO]: LogoDialog,
+  [MODES.SAVE]: SaveDialog,
+  [MODES.CONFIRM_CANCEL]: CancelDialog,
+  [MODES.PROVIDER]: ProviderDialog,
+};
+
 export const Component = (props: Props) => {
   const {
-    mode, activeSticker, width
+    mode
   } = props;
 
-  const showDialog = (
-    mode === MODES.ROUTER
-    || (mode === MODES.STICKERS && !activeSticker.set)
-    || mode === MODES.TRASH
-    || mode === MODES.LOGO
-    || mode === MODES.SAVE
-    || mode === MODES.CONFIRM_CANCEL
-    || mode === MODES.PROVIDER
-  );
-
-  const dialogIsSmall = (
-    mode === MODES.LOGO
-  );
-
   return (
-    showDialog &&
-      <div
-        id="control-dialog"
-        style={{
-          width: dialogIsSmall ? 201 : width,
-          right: dialogIsSmall ? 217 : 10,
-        }}
-      >
-        { mode === MODES.ROUTER && <RouterDialog {...props} /> }
-        { mode === MODES.STICKERS && <StickersDialog {...props} /> }
-        { mode === MODES.TRASH && <TrashDialog {...props} /> }
-        { mode === MODES.LOGO && <LogoDialog {...props} /> }
-        { mode === MODES.SAVE && <SaveDialog {...props} /> }
-        { mode === MODES.CONFIRM_CANCEL && <CancelDialog {...props} /> }
-        { mode === MODES.PROVIDER && <ProviderDialog {...props} /> }
-      </div>
+    (mode && DIALOG_CONTENTS[mode] && React.createElement(DIALOG_CONTENTS[mode], { ...props }))
+      || <div>null</div>
   );
 };
 

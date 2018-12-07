@@ -1,5 +1,5 @@
 export const LOGOS = {
-  default: ['Без логотипа', null, 'bottom-right'],
+  default: ['Без лого', null, 'bottom-right'],
   nvs: ['НВС', 'http://map.vault48.org/misc/lgo.png', 'bottom-right'],
   pinmix: ['Пин-Микс', 'http://map.vault48.org/misc/pin-mix.png', 'top-right'],
   jolly: ['Пин-Микс + JW', 'http://map.vault48.org/misc/jw.png', 'top-right'],

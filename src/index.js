@@ -11,10 +11,10 @@
     todo map search
     todo map lazy loading
 
-  todo map preview on save
   todo tooltips
 
   todo better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
+
   todo network operations notify
     todo delayed notify (delay(2000).then(showLoadingMsg))
     todo network error notifications
@@ -24,6 +24,7 @@
   todo better loader screen
     todo network errors handling on startup
 
+  todo map preview on save
  */
 import React from 'react';
 import ReactDOM from 'react-dom';

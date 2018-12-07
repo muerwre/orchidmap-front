@@ -6,30 +6,34 @@ type Props = {
   clearStickers: Function,
   clearAll: Function,
   clearCancel: Function,
+
+  width: Number,
 }
 
 export const TrashDialog = ({
-  clearPoly, clearStickers, clearAll, clearCancel
+  clearPoly, clearStickers, clearAll, clearCancel, width,
 }: Props) => (
-  <div className="helper trash-helper">
-    <div className="helper__text danger">
-      <Icon icon="icon-trash-4" />
-      <div className="big upper">Удалить:</div>
-    </div>
-    <div className="helper__buttons">
-      <div className="button-group">
-        <div className="button router-helper__button" onClick={clearPoly}>
-          Маршрут
-        </div>
-        <div className="button router-helper__button" onClick={clearStickers}>
-          Стикеры
-        </div>
-        <div className="button router-helper__button" onClick={clearAll}>
-          Удалить все
-        </div>
+  <div className="control-dialog" style={{ width }}>
+    <div className="helper trash-helper">
+      <div className="helper__text danger">
+        <Icon icon="icon-trash-4" />
+        <div className="big upper">Удалить:</div>
       </div>
-      <div className="button primary router-helper__button" onClick={clearCancel}>
-        Отмена
+      <div className="helper__buttons">
+        <div className="button-group">
+          <div className="button router-helper__button" onClick={clearPoly}>
+            Маршрут
+          </div>
+          <div className="button router-helper__button" onClick={clearStickers}>
+            Стикеры
+          </div>
+          <div className="button router-helper__button" onClick={clearAll}>
+            Удалить все
+          </div>
+        </div>
+        <div className="button primary router-helper__button" onClick={clearCancel}>
+          Отмена
+        </div>
       </div>
     </div>
   </div>

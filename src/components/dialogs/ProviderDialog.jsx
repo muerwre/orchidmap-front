@@ -17,7 +17,7 @@ export class ProviderDialog extends React.Component<Props, void> {
     const { provider, setProvider } = this.props;
 
     return (
-      <React.Fragment>
+      <div className="control-dialog top right control-dialog-provider">
         <div className="helper provider-helper">
           {
             Object.keys(PROVIDERS).map(item => (
@@ -39,16 +39,7 @@ export class ProviderDialog extends React.Component<Props, void> {
             ))
           }
         </div>
-        <div className="helper">
-          <div className="helper__text">
-            <Icon icon="icon-map-1" />
-            <div className="big upper">ВЫБЕРИТЕ СТИЛЬ КАРТЫ</div>
-          </div>
-          <div className="helper__buttons button-group" onClick={this.closeDialog}>
-            <Icon icon="icon-cancel-1" />
-          </div>
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
