@@ -16,8 +16,10 @@ import { DIALOGS } from '$constants/dialogs';
 
 type Props = {
   user: UserType,
+  dialog_active: Boolean,
+  dialog: String,
+
   userLogout: Function,
-  setUser: Function,
   setDialog: Function,
   gotVkUser: Function,
 };
@@ -75,7 +77,7 @@ export class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      props: { user },
+      props: { user, dialog, dialog_active },
       state: { menuOpened },
     } = this;
 
@@ -100,7 +102,10 @@ export class Component extends React.PureComponent<Props, void> {
 
           <div className="control-bar">
             <button
-              className={classnames({ disabled: route_count <= 0 })}
+              className={classnames({
+                disabled: route_count <= 0,
+                active: dialog_active && (dialog === DIALOGS.MAP_LIST)
+              })}
               onClick={this.openMapsDialog}
             >
               <Icon icon="icon-folder-1" />
@@ -113,7 +118,7 @@ export class Component extends React.PureComponent<Props, void> {
 }
 
 
-const mapStateToProps = ({ user: { dialog, user } }) => ({ dialog, user });
+const mapStateToProps = ({ user: { dialog, dialog_active, user } }) => ({ dialog, dialog_active, user });
 const mapDispatchToProps = dispatch => bindActionCreators({
   setUser,
   userLogout,

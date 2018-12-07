@@ -1,4 +1,5 @@
 import React from 'react';
+import { CLIENT } from '$config/frontend';
 
 type Props = {
   userLogout: Function,
@@ -6,7 +7,15 @@ type Props = {
 
 export const UserMenu = ({ userLogout }: Props) => (
   <div className="user-panel-menu">
-    <a className="user-panel-item gray" href="https://github.com/muerwre/orchidMap" target="_blank" rel="noopener noreferrer">
+    <div className="user-panel-title">
+      ORCHID
+      <br />
+      MAP
+      <span className="user-panel-ver">
+        - { CLIENT.VER }
+      </span>
+    </div>
+    <a className="user-panel-item" href="https://github.com/muerwre/orchidMap" target="_blank" rel="noopener noreferrer">
       Проект на github
     </a>
     <div className="user-panel-item" onClick={userLogout}>
