@@ -19,7 +19,11 @@ const Component = ({ routes, editing, routes_sorted }: Props) => (
         Ваши маршруты
       </div>
       <div className="small gray">
-        ({routes_sorted.length} шт.)
+        {
+          routes_sorted.length > 0
+          ? `${routes_sorted.length} шт.`
+          : '(здесь пока ничего нет)'
+        }
       </div>
     </div>
     <Scroll className="dialog-shader">

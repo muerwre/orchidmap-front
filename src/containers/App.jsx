@@ -3,7 +3,6 @@ import React from 'react';
 
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
-import { UserLocation } from '$components/UserLocation';
 import { UserPanel } from '$components/panels/UserPanel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,7 +24,6 @@ type Props = {
 const Component = (props: Props) => (
   <div>
     <Fills />
-    <UserLocation />
     <UserPanel />
     <EditorPanel />
     <Cursor mode={props.mode} />

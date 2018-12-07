@@ -10,7 +10,10 @@ import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setMode, startEditing, stopEditing, setLogo, takeAShot } from '$redux/user/actions';
-import type { UserType } from '$constants/types';
+
+import { UserLocation } from '$components/UserLocation';
+import { PROVIDERS } from '$constants/providers';
+import { LOGOS } from '$constants/logos';
 
 type Props = {
   editing: false,
@@ -19,6 +22,7 @@ type Props = {
   distance: Number,
   logo: String,
   estimated: Number, // todo: implement!
+  provider: String,
 
   setMode: Function,
   startEditing: Function,
@@ -46,7 +50,7 @@ class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      mode, distance, estimated, changed, logo, editing,
+      mode, distance, estimated, changed, logo, editing, provider,
     } = this.props;
 
     return (
@@ -54,14 +58,34 @@ class Component extends React.PureComponent<Props, void> {
 
         <LogoPreview logo={logo} />
 
-        <div className="control-dist">
-          {distance} км
-          <Icon icon="icon-cycle" size={32} />
-          {
-            <span>{
-              toHours(estimated)
-            }</span>
-          }
+        <div className="status-panel top left">
+          <div className="status-bar square pointer pointer">
+            <UserLocation />
+          </div>
+
+          <div className="status-bar padded">
+            {distance} км&nbsp;
+            <Icon icon="icon-cycle" size={32} />
+            {
+              <span>{
+                toHours(estimated)
+              }</span>
+            }
+          </div>
+        </div>
+
+        <div className="status-panel top right">
+          <div className="status-bar pointer top-control padded">
+            <Icon icon="icon-map-1" size={24} />
+            <div className="status-bar-sep" />
+            {(provider && PROVIDERS[provider] && PROVIDERS[provider].name) || '...'}
+          </div>
+
+          <div className="status-bar pointer top-control padded">
+            <Icon icon="icon-logo-3" size={24} />
+            <div className="status-bar-sep" />
+            {(logo && LOGOS[logo] && LOGOS[logo][0]) || '...'}
+          </div>
         </div>
 
         <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
@@ -174,6 +198,7 @@ function mapStateToProps(state) {
       title,
       address,
       changed,
+      provider,
     },
   } = state;
 
@@ -189,6 +214,7 @@ function mapStateToProps(state) {
     title,
     address,
     changed,
+    provider,
   };
 }
 

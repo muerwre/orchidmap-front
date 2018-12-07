@@ -64,7 +64,7 @@ export class UserLocation extends React.Component {
 
   render() {
     return (
-      <div className="locate-geo-button" onClick={this.centerMapOnLocation}>
+      <div onClick={this.centerMapOnLocation}>
         <Icon icon="icon-locate" size={30} />
       </div>
     );
