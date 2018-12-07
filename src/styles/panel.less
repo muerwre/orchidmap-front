@@ -3,6 +3,10 @@
   border-radius: @panel_radius;
   display: flex;
   box-shadow: @bar_shadow;
+
+  @media (max-width: @mobile_breakpoint) {
+    box-shadow: none;
+  }
 }
 
 .control-bar-padded {
@@ -13,6 +17,12 @@
   height: 44px;
   background: #222222;
   width: 3px;
+
+  @media (max-width: @mobile_breakpoint) {
+    margin-left: -1px;
+    margin-right: -1px;
+    width: 4px;
+  }
 }
 
 .panel {
@@ -227,6 +237,10 @@
   background: #222222;
   border-radius: @panel_radius;
   box-shadow: @bar_shadow;
+
+  @media (max-width: @mobile_breakpoint) {
+    box-shadow: none;
+  }
 }
 
 
@@ -404,6 +418,10 @@
   align-items: center;
   justify-content: center;
   box-shadow: @bar_shadow;
+
+  @media (max-width: @mobile_breakpoint) {
+    box-shadow: none;
+  }
 
   span {
     white-space: nowrap;
