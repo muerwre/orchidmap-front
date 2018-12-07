@@ -332,15 +332,13 @@ function setProviderSaga({ provider }) {
 }
 
 function* locationChangeSaga({ location }) {
-  const { address, editing, ready, user: { id, random_url } } = yield select(getState);
+  const { address, ready, user: { id, random_url } } = yield select(getState);
 
   if (!ready) return;
 
   const { path, mode } = getUrlData(location);
 
   if (address !== path) {
-    console.log('LOADING NEW DATA');
-
     const map = yield call(loadMapSaga, path);
 
     if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
@@ -348,19 +346,16 @@ function* locationChangeSaga({ location }) {
       return;
     }
   } else if (mode === 'edit' && editor.owner.id !== id) {
-    console.log('NOT AN OWNER!!!', editor.owner.id, id);
     pushPath(`/${random_url}/edit`);
     return;
   }
 
-  if (editing !== (mode === 'edit')) {
-    if (mode === 'edit') {
-      yield put(setEditing(true));
-      editor.startEditing();
-    } else {
-      yield put(setEditing(false));
-      editor.stopEditing();
-    }
+  if (mode !== 'edit') {
+    yield put(setEditing(false));
+    editor.stopEditing();
+  } else {
+    yield put(setEditing(true));
+    editor.startEditing();
   }
 }
 
