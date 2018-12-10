@@ -157,6 +157,17 @@ class Component extends React.PureComponent<Props, void> {
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
+            <button
+              className={classnames({ active: false })}
+              onClick={this.props.takeAShot}
+            >
+              <Icon icon="icon-shot-4" />
+            </button>
+          </div>
+
+          <div className="control-sep" />
+
+          <div className="control-bar">
             <button className="primary single" onClick={this.props.startEditing}>
               <Icon icon="icon-route-2" />
               <span>
