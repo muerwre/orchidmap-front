@@ -10,10 +10,13 @@ import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
 import {
   resetSaveDialog,
-  setActiveSticker, setAddress,
+  setActiveSticker,
+  setAddress,
   setChanged,
-  setDistance, setLogo,
+  setDistance,
+  setLogo,
   setMode,
+  setProvider,
   setRouterPoints,
   setTitle,
 } from '$redux/user/actions';
@@ -325,12 +328,14 @@ export class Editor {
     provider: this.provider,
   });
 
-  setProvider = provider => {
-    if (provider === this.provider) return;
+  // setProvider = provider => {
+  //   if (provider === this.provider) return;
+  //
+  //   this.provider = provider;
+  //   this.map.setProvider(provider);
+  // };
 
-    this.provider = provider;
-    this.map.setProvider(provider);
-  };
+  setProvider = provider => store.dispatch(setProvider(provider));
 
   get isEmpty() {
     const { route, stickers } = this.dumpData();

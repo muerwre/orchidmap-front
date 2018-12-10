@@ -102,7 +102,18 @@ function* loadMapSaga(path) {
 }
 
 function* mapInitSaga() {
+  const { hash } = getUrlData();
+
+  if (hash && /^#map/.test(hash)) {
+    const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
+
+    if (newUrl) {
+      yield pushPath(`/${newUrl}`);
+    }
+  }
+
   const { path, mode } = getUrlData();
+
 
   if (path) {
     const map = yield call(loadMapSaga, path);
@@ -326,7 +337,9 @@ function* cropAShotSaga(params) {
 }
 
 function setProviderSaga({ provider }) {
-  editor.setProvider(provider);
+  // editor.setProvider(provider);
+  editor.provider = provider;
+  editor.map.setProvider(provider);
 
   return put(setMode(MODES.NONE));
 }

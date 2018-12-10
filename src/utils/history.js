@@ -8,7 +8,7 @@ export const pushPath = url => {
 
 export const getUrlData = (url = getPath()) => {
   const [, path, mode] = url.split('/');
-  const { host } = window.location;
+  const { host, hash } = window.location;
 
-  return { path, mode, host };
+  return { path, mode, host, hash };
 };
