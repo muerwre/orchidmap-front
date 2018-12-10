@@ -3,7 +3,7 @@ import { delay } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
 import { checkUserToken, getGuestToken, getStoredMap, getVkIframeUser, postMap } from '$utils/api';
 import {
-  hideRenderer,
+  hideRenderer, iframeLoginVk,
   setActiveSticker, setAddress,
   setChanged, setDialogActive,
   setEditing,
@@ -102,21 +102,24 @@ function* loadMapSaga(path) {
   return map;
 }
 
-function* vkIframeAuth({ viewer_id, access_token }) {
-  const user = yield call(getVkIframeUser, { viewer_id, access_token });
-
-  if (user) return yield put(setUser(user));
-
-  return null;
+function* vkIframeAuth({ viewer_id, access_token, auth_key }) {
+  // const user = yield call(getVkIframeUser, { viewer_id, access_token });
+  //
+  // if (user) return yield put(setUser(user));
+  //
+  // return null;
+  return yield console.log('GOT', { viewer_id, access_token, auth_key });
 }
 
 function* mapInitSaga() {
   const { hash } = getUrlData();
-  const { viewer_id, access_token } = yield parseQuery(window.location.search);
+  const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
+
   // const viewer_id = '360004';
   // const access_token = '35baba3da5ac109775bc818f9f04d031ffeeb5a0f36afb42c3ab9a45035b04a12e7c70478c19dde07752b';
 
-  if (viewer_id && access_token) yield call(vkIframeAuth, { viewer_id, access_token });
+  // if (viewer_id && access_token) yield call(vkIframeAuth, { viewer_id, access_token });
+  if (viewer_id && access_token) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
