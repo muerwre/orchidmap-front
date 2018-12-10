@@ -5,7 +5,7 @@ import { checkUserToken, getGuestToken, getStoredMap, postMap } from '$utils/api
 import {
   hideRenderer,
   setActiveSticker, setAddress,
-  setChanged,
+  setChanged, setDialogActive,
   setEditing,
   setMode, setReady, setRenderer,
   setSaveError,
@@ -297,7 +297,12 @@ function* getRenderData() {
 }
 
 function* takeAShotSaga() {
-  const data = yield call(getRenderData);
+  const { data, cancel } = yield race({
+    data: call(getRenderData),
+    cancel: take(ACTIONS.HIDE_RENDERER),
+  });
+
+  if (cancel || !data) return;
 
   yield put(setRenderer({
     data, renderer_active: true, width: window.innerWidth, height: window.innerHeight
@@ -377,6 +382,18 @@ function* gotVkUserSaga({ user }) {
   yield put(setUser(data));
 }
 
+function* keyPressedSaga({ key }): void {
+  if (key === 'Escape') {
+    const { dialog_active, mode, renderer: { renderer_active } } = yield select(getState);
+
+    if (renderer_active) return yield put(hideRenderer());
+    if (dialog_active) return yield put(setDialogActive(false));
+    if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
+  }
+
+  return;
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -406,4 +423,5 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
+  yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
 }

@@ -9,7 +9,7 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, setLogo, takeAShot } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing, setLogo, takeAShot, keyPressed } from '$redux/user/actions';
 
 import { UserLocation } from '$components/UserLocation';
 import { PROVIDERS } from '$constants/providers';
@@ -28,16 +28,23 @@ type Props = {
   startEditing: Function,
   stopEditing: Function,
   takeAShot: Function,
+  keyPressed: Function,
 }
 
 class Component extends React.PureComponent<Props, void> {
   componentDidMount() {
+    window.addEventListener('keydown', this.props.keyPressed);
+
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
 
     if (!this.panel || !obj) return;
 
     obj.style.width = width;
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.props.keyPressed);
   }
 
   startPolyMode = () => this.props.setMode(MODES.POLY);
@@ -123,7 +130,7 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ active: false })}
               onClick={this.props.takeAShot}
             >
-              <Icon icon="icon-shot-2" />
+              <Icon icon="icon-shot-4" />
             </button>
           </div>
 
@@ -208,6 +215,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   startEditing,
   stopEditing,
   takeAShot,
+  keyPressed,
 }, dispatch);
 
 export const EditorPanel = connect(

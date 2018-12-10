@@ -328,13 +328,6 @@ export class Editor {
     provider: this.provider,
   });
 
-  // setProvider = provider => {
-  //   if (provider === this.provider) return;
-  //
-  //   this.provider = provider;
-  //   this.map.setProvider(provider);
-  // };
-
   setProvider = provider => store.dispatch(setProvider(provider));
 
   get isEmpty() {

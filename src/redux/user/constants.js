@@ -47,4 +47,5 @@ export const ACTIONS = ({
   SET_READY: 'SET_READY',
 
   GOT_VK_USER: 'GOT_VK_USER',
+  KEY_PRESSED: 'KEY_PRESSED',
 }: { [key: String]: String });

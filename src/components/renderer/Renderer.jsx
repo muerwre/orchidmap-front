@@ -34,7 +34,7 @@ class Component extends React.Component<Props, State> {
   };
 
   componentWillUnmount() {
-    this.croppr.destroy();
+    if (this.croppr) this.croppr.destroy();
   }
 
   onCropInit = (crop) => {
