@@ -128,7 +128,8 @@ export const INITIAL_STATE = {
   ready: false,
   user: { ...DEFAULT_USER },
   editing: false,
-  mode: MODES.NONE,
+  // mode: MODES.NONE,
+  mode: MODES.SHOT_PREFETCH,
   logo: DEFAULT_LOGO,
   routerPoints: 0,
   distance: 0,
@@ -152,6 +153,8 @@ export const INITIAL_STATE = {
     width: 0,
     height: 0,
     renderer_active: false,
+    info: '',
+    progress: 0,
   }
 };
 

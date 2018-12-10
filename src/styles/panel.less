@@ -214,6 +214,18 @@
     }
   }
 
+  &.control-dialog-small {
+    min-width: 312px;
+
+    @media (max-width: @mobile_breakpoint) {
+      min-width: 100%;
+      max-width: 100%;
+      width: 100% !important;
+      left: 0;
+      padding: 0 10px;
+    }
+  }
+
 }
 
 .control-dialog-provider {
@@ -242,6 +254,9 @@
   }
 }
 
+.helper-prefetch {
+  flex-direction: column;
+}
 
 .helper__text {
   width: 100%;
@@ -459,4 +474,14 @@
   width: 1px;
   background: #444444;
   margin: 0 8px 0 5px;
+}
+
+.dialog-prefetch-stage {
+  font-size: 1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.dialog-prefetch-progress {
+  padding: 10px 0 5px;
 }

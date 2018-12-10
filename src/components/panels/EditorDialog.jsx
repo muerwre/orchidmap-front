@@ -27,6 +27,7 @@ import {
   setProvider,
 } from '$redux/user/actions';
 import { ProviderDialog } from '$components/dialogs/ProviderDialog';
+import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
 
 type Props = {
   mode: String,
@@ -42,6 +43,7 @@ const DIALOG_CONTENTS = {
   [MODES.SAVE]: SaveDialog,
   [MODES.CONFIRM_CANCEL]: CancelDialog,
   [MODES.PROVIDER]: ProviderDialog,
+  [MODES.SHOT_PREFETCH]: ShotPrefetchDialog,
 };
 
 export const Component = (props: Props) => {

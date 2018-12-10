@@ -5,7 +5,6 @@ import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
 import { DEFAULT_LOGO, LOGOS } from '$constants/logos';
 
-import { parseStickerAngle, parseStickerStyle } from '$utils/import';
 import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
 import {

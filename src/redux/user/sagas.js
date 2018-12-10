@@ -28,6 +28,7 @@ import {
 } from '$utils/renderer';
 import { LOGOS } from '$constants/logos';
 import { DEFAULT_PROVIDER } from '$constants/providers';
+import { store } from '$redux/store';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -284,31 +285,39 @@ function* getRenderData() {
   const geometry = getTilePlacement();
   const points = getPolyPlacement();
   const stickers = getStickersPlacement();
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
+
   const images = yield fetchImages(ctx, geometry);
+
+  yield put(setRenderer({ info: 'Отрисовка', progress: 0.5 }));
 
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
   yield composeStickers({ stickers, ctx });
 
+  yield put(setRenderer({ info: 'Готово', progress: 1 }));
+
   return yield canvas.toDataURL('image/jpeg');
 }
 
 function* takeAShotSaga() {
-  const { data, cancel } = yield race({
-    data: call(getRenderData),
-    cancel: take(ACTIONS.HIDE_RENDERER),
+  const worker = call(getRenderData);
+
+  const { result, timeout } = yield race({
+    result: worker,
+    timeout: delay(500),
   });
 
-  if (cancel || !data) return;
+  // if (cancel) return;
+  if (timeout) yield put(setMode(MODES.SHOT_PREFETCH));
 
+  const data = yield (result || worker);
+  yield put(setMode(MODES.NONE));
   yield put(setRenderer({
     data, renderer_active: true, width: window.innerWidth, height: window.innerHeight
   }));
-
-  return true;
 }
 
 function* getCropData({
