@@ -12,7 +12,7 @@ import {
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
 } from '$redux/user/actions';
-import { getUrlData, pushPath } from '$utils/history';
+import { getUrlData, parseQuery, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
@@ -104,7 +104,9 @@ function* loadMapSaga(path) {
 
 function* mapInitSaga() {
   const { hash } = getUrlData();
-  console.log('got credentials', window.location);
+  const { viewer_id, access_token } = yield parseQuery(window.location.search);
+
+  if (viewer_id && access_token) console.log('GOT THEM!', { viewer_id, access_token });
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);

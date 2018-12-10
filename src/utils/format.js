@@ -8,5 +8,4 @@ export const toHours = (info) => {
   return `${hrs}:${lmin}`;
 };
 
-
 export const toTranslit = string => ru.reduce((text, el, i) => (text.replace(new RegExp(ru[i], 'g'), en[i])), (String(string) || ''));

@@ -13,3 +13,16 @@ export const getUrlData = (url = getPath()) => {
     path, mode, host, hash
   };
 };
+
+// Parses query string
+export const parseQuery = (queryString: string) => {
+  let params = {};
+  const queries = decodeURIComponent(queryString)
+    .substring(queryString.substr(0, 1) === '?' ? 1 : 0)
+    .split('&');
+  for (let i = 0, l = queries.length; i < l; i += 1) {
+    const temp = queries[i].split('=');
+    params = { ...params, [temp[0]]: temp[1] };
+  }
+  return params;
+};
