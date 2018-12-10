@@ -31,4 +31,8 @@ export const postMap = ({
   force,
   logo,
   distance,
-}).then(result => (result && result.data && result.data));
+}).then(result => (result && result.data && result.data)).catch(() => null);
+
+export const getVkIframeUser = ({ viewer_id: user_id, access_token }) => (axios.get(API.VK_IFRAME_AUTH, {
+  params: { user_id, access_token }
+}).then(result => (result && result.data))).catch(() => null);

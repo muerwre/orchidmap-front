@@ -5,4 +5,5 @@ export const API = {
   CHECK_TOKEN: `${CLIENT.API_ADDR}/auth`,
   GET_MAP: `${CLIENT.API_ADDR}/route`,
   POST_MAP: `${CLIENT.API_ADDR}/route`,
+  VK_IFRAME_AUTH: `${CLIENT.API_ADDR}/auth/social/vk_iframe`,
 };
