@@ -32,7 +32,19 @@ export const postMap = ({
   logo,
   distance,
 }).then(result => (result && result.data && result.data)).catch(() => null);
+//
+// export const getVkIframeUser = ({ viewer_id: user_id, access_token }) => (axios.get(API.VK_IFRAME_AUTH, {
+//   params: { user_id, access_token }
+// }).then(result => (result && result.data))).catch(() => null);
 
-export const getVkIframeUser = ({ viewer_id: user_id, access_token }) => (axios.get(API.VK_IFRAME_AUTH, {
-  params: { user_id, access_token }
-}).then(result => (result && result.data))).catch(() => null);
+export const getVkUserInfo = ({ user_id, access_token }) => (axios.get(
+  'http://api.vk.com/method/users.get',
+  {
+    params: {
+      user_id,
+      fields: 'photo',
+      v: '5.67',
+      access_token,
+    }
+  }
+));

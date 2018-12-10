@@ -1,7 +1,7 @@
 import { REHYDRATE } from 'redux-persist';
 import { delay } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
-import { checkUserToken, getGuestToken, getStoredMap, getVkIframeUser, postMap } from '$utils/api';
+import { checkUserToken, getGuestToken, getStoredMap, getVkIframeUser, getVkUserInfo, postMap } from '$utils/api';
 import {
   hideRenderer, iframeLoginVk,
   setActiveSticker, setAddress,
@@ -102,13 +102,16 @@ function* loadMapSaga(path) {
   return map;
 }
 
-function* vkIframeAuth({ viewer_id, access_token, auth_key }) {
-  // const user = yield call(getVkIframeUser, { viewer_id, access_token });
-  //
+function* iframeLoginVkSaga({ viewer_id: user_id, access_token, auth_key }) {
+  const data = yield call(getVkUserInfo, { user_id, access_token });
+
+  console.log('PARAMS', { user_id, access_token, auth_key });
+
+  if (data) console.log('GOT DATA!', data);
   // if (user) return yield put(setUser(user));
-  //
+
   // return null;
-  return yield console.log('GOT', { viewer_id, access_token, auth_key });
+  return;
 }
 
 function* mapInitSaga() {
@@ -449,4 +452,6 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
+
+  yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
 }
