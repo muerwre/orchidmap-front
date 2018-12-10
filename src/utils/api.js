@@ -33,6 +33,6 @@ export const postMap = ({
   distance,
 }).then(result => (result && result.data && result.data));
 
-export const checkIframeToken = ({ id, token }) => axios.get(API.IFRAME_LOGIN_VK, {
+export const checkIframeToken = ({ viewer_id, access_token, auth_key }) => axios.get(API.IFRAME_LOGIN_VK, {
   params: { viewer_id, access_token, auth_key }
 }).then(result => (result && result.data));
