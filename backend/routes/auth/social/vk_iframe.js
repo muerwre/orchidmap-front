@@ -20,6 +20,7 @@ const fetchUserData = async (req, res) => {
     res.send({ success: false, error: 'iframe auth failed' });
   });
 
+  console.log("RESULT!", result);
   const { data } = result;
   if (!data) {
     console.log('OOOPS!', result);
@@ -31,6 +32,8 @@ const fetchUserData = async (req, res) => {
 
 module.exports = async (req, res) => {
   const { response } = await fetchUserData(req, res);
+
+  console.log('RESP', response);
 
   const {
     first_name = '', last_name = '', photo = '', id = ''
