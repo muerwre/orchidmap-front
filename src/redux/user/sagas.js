@@ -104,6 +104,7 @@ function* loadMapSaga(path) {
 
 function* mapInitSaga() {
   const { hash } = getUrlData();
+  console.log('got credentials', window.location);
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
