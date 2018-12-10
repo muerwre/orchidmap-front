@@ -1,13 +1,12 @@
 const { User } = require('../../../models');
 const axios = require('axios');
 const { generateUser } = require('../guest');
-const { STRINGS } = require('../../../config/strings');
 
 const fetchUserData = async (req, res) => {
   const { query: { user_id, access_token } } = req;
 
   const result = await axios.get(
-    'https://api.vk.com/method/users.get',
+    'http://api.vk.com/method/users.get',
     {
       params: {
         user_id,
