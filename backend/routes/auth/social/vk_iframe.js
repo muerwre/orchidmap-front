@@ -6,7 +6,7 @@ const { STRINGS } = require('../../../config/strings');
 const fetchUserData = async (req, res) => {
   const { query: { user_id, access_token } } = req;
 
-  const { data } = await axios.get(
+  const result = await axios.get(
     'https://api.vk.com/method/users.get',
     {
       params: {
@@ -17,8 +17,14 @@ const fetchUserData = async (req, res) => {
       }
     }
   ).catch(() => {
-    return res.send({ success: false, error: 'iframe auth failed' });
+    res.send({ success: false, error: 'iframe auth failed' });
   });
+
+  const { data } = result;
+  if (!data) {
+    console.log('OOOPS!', result);
+    res.send({ success: false, error: 'iframe auth failed', result });
+  }
 
   return data;
 };
