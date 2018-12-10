@@ -12,7 +12,7 @@ import {
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
 } from '$redux/user/actions';
-import { getUrlData, pushPath } from '$utils/history';
+import { getUrlData, parseQuery, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
@@ -101,8 +101,17 @@ function* loadMapSaga(path) {
   return map;
 }
 
+function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
+  return yield console.log('GOT', { viewer_id, access_token, auth_key });
+}
+
 function* mapInitSaga() {
   const { hash } = getUrlData();
+
+  if (window.location.search) {
+    const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
+    if (viewer_id && access_token && auth_key) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
+  }
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
@@ -421,4 +430,6 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
+
+  yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
 }

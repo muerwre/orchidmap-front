@@ -48,3 +48,5 @@ export const setReady = ready => ({ type: ACTIONS.SET_READY, ready });
 
 export const gotVkUser = user => ({ type: ACTIONS.GOT_VK_USER, user });
 export const keyPressed = ({ key }) => ({ type: ACTIONS.KEY_PRESSED, key });
+
+export const iframeLoginVk = payload => ({ type: ACTIONS.IFRAME_LOGIN_VK, ...payload });
