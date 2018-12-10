@@ -1,7 +1,15 @@
 import { REHYDRATE } from 'redux-persist';
 import { delay } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
-import { checkUserToken, getGuestToken, getStoredMap, getVkIframeUser, getVkUserInfo, postMap } from '$utils/api';
+import {
+  checkIframeToken,
+  checkUserToken,
+  getGuestToken,
+  getStoredMap,
+  getVkIframeUser,
+  getVkUserInfo,
+  postMap
+} from '$utils/api';
 import {
   hideRenderer, iframeLoginVk,
   setActiveSticker, setAddress,
@@ -146,7 +154,14 @@ function* authCheckSaga() {
 
   if (window.location.search) {
     const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
-    if (viewer_id && access_token && auth_key) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
+    if (viewer_id && access_token && auth_key) {
+      const user = yield call(checkIframeToken, { viewer_id, access_token, auth_key });
+
+      if (user) {
+        yield put(setUser(user));
+        return yield call(mapInitSaga);
+      }
+    }
   }
 
   if (id && token) {
