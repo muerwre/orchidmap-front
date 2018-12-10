@@ -152,10 +152,16 @@ function* mapInitSaga() {
 function* authCheckSaga() {
   const { id, token } = yield select(getUser);
 
-  if (window.location.search) {
-    const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
-    if (viewer_id && access_token && auth_key) {
-      const user = yield call(checkIframeToken, { viewer_id, access_token, auth_key });
+  if (window.location.search || true) {
+    const { viewer_id, auth_key } = yield parseQuery(window.location.search);
+    // https://alpha-map.vault48.org:3000/auth/iframe/vk?viewer_id=360004&access_token=e558a05d5cb1fcb195316703a2d5e5ec9d19b2c608844c986ec56798f8ac642379bb37fbc58270435e077&auth_key=b0ff47f659d21b6b880a1eee60b6e794
+    // const viewer_id = '360004';
+    // const auth_key = 'b0ff47f659d21b6b880a1eee60b6e794';
+
+    // console.log('Already logged in?', viewer_id, auth_key, id !== `vk:${viewer_id}`);
+
+    if (viewer_id && auth_key && id !== `vk:${viewer_id}`) {
+      const user = yield call(checkIframeToken, { viewer_id, auth_key });
 
       if (user) {
         yield put(setUser(user));
