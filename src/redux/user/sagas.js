@@ -108,11 +108,6 @@ function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
 function* mapInitSaga() {
   const { hash } = getUrlData();
 
-  if (window.location.search) {
-    const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
-    if (viewer_id && access_token && auth_key) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
-  }
-
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
 
@@ -148,6 +143,11 @@ function* mapInitSaga() {
 
 function* authCheckSaga() {
   const { id, token } = yield select(getUser);
+
+  if (window.location.search) {
+    const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
+    if (viewer_id && access_token && auth_key) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
+  }
 
   if (id && token) {
     const user = yield call(checkUserToken, { id, token });
