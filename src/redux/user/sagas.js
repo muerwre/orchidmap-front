@@ -106,6 +106,8 @@ function* vkIframeAuth({ viewer_id, access_token }) {
   const user = yield call(getVkIframeUser, { viewer_id, access_token });
 
   if (user) return yield put(setUser(user));
+
+  return null;
 }
 
 function* mapInitSaga() {
