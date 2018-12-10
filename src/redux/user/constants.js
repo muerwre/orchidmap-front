@@ -48,6 +48,4 @@ export const ACTIONS = ({
 
   GOT_VK_USER: 'GOT_VK_USER',
   KEY_PRESSED: 'KEY_PRESSED',
-
-  IFRAME_LOGIN_VK: 'IFRAME_LOGIN_VK',
 }: { [key: String]: String });

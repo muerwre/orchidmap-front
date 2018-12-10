@@ -12,7 +12,7 @@ import {
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
 } from '$redux/user/actions';
-import { getUrlData, parseQuery, pushPath } from '$utils/history';
+import { getUrlData, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
@@ -28,7 +28,6 @@ import {
 } from '$utils/renderer';
 import { LOGOS } from '$constants/logos';
 import { DEFAULT_PROVIDER } from '$constants/providers';
-import { store } from '$redux/store';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -102,27 +101,8 @@ function* loadMapSaga(path) {
   return map;
 }
 
-function* iframeLoginVkSaga({ viewer_id: user_id, access_token, auth_key }) {
-  const data = yield call(getVkUserInfo, { user_id, access_token });
-
-  console.log('PARAMS', { user_id, access_token, auth_key });
-
-  if (data) console.log('GOT DATA!', data);
-  // if (user) return yield put(setUser(user));
-
-  // return null;
-  return;
-}
-
 function* mapInitSaga() {
   const { hash } = getUrlData();
-  const { viewer_id, access_token, auth_key } = yield parseQuery(window.location.search);
-
-  // const viewer_id = '360004';
-  // const access_token = '35baba3da5ac109775bc818f9f04d031ffeeb5a0f36afb42c3ab9a45035b04a12e7c70478c19dde07752b';
-
-  // if (viewer_id && access_token) yield call(vkIframeAuth, { viewer_id, access_token });
-  if (viewer_id && access_token) yield put(iframeLoginVk({ viewer_id, access_token, auth_key }));
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
@@ -134,25 +114,14 @@ function* mapInitSaga() {
 
   const { path, mode } = getUrlData();
 
-
   if (path) {
     const map = yield call(loadMapSaga, path);
-    // const map = yield call(getStoredMap, { name: path });
 
     if (map) {
-    //   yield editor.setData(map);
-    //   yield editor.fitDrawing();
-    //   yield put(setChanged(false));
-
       if (mode && mode === 'edit') {
         yield put(setEditing(true));
         editor.startEditing();
-        // yield call(startEditingSaga); // <-- this is working
-        // yield put(setEditing(true));
-        // editor.startEditing();
       } else {
-        // yield put(setEditing(false)); // <-- this is working
-        // yield call(stopEditingSaga);
         yield put(setEditing(false));
         editor.stopEditing();
       }
@@ -452,6 +421,4 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
-
-  yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
 }
