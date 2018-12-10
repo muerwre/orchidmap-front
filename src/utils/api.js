@@ -38,7 +38,7 @@ export const postMap = ({
 // }).then(result => (result && result.data))).catch(() => null);
 
 export const getVkUserInfo = ({ user_id, access_token }) => (axios.get(
-  'http://api.vk.com/method/users.get',
+  'https://api.vk.com/method/users.get',
   {
     params: {
       user_id,
