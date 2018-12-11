@@ -129,7 +129,7 @@ export const INITIAL_STATE = {
   user: { ...DEFAULT_USER },
   editing: false,
   // mode: MODES.NONE,
-  mode: MODES.SHOT_PREFETCH,
+  mode: MODES.NONE,
   logo: DEFAULT_LOGO,
   routerPoints: 0,
   distance: 0,
