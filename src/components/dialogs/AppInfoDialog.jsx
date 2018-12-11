@@ -13,7 +13,7 @@ export const AppInfoDialog = () => (
         версия{' '}
         {(APP_INFO.VERSION || 1)}.
         {(APP_INFO.CHANGELOG[APP_INFO.VERSION].length || 0)}.
-        {(APP_INFO.CHANGELOG[APP_INFO.VERSION][APP_INFO.CHANGELOG[APP_INFO.VERSION].length - 1].length - 1 || 0)}
+        {(APP_INFO.CHANGELOG[APP_INFO.VERSION][0].length - 1 || 0)}
       </div>
       <hr />
       <div className="small app-info-list">

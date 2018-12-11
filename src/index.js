@@ -1,11 +1,20 @@
 /*
+  todo add ability to copy-paste address after saving
+  todo hide sticker dialog on sticker selection
+    todo separate mode for stricker selection
+  todo save progress
+
+  done TEST: set initialData after saving map, clear is-modified
+  done TEST: provider / logo triggers setChanged
   done shot mechanism (100%)
     done client-side shot mechanism
     done croppr.js
     done shot stickers
-    todo progress
+    done progress
+  done hotkeys via sagas
+  done better loader screen
+    done network errors handling on startup
 
-  todo hotkeys via sagas
   todo map catalogue
     todo public maps
     todo map search
@@ -20,9 +29,6 @@
     todo network error notifications
     todo check canvas support at startup
     todo check osrm is up
-
-  todo better loader screen
-    todo network errors handling on startup
 
   todo map preview on save
  */

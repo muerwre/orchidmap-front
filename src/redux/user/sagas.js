@@ -220,6 +220,8 @@ function* setLogoSaga({ logo }) {
   const { mode } = yield select(getState);
   editor.logo = logo;
 
+  yield put(setChanged(true));
+
   if (mode === MODES.LOGO) {
     yield put(setMode(MODES.NONE));
   }
@@ -299,6 +301,7 @@ function* setSaveSuccessSaga({ address, title }) {
 
   yield put(setTitle(title));
   yield put(setAddress(address));
+  yield put(setChanged(false));
 
   yield editor.owner = { id };
 
@@ -381,10 +384,12 @@ function* cropAShotSaga(params) {
   return yield put(hideRenderer());
 }
 
-function setProviderSaga({ provider }) {
+function* setProviderSaga({ provider }) {
   // editor.setProvider(provider);
   editor.provider = provider;
   editor.map.setProvider(provider);
+
+  yield put(setChanged(true));
 
   return put(setMode(MODES.NONE));
 }
