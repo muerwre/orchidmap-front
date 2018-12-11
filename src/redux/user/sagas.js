@@ -6,12 +6,10 @@ import {
   checkUserToken,
   getGuestToken,
   getStoredMap,
-  getVkIframeUser,
-  getVkUserInfo,
   postMap
 } from '$utils/api';
 import {
-  hideRenderer, iframeLoginVk,
+  hideRenderer,
   setActiveSticker, setAddress,
   setChanged, setDialogActive,
   setEditing,
@@ -20,7 +18,7 @@ import {
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
 } from '$redux/user/actions';
-import { getUrlData, parseQuery, pushPath } from '$utils/history';
+import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
@@ -114,6 +112,8 @@ function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
 }
 
 function* mapInitSaga() {
+  pushLoaderState(90);
+
   const { hash } = getUrlData();
 
   if (hash && /^#map/.test(hash)) {
@@ -146,25 +146,29 @@ function* mapInitSaga() {
 
   yield call(startEmptyEditorSaga);
   yield put(setReady(true));
+
+  pushLoaderState(100);
+
   return true;
 }
 
 function* authCheckSaga() {
+  pushLoaderState(70);
+
   const { id, token } = yield select(getUser);
+  const { ready } = yield select(getState);
 
   if (window.location.search || true) {
     const { viewer_id, auth_key } = yield parseQuery(window.location.search);
-    // https://alpha-map.vault48.org:3000/auth/iframe/vk?viewer_id=360004&access_token=e558a05d5cb1fcb195316703a2d5e5ec9d19b2c608844c986ec56798f8ac642379bb37fbc58270435e077&auth_key=b0ff47f659d21b6b880a1eee60b6e794
-    // const viewer_id = '360004';
-    // const auth_key = 'b0ff47f659d21b6b880a1eee60b6e794';
-
-    // console.log('Already logged in?', viewer_id, auth_key, id !== `vk:${viewer_id}`);
 
     if (viewer_id && auth_key && id !== `vk:${viewer_id}`) {
       const user = yield call(checkIframeToken, { viewer_id, auth_key });
 
       if (user) {
         yield put(setUser(user));
+
+        pushLoaderState('   ...готово');
+
         return yield call(mapInitSaga);
       }
     }
@@ -175,11 +179,19 @@ function* authCheckSaga() {
 
     if (user) {
       yield put(setUser(user));
+
+      pushLoaderState('   ...готово');
+
       return yield call(mapInitSaga);
+    } else if (!ready) {
+      pushNetworkInitError();
     }
   }
 
   yield call(generateGuestSaga);
+
+  pushLoaderState(80);
+
   return yield call(mapInitSaga);
 }
 

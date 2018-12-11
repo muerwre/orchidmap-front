@@ -11,7 +11,7 @@ export const checkUserToken = ({ id, token }) => axios.get(API.CHECK_TOKEN, {
   id,
   token,
   routes: (result.data.routes && result.data.routes.length > 0 && arrayToObject(result.data.routes, '_id')) || {},
-}));
+})).catch(() => null);
 
 export const getGuestToken = () => axios.get(API.GET_GUEST).then(result => (result && result.data));
 

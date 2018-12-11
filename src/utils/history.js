@@ -26,3 +26,11 @@ export const parseQuery = (queryString: string) => {
   }
   return params;
 };
+
+export const pushLoaderState = state => {
+  document.getElementById('loader-bar').style.width = `${state}%`;
+};
+
+export const pushNetworkInitError = state => {
+  document.getElementById('loader-error').style.opacity = 1;
+};

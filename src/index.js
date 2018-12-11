@@ -35,8 +35,11 @@ import '$styles/main.less';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { configureStore } from '$redux/store';
+import { pushLoaderState } from '$utils/history';
 
 const { store, persistor } = configureStore();
+
+pushLoaderState(10);
 
 export const Index = () => (
   <Provider store={store}>
