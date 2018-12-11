@@ -1,9 +1,8 @@
 import { history } from '$redux/store';
 
 export const getPath = () => (window.location && window.location.pathname);
-export const pushPath = url => {
-  return history.push(url);
-};
+export const pushPath = url => history.push(url);
+export const replacePath = url => history.replace(url);
 
 export const getUrlData = (url = getPath()) => {
   const [, path, mode] = url.split('/');

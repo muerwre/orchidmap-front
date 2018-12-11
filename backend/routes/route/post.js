@@ -13,7 +13,10 @@ module.exports = async (req, res) => {
   const route = parseRoute(body.route);
   const stickers = parseStickers(body.stickers);
   const logo = parseString(body.logo, 16);
+  const provider = parseString(body.provider, 16) || 'DEFAULT';
   const distance = parseNumber(body.distance, 0, 1000);
+
+  console.log('SAVING PROVIDER?', provider, body.provider);
 
   if ((!route || route.length <= 0) && (!stickers || stickers.length <= 0)) {
     return res.send({ success: false, mode: 'empty' });
@@ -26,7 +29,7 @@ module.exports = async (req, res) => {
 
   if (exists) {
     exists.set({
-      title, route, stickers, logo, distance, updated_at: Date.now(),
+      title, route, stickers, logo, distance, updated_at: Date.now(), provider,
     }).save();
 
     return res.send({
@@ -35,14 +38,14 @@ module.exports = async (req, res) => {
   }
 
   const created = await Route.create({
-    _id: address, title, route, stickers, owner, logo, distance,
+    _id: address, title, route, stickers, owner, logo, distance, provider,
   });
 
   await owner.routes.push(created);
   await owner.save();
 
   return res.send({
-    success: true, title, address, route, stickers
+    success: true, title, address, route, stickers, provider,
   });
 };
 

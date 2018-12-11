@@ -18,7 +18,7 @@ import {
   setSaveOverwrite, setSaveSuccess, setTitle,
   setUser
 } from '$redux/user/actions';
-import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath } from '$utils/history';
+import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
 import { MODES } from '$constants/modes';
@@ -265,13 +265,13 @@ function* clearSaga({ type }) {
 function* sendSaveRequestSaga({ title, address, force }) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
-  const { route, stickers } = editor.dumpData();
+  const { route, stickers, provider } = editor.dumpData();
   const { logo, distance } = yield select(getState);
   const { id, token } = yield select(getUser);
 
   const { result, timeout, cancel } = yield race({
     result: postMap({
-      id, token, route, stickers, title, force, address, logo, distance,
+      id, token, route, stickers, title, force, address, logo, distance, provider,
     }),
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),
@@ -295,7 +295,8 @@ function* refreshUserData() {
 function* setSaveSuccessSaga({ address, title }) {
   const { id } = yield select(getUser);
 
-  pushPath(`/${address}/edit`);
+  replacePath(`/${address}/edit`);
+
   yield put(setTitle(title));
   yield put(setAddress(address));
 

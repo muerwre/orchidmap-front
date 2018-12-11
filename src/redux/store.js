@@ -46,6 +46,7 @@ export function configureStore() {
 }
 
 export const history = createBrowserHistory();
-export const historyListener = history.listen(location => {
+export const historyListener = history.listen((location, action) => {
+  if (action === 'REPLACE') return;
   store.dispatch(locationChanged(location.pathname));
 });
