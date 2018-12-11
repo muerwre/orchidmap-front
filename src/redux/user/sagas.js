@@ -307,6 +307,8 @@ function* setSaveSuccessSaga({ address, title }) {
 }
 
 function* getRenderData() {
+  yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
+
   const canvas = document.getElementById('renderer');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -317,7 +319,7 @@ function* getRenderData() {
   const stickers = getStickersPlacement();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
+  yield delay(10000);
 
   const images = yield fetchImages(ctx, geometry);
 

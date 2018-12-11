@@ -23,6 +23,7 @@ type Props = {
   setDialog: Function,
   setDialogActive: Function,
   gotVkUser: Function,
+  takeAShot: Function,
 };
 
 export class Component extends React.PureComponent<Props, void> {
@@ -117,6 +118,17 @@ export class Component extends React.PureComponent<Props, void> {
               onClick={this.openMapsDialog}
             >
               <Icon icon="icon-folder-1" />
+            </button>
+          </div>
+
+          <div className="control-sep" />
+
+          <div className="control-bar">
+            <button
+              className={classnames({ active: false })}
+              onClick={this.props.takeAShot}
+            >
+              <Icon icon="icon-shot-4" />
             </button>
           </div>
         </div>

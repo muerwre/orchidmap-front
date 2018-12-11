@@ -165,13 +165,17 @@
 
 .panel-user {
   @media (max-width: @mobile_breakpoint) {
-    z-index: 1;
+    z-index: 3;
     flex-direction: column-reverse;
 
     .control-sep {
       opacity: 0;
       height: 10px;
     }
+  }
+
+  @media (max-width: @micro_breakpoint) {
+    bottom: 68px;
   }
 }
 
@@ -188,6 +192,11 @@
   &.top {
     bottom: auto;
     top: 52px;
+  }
+
+  &.left {
+    right: auto;
+    left: 10px;
   }
 
   &.control-dialog-big {
@@ -215,7 +224,7 @@
   }
 
   &.control-dialog-small {
-    min-width: 312px;
+    min-width: 270px;
 
     @media (max-width: @mobile_breakpoint) {
       min-width: 100%;

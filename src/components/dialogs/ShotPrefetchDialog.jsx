@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const ShotPrefetchDialog = ({ renderer: { info, progress }}: Props) => (
-  <div className="control-dialog control-dialog-small">
+  <div className="control-dialog control-dialog-small left">
     <div className="helper helper-prefetch">
       <div className="dialog-prefetch-stage">{info}</div>
       <div className="dialog-prefetch-progress">
