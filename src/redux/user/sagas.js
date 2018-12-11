@@ -319,8 +319,6 @@ function* getRenderData() {
   const stickers = getStickersPlacement();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  yield delay(10000);
-
   const images = yield fetchImages(ctx, geometry);
 
   yield put(setRenderer({ info: 'Отрисовка', progress: 0.5 }));
