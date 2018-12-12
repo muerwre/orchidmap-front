@@ -78,13 +78,9 @@ export class Poly {
 
     if (mode === MODES.POLY) return;
 
-    if (mode !== MODES.NONE) {
-      e.cancel();
-    } else {
-      this.editor.setMode(MODES.POLY);
-      e.cancel();
-    }
+    e.cancel();
 
+    if (mode === MODES.NONE) this.editor.setMode(MODES.POLY);
   };
 
   bindEvents = () => {
