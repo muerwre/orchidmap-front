@@ -108,7 +108,7 @@ class Component extends React.PureComponent<Props, void> {
               <Icon icon="icon-poly-3" />
             </button>
             <button
-              className={classnames({ active: mode === MODES.STICKERS })}
+              className={classnames({ active: (mode === MODES.STICKERS || mode === MODES.STICKERS_SELECT) })}
               onClick={this.startStickerMode}
             >
               <Icon icon="icon-sticker-3" />
