@@ -59,6 +59,9 @@ export class Editor {
       [MODES.STICKERS]: {
         toggle: this.clearSticker,
       },
+      [MODES.STICKERS_SELECT]: {
+        toggle: this.clearSticker,
+      },
       [MODES.TRASH]: {
         // toggle: this.clearAll,
         toggle: this.clearMode,
@@ -143,6 +146,7 @@ export class Editor {
     this.stickers.createSticker({ latlng, sticker: this.activeSticker.sticker, set: this.activeSticker.set });
     this.setActiveSticker(null);
     this.setChanged(true);
+    this.setMode(MODES.STICKERS_SELECT);
   };
 
   changeMode = mode => {
@@ -240,8 +244,6 @@ export class Editor {
         sticker.set && STICKERS[sticker.set].url &&
           this.stickers.createSticker({
             latlng: sticker.latlng,
-            // angle: parseStickerAngle({ sticker, version }),
-            // sticker: parseStickerStyle({ sticker, version }),
             angle: sticker.angle,
             sticker: sticker.sticker,
             set: sticker.set,
@@ -280,27 +282,16 @@ export class Editor {
   };
 
   startEditing = () => {
-    const { path } = getUrlData();
-    const { random_url, id } = this.getUser();
+    const { id } = this.getUser();
 
     this.setInitialData();
-
-    // const url = (this.owner && this.owner.id === id) ? path : random_url;
     this.owner = { id };
-
-    // console.log('PATH IS', path);
-    // pushPath(`/${url}/edit`);
 
     if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
     this.stickers.startEditing();
   };
 
   stopEditing = () => {
-    // const { path } = getUrlData();
-
-    // console.log('PATH IS', path, this.initialData.path);
-    // pushPath(`/${(this.initialData && this.initialData.path) || path}`);
-
     this.poly.poly.disableEdit();
     this.stickers.stopEditing();
   };

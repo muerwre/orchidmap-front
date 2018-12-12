@@ -37,7 +37,7 @@ type Props = {
 
 const DIALOG_CONTENTS = {
   [MODES.ROUTER]: RouterDialog,
-  [MODES.STICKERS]: StickersDialog,
+  [MODES.STICKERS_SELECT]: StickersDialog,
   [MODES.TRASH]: TrashDialog,
   [MODES.LOGO]: LogoDialog,
   [MODES.SAVE]: SaveDialog,

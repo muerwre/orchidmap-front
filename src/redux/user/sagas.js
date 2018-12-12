@@ -201,18 +201,14 @@ function* setModeSaga({ mode }) {
 }
 
 function* userLogoutSaga() {
-  const { id } = yield select(getUser);
-
-  // if (id === editor.owner) {
-  //   editor.owner = { id: null };
-  // }
-
   yield put(setUser(DEFAULT_USER));
   yield call(generateGuestSaga);
 }
 
 function* setActiveStickerSaga({ activeSticker }) {
   yield editor.activeSticker = activeSticker;
+  yield put(setMode(MODES.STICKERS));
+
   return true;
 }
 

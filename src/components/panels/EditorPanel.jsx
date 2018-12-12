@@ -48,7 +48,7 @@ class Component extends React.PureComponent<Props, void> {
   }
 
   startPolyMode = () => this.props.setMode(MODES.POLY);
-  startStickerMode = () => this.props.setMode(MODES.STICKERS);
+  startStickerMode = () => this.props.setMode(MODES.STICKERS_SELECT);
   startRouterMode = () => this.props.setMode(MODES.ROUTER);
   startProviderMode = () => this.props.setMode(MODES.PROVIDER);
   startTrashMode = () => this.props.setMode(MODES.TRASH);
