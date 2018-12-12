@@ -38,7 +38,7 @@ export class Editor {
     } = this;
 
     this.poly = new Poly({
-      map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange
+      map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
     });
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
@@ -101,6 +101,7 @@ export class Editor {
   }
 
   getUser = () => store.getState().user.user;
+  getMode = () => store.getState().user.mode;
   getTitle = () => store.getState().user.title;
   getEditing = () => store.getState().user.editing;
   getChanged = () => store.getState().user.changed;

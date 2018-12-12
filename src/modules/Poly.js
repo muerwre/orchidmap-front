@@ -3,6 +3,7 @@ import 'leaflet-geometryutil';
 import { simplify } from '$utils/simplify';
 import { findDistance, middleCoord } from '$utils/geom';
 import { CLIENT } from '$config/frontend';
+import { MODES } from '$constants/modes';
 
 const polyStyle = {
   color: 'url(#activePathGradient)',
@@ -13,12 +14,13 @@ const polyStyle = {
 
 export class Poly {
   constructor({
-    map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange,
+    map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange, editor,
   }) {
     this.poly = L.polyline([], polyStyle);
 
     this.latlngs = [];
     this.poly.addTo(map);
+    this.editor = editor;
 
     this.map = map;
 
@@ -71,6 +73,20 @@ export class Poly {
     if (coords.length > 1) this.triggerOnChange();
   };
 
+  preventMissClicks = e => {
+    const mode = this.editor.getMode();
+
+    if (mode === MODES.POLY) return;
+
+    if (mode !== MODES.NONE) {
+      e.cancel();
+    } else {
+      this.editor.setMode(MODES.POLY);
+      e.cancel();
+    }
+
+  };
+
   bindEvents = () => {
     // Если на карте что-то меняется, пересчитать километражи
     this.map.editTools.addEventListener('editable:drawing:mouseup', this.updateMarks);
@@ -78,6 +94,7 @@ export class Poly {
     this.map.editTools.addEventListener('editable:vertex:mouseup', this.updateMarks);
     this.map.editTools.addEventListener('editable:vertex:deleted', this.updateMarks);
     this.map.editTools.addEventListener('editable:vertex:new', this.updateMarks);
+    this.map.editTools.addEventListener('editable:vertex:click', this.preventMissClicks);
 
     this.map.editTools.addEventListener('editable:vertex:dragstart', this.lockMap);
     this.map.editTools.addEventListener('editable:vertex:dragstart', this.clearArrows);
