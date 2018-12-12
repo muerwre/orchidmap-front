@@ -4,12 +4,12 @@ import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga
 import {
   checkIframeToken,
   checkUserToken,
-  getGuestToken,
+  getGuestToken, getRouteList,
   getStoredMap,
   postMap
 } from '$utils/api';
 import {
-  hideRenderer,
+  hideRenderer, searchPutRoutes,
   setActiveSticker, setAddress,
   setChanged, setDialogActive,
   setEditing,
@@ -431,15 +431,24 @@ function* keyPressedSaga({ key }): void {
     if (dialog_active) return yield put(setDialogActive(false));
     if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
   }
-
-  return;
 }
 
 function* searchSetSaga() {
-  yield delay(500);
-  const { routes: { filter: { title, distance, tab }}} = yield select(getState);
+  const { id, token } = yield select(getUser);
 
-  console.log({ title, distance, tab });
+  yield delay(500);
+  const { routes: { filter: { title, distance, tab } } } = yield select(getState);
+
+  const list = yield call(getRouteList, {
+    id,
+    token,
+    title,
+    distance,
+    author: tab === 'mine' ? id : '',
+    starred: tab === 'starred',
+  });
+
+  yield put(searchPutRoutes(list));
 }
 
 export function* userSaga() {
@@ -478,5 +487,5 @@ export function* userSaga() {
   yield takeLatest([
     ACTIONS.SEARCH_SET_TITLE,
     ACTIONS.SEARCH_SET_DISTANCE,
-  ], searchSetSaga)
+  ], searchSetSaga);
 }

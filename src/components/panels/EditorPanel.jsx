@@ -33,7 +33,7 @@ type Props = {
 
 class Component extends React.PureComponent<Props, void> {
   componentDidMount() {
-    window.addEventListener('keydown', this.props.keyPressed);
+    window.addEventListener('keydown', this.keyPressed);
 
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
@@ -44,8 +44,20 @@ class Component extends React.PureComponent<Props, void> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.props.keyPressed);
+    window.removeEventListener('keydown', this.keyPressed);
   }
+
+  keyPressed = e => {
+    // if (
+    //   e.target.tagName === 'INPUT' ||
+    //   e.target.tagName === 'TEXTAREA'
+    // ) {
+    //   if (e.key === 'Escape') e.target.blur();
+    //   return;
+    // }
+
+    this.props.keyPressed(e);
+  };
 
   startPolyMode = () => this.props.setMode(MODES.POLY);
   startStickerMode = () => this.props.setMode(MODES.STICKERS_SELECT);

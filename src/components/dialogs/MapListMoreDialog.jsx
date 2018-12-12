@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { RouteRow } from '$components/maps/RouteRow';
 import { Scroll } from '$components/Scroll';
 import {
-  searchSetAuthor,
   searchSetDistance,
   searchSetTitle,
 } from '$redux/user/actions';
@@ -98,11 +97,11 @@ class Component extends React.Component<Props> {
         <Scroll className="dialog-shader">
           <div className="dialog-maplist">
             {
-              list.map((route, index) => (
+              list.map(route => (
                 <RouteRow
                   editing={editing}
                   {...route}
-                  key={index}
+                  key={route._id}
                 />
               ))
             }
@@ -120,7 +119,6 @@ const mapStateToProps = ({ user: { editing, routes } }) => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  searchSetAuthor,
   searchSetDistance,
   searchSetTitle,
 }, dispatch);

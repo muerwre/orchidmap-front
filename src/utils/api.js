@@ -37,3 +37,11 @@ export const postMap = ({
 export const checkIframeToken = ({ viewer_id, auth_key }) => axios.get(API.IFRAME_LOGIN_VK, {
   params: { viewer_id, auth_key }
 }).then(result => (result && result.data && result.data.success && result.data.user)).catch(() => (false));
+
+export const getRouteList = ({
+  title, distance, author, starred 
+}) => axios.get(API.GET_ROUTE_LIST, {
+  params: {
+    title, distance, author, starred 
+  }
+}).then(result => (result && result.data && result.data.success && result.data.list)).catch(() => ([]));

@@ -128,6 +128,14 @@ const searchSetTab = (state, { tab = 'mine' }) => ({
   }
 });
 
+const searchPutRoutes = (state, { list = [] }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    list,
+  }
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -159,13 +167,13 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_SET_TITLE]: searchSetTitle,
   [ACTIONS.SEARCH_SET_DISTANCE]: searchSetDistance,
   [ACTIONS.SEARCH_SET_TAB]: searchSetTab,
+  [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
   ready: false,
   user: { ...DEFAULT_USER },
   editing: false,
-  // mode: MODES.NONE,
   mode: MODES.NONE,
   logo: DEFAULT_LOGO,
   routerPoints: 0,
