@@ -95,6 +95,39 @@ const setReady = (state, { ready = true }) => ({
   ready,
 });
 
+const searchSetTitle = (state, { title = '' }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    filter: {
+      ...state.routes.filter,
+      title,
+    }
+  }
+});
+
+const searchSetDistance = (state, { distance = [0, 9999] }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    filter: {
+      ...state.routes.filter,
+      distance,
+    }
+  }
+});
+
+const searchSetTab = (state, { tab = 'mine' }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    filter: {
+      ...state.routes.filter,
+      tab: ['mine', 'all', 'star'].indexOf(tab) >= 0 ? tab : 'mine',
+    }
+  }
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -122,6 +155,10 @@ const HANDLERS = ({
   [ACTIONS.SET_DIALOG]: setDialog,
   [ACTIONS.SET_DIALOG_ACTIVE]: setDialogActive,
   [ACTIONS.SET_READY]: setReady,
+
+  [ACTIONS.SEARCH_SET_TITLE]: searchSetTitle,
+  [ACTIONS.SEARCH_SET_DISTANCE]: searchSetDistance,
+  [ACTIONS.SEARCH_SET_TAB]: searchSetTab,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
@@ -145,8 +182,8 @@ export const INITIAL_STATE = {
   save_overwriting: false,
   save_processing: false,
 
-  dialog: DIALOGS.NONE,
-  dialog_active: false,
+  dialog: DIALOGS.MAP_LIST,
+  dialog_active: true,
 
   renderer: {
     data: '',
@@ -155,7 +192,21 @@ export const INITIAL_STATE = {
     renderer_active: false,
     info: '',
     progress: 0,
-  }
+  },
+
+  routes: {
+    limit: 0,
+    loading: false, // <-- maybe delete this
+    list: [],
+    filter: {
+      title: '',
+      starred: false,
+      distance: [0, 300],
+
+      author: '',
+      tab: 'mine',
+    }
+  },
 };
 
 export const userReducer = createReducer(INITIAL_STATE, HANDLERS);

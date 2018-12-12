@@ -1,6 +1,6 @@
 /*
 
-  todo add ability to copy-paste address after saving
+  done add ability to copy-paste address after saving
   todo save progress
 
   done hide sticker dialog on sticker selection

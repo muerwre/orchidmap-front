@@ -435,6 +435,13 @@ function* keyPressedSaga({ key }): void {
   return;
 }
 
+function* searchSetSaga() {
+  yield delay(500);
+  const { routes: { filter: { title, distance, tab }}} = yield select(getState);
+
+  console.log({ title, distance, tab });
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -467,4 +474,9 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
 
   yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
+
+  yield takeLatest([
+    ACTIONS.SEARCH_SET_TITLE,
+    ACTIONS.SEARCH_SET_DISTANCE,
+  ], searchSetSaga)
 }

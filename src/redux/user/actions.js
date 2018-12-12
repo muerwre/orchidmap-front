@@ -32,7 +32,6 @@ export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...p
 export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
 export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });
 
-export const showRenderer = () => ({ type: ACTIONS.SHOW_RENDERER });
 export const hideRenderer = () => ({ type: ACTIONS.HIDE_RENDERER });
 export const setRenderer = payload => ({ type: ACTIONS.SET_RENDERER, payload });
 export const takeAShot = () => ({ type: ACTIONS.TAKE_A_SHOT });
@@ -49,4 +48,6 @@ export const setReady = ready => ({ type: ACTIONS.SET_READY, ready });
 export const gotVkUser = user => ({ type: ACTIONS.GOT_VK_USER, user });
 export const keyPressed = ({ key }) => ({ type: ACTIONS.KEY_PRESSED, key });
 
-export const iframeLoginVk = payload => ({ type: ACTIONS.IFRAME_LOGIN_VK, ...payload });
+export const searchSetTitle = title => ({ type: ACTIONS.SEARCH_SET_TITLE, title });
+export const searchSetDistance = distance => ({ type: ACTIONS.SEARCH_SET_DISTANCE, distance });
+export const searchSetTab = tab => ({ type: ACTIONS.SEARCH_SET_TAB, tab });
