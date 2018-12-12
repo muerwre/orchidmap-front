@@ -1,8 +1,9 @@
 import React from 'react';
-import { getUrlData } from '$utils/history';
+import { copyToClipboard, getUrlData } from '$utils/history';
 import { toTranslit } from '$utils/format';
 import { TIPS } from '$constants/tips';
 import { MODES } from '$constants/modes';
+import { Icon } from '$components/panels/Icon';
 
 type Props = {
   address: String, // initial?
@@ -37,7 +38,7 @@ export class SaveDialog extends React.Component<Props, State> {
     const { path } = getUrlData();
     const { title, address } = this.state;
 
-    return toTranslit(address.trim()) || toTranslit(title.trim().toLowerCase()) || toTranslit(path.trim());
+    return toTranslit(address.trim()) || toTranslit(title.trim().toLowerCase()) || toTranslit(path.trim()).substr(0, 32);
   };
 
   setTitle = ({ target: { value } }) => this.setState({ title: (value || '') });
@@ -58,6 +59,13 @@ export class SaveDialog extends React.Component<Props, State> {
 
   forceSaveRequest = e => this.sendSaveRequest(e, true);
 
+  onCopy = e => {
+    e.preventDefault();
+
+    const { host } = getUrlData();
+    copyToClipboard(`http://${host}/${this.getAddress()}`);
+  };
+
   render() {
     const { title } = this.state;
     const { save_error, save_finished, save_overwriting, width } = this.props;
@@ -76,7 +84,16 @@ export class SaveDialog extends React.Component<Props, State> {
           <div className="save-description">
             <div className="save-address-input">
               <label className="save-address-label">http://{host}/</label>
-              <input type="text" value={this.getAddress().substr(0, 32)} onChange={this.setAddress} readOnly={save_finished} />
+              <input
+                type="text"
+                value={this.getAddress()}
+                onChange={this.setAddress}
+                readOnly={save_finished}
+                onCopy={this.onCopy}
+              />
+              <div className="save-address-copy" onClick={this.onCopy}>
+                <Icon icon="icon-copy-1" size={24} />
+              </div>
             </div>
 
             <div className="save-text">
@@ -96,6 +113,9 @@ export class SaveDialog extends React.Component<Props, State> {
                 {
                   save_overwriting &&
                   <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
+                }
+                { save_finished &&
+                  <div className="button" onClick={this.onCopy}>Скопировать</div>
                 }
                 { save_finished &&
                   <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>

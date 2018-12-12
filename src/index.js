@@ -1,9 +1,10 @@
 /*
+
   todo add ability to copy-paste address after saving
-  todo hide sticker dialog on sticker selection
-    todo separate mode for stricker selection
   todo save progress
 
+  done hide sticker dialog on sticker selection
+    done separate mode for stricker selection
   done TEST: set initialData after saving map, clear is-modified
   done TEST: provider / logo triggers setChanged
   done shot mechanism (100%)

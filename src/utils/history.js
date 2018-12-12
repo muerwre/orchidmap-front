@@ -33,3 +33,14 @@ export const pushLoaderState = state => {
 export const pushNetworkInitError = state => {
   document.getElementById('loader-error').style.opacity = 1;
 };
+
+export const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style = { position: 'absolute', left: '-9999px' };
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+}

@@ -70,6 +70,24 @@
   white-space: nowrap;
 }
 
+.save-address-copy {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0 5px;
+  border-radius: 0 @panel_radius @panel_radius 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 250ms;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  svg {
+    fill: white;
+  }
+}
 .save-text {
   padding: 10px;
   line-height: 1.1em;

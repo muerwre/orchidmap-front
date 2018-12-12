@@ -343,8 +343,13 @@
                 <path stroke="none" fill="black"/>
                 <path d="M14.12 10.47L12 12.59l-2.13-2.12-1.41 1.41L10.59 14l-2.12 2.12 1.41 1.41L12 15.41l2.12 2.12 1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
             </g>
+
+            <g id="icon-copy-1" stroke="none">
+                <path stroke="none" fill="black"/>
+                <path d="M3 5H1v16c0 1.1.9 2 2 2h16v-2H3V5zm18-4H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
+            </g>
         </svg>
     </defs>
 
-    <use xlink:href="#icon-trash-5" />
+    <use xlink:href="#icon-copy-1" />
 </svg>
