@@ -90,6 +90,7 @@ class Component extends React.Component<Props> {
               onChange={this.props.searchSetDistance}
               defaultValue={distance}
               pushable={20}
+              disabled={list.length === 0 || min >= max}
             />
 
           </div>

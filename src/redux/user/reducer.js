@@ -227,7 +227,7 @@ export const INITIAL_STATE = {
       author: '',
       tab: 'mine',
       min: 0,
-      max: 300,
+      max: 0,
     }
   },
 };
