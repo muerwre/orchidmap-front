@@ -145,8 +145,6 @@
   }
 
   &-disabled {
-    background-color: #e9e9e9;
-
     .@{prefixClass}-track {
       background-color: @disabledColor;
     }
@@ -156,10 +154,12 @@
       box-shadow: none;
       background-color: #fff;
       cursor: not-allowed;
+      opacity: 0;
     }
 
-    .@{prefixClass}-mark-text, .@{prefixClass}-dot {
+    .@{prefixClass}-mark-text, .@{prefixClass}-dot, .@{prefixClass}-track {
       cursor: not-allowed!important;
+      opacity: 0;
     }
   }
 }

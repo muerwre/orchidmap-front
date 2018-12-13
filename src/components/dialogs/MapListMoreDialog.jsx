@@ -88,9 +88,10 @@ class Component extends React.Component<Props> {
               marks={marks}
               step={20}
               onChange={this.props.searchSetDistance}
-              defaultValue={distance}
+              defaultValue={[0, 10000]}
+              value={distance}
               pushable={20}
-              disabled={list.length === 0 || min >= max}
+              disabled={min >= max}
             />
 
           </div>

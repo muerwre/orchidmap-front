@@ -9,7 +9,7 @@ import {
   postMap
 } from '$utils/api';
 import {
-  hideRenderer, searchPutRoutes, searchSetLoading,
+  hideRenderer, searchPutRoutes, searchSetDistance, searchSetLoading,
   setActiveSticker, setAddress,
   setChanged, setDialogActive,
   setEditing,
@@ -437,7 +437,7 @@ function* searchSetSaga() {
   const { id, token } = yield select(getUser);
   yield delay(1000);
   yield put(searchSetLoading(true));
-  const { routes: { filter: { title, distance, tab } } } = yield select(getState);
+  const { routes: { filter, filter: { title, distance, tab } } } = yield select(getState);
 
   const { list, min, max } = yield call(getRouteList, {
     id,
@@ -449,6 +449,22 @@ function* searchSetSaga() {
   });
 
   yield put(searchPutRoutes({ list, min, max }));
+
+  // change distange range if needed and load additional data
+  if (
+    (filter.min > min && filter.distance[0] <= filter.min) ||
+    (filter.max < max && filter.distance[1] >= filter.max)
+  ) {
+    yield put(searchSetDistance([
+      (filter.min > min && filter.distance[0] <= filter.min)
+        ? min
+        : filter.distance[0],
+      (filter.max < max && filter.distance[1] >= filter.max)
+        ? max
+        : filter.distance[1],
+    ]));
+  }
+
   return yield put(searchSetLoading(false));
 }
 

@@ -15,8 +15,8 @@ module.exports = async (req, res) => {
     criteria = {
       ...criteria,
       $or: [
-        { title: new RegExp(title, 'ig') },
-        { _id: new RegExp(title, 'ig') },
+        { title: new RegExp(title.trim(), 'ig') },
+        { _id: new RegExp(title.trim(), 'ig') },
       ],
     };
   }
@@ -36,16 +36,30 @@ module.exports = async (req, res) => {
     !author || item.owner._id === author
   ));
 
-  const limits = list.reduce(({ min, max }, { distance: dist }) => ({
+  let limits = list.reduce(({ min, max }, { distance: dist }) => ({
     min: Math.ceil(Math.min(dist, min) / 20) * 20,
     max: Math.ceil(Math.max(dist, max) / 20) * 20,
-  }), { min: 0, max: 0 });
+  }), { min: 999999, max: 0 });
+
+  const minDist = parseInt(distance[0], 10);
+  const maxDist = parseInt(distance[1], 10);
+  // const maxDist = parseInt(distance[1], 10) > parseInt(distance[0], 10)
+  //   ? parseInt(distance[1], 10)
+  //   : 10000;
 
   if (distance && distance.length === 2) {
     list = list.filter(item => (
-      item.distance >= parseInt(distance[0], 10) &&
-      item.distance <= parseInt(distance[1], 10)
+      item.distance >= minDist &&
+      item.distance <= maxDist
     ));
+  }
+
+  if (list.length === 0) {
+    limits = { min: 0, max: 0 };
+  } else if (limits.max === 0) {
+    limits = { min: 0, max: 0 };
+  } else if (limits.min === limits.max) {
+    limits = { min: limits.max - 20, max: limits.max };
   }
 
   res.send({
