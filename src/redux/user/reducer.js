@@ -228,7 +228,7 @@ export const INITIAL_STATE = {
       starred: false,
       distance: [0, 10000],
       author: '',
-      tab: 'mine',
+      tab: '',
       min: 0,
       max: 10000,
     }

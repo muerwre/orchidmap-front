@@ -44,4 +44,5 @@ export const getRouteList = ({
   params: {
     title, distance, author, starred
   }
-}).then(result => (result && result.data && result.data.success && result.data)).catch(() => ([]));
+}).then(result => (result && result.data && result.data.success && result.data))
+  .catch(() => ({ list: [], min: 0, max: 0 }));

@@ -16,9 +16,9 @@
   done better loader screen
     done network errors handling on startup
 
-  todo map catalogue
-    todo public maps
-    todo map search
+  done map catalogue
+    done public maps
+    done map search
     todo map lazy loading
 
   todo tooltips
