@@ -128,7 +128,9 @@ const searchSetTab = (state, { tab = 'mine' }) => ({
   }
 });
 
-const newDistCalc = ({ distance, min, max, filter }) => {
+const newDistCalc = ({
+  distance, min, max, filter
+}) => {
   if (filter.min === filter.max) {
     // slider was disabled
     return [min, max];
@@ -137,33 +139,21 @@ const newDistCalc = ({ distance, min, max, filter }) => {
   // state.routes.filter.distance
 };
 
-const searchPutRoutes = (state, { list = [], min, max }) => {
-  console.log('a', state.routes.filter.distance[0], state.routes.filter.min);
-  return ({
-    ...state,
-    routes: {
-      ...state.routes,
-      list,
-      filter: {
-        ...state.routes.filter,
-        distance: (state.routes.filter.min === state.routes.filter.max)
-          ? [min, max]
-          : state.routes.filter.distance,
-        // distance:
-        //   [
-        //     (state.routes.filter.min > min && state.routes.filter.distance[0] <= state.routes.filter.min)
-        //       ? min
-        //       : state.routes.filter.distance[0],
-        //     (state.routes.filter.max < max && state.routes.filter.distance[1] >= state.routes.filter.max)
-        //       ? max
-        //       : state.routes.filter.distance[1],
-        //   ],
-        min,
-        max,
-      }
+const searchPutRoutes = (state, { list = [], min, max }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    list,
+    filter: {
+      ...state.routes.filter,
+      distance: (state.routes.filter.min === state.routes.filter.max)
+        ? [min, max]
+        : state.routes.filter.distance,
+      min,
+      max,
     }
-  });
-}
+  }
+});
 
 const searchSetLoading = (state, { loading = false }) => ({
   ...state,

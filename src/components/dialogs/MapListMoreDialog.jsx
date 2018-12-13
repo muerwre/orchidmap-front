@@ -71,6 +71,11 @@ class Component extends React.Component<Props> {
 
     return (
       <div className="dialog-content">
+        <div className="dialog-head-tabs">
+          <div className="dialog-head-tab active">Мои</div>
+          <div className="dialog-head-tab">Общие</div>
+          <div className="dialog-head-tab">Выбранные</div>
+        </div>
         <div className="dialog-head">
           <div>
             <input

@@ -168,6 +168,27 @@
   color: white;
 }
 
+.dialog-head-tabs {
+  background: rgba(255, 255, 255, 0);
+  border-radius: @panel_radius @panel_radius 0 0;
+  height: 32px;
+
+  .dialog-head-tab {
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0 10px;
+    cursor: pointer;
+    border-radius: @panel_radius @panel_radius 0 0;
+
+    &.active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
 .dialog-head-title {
   font-size: 20px;
   text-transform: uppercase;
