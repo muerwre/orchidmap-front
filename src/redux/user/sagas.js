@@ -202,11 +202,6 @@ function* setModeSaga({ mode }) {
   // console.log('change', mode);
 }
 
-function* userLogoutSaga() {
-  yield put(setUser(DEFAULT_USER));
-  yield call(generateGuestSaga);
-}
-
 function* setActiveStickerSaga({ activeSticker }) {
   yield editor.activeSticker = activeSticker;
   yield put(setMode(MODES.STICKERS));
@@ -499,6 +494,19 @@ function* setSaveSuccessSaga({ address, title }) {
   return yield editor.setInitialData();
 }
 
+function* userLogoutSaga() {
+  yield put(setUser(DEFAULT_USER));
+  yield call(generateGuestSaga);
+}
+
+function* setUserSaga() {
+  const { dialog_active } = yield select(getState);
+
+  if (dialog_active) yield call(searchSetSagaWorker);
+
+  return true;
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -539,4 +547,5 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.OPEN_MAP_DIALOG, openMapDialogSaga);
   yield takeLatest(ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
+  yield takeLatest(ACTIONS.SET_USER, setUserSaga);
 }
