@@ -16,7 +16,8 @@ import {
   setMode, setReady, setRenderer,
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
-  setUser
+  searchSetTab,
+  setUser, setDialog,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -34,6 +35,7 @@ import {
 } from '$utils/renderer';
 import { LOGOS } from '$constants/logos';
 import { DEFAULT_PROVIDER } from '$constants/providers';
+import { DIALOGS } from '$constants/dialogs';
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -433,10 +435,9 @@ function* keyPressedSaga({ key }): void {
   }
 }
 
-function* searchSetSaga() {
+function* searchSetSagaWorker() {
   const { id, token } = yield select(getUser);
-  yield delay(1000);
-  yield put(searchSetLoading(true));
+
   const { routes: { filter, filter: { title, distance, tab } } } = yield select(getState);
 
   const { list, min, max } = yield call(getRouteList, {
@@ -466,6 +467,33 @@ function* searchSetSaga() {
   }
 
   return yield put(searchSetLoading(false));
+}
+
+function* searchSetSaga() {
+  yield put(searchSetLoading(true));
+  yield delay(500);
+  yield call(searchSetSagaWorker);
+}
+
+function* openMapDialogSaga({ tab }) {
+  const { dialog_active, routes: { filter: { tab: current } } } = yield select(getState);
+
+  if (dialog_active && tab === current) {
+    return yield put(setDialogActive(false));
+  }
+
+  yield put(searchSetTab(tab));
+  yield put(setDialog(DIALOGS.MAP_LIST));
+  yield put(setDialogActive(true));
+
+  return tab;
+}
+
+function* searchSetTabSaga() {
+  yield put(searchSetDistance([0, 10000]));
+  yield put(searchPutRoutes({ list: [], min: 0, max: 10000 }));
+
+  yield call(searchSetSaga);
 }
 
 export function* userSaga() {
@@ -505,4 +533,7 @@ export function* userSaga() {
     ACTIONS.SEARCH_SET_TITLE,
     ACTIONS.SEARCH_SET_DISTANCE,
   ], searchSetSaga);
+
+  yield takeLatest(ACTIONS.OPEN_MAP_DIALOG, openMapDialogSaga);
+  yield takeLatest(ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
 }

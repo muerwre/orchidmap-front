@@ -319,3 +319,20 @@
     border-top-color: @tooltip-arrow-color;
   }
 }
+
+.range-placeholder {
+  height: 40px;
+  padding: 15px 0;
+  box-sizing: border-box;
+  margin: 8px;
+
+  &::after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 4px;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+}

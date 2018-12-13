@@ -6,7 +6,7 @@ import { MODES } from '$constants/modes';
 import { DEFAULT_LOGO } from '$constants/logos';
 import { TIPS } from '$constants/tips';
 import { DEFAULT_PROVIDER } from '$constants/providers';
-import { DIALOGS } from '$constants/dialogs';
+import { DIALOGS, TABS } from '$constants/dialogs';
 
 const getEstimated = distance => {
   const time = (distance && (distance / 15)) || 0;
@@ -117,27 +117,16 @@ const searchSetDistance = (state, { distance = [0, 9999] }) => ({
   }
 });
 
-const searchSetTab = (state, { tab = 'mine' }) => ({
+const searchSetTab = (state, { tab = TABS[Object.keys(TABS)[0]] }) => ({
   ...state,
   routes: {
     ...state.routes,
     filter: {
       ...state.routes.filter,
-      tab: ['mine', 'all', 'star'].indexOf(tab) >= 0 ? tab : 'mine',
+      tab: Object.keys(TABS).indexOf(tab) >= 0 ? tab : TABS[Object.keys(TABS)[0]],
     }
   }
 });
-
-const newDistCalc = ({
-  distance, min, max, filter
-}) => {
-  if (filter.min === filter.max) {
-    // slider was disabled
-    return [min, max];
-  }
-
-  // state.routes.filter.distance
-};
 
 const searchPutRoutes = (state, { list = [], min, max }) => ({
   ...state,
@@ -218,8 +207,8 @@ export const INITIAL_STATE = {
   save_overwriting: false,
   save_processing: false,
 
-  dialog: DIALOGS.MAP_LIST,
-  dialog_active: true,
+  dialog: DIALOGS.NONE,
+  dialog_active: false,
 
   renderer: {
     data: '',
@@ -237,11 +226,11 @@ export const INITIAL_STATE = {
     filter: {
       title: '',
       starred: false,
-      distance: [0, 99999],
+      distance: [0, 10000],
       author: '',
       tab: 'mine',
       min: 0,
-      max: 0,
+      max: 10000,
     }
   },
 };

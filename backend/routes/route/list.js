@@ -28,21 +28,28 @@ module.exports = async (req, res) => {
     };
   }
 
-  let list = await Route.find({
-    ...criteria,
-  }, '_id title distance owner updated_at', { limit: 500 }).populate('owner');
+  let list = await Route.find(
+    {
+      ...criteria,
+    },
+    '_id title distance owner updated_at',
+    {
+      limit: 500,
+      sort: { updated_at: -1 },
+    }
+  ).populate('owner');
 
   list = list.filter(item => (
     !author || item.owner._id === author
   ));
 
   let limits = list.reduce(({ min, max }, { distance: dist }) => ({
-    min: Math.ceil(Math.min(dist, min) / 20) * 20,
-    max: Math.ceil(Math.max(dist, max) / 20) * 20,
+    min: Math.ceil(Math.min(dist, min) / 25) * 25,
+    max: Math.ceil(Math.max(dist, max) / 25) * 25,
   }), { min: 999999, max: 0 });
 
   const minDist = parseInt(distance[0], 10);
-  const maxDist = parseInt(distance[1], 10);
+  const maxDist = parseInt(distance[1], 10) === 200 ? 99999 : parseInt(distance[1], 10);
   // const maxDist = parseInt(distance[1], 10) > parseInt(distance[0], 10)
   //   ? parseInt(distance[1], 10)
   //   : 10000;
@@ -60,6 +67,8 @@ module.exports = async (req, res) => {
     limits = { min: 0, max: 0 };
   } else if (limits.min === limits.max) {
     limits = { min: limits.max - 20, max: limits.max };
+  } else if (limits.max > 200) {
+    limits = { min: limits.min, max: 200 };
   }
 
   res.send({

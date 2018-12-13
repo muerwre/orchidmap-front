@@ -114,6 +114,44 @@
   box-sizing: border-box;
 }
 
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.dialog-maplist-loader {
+  height: 60px;
+  display: flex;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  opacity: 0.5;
+  padding-left: 60px;
+
+  .spin {
+    animation: spin infinite reverse 2s linear;
+  }
+  .dialog-maplist-icon {
+    position: absolute;
+    left: 0;
+
+    svg {
+      width: 60px;
+      height: 60px;
+      fill: white;
+    }
+  }
+}
+
 .route-row {
   margin-bottom: 10px;
   background: rgba(255, 255, 255, 0.05);
@@ -168,20 +206,23 @@
   color: white;
 }
 
-.dialog-head-tabs {
+.dialog-tabs {
   background: rgba(255, 255, 255, 0);
   border-radius: @panel_radius @panel_radius 0 0;
   height: 32px;
+  user-select: none;
+  flex-direction: row;
 
-  .dialog-head-tab {
-    height: 32px;
+  .dialog-tab {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: white;
-    padding: 0 10px;
+    padding: 0 20px;
     cursor: pointer;
     border-radius: @panel_radius @panel_radius 0 0;
+    flex: 1;
+    height: 32px;
 
     &.active {
       background: rgba(255, 255, 255, 0.1);

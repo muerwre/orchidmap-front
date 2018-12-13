@@ -348,8 +348,18 @@
                 <path stroke="none" fill="black"/>
                 <path d="M3 5H1v16c0 1.1.9 2 2 2h16v-2H3V5zm18-4H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
             </g>
+
+            <g id="icon-sync-1" stroke="none">
+                <path stroke="none" fill="black"/>
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
+            </g>
+
+            <g id="icon-block-1" stroke="none">
+                <path stroke="none" fill="black"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
+            </g>
         </svg>
     </defs>
 
-    <use xlink:href="#icon-copy-1" />
+    <use xlink:href="#icon-sync-1" />
 </svg>
