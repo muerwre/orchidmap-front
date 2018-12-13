@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
   } else if (limits.max === 0) {
     limits = { min: 0, max: 0 };
   } else if (limits.min === limits.max) {
-    limits = { min: limits.max - 20, max: limits.max };
+    limits = { min: limits.max - 25, max: limits.max };
   } else if (limits.max > 200) {
     limits = { min: limits.min, max: 200 };
   }
