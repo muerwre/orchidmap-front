@@ -118,9 +118,8 @@ const mapStateToProps = ({ user: { editing, routes } }) => ({
   editing,
   marks: [...new Array((routes.filter.max - routes.filter.min) / 20 + 1)].reduce((obj, el, i) => ({
     ...obj,
-    [routes.filter.min + (i * 20)]: (routes.filter.min + (i * 20)),
+    [routes.filter.min + (i * 20)]: String(routes.filter.min + (i * 20)),
   }), {}),
-  // routes_sorted: Object.keys(routes).sort((a, b) => (Date.parse(routes[b].updated_at) - Date.parse(routes[a].updated_at))),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

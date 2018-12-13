@@ -75,7 +75,7 @@
     "pt-sans-cyrillic": "0.0.4",
     "pug": "2.0.0-beta11",
     "raleway-cyrillic": "^4.0.2",
-    "rc-slider": "^8.6.4",
+    "rc-slider": "8.5.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-hot-loader": "^4.1.1",
