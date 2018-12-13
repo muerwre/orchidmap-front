@@ -292,22 +292,6 @@ function* refreshUserData() {
   return yield put(setUser(data));
 }
 
-function* setSaveSuccessSaga({ address, title }) {
-  const { id } = yield select(getUser);
-
-  replacePath(`/${address}/edit`);
-
-  yield put(setTitle(title));
-  yield put(setAddress(address));
-  yield put(setChanged(false));
-
-  yield editor.owner = { id };
-
-  yield call(refreshUserData);
-
-  return yield editor.setInitialData();
-}
-
 function* getRenderData() {
   yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
 
@@ -494,6 +478,25 @@ function* searchSetTabSaga() {
   yield put(searchPutRoutes({ list: [], min: 0, max: 10000 }));
 
   yield call(searchSetSaga);
+}
+
+function* setSaveSuccessSaga({ address, title }) {
+  const { id } = yield select(getUser);
+  const { dialog_active } = yield select(getState);
+
+  replacePath(`/${address}/edit`);
+
+  yield put(setTitle(title));
+  yield put(setAddress(address));
+  yield put(setChanged(false));
+
+  yield editor.owner = { id };
+
+  if (dialog_active) {
+    yield call(searchSetSagaWorker);
+  }
+
+  return yield editor.setInitialData();
 }
 
 export function* userSaga() {
