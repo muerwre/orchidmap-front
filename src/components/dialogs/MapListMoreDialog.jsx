@@ -9,6 +9,9 @@ import {
   searchSetTitle,
 } from '$redux/user/actions';
 
+
+import { Range } from 'rc-slider';
+
 type Props = {
   routes: {
     limit: Number,
@@ -55,43 +58,40 @@ class Component extends React.Component<Props> {
       routes: {
         list,
         filter: {
+          min,
+          max,
           title,
           distance,
           tab,
         }
       },
       editing,
+      marks,
     } = this.props;
 
     return (
       <div className="dialog-content">
         <div className="dialog-head">
-          <div className="dialog-head-title">
-            маршруты
-          </div>
           <div>
             <input
               type="text"
-              placeholder="title/address"
+              placeholder="Поиск по названию"
               value={title}
               onChange={this.setTitle}
             />
 
             <br />
 
-            <input
-              type="text"
-              placeholder="min"
-              value={distance[0]}
-              onChange={this.setDistanceMin}
+            <Range
+              min={min}
+              max={max}
+              marks={marks}
+              step={20}
+              onChange={this.props.searchSetDistance}
+              defaultValue={distance}
+              pushable={20}
             />
 
-            <input
-              type="text"
-              placeholder="max"
-              value={distance[1]}
-              onChange={this.setDistanceMax}
-            />
           </div>
         </div>
         <Scroll className="dialog-shader">
@@ -115,6 +115,10 @@ class Component extends React.Component<Props> {
 const mapStateToProps = ({ user: { editing, routes } }) => ({
   routes,
   editing,
+  marks: [...new Array((routes.filter.max - routes.filter.min) / 20 + 1)].reduce((obj, el, i) => ({
+    ...obj,
+    [routes.filter.min + (i * 20)]: (routes.filter.min + (i * 20)),
+  }), {}),
   // routes_sorted: Object.keys(routes).sort((a, b) => (Date.parse(routes[b].updated_at) - Date.parse(routes[a].updated_at))),
 });
 

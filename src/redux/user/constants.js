@@ -56,4 +56,5 @@ export const ACTIONS = ({
 
   SEARCH_SET_TAB: 'SEARCH_SET_TAB',
   SEARCH_PUT_ROUTES: 'SEARCH_PUT_ROUTES',
+  SEARCH_SET_LOADING: 'SEARCH_SET_LOADING',
 }: { [key: String]: String });

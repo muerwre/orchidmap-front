@@ -51,4 +51,7 @@ export const keyPressed = ({ key }) => ({ type: ACTIONS.KEY_PRESSED, key });
 export const searchSetTitle = title => ({ type: ACTIONS.SEARCH_SET_TITLE, title });
 export const searchSetDistance = distance => ({ type: ACTIONS.SEARCH_SET_DISTANCE, distance });
 export const searchSetTab = tab => ({ type: ACTIONS.SEARCH_SET_TAB, tab });
-export const searchPutRoutes = list => ({ type: ACTIONS.SEARCH_PUT_ROUTES, list })
+export const searchSetLoading = loading => ({ type: ACTIONS.SEARCH_SET_LOADING, loading });
+
+export const searchPutRoutes = payload => ({ type: ACTIONS.SEARCH_PUT_ROUTES, ...payload });
+

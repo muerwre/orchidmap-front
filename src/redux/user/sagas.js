@@ -9,7 +9,7 @@ import {
   postMap
 } from '$utils/api';
 import {
-  hideRenderer, searchPutRoutes,
+  hideRenderer, searchPutRoutes, searchSetLoading,
   setActiveSticker, setAddress,
   setChanged, setDialogActive,
   setEditing,
@@ -435,11 +435,11 @@ function* keyPressedSaga({ key }): void {
 
 function* searchSetSaga() {
   const { id, token } = yield select(getUser);
-
-  yield delay(500);
+  yield delay(1000);
+  yield put(searchSetLoading(true));
   const { routes: { filter: { title, distance, tab } } } = yield select(getState);
 
-  const list = yield call(getRouteList, {
+  const { list, min, max } = yield call(getRouteList, {
     id,
     token,
     title,
@@ -448,7 +448,8 @@ function* searchSetSaga() {
     starred: tab === 'starred',
   });
 
-  yield put(searchPutRoutes(list));
+  yield put(searchPutRoutes({ list, min, max }));
+  return yield put(searchSetLoading(false));
 }
 
 export function* userSaga() {

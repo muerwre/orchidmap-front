@@ -128,11 +128,24 @@ const searchSetTab = (state, { tab = 'mine' }) => ({
   }
 });
 
-const searchPutRoutes = (state, { list = [] }) => ({
+const searchPutRoutes = (state, { list = [], min, max }) => ({
   ...state,
   routes: {
     ...state.routes,
     list,
+    filter: {
+      ...state.routes.filter,
+      min: min || state.routes.filter.min,
+      max: max || state.routes.filter.max,
+    }
+  }
+});
+
+const searchSetLoading = (state, { loading = false }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    loading,
   }
 });
 
@@ -168,6 +181,7 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_SET_DISTANCE]: searchSetDistance,
   [ACTIONS.SEARCH_SET_TAB]: searchSetTab,
   [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
+  [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
@@ -210,9 +224,10 @@ export const INITIAL_STATE = {
       title: '',
       starred: false,
       distance: [0, 300],
-
       author: '',
       tab: 'mine',
+      min: 0,
+      max: 300,
     }
   },
 };

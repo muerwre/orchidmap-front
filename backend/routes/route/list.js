@@ -28,23 +28,30 @@ module.exports = async (req, res) => {
     };
   }
 
-  const list = await Route.find({
+  let list = await Route.find({
     ...criteria,
-    distance: {
-      $gte: parseInt(distance[0], 10),
-      $lte: parseInt(distance[1], 10),
-    },
-    public: true,
   }, '_id title distance owner updated_at', { limit: 500 }).populate('owner');
 
-
-  const filtered = list.filter(item => (
+  list = list.filter(item => (
     !author || item.owner._id === author
   ));
 
+  const limits = list.reduce(({ min, max }, { distance: dist }) => ({
+    min: Math.ceil(Math.min(dist, min) / 20) * 20,
+    max: Math.ceil(Math.max(dist, max) / 20) * 20,
+  }), { min: 0, max: 0 });
+
+  if (distance && distance.length === 2) {
+    list = list.filter(item => (
+      item.distance >= parseInt(distance[0], 10) &&
+      item.distance <= parseInt(distance[1], 10)
+    ));
+  }
+
   res.send({
     success: true,
-    list: filtered,
+    list,
+    ...limits,
   });
 };
 
