@@ -358,8 +358,17 @@
                 <path stroke="none" fill="black"/>
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
             </g>
+
+            <g id="icon-sad-1" stroke="none">
+                <path stroke="none" fill="black"/>
+                <g transform="translate(4 4)">
+                    <circle cx="15.5" cy="9.5" r="1.5" fill="white" stroke="none"/>
+                    <circle cx="8.5" cy="9.5" r="1.5" fill="white" stroke="none"/>
+                    <path d="M12 14c-2.33 0-4.32 1.45-5.12 3.5h1.67c.69-1.19 1.97-2 3.45-2s2.75.81 3.45 2h1.67c-.8-2.05-2.79-3.5-5.12-3.5zm-.01-12C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0"/>
+                </g>
+            </g>
         </svg>
     </defs>
 
-    <use xlink:href="#icon-sync-1" />
+    <use xlink:href="#icon-sad-1" />
 </svg>

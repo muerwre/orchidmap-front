@@ -62,6 +62,22 @@ class Component extends React.Component<Props> {
 
     return (
       <div className="dialog-content">
+        { list.length === 0 && loading &&
+            <div className="dialog-maplist-loader">
+              <div className="dialog-maplist-icon spin">
+                <Icon icon="icon-sync-1" />
+              </div>
+            </div>
+        }
+        { ready && !loading && list.length === 0 &&
+            <div className="dialog-maplist-loader">
+              <div className="dialog-maplist-icon">
+                <Icon icon="icon-sad-1" />
+              </div>
+              ТУТ ПУСТО <br />
+              И ОДИНОКО
+            </div>
+        }
         <div className="dialog-tabs">
           {
             Object.keys(TABS).map(item => (
@@ -105,6 +121,7 @@ class Component extends React.Component<Props> {
 
           </div>
         </div>
+
         <Scroll className="dialog-shader">
           <div className="dialog-maplist">
             {
@@ -116,24 +133,9 @@ class Component extends React.Component<Props> {
                 />
               ))
             }
-            { list.length === 0 && loading &&
-                <div className="dialog-maplist-loader">
-                  <div className="dialog-maplist-icon spin">
-                    <Icon icon="icon-sync-1" />
-                  </div>
-                  Загрузка
-                </div>
-            }
-            { ready && !loading && list.length === 0 &&
-                <div className="dialog-maplist-loader">
-                  <div className="dialog-maplist-icon">
-                    <Icon icon="icon-block-1" />
-                  </div>
-                  НИЧЕГО НЕ НАЙДЕНО
-                </div>
-            }
           </div>
         </Scroll>
+
       </div>
     );
   }
