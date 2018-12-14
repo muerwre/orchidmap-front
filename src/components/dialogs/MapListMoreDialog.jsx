@@ -8,12 +8,14 @@ import {
   searchSetDistance,
   searchSetTitle,
   searchSetTab,
+  setDialogActive,
 } from '$redux/user/actions';
 import classnames from 'classnames';
 
 import { Range } from 'rc-slider';
 import { TABS } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';
+import { pushPath } from '$utils/history';
 
 type Props = {
   ready: Boolean,
@@ -31,15 +33,20 @@ type Props = {
   editing: Boolean,
   routes_sorted: Array<string>,
 
-  searchSetAuthor: Function,
   searchSetDistance: Function,
   searchSetTitle: Function,
   searchSetTab: Function,
+  setDialogActive: Function,
 };
 
 class Component extends React.Component<Props> {
   setTitle = ({ target: { value } }) => {
     this.props.searchSetTitle(value);
+  };
+
+  openRoute = _id => {
+    pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+    this.props.setDialogActive(false);
   };
 
   render() {
@@ -130,6 +137,7 @@ class Component extends React.Component<Props> {
                   editing={editing}
                   {...route}
                   key={route._id}
+                  openRoute={this.openRoute}
                 />
               ))
             }
@@ -164,6 +172,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   searchSetDistance,
   searchSetTitle,
   searchSetTab,
+  setDialogActive,
 }, dispatch);
 
 export const MapListMoreDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

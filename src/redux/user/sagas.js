@@ -461,9 +461,9 @@ function* openMapDialogSaga({ tab }) {
     return yield put(setDialogActive(false));
   }
 
-  // if (tab !== current) { // if tab wasnt changed just update data
-  yield put(searchSetTab(tab));
-  // }
+  if (tab !== current) { // if tab wasnt changed just update data
+    yield put(searchSetTab(tab));
+  }
 
   yield put(setDialog(DIALOGS.MAP_LIST));
   yield put(setDialogActive(true));

@@ -9,14 +9,16 @@ type Props = {
   created_at: String,
   _id: String,
   editing: Boolean,
+
+  openRoute: Function,
 };
 
 export const RouteRow = ({
-  title, distance, created_at, _id, editing
+  title, distance, created_at, _id, editing, openRoute,
 }: Props) => (
   <div
     className="route-row"
-    onClick={() => pushPath(`/${_id}/${editing ? 'edit' : ''}`)}
+    onClick={() => openRoute(_id)}
   >
     <div className="route-title">
       {title || _id}
