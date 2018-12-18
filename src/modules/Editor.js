@@ -15,7 +15,7 @@ import {
   setDistance,
   setLogo,
   setMode,
-  setProvider,
+  setProvider, setPublic,
   setRouterPoints,
   setTitle,
 } from '$redux/user/actions';
@@ -86,15 +86,6 @@ export class Editor {
       [MODES.ROUTER]: this.router.pushWaypointOnClick,
     };
 
-    // this.clearChanged = clearChanged;
-    // this.setActiveSticker = setActiveSticker;
-    // this.setMode = setMode;
-    // this.setEditing = setEditing;
-    // this.setTitle = setTitle;
-    // this.setAddress = setAddress;
-    // this.getUser = getUser;
-    // this.getTitle = getTitle;
-
     map.addEventListener('mouseup', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
     map.addEventListener('dragstop', () => lockMapClicks(false));
@@ -114,6 +105,7 @@ export class Editor {
   setActiveSticker = value => store.dispatch(setActiveSticker(value));
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
+  setPublic = value => store.dispatch(setPublic(value));
 
   resetSaveDialog = () => store.dispatch(resetSaveDialog());
 
@@ -228,7 +220,7 @@ export class Editor {
   };
 
   setData = ({
-    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO,
+    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, public: is_public,
   }) => {
     this.setTitle(title || '');
     const { id } = this.getUser();
@@ -253,6 +245,7 @@ export class Editor {
       );
     }
 
+    this.setPublic(is_public);
     this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
     this.setProvider((provider && PROVIDERS[provider] && provider) || DEFAULT_PROVIDER);
     if (owner) this.owner = owner;

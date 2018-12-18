@@ -152,6 +152,11 @@ const searchSetLoading = (state, { loading = false }) => ({
   }
 });
 
+const setPublic = (state, { is_public = false }) => ({
+  ...state,
+  is_public,
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -185,6 +190,7 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_SET_TAB]: searchSetTab,
   [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
   [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
+  [ACTIONS.SET_PUBLIC]: setPublic,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
@@ -201,6 +207,7 @@ export const INITIAL_STATE = {
   address: '',
   changed: false,
   provider: DEFAULT_PROVIDER,
+  is_public: false,
 
   save_error: '',
   save_finished: false,

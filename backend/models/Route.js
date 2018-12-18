@@ -12,7 +12,7 @@ const RouteSchema = new Schema(
     stickers: { type: Array, default: [] },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     distance: { type: Number, default: 0 },
-    public: { type: Boolean, default: true },
+    is_public: { type: Boolean, default: false },
     created_at: { type: Date, default: Date.now() },
     updated_at: { type: Date, default: Date.now() },
     logo: { type: String, default: 'DEFAULT' },

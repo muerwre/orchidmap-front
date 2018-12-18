@@ -11,6 +11,7 @@ import classnames from 'classnames';
 type Props = {
   address: String, // initial?
   title: String, // initial?
+  is_public: Boolean,
 
   save_error: String,
   save_finished: Boolean,
@@ -25,7 +26,7 @@ type Props = {
 type State = {
   address: String,
   title: String,
-  public: Boolean,
+  is_public: Boolean,
 };
 
 export class SaveDialog extends React.Component<Props, State> {
@@ -35,7 +36,7 @@ export class SaveDialog extends React.Component<Props, State> {
     this.state = {
       address: props.address || '',
       title: props.title || '',
-      is_public: props.public || false,
+      is_public: props.is_public || false,
     };
   }
 
@@ -54,11 +55,11 @@ export class SaveDialog extends React.Component<Props, State> {
   cancelSaving = () => this.props.setMode(MODES.NONE);
 
   sendSaveRequest = (e, force = false) => {
-    const { title } = this.state;
+    const { title, is_public } = this.state;
     const address = this.getAddress();
 
     this.props.sendSaveRequest({
-      title, address, force,
+      title, address, force, is_public
     });
   };
 

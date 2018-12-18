@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
   if (!author || !user || (user._id !== author)) {
     criteria = {
       ...criteria,
-      public: true,
+      is_public: true,
     };
   }
 

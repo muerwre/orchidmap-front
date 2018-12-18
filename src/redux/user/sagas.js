@@ -257,7 +257,7 @@ function* clearSaga({ type }) {
   yield put(setMode(MODES.NONE));
 }
 
-function* sendSaveRequestSaga({ title, address, force }) {
+function* sendSaveRequestSaga({ title, address, force, is_public }) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
   const { route, stickers, provider } = editor.dumpData();
@@ -266,7 +266,7 @@ function* sendSaveRequestSaga({ title, address, force }) {
 
   const { result, timeout, cancel } = yield race({
     result: postMap({
-      id, token, route, stickers, title, force, address, logo, distance, provider,
+      id, token, route, stickers, title, force, address, logo, distance, provider, is_public
     }),
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),
@@ -280,12 +280,12 @@ function* sendSaveRequestSaga({ title, address, force }) {
   return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title }));
 }
 
-function* refreshUserData() {
-  const user = yield select(getUser);
-  const data = yield call(checkUserToken, user);
-
-  return yield put(setUser(data));
-}
+// function* refreshUserData() {
+//   const user = yield select(getUser);
+//   const data = yield call(checkUserToken, user);
+//
+//   return yield put(setUser(data));
+// }
 
 function* getRenderData() {
   yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
