@@ -4,6 +4,9 @@ import { toTranslit } from '$utils/format';
 import { TIPS } from '$constants/tips';
 import { MODES } from '$constants/modes';
 import { Icon } from '$components/panels/Icon';
+import { Switch } from '$components/Switch';
+
+import classnames from 'classnames';
 
 type Props = {
   address: String, // initial?
@@ -22,6 +25,7 @@ type Props = {
 type State = {
   address: String,
   title: String,
+  public: Boolean,
 };
 
 export class SaveDialog extends React.Component<Props, State> {
@@ -31,6 +35,7 @@ export class SaveDialog extends React.Component<Props, State> {
     this.state = {
       address: props.address || '',
       title: props.title || '',
+      is_public: props.public || false,
     };
   }
 
@@ -61,15 +66,18 @@ export class SaveDialog extends React.Component<Props, State> {
 
   onCopy = e => {
     e.preventDefault();
+    const { host, protocol } = getUrlData();
+    copyToClipboard(`${protocol}//${host}/${this.getAddress()}`);
+  };
 
-    const { host } = getUrlData();
-    copyToClipboard(`http://${host}/${this.getAddress()}`);
+  togglePublic = () => {
+    this.setState({ is_public: !this.state.is_public });
   };
 
   render() {
-    const { title } = this.state;
+    const { title, is_public } = this.state;
     const { save_error, save_finished, save_overwriting, width } = this.props;
-    const { host } = getUrlData();
+    const { host, protocol } = getUrlData();
 
     return (
       <div className="control-dialog control-dialog-medium" style={{ width }}>
@@ -83,7 +91,7 @@ export class SaveDialog extends React.Component<Props, State> {
 
           <div className="save-description">
             <div className="save-address-input">
-              <label className="save-address-label">http://{host}/</label>
+              <label className="save-address-label">{protocol}//{host}/</label>
               <input
                 type="text"
                 value={this.getAddress()}
@@ -101,7 +109,14 @@ export class SaveDialog extends React.Component<Props, State> {
             </div>
 
             <div className="save-buttons">
-              <div className="save-buttons-text" />
+              <div className={classnames('save-buttons-text pointer', { gray: !is_public })} onClick={this.togglePublic}>
+                <Switch active={is_public} />
+                {
+                  is_public
+                    ? ' В каталоге карт'
+                    : ' Только по ссылке'
+                }
+              </div>
               <div>
                 { !save_finished &&
                   <div className="button" onClick={this.cancelSaving}>Отмена</div>

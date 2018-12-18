@@ -6,10 +6,10 @@ export const replacePath = url => history.replace(url);
 
 export const getUrlData = (url = getPath()) => {
   const [, path, mode] = url.split('/');
-  const { host, hash } = window.location;
+  const { host, hash, protocol } = window.location;
 
   return {
-    path, mode, host, hash
+    path, mode, host, hash, protocol,
   };
 };
 
