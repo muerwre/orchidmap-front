@@ -1,10 +1,11 @@
 /*
 
+  todo public maps
   done add ability to copy-paste address after saving
   todo save progress
 
   done hide sticker dialog on sticker selection
-    done separate mode for stricker selection
+    done separate mode for sticker selection
   done TEST: set initialData after saving map, clear is-modified
   done TEST: provider / logo triggers setChanged
   done shot mechanism (100%)
@@ -19,7 +20,7 @@
   done map catalogue
     done public maps
     done map search
-    todo map lazy loading
+    todo map list lazy loading
 
   todo tooltips
 
