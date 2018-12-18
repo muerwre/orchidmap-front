@@ -1,4 +1,5 @@
 import { Map } from '$modules/Map';
+import { NewPoly } from '$modules/NewPoly';
 import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
@@ -40,6 +41,11 @@ export class Editor {
     this.poly = new Poly({
       map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
     });
+
+    this.newPoly = new NewPoly({
+      map, editor: this,
+    });
+
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
       map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
