@@ -17,7 +17,7 @@ import {
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   searchSetTab,
-  setUser, setDialog,
+  setUser, setDialog, setPublic,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -277,7 +277,7 @@ function* sendSaveRequestSaga({ title, address, force, is_public }) {
   if (result && result.mode === 'exists') return yield put(setSaveError(TIPS.SAVE_EXISTS));
   if (timeout || !result || !result.success || !result.address) return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
 
-  return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title }));
+  return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title, is_public: result.is_public }));
 }
 
 // function* refreshUserData() {
@@ -478,7 +478,7 @@ function* searchSetTabSaga() {
   yield call(searchSetSaga);
 }
 
-function* setSaveSuccessSaga({ address, title }) {
+function* setSaveSuccessSaga({ address, title, is_public }) {
   const { id } = yield select(getUser);
   const { dialog_active } = yield select(getState);
 
@@ -486,6 +486,7 @@ function* setSaveSuccessSaga({ address, title }) {
 
   yield put(setTitle(title));
   yield put(setAddress(address));
+  yield put(setPublic(is_public));
   yield put(setChanged(false));
 
   yield editor.owner = { id };

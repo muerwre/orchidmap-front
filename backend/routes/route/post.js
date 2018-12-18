@@ -15,8 +15,7 @@ module.exports = async (req, res) => {
   const logo = parseString(body.logo, 16);
   const provider = parseString(body.provider, 16) || 'DEFAULT';
   const distance = parseNumber(body.distance, 0, 1000);
-
-  console.log('SAVING PROVIDER?', provider, body.provider);
+  const is_public = !!body.is_public;
 
   if ((!route || route.length <= 0) && (!stickers || stickers.length <= 0)) {
     return res.send({ success: false, mode: 'empty' });
@@ -29,23 +28,23 @@ module.exports = async (req, res) => {
 
   if (exists) {
     exists.set({
-      title, route, stickers, logo, distance, updated_at: Date.now(), provider,
+      title, route, stickers, logo, distance, updated_at: Date.now(), provider, is_public,
     }).save();
 
     return res.send({
-      success: true, title, address, route, stickers, mode: 'overwrited'
+      success: true, title, address, route, stickers, mode: 'overwrited', is_public,
     });
   }
 
   const created = await Route.create({
-    _id: address, title, route, stickers, owner, logo, distance, provider,
+    _id: address, title, route, stickers, owner, logo, distance, provider, is_public,
   });
 
   await owner.routes.push(created);
   await owner.save();
 
   return res.send({
-    success: true, title, address, route, stickers, provider,
+    success: true, title, address, route, stickers, provider, is_public,
   });
 };
 

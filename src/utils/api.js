@@ -20,7 +20,7 @@ export const getStoredMap = ({ name }) => axios.get(API.GET_MAP, {
 }).then(result => (result && result.data && result.data.success && result.data));
 
 export const postMap = ({
-  title, address, route, stickers, id, token, force, logo, distance, provider,
+  title, address, route, stickers, id, token, force, logo, distance, provider, is_public,
 }) => axios.post(API.POST_MAP, {
   title,
   address,
@@ -32,6 +32,7 @@ export const postMap = ({
   logo,
   distance,
   provider,
+  is_public,
 }).then(result => (result && result.data && result.data));
 
 export const checkIframeToken = ({ viewer_id, auth_key }) => axios.get(API.IFRAME_LOGIN_VK, {

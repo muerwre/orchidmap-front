@@ -134,7 +134,7 @@ export class SaveDialog extends React.Component<Props, State> {
                   <div className="button" onClick={this.onCopy}>Скопировать</div>
                 }
                 { save_finished &&
-                  <div className="button success" onClick={this.cancelSaving}>Отлично, спасибо!</div>
+                  <div className="button success" onClick={this.cancelSaving}>Отлично!</div>
                 }
               </div>
             </div>
