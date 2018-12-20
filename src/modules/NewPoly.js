@@ -38,7 +38,6 @@ export class NewPoly {
       onMarkersShow: () => console.log('all markers are visible'),
     }).addTo(map);
 
-    this.latlngs = [];
     this.poly.addTo(map);
     this.poly._reloadPolyline();
     this.editor = editor;
@@ -86,7 +85,7 @@ export class NewPoly {
     // return;
     const coords = this.poly.toGeoJSON().geometry.coordinates;
 
-    this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
+    // this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
     const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
     const kilometers = (meters && meters.toFixed(1)) || 0;
 
@@ -199,6 +198,13 @@ export class NewPoly {
   clearArrows = () => this.arrows.clearLayers();
 
   dumpData = () => this.latlngs;
+
+  get latlngs() {
+    return (
+      this.poly && this.poly.getLatLngs().length
+        && this.poly.getLatLngs().map(el => ({ ...el }))) || [];
+
+  }
 
   get isEmpty() {
     return (!this.latlngs || Object.values(this.latlngs).length <= 0);
