@@ -1,5 +1,5 @@
 import { marker } from 'leaflet';
-import 'leaflet-editable';
+// import 'leaflet-editable';
 import React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
@@ -60,7 +60,7 @@ export class Sticker {
       className: 'sticker-container',
     });
 
-    this.marker = marker(latlng, { icon: mark });
+    this.marker = marker(latlng, { icon: mark, draggable: true });
 
     this.element.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.preventPropagations);
@@ -89,7 +89,7 @@ export class Sticker {
     window.addEventListener('mousemove', this.onDrag);
     window.addEventListener('mouseup', this.onDragStop);
 
-    this.marker.disableEdit();
+    // this.marker.disableEdit();
   };
 
   preventPropagations = e => {
@@ -110,7 +110,7 @@ export class Sticker {
 
     this.lockMapClicks(false);
 
-    this.marker.enableEdit();
+    // this.marker.enableEdit();
   };
 
   onDrag = e => {

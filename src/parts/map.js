@@ -1,8 +1,8 @@
 import L from 'leaflet';
 
-import 'leaflet-editable';
-import 'leaflet.markercluster';
-import 'leaflet.markercluster.webpack';
+// import 'leaflet-editable';
+// import 'leaflet.markercluster';
+// import 'leaflet.markercluster.webpack';
 import 'leaflet-geometryutil';
 
 import { mapStyles } from '$constants/mapStyles';

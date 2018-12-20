@@ -165,7 +165,7 @@ export class Poly {
 
   clearAll = () => {
     this.poly.setLatLngs([]);
-    this.poly.disableEdit();
+    // this.poly.disableEdit();
 
     this.updateMarks();
   };

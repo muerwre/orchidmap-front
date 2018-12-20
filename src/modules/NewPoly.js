@@ -183,7 +183,7 @@ export class NewPoly {
     ];
 
     this.poly.setLatLngs(summary);
-    this.poly.enableEdit();
+    this.poly.editor.enable();
     this.poly.editor.reset();
     this.updateMarks();
   };

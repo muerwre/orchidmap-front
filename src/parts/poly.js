@@ -133,7 +133,7 @@ const insertVertex = ({ e, updatePolyCoords }) => {
     }
     // если точка найдена, добавляем её в отрезок
     if (pos.length>1) {
-      poly.editor.disable();
+      // poly.editor.disable();
       latlngs.splice(pos[1],0,e.latlng);
       poly.setLatLngs(latlngs);
       poly.editor.initVertexMarkers();

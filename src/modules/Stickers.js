@@ -35,7 +35,7 @@ export class Stickers {
     this.stickers.push(marker);
 
     marker.marker.addTo(this.map);
-    marker.marker.enableEdit();
+    // marker.marker.enableEdit();
   };
 
   deleteStickerByReference = ref => {

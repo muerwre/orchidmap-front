@@ -1,6 +1,6 @@
 import { Map } from '$modules/Map';
 import { NewPoly } from '$modules/NewPoly';
-import { Poly } from '$modules/Poly';
+// import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
@@ -287,12 +287,12 @@ export class Editor {
     this.setInitialData();
     this.owner = { id };
 
-    if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.enableEdit();
+    if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.editor.enable();
     this.stickers.startEditing();
   };
 
   stopEditing = () => {
-    this.poly.poly.disableEdit();
+    this.poly.poly.editor.disable();
     this.stickers.stopEditing();
   };
 

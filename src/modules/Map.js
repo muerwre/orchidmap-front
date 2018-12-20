@@ -1,6 +1,6 @@
 import { map, tileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-editable';
+// import 'leaflet-editable';
 import { PROVIDER } from '$config/frontend';
 import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 
