@@ -25,18 +25,17 @@ export class NewPoly {
       // { lat: 55.0145, lng: 82.67699 },
     ];
 
-    const customPointListeners = {
-      mousedown: console.log,
-      mouseup: console.log,
-      dragstart: console.log,
-      dragend: console.log,
-    };
-
     this.poly = L.Polyline.PolylineEditor(coordinates, {
       ...polyStyle,
-      maxMarkers: 300,
-      customPointListeners,
-      customNewPointListenets: customPointListeners,
+      maxMarkers: 50,
+
+      onPointsSet: this.updateMarks,
+      onMarkerDragEnd: this.updateMarks,
+      onPointAdded: this.updateMarks,
+      onPointDropped: this.updateMarks,
+
+      onMarkersHide: () => console.log('all markers are hidden'),
+      onMarkersShow: () => console.log('all markers are visible'),
     }).addTo(map);
 
     this.latlngs = [];
@@ -82,9 +81,11 @@ export class NewPoly {
     });
   };
 
-  updateMarks = () => {
-    return;
+  updateMarks = (e) => {
+    // console.log('upd', e);
+    // return;
     const coords = this.poly.toGeoJSON().geometry.coordinates;
+
     this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
     const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
     const kilometers = (meters && meters.toFixed(1)) || 0;
@@ -92,7 +93,7 @@ export class NewPoly {
     this.setTotalDist(kilometers);
     this.routerMoveStart();
 
-    // this.drawArrows(); // <-- uncomment
+    this.drawArrows(); // <-- uncomment
 
     if (coords.length > 1) this.triggerOnChange();
   };
@@ -144,7 +145,7 @@ export class NewPoly {
   };
 
   continue = () => {
-    this.poly.continueForwards();
+    this.poly.editor.continueForward();
     // if (this.latlngs && this.latlngs.length) {
     //   // this.poly.enableEdit().continueForward();
     //   // this.poly.editor.reset();
@@ -156,7 +157,7 @@ export class NewPoly {
   };
 
   stop = () => {
-    if (this.poly) this.poly.stopDrawing();
+    if (this.poly) this.poly.editor.stopDrawing();
   };
 
   continueForward = () => {

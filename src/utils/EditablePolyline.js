@@ -46,12 +46,12 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     /**
      * Enable/disable editing.
      */
-    this._map.setEditablePolylinesEnabled = (enabled) => {
+    this._map.setEditablePolylinesEnabled = enabled => {
       // const map = this;
       this._editablePolylinesEnabled = enabled;
 
-      for (let i = 0; i < this._editablePolylines.length; i += 1) {
-        const polyline = this._editablePolylines[i];
+      for (let i = 0; i < this._map._editablePolylines.length; i += 1) {
+        const polyline = this._map._editablePolylines[i];
 
         if (enabled) {
           polyline._showBoundMarkers();
@@ -61,34 +61,51 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       }
     };
 
-    this.enableEditing = () => {
-      this._map.setEditablePolylinesEnabled(true);
-    };
-
-    this.disableEditing = () => {
-      this._map.setEditablePolylinesEnabled(false);
-    };
-
-    this.continueForwards = () => {
-      if (this.getLatLngs().length === 0) {
-        this._map.on('click', this._addFirstPoint);
-        return;
-      }
-
-      if (!this._editablePolylinesEnabled) {
+    this.editor = {
+      enable: () => {
         this._map.setEditablePolylinesEnabled(true);
+      },
+
+      disable: () => {
+        this._map.setEditablePolylinesEnabled(false);
+      },
+
+      continueForward: () => {
+
+        if (this.getLatLngs().length === 0) {
+          return this._map.on('click', this._addFirstPoint);
+        }
+
+        if (!this._editablePolylinesEnabled) {
+          this._map.setEditablePolylinesEnabled(true);
+        }
+
+        this._prepareForNewPoint(
+          this._markers[this._markers.length - 1],
+          this._markers.length,
+        );
+
+        return;
+      },
+
+      stopDrawing: () => {
+        this._clearDragLines();
+
+        this._map.off('click', this._addPointForward);
+        this._map.off('click', this._addFirstPoint);
+      },
+
+      reset: () => {
+        const latlngs = this.getLatLngs();
+
+        this._markers = [];
+
+        for (let i = 0; i < latlngs.length; i += 1) {
+          this._addMarkers(i, latlngs[i]);
+        }
+
+        this._reloadPolyline();
       }
-
-      that._prepareForNewPoint(
-        this._markers[this._markers.length - 1],
-        this._markers.length,
-      );
-    };
-
-    this.stopDrawing = () => {
-      this._clearDragLines();
-      this._map.off('click', this._addPointForward);
-      this._map.off('click', this._addFirstPoint);
     };
 
     /*
@@ -225,6 +242,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       const bounds = that._map.getBounds();
       let found = 0;
 
+      // todo: optimise this
       for (let polylineNo in that._map._editablePolylines) {
         const polyline = that._map._editablePolylines[polylineNo];
 
@@ -234,6 +252,13 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         }
       }
 
+      if (found < that._options.maxMarkers) {
+        console.log('shown'); // todo: onHide
+      } else {
+        console.log('hidden'); // todo: onShow
+      }
+
+      // todo: optimise this
       for (let polylineNo in that._map._editablePolylines) {
         const polyline = that._map._editablePolylines[polylineNo];
 
@@ -304,10 +329,12 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       this._markers = [];
 
       for (let i = 0; i < latlngs.length; i += 1) {
-        const marker = this._addMarkers(i, latlngs[i]);
+        this._addMarkers(i, latlngs[i]);
       }
 
       this._reloadPolyline();
+
+      if (this._options.onPointsSet) this._options.onPointsSet(latlngs);
     };
 
     /**
@@ -324,6 +351,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     };
 
     this._onMarkerDrag = (event) => {
+      if (this._options.onMarkerDragStart) this._options.onMarkerDragStart(event);
       if (this.constr.is_drawing) {
         that._map.off('click', this._addPointForward);
       }
@@ -345,6 +373,8 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       setTimeout(() => {
         this._reloadPolyline(point);
       }, 25);
+
+      if (this._options.onMarkerDragEnd) this._options.onMarkerDragEnd(event);
     };
     /**
      * Add two markers (a point marker and his newPointMarker) for a
@@ -360,7 +390,6 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       marker.newPointMarker = null;
 
       marker.on('dragstart', this._onMarkerDrag);
-
       marker.on('dragend', this._onMarkerDrop);
 
       // marker.on('contextmenu', (event) => {
@@ -427,9 +456,10 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         const marker = event.target;
         const pointNo = that._getPointNo(event.target);
         that._addMarkers(pointNo, marker.getLatLng(), true);
-        setTimeout(() => {
-          that._reloadPolyline();
-        }, 25);
+
+        if (this._options.onPointAdded) this._options.onPointAdded(event);
+
+        setTimeout(that._reloadPolyline, 25);
       });
 
       newPointMarker.on('contextmenu', (event) => {
@@ -500,6 +530,8 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     };
 
     this._addPointForward = event => {
+      if (this._options.onPointAdded) this._options.onPointAdded(event);
+
       const pointNo = (this._markers && this._markers.length) || 0;
 
       that._addMarkers(pointNo, event.latlng, true);
@@ -688,7 +720,7 @@ L.Polyline.polylineEditor.addInitHook(function () {
  * original order number of this point. The order may change if some
  * markers before this one are delted or new added.
  */
-L.Polyline.PolylineEditor = function (latlngs, options, contexts, polylineNo) {
+L.Polyline.PolylineEditor = (latlngs, options, contexts, polylineNo) => {
   // Since the app code may not be able to explicitly call the
   // initialization of all editable polylines (if the user created a new
   // one by splitting an existing), with this method you can control the

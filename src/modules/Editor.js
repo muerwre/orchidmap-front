@@ -38,13 +38,13 @@ export class Editor {
       map: { map }
     } = this;
 
-    this.poly = new Poly({
+    this.poly = new NewPoly({
       map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
     });
 
-    this.newPoly = new NewPoly({
-      map, editor: this,
-    });
+    // this.newPoly = new NewPoly({
+    //   map, editor: this,
+    // });
 
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
     this.router = new Router({
