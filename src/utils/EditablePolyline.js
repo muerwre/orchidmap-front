@@ -71,7 +71,6 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       },
 
       continueForward: () => {
-
         if (this.getLatLngs().length === 0) {
           return this._map.on('click', this._addFirstPoint);
         }
@@ -253,9 +252,9 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       }
 
       if (found < that._options.maxMarkers) {
-        console.log('shown'); // todo: onHide
+        // console.log('shown'); // todo: onHide
       } else {
-        console.log('hidden'); // todo: onShow
+        // console.log('hidden'); // todo: onShow
       }
 
       // todo: optimise this
@@ -351,10 +350,12 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     };
 
     this._onMarkerDrag = (event) => {
+      // if (this.constr.is_drawing) {
+      //   this._map.off('click', this._addFirstPoint);
+      //   this._map.off('click', this._addPointForward);
+      // }
+
       if (this._options.onMarkerDragStart) this._options.onMarkerDragStart(event);
-      if (this.constr.is_drawing) {
-        that._map.off('click', this._addPointForward);
-      }
 
       if (this.constr.line1) that._map.removeLayer(this.constr.line1);
       if (this.constr.line2) that._map.removeLayer(this.constr.line2);
@@ -370,11 +371,15 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
     this._onMarkerDrop = event => {
       const point = that._getPointNo(event.target);
-      setTimeout(() => {
-        this._reloadPolyline(point);
-      }, 25);
+      // setTimeout(() => {
+      this._reloadPolyline(point);
 
       if (this._options.onMarkerDragEnd) this._options.onMarkerDragEnd(event);
+      //
+      // if (this.constr.is_drawing) {
+      //   setTimeout(this._prepareForNewPoint.bind(this), 25);
+      // }
+      // }, 25);
     };
     /**
      * Add two markers (a point marker and his newPointMarker) for a
@@ -392,15 +397,19 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       marker.on('dragstart', this._onMarkerDrag);
       marker.on('dragend', this._onMarkerDrop);
 
-      // marker.on('contextmenu', (event) => {
-      //   const _marker = event.target;
-      //   const _pointNo = that._getPointNo(event.target);
-      //   that._map.removeLayer(_marker);
-      //   // that._map.removeLayer(newPointMarker);
-      //
-      //   that._markers.splice(_pointNo, 1);
-      //   that._reloadPolyline(_pointNo);
-      // });
+      marker.on('contextmenu', (event) => {
+        const _marker = event.target;
+        const _pointNo = this._getPointNo(event.target);
+
+        if (!this._markers || this._markers.length <= 2) return;
+        if (this.constr.is_drawing) return;
+
+        this._map.removeLayer(_marker);
+        // that._map.removeLayer(newPointMarker);
+
+        this._markers.splice(_pointNo, 1);
+        this._reloadPolyline(_pointNo);
+      });
 
       // marker.on(that._options.addFirstLastPointEvent, (event) => {
       //   console.log('click on marker');
@@ -444,56 +453,55 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       marker.newPointMarker = newPointMarker;
 
       newPointMarker.on('dragstart', (event) => {
+        this._clearDragLines();
         const point = that._getPointNo(event.target);
         const previous = that._markers[point - 1].getLatLng();
         const next = that._markers[point].getLatLng();
-        that._setupDragLines(marker.newPointMarker, previous, next);
+        this._setupDragLines(marker.newPointMarker, previous, next);
 
-        that._hideAll(marker.newPointMarker);
+        this._hideAll(marker.newPointMarker);
       });
 
       newPointMarker.on('dragend', (event) => {
         const marker = event.target;
         const pointNo = that._getPointNo(event.target);
-        that._addMarkers(pointNo, marker.getLatLng(), true);
+        this._addMarkers(pointNo, marker.getLatLng(), true);
 
-        if (this._options.onPointAdded) this._options.onPointAdded(event);
-
-        setTimeout(that._reloadPolyline, 25);
+        // setTimeout(() => {
+        this._reloadPolyline();
+        if (this._options.onPointAdded) this._options.onPointAdded(event, 'added');
+        // }, 25);
       });
 
-      newPointMarker.on('contextmenu', (event) => {
-        // 1. Remove this polyline from map
-        var marker = event.target;
-        const pointNo = that._getPointNo(marker);
-        const markers = that.getPoints();
-        that._hideAll();
-
-        const secondPartMarkers = that._markers.slice(pointNo, pointNo.length);
-        that._markers.splice(pointNo, that._markers.length - pointNo);
-
-        that._reloadPolyline();
-
-        const points = [];
-        const contexts = [];
-        for (let i = 0; i < secondPartMarkers.length; i++) {
-          var marker = secondPartMarkers[i];
-          points.push(marker.getLatLng());
-          contexts.push(marker.context);
-        }
-
-        console.log(`points:${points}`);
-        console.log(`contexts:${contexts}`);
-
-        // Need to know the current polyline order numbers, because
-        // the splitted one need to be inserted immediately after:
-        const originalPolylineNo = that._map._editablePolylines.indexOf(that);
-
-        L.Polyline.PolylineEditor(points, that._options, contexts, originalPolylineNo + 1)
-          .addTo(that._map);
-
-        that._showBoundMarkers();
-      });
+      // newPointMarker.on('contextmenu', (event) => {
+      //   // 1. Remove this polyline from map
+      //   var marker = event.target;
+      //   const pointNo = that._getPointNo(marker);
+      //   const markers = that.getPoints();
+      //   that._hideAll();
+      //
+      //   const secondPartMarkers = that._markers.slice(pointNo, pointNo.length);
+      //   that._markers.splice(pointNo, that._markers.length - pointNo);
+      //
+      //   that._reloadPolyline();
+      //
+      //   const points = [];
+      //   const contexts = [];
+      //   for (let i = 0; i < secondPartMarkers.length; i += 1) {
+      //     const item = secondPartMarkers[i];
+      //     points.push(item.getLatLng());
+      //     contexts.push(item.context);
+      //   }
+      //
+      //   // Need to know the current polyline order numbers, because
+      //   // the splitted one need to be inserted immediately after:
+      //   const originalPolylineNo = that._map._editablePolylines.indexOf(that);
+      //
+      //   L.Polyline.PolylineEditor(points, that._options, contexts, originalPolylineNo + 1)
+      //     .addTo(that._map);
+      //
+      //   that._showBoundMarkers();
+      // });
 
       this._markers.splice(pointNo, 0, marker);
 
@@ -523,44 +531,42 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       this._addMarkers(0, event.latlng, true);
       this._reloadPolyline();
 
-      console.log(this._markers);
-
       this._map.off('click', this._addFirstPoint);
       this._prepareForNewPoint(this._markers[0], 0);
     };
 
     this._addPointForward = event => {
+      if (event.sourceTarget && typeof event.sourceTarget._moved === 'boolean' && event.sourceTarget._moved) {
+        // prevent from adding markers after drag
+        this._map.off('click', this._addPointForward);
+        this._clearDragLines();
+
+        setTimeout(this._prepareForNewPoint.bind(this), 25);
+        return;
+      }
+
       if (this._options.onPointAdded) this._options.onPointAdded(event);
 
       const pointNo = (this._markers && this._markers.length) || 0;
 
-      that._addMarkers(pointNo, event.latlng, true);
-      that._reloadPolyline();
+      this._addMarkers(pointNo, event.latlng, true);
+      this._reloadPolyline();
 
-      that._map.off('click', this._addPointForward);
+      this._map.off('click', this._addPointForward);
 
-      if (pointNo === 0) {
-        this._prepareForNewPoint(this._markers[0], 0);
-      } else {
-        this._prepareForNewPoint(this._markers[this._markers.length - 1], (this._markers.length));
-      }
+      setTimeout(this._prepareForNewPoint.bind(this), 25);
     };
 
     /**
      * Event handlers for first and last point.
      */
-    this._prepareForNewPoint = marker => {
-      // This is slightly delayed to prevent the same propagated event
-      // to be catched here:
+    this._prepareForNewPoint = target => {
+      if (this._options.onContinueDrawing) this._options.onContinueDrawing();
 
-      setTimeout(
-        () => {
-          that._setupDragLines(marker, marker.getLatLng());
-          // that._map.once('click', this._addNewPoint(pointNo));
-          that._map.on('click', this._addPointForward);
-        },
-        100
-      );
+      const marker = target || this._markers[this._markers.length - 1];
+      this._setupDragLines(marker, marker.getLatLng());
+
+      this._map.on('click', this._addPointForward);
     };
 
     /**
@@ -615,7 +621,6 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
     this._clearDragLines = event => {
       if (that._map && this.constr.is_drawing) {
-
         if (this.constr.line1) that._map.removeLayer(this.constr.line1);
         if (this.constr.line2) that._map.removeLayer(this.constr.line2);
         that._map.off('mousemove', this._moveDragLines);

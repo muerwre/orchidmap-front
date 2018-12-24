@@ -33,6 +33,7 @@ export class NewPoly {
       onMarkerDragEnd: this.updateMarks,
       onPointAdded: this.updateMarks,
       onPointDropped: this.updateMarks,
+      onContinueDrawing: this.setModeOnDrawing,
 
       onMarkersHide: () => console.log('all markers are hidden'),
       onMarkersShow: () => console.log('all markers are visible'),
@@ -53,6 +54,9 @@ export class NewPoly {
     this.arrows = new L.LayerGroup().addTo(map);
   }
 
+  setModeOnDrawing = () => {
+    if (this.editor.getMode() !== MODES.POLY) this.editor.setMode(MODES.POLY);
+  };
 
   drawArrows = () => {
     this.arrows.clearLayers();
@@ -80,8 +84,8 @@ export class NewPoly {
     });
   };
 
-  updateMarks = (e) => {
-    // console.log('upd', e);
+  updateMarks = (e, callee) => {
+    console.log('upd', callee);
     // return;
     const coords = this.poly.toGeoJSON().geometry.coordinates;
 
