@@ -132,7 +132,7 @@ const run = async () => {
         created_at,
         updated_at: created_at,
         provider: mapStyleParser(map_style),
-        route,
+        route: route.map(({ lat, lng }) => ({ lat: Number(lat), lng: Number(lng) })),
         stickers: [
           ...stickersParser(stickers),
           ...pointParser(points)

@@ -1,6 +1,9 @@
 /*
 
   todo public maps
+    todo editing map on map list
+    todo setting map public on map list
+
   done add ability to copy-paste address after saving
   todo save progress
 
@@ -27,7 +30,7 @@
   done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
     todo update after point delete
 
-  todo stickers drag on rotate bug
+  done stickers drag on rotate bug
 
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
