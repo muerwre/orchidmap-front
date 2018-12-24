@@ -81,6 +81,7 @@ export class Sticker {
 
   onDragStart = e => {
     this.preventPropagations(e);
+    this.marker.dragging.disable();
 
     this.isDragging = true;
 
@@ -101,6 +102,7 @@ export class Sticker {
 
   onDragStop = e => {
     this.preventPropagations(e);
+    this.marker.dragging.enable();
 
     this.triggerOnChange();
     this.isDragging = false;
