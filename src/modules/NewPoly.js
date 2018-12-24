@@ -85,7 +85,6 @@ export class NewPoly {
   };
 
   updateMarks = (e, callee) => {
-    console.log('upd', callee);
     // return;
     const coords = this.poly.toGeoJSON().geometry.coordinates;
 

@@ -31,6 +31,13 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       });
     }
 
+    this.constrLineStyle = {
+      dashArray: '2,10',
+      weight: 4,
+      color: 'red',
+      opacity: 0.5,
+    };
+
     /**
      * Check if there is *any* busy editable polyline on this map.
      */
@@ -232,7 +239,6 @@ L.Polyline.polylineEditor = L.Polyline.extend({
      * bounds.
      */
     this._showBoundMarkers = () => {
-      console.log('FUCKING SHOW BOUNDS');
       if (!this._map) {
         return;
       }
@@ -665,12 +671,12 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       this.constr.is_drawing = true;
 
       if (point1) {
-        this.constr.line1 = L.polyline([marker.getLatLng(), this.constr.point1], { dasharray: '5,1', weight: 1 })
+        this.constr.line1 = L.polyline([marker.getLatLng(), this.constr.point1], this.constrLineStyle)
           .addTo(that._map);
       }
 
       if (point2) {
-        this.constr.line2 = L.polyline([marker.getLatLng(), this.constr.point2], { dasharray: '5,1', weight: 1 })
+        this.constr.line2 = L.polyline([marker.getLatLng(), this.constr.point2], this.constrLineStyle)
           .addTo(that._map);
       }
 

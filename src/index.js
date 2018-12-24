@@ -24,10 +24,13 @@
 
   todo tooltips
 
-  todo better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
+  done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
+    todo update after point delete
+
+  todo stickers drag on rotate bug
 
   todo network operations notify
-    todo delayed notify (delay(2000).then(showLoadingMsg))
+    done delayed notify (delay(2000).then(showLoadingMsg))
     todo network error notifications
     todo check canvas support at startup
     todo check osrm is up
