@@ -56,7 +56,8 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         if (enabled) {
           polyline._showBoundMarkers();
         } else {
-          polyline._hideAll();
+          // polyline._hideAll();
+          this._hideAllMarkers();
         }
       }
     };
@@ -67,6 +68,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       },
 
       disable: () => {
+        console.log('DISABLING EDITOR');
         this._map.setEditablePolylinesEnabled(false);
       },
 
@@ -230,20 +232,21 @@ L.Polyline.polylineEditor = L.Polyline.extend({
      * bounds.
      */
     this._showBoundMarkers = () => {
-      if (!that._map) {
+      console.log('FUCKING SHOW BOUNDS');
+      if (!this._map) {
         return;
       }
 
       this._setBusy(false);
 
-      if (!that._map._editablePolylinesEnabled) return;
+      if (!this._editablePolylinesEnabled) return;
 
-      const bounds = that._map.getBounds();
+      const bounds = this._map.getBounds();
       let found = 0;
 
-      // todo: optimise this
-      for (let polylineNo in that._map._editablePolylines) {
-        const polyline = that._map._editablePolylines[polylineNo];
+      // todo: optimise this FUCK THIS
+      for (let polylineNo in this._map._editablePolylines) {
+        const polyline = this._map._editablePolylines[polylineNo];
 
         for (let markerNo in polyline._markers) {
           const marker = polyline._markers[markerNo];
@@ -273,6 +276,17 @@ L.Polyline.polylineEditor = L.Polyline.extend({
           }
         }
       }
+    };
+
+    this._hideAllMarkers = () => {
+      this._markers.map(marker => {
+        if (marker.newPointMarker) {
+          this._map.removeLayer(marker.newPointMarker);
+          marker.newPointMarker._visible = false;
+        }
+        marker._visible = false;
+        this._map.removeLayer(marker);
+      });
     };
 
     /**
@@ -305,19 +319,19 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
       const map = this._map;
       if (show) {
-        if (!marker._visible) {
+        // if (!marker._visible) {
           if (!marker._map) { // First show for this marker:
             marker.addTo(map);
           } else { // Marker was already shown and hidden:
             map.addLayer(marker);
           }
           marker._map = map;
-        }
+        // }
         marker._visible = true;
       } else {
-        if (marker._visible) {
+        // if (marker._visible) {
           map.removeLayer(marker);
-        }
+        // }
         marker._visible = false;
       }
     };
@@ -325,6 +339,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     this.setPoints = latlngs => {
       this.setLatLngs(latlngs);
 
+      this._hideAllMarkers();
       this._markers = [];
 
       for (let i = 0; i < latlngs.length; i += 1) {
@@ -345,7 +360,12 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
       if (fixAroundPointNo != null) this._fixAround(fixAroundPointNo);
 
-      this._showBoundMarkers();
+      if (this._editablePolylinesEnabled) {
+        this._showBoundMarkers();
+      } else {
+        this._hideAllMarkers();
+      }
+
       this._changed = true;
     };
 
