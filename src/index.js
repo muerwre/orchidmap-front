@@ -6,6 +6,7 @@
 
   done add ability to copy-paste address after saving
   todo save progress
+  todo cancelling editing someone's else map return back to it's original address /razminochnyj/
 
   done hide sticker dialog on sticker selection
     done separate mode for sticker selection
