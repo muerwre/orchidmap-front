@@ -1,13 +1,12 @@
 /*
 
-  BUGS
+  ## BUGS
 
   todo clear routing on editing cancellation
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo selecting logo on crop
 
-
-  FEATURES
+  ## FEATURES
 
   todo save spinner
 
@@ -33,7 +32,7 @@
   todo tooltips for panel items
   todo maybe: map preview on save
 
-  DONE:
+  ## DONE
 
   done riding speed slider
   done dont close map list on click
