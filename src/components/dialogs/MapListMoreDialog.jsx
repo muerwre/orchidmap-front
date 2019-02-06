@@ -46,7 +46,7 @@ class Component extends React.Component<Props> {
 
   openRoute = _id => {
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
-    this.props.setDialogActive(false);
+    // this.props.setDialogActive(false);
   };
 
   render() {
@@ -70,26 +70,26 @@ class Component extends React.Component<Props> {
     return (
       <div className="dialog-content">
         { list.length === 0 && loading &&
-            <div className="dialog-maplist-loader">
-              <div className="dialog-maplist-icon spin">
-                <Icon icon="icon-sync-1" />
-              </div>
+          <div className="dialog-maplist-loader">
+            <div className="dialog-maplist-icon spin">
+              <Icon icon="icon-sync-1" />
             </div>
+          </div>
         }
         { ready && !loading && list.length === 0 &&
-            <div className="dialog-maplist-loader">
-              <div className="dialog-maplist-icon">
-                <Icon icon="icon-sad-1" />
-              </div>
-              ТУТ ПУСТО <br />
-              И ОДИНОКО
+          <div className="dialog-maplist-loader">
+            <div className="dialog-maplist-icon">
+              <Icon icon="icon-sad-1" />
             </div>
+                ТУТ ПУСТО <br />
+                И ОДИНОКО
+          </div>
         }
         <div className="dialog-tabs">
           {
             Object.keys(TABS).map(item => (
               <div
-                className={classnames('dialog-tab', { active: tab === item})}
+                className={classnames('dialog-tab', { active: tab === item })}
                 onClick={() => this.props.searchSetTab(item)}
                 key={item}
               >
@@ -150,7 +150,7 @@ class Component extends React.Component<Props> {
 }
 
 const mapStateToProps = ({ user: { editing, routes } }) => {
-  if (routes.filter.max >= 9999){
+  if (routes.filter.max >= 9999) {
     return {
       routes, editing, marks: {}, ready: false,
     };

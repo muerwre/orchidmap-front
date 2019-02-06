@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { Icon } from '$components/panels/Icon';
-import { pushPath } from '$utils/history';
 
 type Props = {
   title: String,

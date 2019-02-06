@@ -1,5 +1,6 @@
 /*
 
+
   todo save spinner
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
 
@@ -29,6 +30,7 @@
 
   OBLIVION STARTS HERE:
 
+  done dont close map list on click
   done fix loaded stickers has wrong text placement for right-sided captions
   done fix save button should not react to clicks
   done stickers with empty text should not have blackbox at view mode

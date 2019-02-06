@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { DIALOGS } from '$constants/dialogs';
-import { MapListDialog } from '$components/dialogs/MapListDialog';
 import classnames from 'classnames';
 import { AppInfoDialog } from '$components/dialogs/AppInfoDialog';
 import { Icon } from '$components/panels/Icon';
