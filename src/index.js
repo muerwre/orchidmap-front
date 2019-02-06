@@ -2,8 +2,10 @@
 
   BUGS
 
+  todo clear routing on editing cancellation
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo selecting logo on crop
+
 
   FEATURES
 
