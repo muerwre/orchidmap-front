@@ -235,6 +235,18 @@
     }
   }
 
+  .helper:first-child {
+    border-radius: @panel_radius @panel_radius 0 0;
+  }
+
+  .helper:last-child {
+    border-radius: 0 0 @panel_radius @panel_radius;
+  }
+
+  .helper:only-child {
+    border-radius: @panel_radius;
+  }
+
 }
 
 .control-dialog-provider {
@@ -255,7 +267,7 @@
   display: flex;
 
   background: #222222;
-  border-radius: @panel_radius;
+  //border-radius: @panel_radius;
   box-shadow: @bar_shadow;
 
   @media (max-width: @mobile_breakpoint) {
@@ -302,6 +314,10 @@
       fill: @color_danger;
     }
   }
+}
+
+.flex_1 {
+  flex: 1;
 }
 
 .helper__buttons {

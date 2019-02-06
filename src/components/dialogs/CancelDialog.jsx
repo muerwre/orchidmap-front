@@ -12,9 +12,6 @@ type Props = {
 export class CancelDialog extends React.Component<Props, void> {
   cancel = () => {
     this.props.stopEditing();
-    // editor.cancelEditing();
-    // this.props.setEditing(false);
-    // this.props.setMode(MODES.NONE);
   };
 
   proceed = () => {
@@ -31,6 +28,9 @@ export class CancelDialog extends React.Component<Props, void> {
             <Icon icon="icon-cancel-1" />
             <div className="big upper">Закрыть редактор?</div>
           </div>
+        </div>
+        <div className="helper cancel-helper">
+          <div className="helper__text" />
           <div className="helper__buttons">
             <div className="button router-helper__button" onClick={this.cancel}>
               Удалить измения
