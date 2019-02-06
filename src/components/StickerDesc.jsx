@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 type State = {
   text: String,
@@ -21,7 +22,7 @@ export class StickerDesc extends React.PureComponent<void, State> {
 
     return (
       <div
-        className="sticker-desc"
+        className={classnames('sticker-desc', { is_empty: !text.trim() })}
         onMouseDown={this.blockMouse}
         onMouseUp={this.blockMouse}
       >

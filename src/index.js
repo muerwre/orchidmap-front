@@ -1,12 +1,37 @@
 /*
 
+
+  todo fix save button should not react to clicks
+  todo fix loaded stickers has wrong text placement for right-sided captions
+  todo save spinner
+  todo cancelling editing someone's else map return back to it's original address /razminochnyj/
+
+  todo riding speed slider
   todo public maps
     todo editing map on map list
     todo setting map public on map list
 
+  todo tooltips for panel items
+
+  done map catalogue
+    done public maps
+    done map search
+    todo map list lazy loading
+
+  done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
+    done update after point delete
+    todo hidden markers tooltip
+
+  todo network operations notify
+    done delayed notify (delay(2000).then(showLoadingMsg))
+    todo network error notifications
+    todo check canvas support at startup
+    todo check osrm is up
+
+  todo maybe: map preview on save
+
+  done stickers with empty text should not have blackbox at view mode
   done add ability to copy-paste address after saving
-  todo save progress
-  todo cancelling editing someone's else map return back to it's original address /razminochnyj/
 
   done hide sticker dialog on sticker selection
     done separate mode for sticker selection
@@ -21,26 +46,7 @@
   done better loader screen
     done network errors handling on startup
 
-  done map catalogue
-    done public maps
-    done map search
-    todo map list lazy loading
-
-  todo tooltips
-
-  done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
-    done update after point delete
-    todo hidden markers tooltip
-
   done stickers drag on rotate bug
-
-  todo network operations notify
-    done delayed notify (delay(2000).then(showLoadingMsg))
-    todo network error notifications
-    todo check canvas support at startup
-    todo check osrm is up
-
-  todo map preview on save
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
