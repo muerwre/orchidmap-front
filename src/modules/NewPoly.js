@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import 'leaflet-geometryutil';
-import '../utils/EditablePolyline';
+import '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { findDistance, middleCoord } from '$utils/geom';
 import { CLIENT } from '$config/frontend';
@@ -11,19 +11,12 @@ const polyStyle = {
   weight: '6',
   markerMid: 'url(#arrow)'
 };
-// const polyStyle = { color: '#ff3344', weight: '5' };
 
 export class NewPoly {
   constructor({
     map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange, editor,
   }) {
-    // this.poly = L.polyline([], polyStyle);
-    const coordinates = [
-      // { lat: 54.9859, lng: 82.92154 },
-      // { lat: 55.0384, lng: 82.97699 },
-      // { lat: 55.0345, lng: 82.67699 },
-      // { lat: 55.0145, lng: 82.67699 },
-    ];
+    const coordinates = [];
 
     this.poly = L.Polyline.PolylineEditor(coordinates, {
       ...polyStyle,

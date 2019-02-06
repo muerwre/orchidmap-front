@@ -28,7 +28,8 @@
   todo tooltips
 
   done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
-    todo update after point delete
+    done update after point delete
+    todo hidden markers tooltip
 
   done stickers drag on rotate bug
 

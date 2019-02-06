@@ -267,10 +267,10 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       }
 
       // todo: optimise this
-      for (let polylineNo in that._map._editablePolylines) {
+      for (const polylineNo in that._map._editablePolylines) {
         const polyline = that._map._editablePolylines[polylineNo];
 
-        for (let markerNo in polyline._markers) {
+        for (const markerNo in polyline._markers) {
           const marker = polyline._markers[markerNo];
 
           if (found < that._options.maxMarkers) {
@@ -435,6 +435,8 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
         this._markers.splice(_pointNo, 1);
         this._reloadPolyline(_pointNo);
+
+        if (this._options.onPointAdded) this._options.onPointAdded(event, 'dropped');
       });
 
       // marker.on(that._options.addFirstLastPointEvent, (event) => {

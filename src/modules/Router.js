@@ -4,7 +4,9 @@ import { CLIENT } from '$config/frontend';
 import { DomMarker } from '$utils/DomMarker';
 
 export class Router {
-  constructor({ map, lockMapClicks, setRouterPoints, pushPolyPoints }) {
+  constructor({
+    map, lockMapClicks, setRouterPoints, pushPolyPoints 
+  }) {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
     this.setRouterPoints = setRouterPoints;

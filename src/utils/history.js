@@ -30,7 +30,7 @@ export const pushLoaderState = state => {
   document.getElementById('loader-bar').style.width = `${state}%`;
 };
 
-export const pushNetworkInitError = state => {
+export const pushNetworkInitError = () => {
   document.getElementById('loader-error').style.opacity = 1;
 };
 
