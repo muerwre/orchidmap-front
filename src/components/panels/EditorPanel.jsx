@@ -65,7 +65,10 @@ class Component extends React.PureComponent<Props, void> {
   startProviderMode = () => this.props.setMode(MODES.PROVIDER);
   startTrashMode = () => this.props.setMode(MODES.TRASH);
   startLogoMode = () => this.props.setMode(MODES.LOGO);
-  startSaveMode = () => this.props.setMode(MODES.SAVE);
+  startSaveMode = () => {
+    if (!this.props.changed) return;
+    this.props.setMode(MODES.SAVE);
+  };
 
   render() {
     const {

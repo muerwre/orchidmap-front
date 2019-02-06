@@ -1,7 +1,5 @@
 /*
 
-
-  todo fix save button should not react to clicks
   todo fix loaded stickers has wrong text placement for right-sided captions
   todo save spinner
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
@@ -30,6 +28,9 @@
 
   todo maybe: map preview on save
 
+  OBLIVION STARTS HERE:
+
+  done fix save button should not react to clicks
   done stickers with empty text should not have blackbox at view mode
   done add ability to copy-paste address after saving
 
