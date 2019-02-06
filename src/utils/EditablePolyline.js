@@ -75,7 +75,6 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       },
 
       disable: () => {
-        console.log('DISABLING EDITOR');
         this._map.setEditablePolylinesEnabled(false);
       },
 
