@@ -12,6 +12,9 @@ import { Renderer } from '$components/renderer/Renderer';
 import { hideRenderer, setDialogActive } from '$redux/user/actions';
 import { Cursor } from '$components/Cursor';
 import { LeftDialog } from '$containers/LeftDialog';
+import { TopLeftPanel } from '$components/panels/TopLeftPanel';
+import { TopRightPanel } from '$components/panels/TopRightPanel';
+import { LogoPreview } from '$components/logo/LogoPreview';
 
 type Props = {
   renderer_active: Boolean,
@@ -28,6 +31,11 @@ const Component = (props: Props) => (
     <Fills />
     <UserPanel />
     <EditorPanel />
+
+    <TopLeftPanel />
+    <TopRightPanel />
+    <LogoPreview />
+
     <Cursor mode={props.mode} sticker={props.sticker} set={props.set} />
     <LeftDialog dialog={props.dialog} dialog_active={props.dialog_active} setDialogActive={props.setDialogActive} />
 
@@ -39,7 +47,7 @@ const Component = (props: Props) => (
 
 const mapStateToProps = ({
   user: {
-    mode, dialog, dialog_active, renderer, activeSticker: { sticker = null, set = null },
+    mode, dialog, dialog_active, renderer, activeSticker: { sticker = null, set = null }
   }
 }) => ({
   renderer_active: renderer.renderer_active,

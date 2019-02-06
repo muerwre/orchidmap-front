@@ -2,38 +2,25 @@ import React from 'react';
 import { MODES } from '$constants/modes';
 import classnames from 'classnames';
 
-import { toHours } from '$utils/format';
-
 import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
-import { LogoPreview } from '$components/logo/LogoPreview';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setMode, startEditing, stopEditing, setLogo, takeAShot, keyPressed } from '$redux/user/actions';
-
-import { UserLocation } from '$components/UserLocation';
-import { PROVIDERS } from '$constants/providers';
-import { LOGOS } from '$constants/logos';
 
 type Props = {
   editing: false,
   mode: String,
   changed: Boolean,
-  distance: Number,
-  logo: String,
-  estimated: Number, // todo: implement!
-  provider: String,
-
   setMode: Function,
   startEditing: Function,
   stopEditing: Function,
-  takeAShot: Function,
   keyPressed: Function,
 }
 
 class Component extends React.PureComponent<Props, void> {
   componentDidMount() {
-    window.addEventListener('keydown', this.keyPressed);
+    window.addEventListener('keydown', this.props.keyPressed);
 
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
@@ -44,27 +31,13 @@ class Component extends React.PureComponent<Props, void> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.keyPressed);
+    window.removeEventListener('keydown', this.props.keyPressed);
   }
-
-  keyPressed = e => {
-    // if (
-    //   e.target.tagName === 'INPUT' ||
-    //   e.target.tagName === 'TEXTAREA'
-    // ) {
-    //   if (e.key === 'Escape') e.target.blur();
-    //   return;
-    // }
-
-    this.props.keyPressed(e);
-  };
 
   startPolyMode = () => this.props.setMode(MODES.POLY);
   startStickerMode = () => this.props.setMode(MODES.STICKERS_SELECT);
   startRouterMode = () => this.props.setMode(MODES.ROUTER);
-  startProviderMode = () => this.props.setMode(MODES.PROVIDER);
   startTrashMode = () => this.props.setMode(MODES.TRASH);
-  startLogoMode = () => this.props.setMode(MODES.LOGO);
   startSaveMode = () => {
     if (!this.props.changed) return;
     this.props.setMode(MODES.SAVE);
@@ -72,42 +45,11 @@ class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      mode, distance, estimated, changed, logo, editing, provider,
+      mode, changed, editing,
     } = this.props;
 
     return (
       <div>
-
-        <LogoPreview logo={logo} />
-
-        <div className="status-panel top left">
-          <div className="status-bar square pointer pointer">
-            <UserLocation />
-          </div>
-
-          <div className="status-bar padded desktop-only">
-            {distance} км&nbsp;
-            <Icon icon="icon-cycle" size={32} />
-            {
-              <span>{toHours(estimated)}</span>
-            }
-          </div>
-        </div>
-
-        <div className="status-panel top right">
-          <div className="status-bar pointer top-control padded" onClick={this.startProviderMode}>
-            <Icon icon="icon-map-1" size={24} />
-            <div className="status-bar-sep" />
-            <span>{(provider && PROVIDERS[provider] && PROVIDERS[provider].name) || '...'}</span>
-          </div>
-
-          <div className="status-bar pointer top-control padded" onClick={this.startLogoMode}>
-            <Icon icon="icon-logo-3" size={24} />
-            <div className="status-bar-sep" />
-            <span>{(logo && LOGOS[logo] && LOGOS[logo][0]) || '...'}</span>
-          </div>
-        </div>
-
         <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
           <div className="control-bar control-bar-padded">
             <button
@@ -190,14 +132,10 @@ function mapStateToProps(state) {
       editing,
       mode,
       routerPoints,
-      distance,
-      estimated,
       activeSticker,
-      logo,
       title,
       address,
       changed,
-      provider,
     },
   } = state;
 
@@ -206,14 +144,10 @@ function mapStateToProps(state) {
     editing,
     mode,
     routerPoints,
-    distance,
-    estimated,
     activeSticker,
-    logo,
     title,
     address,
     changed,
-    provider,
   };
 }
 

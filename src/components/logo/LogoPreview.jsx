@@ -1,7 +1,12 @@
 import React from 'react';
 import { LOGOS } from '$constants/logos';
+import { connect } from 'react-redux';
 
-export const LogoPreview = ({ logo }) => (
+type Props = {
+  logo: string
+};
+
+const Component = ({ logo }: Props) => (
   <div
     className="logo-preview"
     style={{
@@ -11,3 +16,10 @@ export const LogoPreview = ({ logo }) => (
     }}
   />
 );
+
+function mapStateToProps(state) {
+  const { user: { logo } } = state;
+  return { logo };
+}
+
+export const LogoPreview = connect(mapStateToProps)(Component);
