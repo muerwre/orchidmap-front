@@ -321,10 +321,10 @@ function* takeAShotSaga() {
     timeout: delay(500),
   });
 
-  // if (cancel) return;
   if (timeout) yield put(setMode(MODES.SHOT_PREFETCH));
 
   const data = yield (result || worker);
+
   yield put(setMode(MODES.NONE));
   yield put(setRenderer({
     data, renderer_active: true, width: window.innerWidth, height: window.innerHeight

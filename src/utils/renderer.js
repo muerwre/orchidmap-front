@@ -180,7 +180,7 @@ const composeStickerArrow = (ctx, x, y, angle) => {
 
 const measureRect = (x, y, width, height, reversed) => ({
   rectX: reversed ? (x - width - 36 - 10) : x,
-  rectY: (y + 3 - 10 - (height / 2)),
+  rectY: (y - 7 - (height / 2)),
   rectW: width + 36 + 10,
   rectH: height + 20,
   textX: reversed ? (x - width - 36) : x + 36
@@ -217,16 +217,14 @@ const composeStickerText = (ctx, x, y, angle, text) => {
       line,
       textX,
       rectY + 6 + (16 * (i + 1)),
-      // tX + 36,
-      // tY + (16 * (i + 1)) - (height / 2)
     )
   ));
 };
 
 const composeStickerImage = async (ctx, x, y, angle, set, sticker) => {
   const rad = 56;
-  const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + x - 8;
-  const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + y - 4;
+  const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + (x - 8);
+  const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + (y - 4);
   const offsetX = STICKERS[set].layers[sticker].off * 72;
 
   return imageFetcher(STICKERS[set].url).then(image => (

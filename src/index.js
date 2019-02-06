@@ -1,13 +1,10 @@
 /*
-
   todo save spinner
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
 
   todo public maps
     todo editing map on map list
     todo setting map public on map list
-
-  todo tooltips for panel items
 
   done map catalogue
     done public maps
@@ -24,6 +21,7 @@
     todo check canvas support at startup
     todo check osrm is up
 
+  todo tooltips for panel items
   todo maybe: map preview on save
 
   OBLIVION STARTS HERE:
