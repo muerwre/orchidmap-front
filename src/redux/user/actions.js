@@ -14,6 +14,7 @@ export const setLogo = logo => ({ type: ACTIONS.SET_LOGO, logo });
 export const setTitle = title => ({ type: ACTIONS.SET_TITLE, title });
 export const setAddress = address => ({ type: ACTIONS.SET_ADDRESS, address });
 export const setPublic = is_public => ({ type: ACTIONS.SET_PUBLIC, is_public });
+export const setSpeed = speed => ({ type: ACTIONS.SET_SPEED, speed });
 
 export const startEditing = () => ({ type: ACTIONS.START_EDITING });
 export const stopEditing = () => ({ type: ACTIONS.STOP_EDITING });

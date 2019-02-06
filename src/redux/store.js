@@ -11,7 +11,7 @@ import { locationChanged } from '$redux/user/actions';
 
 const userPersistConfig = {
   key: 'user',
-  whitelist: ['user', 'logo', 'provider'],
+  whitelist: ['user', 'logo', 'provider', 'speed'],
   storage,
 };
 

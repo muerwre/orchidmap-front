@@ -8,8 +8,8 @@ import { TIPS } from '$constants/tips';
 import { DEFAULT_PROVIDER } from '$constants/providers';
 import { DIALOGS, TABS } from '$constants/dialogs';
 
-const getEstimated = distance => {
-  const time = (distance && (distance / 15)) || 0;
+const getEstimated = (distance, speed = 15) => {
+  const time = (distance && (distance / speed)) || 0;
   return (time && parseFloat(time.toFixed(1)));
 };
 
@@ -27,7 +27,7 @@ const setMode = (state, { mode }) => ({ ...state, mode });
 const setDistance = (state, { distance }) => ({
   ...state,
   distance,
-  estimated: getEstimated(distance),
+  estimated: getEstimated(distance, state.speed),
 });
 
 const setRouterPoints = (state, { routerPoints }) => ({ ...state, routerPoints });
@@ -152,9 +152,11 @@ const searchSetLoading = (state, { loading = false }) => ({
   }
 });
 
-const setPublic = (state, { is_public = false }) => ({
+const setPublic = (state, { is_public = false }) => ({ ...state, is_public });
+const setSpeed = (state, { speed = 15 }) => ({
   ...state,
-  is_public,
+  speed,
+  estimated: getEstimated(state.distance, speed),
 });
 
 const HANDLERS = ({
@@ -191,6 +193,7 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
   [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
   [ACTIONS.SET_PUBLIC]: setPublic,
+  [ACTIONS.SET_SPEED]: setSpeed,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
@@ -202,6 +205,7 @@ export const INITIAL_STATE = {
   routerPoints: 0,
   distance: 0,
   estimated: 0,
+  speed: 15,
   activeSticker: { set: null, sticker: null },
   title: '',
   address: '',

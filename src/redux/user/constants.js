@@ -60,4 +60,5 @@ export const ACTIONS = ({
   SEARCH_SET_LOADING: 'SEARCH_SET_LOADING',
 
   OPEN_MAP_DIALOG: 'OPEN_MAP_DIALOG',
+  SET_SPEED: 'SET_SPEED',
 }: { [key: String]: String });

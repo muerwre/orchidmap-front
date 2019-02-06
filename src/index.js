@@ -3,7 +3,6 @@
   todo save spinner
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
 
-  todo riding speed slider
   todo public maps
     todo editing map on map list
     todo setting map public on map list
@@ -29,6 +28,7 @@
 
   OBLIVION STARTS HERE:
 
+  done riding speed slider
   done dont close map list on click
   done fix loaded stickers has wrong text placement for right-sided captions
   done fix save button should not react to clicks
