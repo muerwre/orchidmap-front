@@ -10,10 +10,7 @@ export class UserLocation extends React.Component {
 
     const element = document.createElement('div');
 
-    this.icon = new DomMarker({
-      element,
-      className: 'location-marker',
-    });
+    this.icon = new DomMarker({ element, className: 'location-marker' });
 
     this.mark = null;
     this.map = editor.map.map;
@@ -64,8 +61,10 @@ export class UserLocation extends React.Component {
 
   render() {
     return (
-      <div onClick={this.centerMapOnLocation}>
-        <Icon icon="icon-locate" size={30} />
+      <div className="status-bar square pointer pointer">
+        <div onClick={this.centerMapOnLocation}>
+          <Icon icon="icon-locate" size={30} />
+        </div>
       </div>
     );
   }
