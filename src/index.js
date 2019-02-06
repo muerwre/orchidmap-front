@@ -31,6 +31,7 @@
 
   todo tooltips for panel items
   todo maybe: map preview on save
+  todo maybe: stickers clusterization?
 
   ## DONE
 
