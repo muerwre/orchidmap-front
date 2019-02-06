@@ -1,6 +1,13 @@
 /*
-  todo save spinner
+
+  BUGS
+
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
+  todo selecting logo on crop
+
+  FEATURES
+
+  todo save spinner
 
   todo public maps
     todo editing map on map list
@@ -24,7 +31,7 @@
   todo tooltips for panel items
   todo maybe: map preview on save
 
-  OBLIVION STARTS HERE:
+  DONE:
 
   done riding speed slider
   done dont close map list on click
@@ -48,6 +55,7 @@
 
   done stickers drag on rotate bug
  */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
