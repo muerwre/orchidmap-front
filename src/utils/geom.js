@@ -3,7 +3,10 @@ export const middleCoord = (l1, l2) => ({
   lng: (l2.lng + ((l1.lng - l2.lng) / 2))
 });
 
-export const deg2rad = deg => deg * Math.PI / 180;
+export const deg2rad = deg => ((deg * Math.PI) / 180);
+export const rad2deg = rad => ((rad / Math.PI) * 180);
+
+window.rad2deg = rad2deg;
 
 export const findDistance = (t1, n1, t2, n2) => {
   // convert coordinates to radians
@@ -27,3 +30,5 @@ export const findDistance = (t1, n1, t2, n2) => {
   // const mi = round(dm);
   return (Math.round(dk * 1000) / 1000);
 };
+
+export const getLabelDirection = angle => (((angle % Math.PI) >= -(Math.PI / 2) && (angle % Math.PI) <= (Math.PI / 2)) ? 'left' : 'right');

@@ -1,5 +1,4 @@
 import { marker } from 'leaflet';
-// import 'leaflet-editable';
 import React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
@@ -7,6 +6,7 @@ import { STICKERS } from '$constants/stickers';
 import ReactDOM from 'react-dom';
 import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
+import { getLabelDirection } from '$utils/geom';
 
 export class Sticker {
   constructor({
@@ -14,14 +14,14 @@ export class Sticker {
   }) {
     this.text = text;
     this.latlng = latlng;
-    this.angle = angle;
+    this.angle = parseFloat(((angle && (angle % Math.PI)) || 2.2).toFixed(2));
     this.isDragging = false;
     this.map = map;
     this.sticker = sticker;
     this.set = set;
     this.editable = true;
     this.triggerOnChange = triggerOnChange;
-    this.direction = 'right';
+    this.direction = getLabelDirection(this.angle);
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
 
@@ -33,7 +33,7 @@ export class Sticker {
           ref={el => { this.stickerArrow = el; }}
         />
         <div
-          className={classnames('sticker-label', {})}
+          className={classnames(`sticker-label ${this.direction}`, {})}
           ref={el => { this.stickerImage = el; }}
         >
           <StickerDesc value={this.text} onChange={this.setText} />
@@ -66,7 +66,7 @@ export class Sticker {
     this.element.addEventListener('mouseup', this.preventPropagations);
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
-    this.setAngle(angle);
+    this.setAngle(this.angle);
     this.triggerOnChange();
   }
 
@@ -123,13 +123,13 @@ export class Sticker {
   estimateAngle = e => {
     const { x, y } = this.element.getBoundingClientRect();
     const { pageX, pageY } = e;
-    this.angle = Math.atan2((y - pageY), (x - pageX));
+    this.angle = parseFloat(Math.atan2((y - pageY), (x - pageX)).toFixed(2));
 
     this.setAngle(this.angle);
   };
 
   setAngle = angle => {
-    const direction = (angle > -(Math.PI / 2) && angle < (Math.PI / 2)) ? 'left' : 'right';
+    const direction = getLabelDirection(angle);
 
     if (direction !== this.direction) {
       this.direction = direction;

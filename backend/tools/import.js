@@ -57,7 +57,7 @@ const calcPolyDistance = route => {
   return parseFloat(Number(summ).toFixed(2));
 };
 
-const stickerAngleParser = angle => parseFloat((Number(angle) - Math.PI).toFixed(2));
+const stickerAngleParser = angle => parseFloat(((Number(angle) % Math.PI) + Math.PI).toFixed(2));
 
 const stickerStyleParser = style => (REPLACEMENT[style]
   ? { ...REPLACEMENT[style] }
