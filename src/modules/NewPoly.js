@@ -57,7 +57,7 @@ export class NewPoly {
 
     if (!latlngs || latlngs.length <= 1) return;
 
-    latlngs.map((latlng, i) => {
+    latlngs.forEach((latlng, i) => {
       if (i === 0) return;
 
       const mid = middleCoord(latlngs[i], latlngs[i - 1]);
@@ -70,14 +70,14 @@ export class NewPoly {
           latlngs[i - 1],
           [mid.lat, mid.lng]
         ],
-        { color: 'none', weight: CLIENT.STROKE_WIDTH }
+        { color: 'blue', weight: CLIENT.STROKE_WIDTH }
       ).addTo(this.arrows);
 
       slide._path.setAttribute('marker-end', 'url(#long-arrow)');
     });
   };
 
-  updateMarks = (e, callee) => {
+  updateMarks = () => {
     // return;
     const coords = this.poly.toGeoJSON().geometry.coordinates;
 
@@ -103,52 +103,8 @@ export class NewPoly {
     if (mode === MODES.NONE) this.editor.setMode(MODES.POLY);
   };
 
-  bindEvents = () => {
-    // Если на карте что-то меняется, пересчитать километражи
-    // this.map.editTools.addEventListener('editable:drawing:mouseup', this.updateMarks);
-    // this.map.editTools.addEventListener('editable:vertex:dragend', this.updateMarks);
-    // this.map.editTools.addEventListener('editable:vertex:mouseup', this.updateMarks);
-    // this.map.editTools.addEventListener('editable:vertex:deleted', this.updateMarks);
-    // this.map.editTools.addEventListener('editable:vertex:new', this.updateMarks);
-    // this.map.editTools.addEventListener('editable:vertex:click', this.preventMissClicks);
-
-    // this.map.editTools.addEventListener('editable:vertex:dragstart', this.lockMap);
-    // this.map.editTools.addEventListener('editable:vertex:dragstart', this.clearArrows);
-
-    // После удаления точки - продолжить рисование
-    // this.map.editTools.addEventListener('editable:vertex:deleted', this.continueForward);
-    //
-    // map.editTools.addEventListener('editable:vertex:dragend', e => writeReduxData({ e, updatePolyCoords }));
-    // map.editTools.addEventListener('editable:vertex:new', e => writeReduxData({ e, updatePolyCoords }));
-    // map.editTools.addEventListener('editable:vertex:deleted', e => writeReduxData({ e, updatePolyCoords }));
-
-    // Продолжить рисование после удаления точки
-    // map.editTools.addEventListener('editable:vertex:deleted', e => {
-    //   poly.editor.continueForward();
-    //   updateMarks();
-    // });
-
-    // Добавлять точек в полилинию по щелчку
-    // map.editTools.addEventListener('editable:drawing:click', e => insertVertex({ e, updatePolyCoords }));
-    // map.editTools.addEventListener('editable:drawing:clicked', () => updateMarks({ updatePolyCoords }));
-
-    // Это для точек. При перетаскивании конца указателя тащим точку
-    // map.editTools.addEventListener('editable:vertex:drag', on_vertex_drag);
-
-    // при перетаскивании ручек убирать все отметки километров
-    // map.editTools.addEventListener('editable:vertex:dragstart', clearKmMarks);
-  };
-
   continue = () => {
     this.poly.editor.continueForward();
-    // if (this.latlngs && this.latlngs.length) {
-    //   // this.poly.enableEdit().continueForward();
-    //   // this.poly.editor.reset();
-    //   this.poly.continueForward();
-    // } else {
-    //   // this.poly = this.map.editTools.startPolyline();
-    //   // this.poly.setStyle(polyStyle);
-    // }
   };
 
   stop = () => {
@@ -166,8 +122,6 @@ export class NewPoly {
   setPoints = latlngs => {
     if (!latlngs || latlngs.length <= 1) return;
     this.poly.setPoints(latlngs);
-    // this.poly._reloadPolyline();
-    // this.updateMarks();
   };
 
   pushPoints = latlngs => {
@@ -186,9 +140,8 @@ export class NewPoly {
 
   clearAll = () => {
     this.poly.setLatLngs([]);
-    // this.poly.disableEdit();
-
-    // this.updateMarks();
+    this.poly.editor.reset();
+    this.updateMarks();
   };
 
   clearArrows = () => this.arrows.clearLayers();
@@ -199,7 +152,6 @@ export class NewPoly {
     return (
       this.poly && this.poly.getLatLngs().length
         && this.poly.getLatLngs().map(el => ({ ...el }))) || [];
-
   }
 
   get isEmpty() {

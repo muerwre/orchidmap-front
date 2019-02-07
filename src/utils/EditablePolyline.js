@@ -453,14 +453,18 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
       // User-defined custom event listeners:
       if (that._options.customPointListeners) {
-        for (let eventName in that._options.customPointListeners) { marker.on(eventName, that._options.customPointListeners[eventName]); }
+        for (let eventName in that._options.customPointListeners) {
+          marker.on(eventName, that._options.customPointListeners[eventName]);
+        }
       }
       if (that._options.customNewPointListeners) {
-        for (let eventName in that._options.customNewPointListeners) { newPointMarker.on(eventName, that._options.customNewPointListeners[eventName]); }
+        for (let eventName in that._options.customNewPointListeners) {
+          newPointMarker.on(eventName, that._options.customNewPointListeners[eventName]);
+        }
       }
 
       // exit if its first marker
-      if (!this._markers || this._markers.length <= 0) {
+      if (!this._markers || this._markers.length === 0 || points.length === 0) {
         this._markers.push(marker);
         return marker;
       }
@@ -556,6 +560,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
     this._addFirstPoint = event => {
       this._addMarkers(0, event.latlng, true);
+      this._map.setEditablePolylinesEnabled(true);
       this._reloadPolyline();
 
       this._map.off('click', this._addFirstPoint);
