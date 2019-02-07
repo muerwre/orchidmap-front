@@ -139,8 +139,8 @@ export class NewPoly {
   };
 
   clearAll = () => {
-    this.poly.setLatLngs([]);
-    this.poly.editor.reset();
+    // this.poly.setLatLngs([]);
+    this.poly.editor.clear();
     this.updateMarks();
   };
 

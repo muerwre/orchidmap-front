@@ -112,6 +112,10 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         }
 
         this._reloadPolyline();
+      },
+
+      clear: () => {
+        this.setPoints([]);
       }
     };
 
