@@ -4,7 +4,7 @@ import { DIALOGS } from '$constants/dialogs';
 import classnames from 'classnames';
 import { AppInfoDialog } from '$components/dialogs/AppInfoDialog';
 import { Icon } from '$components/panels/Icon';
-import { MapListMoreDialog } from '$components/dialogs/MapListMoreDialog';
+import { MapListDialog } from '$components/dialogs/MapListDialog';
 
 type Props = {
   dialog: String,
@@ -14,7 +14,7 @@ type Props = {
 }
 
 const LEFT_DIALOGS = {
-  [DIALOGS.MAP_LIST]: MapListMoreDialog,
+  [DIALOGS.MAP_LIST]: MapListDialog,
   [DIALOGS.APP_INFO]: AppInfoDialog,
 };
 

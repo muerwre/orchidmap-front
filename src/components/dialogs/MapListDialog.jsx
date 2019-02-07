@@ -175,4 +175,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setDialogActive,
 }, dispatch);
 
-export const MapListMoreDialog = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

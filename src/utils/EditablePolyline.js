@@ -435,13 +435,14 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         if (!this._markers || this._markers.length <= 2) return;
         if (this.constr.is_drawing) return;
 
+        if (_marker.newPointMarker) {
+          this._map.removeLayer(_marker.newPointMarker);
+        }
         this._map.removeLayer(_marker);
-        // that._map.removeLayer(newPointMarker);
-
         this._markers.splice(_pointNo, 1);
         this._reloadPolyline(_pointNo);
 
-        if (this._options.onPointAdded) this._options.onPointAdded(event, 'dropped');
+        if (this._options.onPointDropped) this._options.onPointDropped(event, 'dropped');
       });
 
       // marker.on(that._options.addFirstLastPointEvent, (event) => {
@@ -583,14 +584,14 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         return;
       }
 
-      if (this._options.onPointAdded) this._options.onPointAdded(event);
-
       const pointNo = (this._markers && this._markers.length) || 0;
 
       this._addMarkers(pointNo, event.latlng, true);
       this._reloadPolyline();
 
       this._map.off('click', this._addPointForward);
+
+      if (this._options.onPointAdded) this._options.onPointAdded(event);
 
       setTimeout(this._prepareForNewPoint.bind(this), 25);
     };
