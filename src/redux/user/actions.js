@@ -41,6 +41,7 @@ export const takeAShot = () => ({ type: ACTIONS.TAKE_A_SHOT });
 export const cropAShot = payload => ({ type: ACTIONS.CROP_A_SHOT, ...payload });
 
 export const setProvider = provider => ({ type: ACTIONS.SET_PROVIDER, provider });
+export const changeProvider = provider => ({ type: ACTIONS.CHANGE_PROVIDER, provider });
 
 export const setDialog = dialog => ({ type: ACTIONS.SET_DIALOG, dialog });
 export const setDialogActive = dialog_active => ({ type: ACTIONS.SET_DIALOG_ACTIVE, dialog_active });

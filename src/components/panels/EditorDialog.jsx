@@ -24,7 +24,7 @@ import {
   stopEditing,
   setEditing,
   sendSaveRequest,
-  setProvider,
+  changeProvider,
 } from '$redux/user/actions';
 import { ProviderDialog } from '$components/dialogs/ProviderDialog';
 import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
@@ -70,7 +70,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setEditing,
   setMode,
   sendSaveRequest,
-  setProvider,
+  changeProvider,
 }, dispatch);
 
 export const EditorDialog = connect(

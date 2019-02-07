@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { MODES } from '$constants/modes';
 
 type Props = {
-  setProvider: Function,
+  changeProvider: Function,
   setMode: Function,
   provider: String,
 };
@@ -14,7 +14,7 @@ export class ProviderDialog extends React.Component<Props, void> {
   closeDialog = () => this.props.setMode(MODES.NONE);
 
   render() {
-    const { provider, setProvider } = this.props;
+    const { provider, changeProvider } = this.props;
 
     return (
       <div className="control-dialog top right control-dialog-provider">
@@ -26,7 +26,7 @@ export class ProviderDialog extends React.Component<Props, void> {
                 style={{
                   backgroundImage: `url(${replaceProviderUrl(item, { x: 5980, y: 2589, zoom: 13 })})`,
                 }}
-                onClick={() => setProvider(item)}
+                onClick={() => changeProvider(item)}
                 key={PROVIDERS[item].name}
               >
                 {

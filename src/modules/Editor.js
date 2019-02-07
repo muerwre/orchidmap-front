@@ -9,6 +9,7 @@ import { DEFAULT_LOGO, LOGOS } from '$constants/logos';
 import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
 import {
+  changeProvider,
   resetSaveDialog,
   setActiveSticker,
   setAddress,
@@ -16,7 +17,7 @@ import {
   setDistance,
   setLogo,
   setMode,
-  setProvider, setPublic,
+  setPublic,
   setRouterPoints,
   setTitle,
 } from '$redux/user/actions';
@@ -99,6 +100,7 @@ export class Editor {
 
   getUser = () => store.getState().user.user;
   getMode = () => store.getState().user.mode;
+  getProvider = () => store.getState().user.provider;
   getTitle = () => store.getState().user.title;
   getEditing = () => store.getState().user.editing;
   getChanged = () => store.getState().user.changed;
@@ -316,10 +318,10 @@ export class Editor {
   dumpData = () => ({
     route: this.poly.dumpData(),
     stickers: this.stickers.dumpData(),
-    provider: this.provider,
+    provider: this.getProvider(),
   });
 
-  setProvider = provider => store.dispatch(setProvider(provider));
+  setProvider = provider => store.dispatch(changeProvider(provider));
 
   get isEmpty() {
     const { route, stickers } = this.dumpData();

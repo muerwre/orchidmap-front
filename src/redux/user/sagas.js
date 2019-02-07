@@ -17,7 +17,7 @@ import {
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   searchSetTab,
-  setUser, setDialog, setPublic, setAddressOrigin,
+  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -34,7 +34,7 @@ import {
   imageFetcher
 } from '$utils/renderer';
 import { LOGOS } from '$constants/logos';
-import { DEFAULT_PROVIDER } from '$constants/providers';
+import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 import { DIALOGS } from '$constants/dialogs';
 
 const getUser = state => (state.user.user);
@@ -55,7 +55,7 @@ function* generateGuestSaga() {
 }
 
 function* startEmptyEditorSaga() {
-  const { id, random_url, provider = DEFAULT_PROVIDER } = yield select(getUser);
+  const { user: { id, random_url }, provider = DEFAULT_PROVIDER } = yield select(getState);
 
   pushPath(`/${random_url}/edit`);
 
@@ -111,11 +111,6 @@ function* loadMapSaga(path) {
   return map;
 }
 
-function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
-  return yield console.log('GOT', { viewer_id, access_token, auth_key });
-}
-
-
 function* replaceAddressIfItsBusy(destination, original) {
   if (original) {
     yield put(setAddressOrigin(original));
@@ -128,7 +123,10 @@ function* mapInitSaga() {
   pushLoaderState(90);
 
   const { path, mode, hash } = getUrlData();
-  const { user: { id } } = yield select(getState);
+  const { provider, user: { id } } = yield select(getState);
+
+  editor.map.setProvider(provider);
+  yield put(changeProvider(provider));
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
@@ -382,12 +380,17 @@ function* cropAShotSaga(params) {
   return yield put(hideRenderer());
 }
 
-function* setProviderSaga({ provider }) {
-  // editor.setProvider(provider);
-  editor.provider = provider;
-  editor.map.setProvider(provider);
+function* changeProviderSaga({ provider }) {
+  const { provider: current_provider } = yield select(getState);
+
+  yield put(setProvider(provider));
+
+  if (current_provider === provider) return;
 
   yield put(setChanged(true));
+
+  editor.provider = provider;
+  editor.map.setProvider(provider);
 
   return put(setMode(MODES.NONE));
 }
@@ -559,13 +562,13 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.TAKE_A_SHOT, takeAShotSaga);
   yield takeLatest(ACTIONS.CROP_A_SHOT, cropAShotSaga);
 
-  yield takeEvery(ACTIONS.SET_PROVIDER, setProviderSaga);
+  yield takeEvery(ACTIONS.CHANGE_PROVIDER, changeProviderSaga);
   yield takeLatest(ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
 
-  yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
+  // yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
 
   yield takeLatest([
     ACTIONS.SEARCH_SET_TITLE,
