@@ -294,6 +294,7 @@ export class Editor {
   stopEditing = () => {
     this.poly.poly.editor.disable();
     this.stickers.stopEditing();
+    this.router.clearAll();
   };
 
   cancelEditing = () => {

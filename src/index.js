@@ -3,7 +3,6 @@
   ## BUGS
 
   todo fix arrows (can't reproduce now :-( )
-  todo clear routing on editing cancellation
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo selecting logo on crop
   todo delete sticker icon
@@ -37,6 +36,7 @@
 
   ## DONE
 
+  done clear routing on editing cancellation
   done riding speed slider
   done dont close map list on click
   done fix loaded stickers has wrong text placement for right-sided captions
