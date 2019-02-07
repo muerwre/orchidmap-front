@@ -81,8 +81,6 @@ const setProvider = (state, { provider }) => ({ ...state, provider });
 const setDialog = (state, { dialog }) => ({
   ...state,
   dialog,
-  // dialog_active: typeof dialog_active !== 'undefined' ? dialog_active : !state.dialog_active,
-  // dialog_active,
 });
 
 const setDialogActive = (state, { dialog_active }) => ({
@@ -102,6 +100,7 @@ const searchSetTitle = (state, { title = '' }) => ({
     filter: {
       ...state.routes.filter,
       title,
+      distance: [0, 10000],
     }
   }
 });
