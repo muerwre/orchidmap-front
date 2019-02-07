@@ -2,7 +2,7 @@
 
   ## BUGS
 
-  todo adding/removing points doesn't change distance
+  done adding/removing points doesn't change distance
   done cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo selecting logo on crop
   todo delete sticker icon
