@@ -39,6 +39,7 @@ const setActiveSticker = (state, { activeSticker }) => ({
 const setLogo = (state, { logo }) => ({ ...state, logo });
 const setTitle = (state, { title }) => ({ ...state, title });
 const setAddress = (state, { address }) => ({ ...state, address });
+const setAddressOrigin = (state, { address_origin }) => ({ ...state, address_origin });
 
 const sendSaveRequest = state => ({ ...state, save_processing: true, });
 const setSaveError = (state, { save_error }) => ({
@@ -169,6 +170,7 @@ const HANDLERS = ({
   [ACTIONS.SET_LOGO]: setLogo,
   [ACTIONS.SET_TITLE]: setTitle,
   [ACTIONS.SET_ADDRESS]: setAddress,
+  [ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
 
   [ACTIONS.SET_SAVE_ERROR]: setSaveError,
   [ACTIONS.SET_SAVE_OVERWRITE]: setSaveOverwrite,
@@ -208,6 +210,7 @@ export const INITIAL_STATE = {
   activeSticker: { set: null, sticker: null },
   title: '',
   address: '',
+  address_origin: '',
   changed: false,
   provider: DEFAULT_PROVIDER,
   is_public: false,

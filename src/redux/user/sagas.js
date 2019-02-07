@@ -17,7 +17,7 @@ import {
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   searchSetTab,
-  setUser, setDialog, setPublic,
+  setUser, setDialog, setPublic, setAddressOrigin,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -77,7 +77,9 @@ function* startEditingSaga() {
 }
 
 function* stopEditingSaga() {
-  const { changed, editing, mode } = yield select(getState);
+  const {
+    changed, editing, mode, address_origin
+  } = yield select(getState);
   const { path } = getUrlData();
 
   if (!editing) return;
@@ -91,7 +93,7 @@ function* stopEditingSaga() {
   yield put(setChanged(false));
   yield put(setEditing(editor.hasEmptyHistory)); // don't close editor if no previous map
 
-  yield pushPath(`/${path}/`);
+  yield pushPath(`/${(address_origin || path)}/`);
 }
 
 function* loadMapSaga(path) {
@@ -115,6 +117,10 @@ function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
 
 
 function* replaceAddressIfItsBusy(destination, original) {
+  if (original) {
+    yield put(setAddressOrigin(original));
+  }
+
   pushPath(`/${destination}/edit`);
 }
 
@@ -139,7 +145,9 @@ function* mapInitSaga() {
       if (mode && mode === 'edit') {
         if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
           hideLoader();
-          yield call(replaceAddressIfItsBusy, map.random_url);
+          yield call(replaceAddressIfItsBusy, map.random_url, map.address);
+        } else {
+          yield put(setAddressOrigin(''));
         }
 
         yield put(setEditing(true));
@@ -396,11 +404,13 @@ function* locationChangeSaga({ location }) {
 
     if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
       // pushPath(`/${map.random_url}/edit`);
-      return yield call(replaceAddressIfItsBusy, map.random_url);
+      return yield call(replaceAddressIfItsBusy, map.random_url, map.address);
     }
   } else if (mode === 'edit' && editor.owner.id !== id) {
     // pushPath(`/${random_url}/edit`);
-    return yield call(replaceAddressIfItsBusy, random_url);
+    return yield call(replaceAddressIfItsBusy, random_url, address);
+  } else {
+    yield put(setAddressOrigin(''));
   }
 
   if (mode !== 'edit') {
