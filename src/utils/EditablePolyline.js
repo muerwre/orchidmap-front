@@ -100,6 +100,8 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
         this._map.off('click', this._addPointForward);
         this._map.off('click', this._addFirstPoint);
+
+        if (this._markers.length <= 1) this.editor.clear();
       },
 
       reset: () => {
