@@ -110,8 +110,8 @@
 }
 
 .dialog-maplist {
-  padding: 10px;
   box-sizing: border-box;
+  padding: 10px 0 0 0;
 }
 
 @keyframes pulse {
@@ -162,6 +162,20 @@
   }
 }
 
+.route-row-wrapper {
+  overflow: hidden;
+  padding: 0 10px;
+
+  &:hover {
+    .route-row {
+      transform: translateX(-48px);
+    }
+    .route-row-edit {
+      opacity: 1;
+    }
+  }
+}
+
 .route-row {
   margin-bottom: 10px;
   background: rgba(255, 255, 255, 0.05);
@@ -169,11 +183,28 @@
   color: white;
   user-select: none;
   cursor: pointer;
-  transition: background-color 250ms;
+  transition: background 250ms, transform 500ms;
+  position: relative;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
+}
+
+.route-row-edit {
+  fill: rgba(0, 0, 0, 0.5);
+  left: 100%;
+  stroke: none;
+  position: absolute;
+  top: 0;
+  width: 58px;
+  background: rgba(255, 255, 255, 0.2);
+  height: 100%;
+  opacity: 0;
+  transition: all 500ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .route-title {
@@ -183,6 +214,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
 }
 
 .route-description {

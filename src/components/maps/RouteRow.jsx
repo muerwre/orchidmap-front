@@ -13,24 +13,29 @@ type Props = {
 };
 
 export const RouteRow = ({
-  title, distance, created_at, _id, editing, openRoute,
+  title, distance, _id, openRoute, tab,
 }: Props) => (
-  <div
-    className="route-row"
-    onClick={() => openRoute(_id)}
-  >
-    <div className="route-title">
-      {title || _id}
-    </div>
-    <div className="route-description">
-      <span>
-        <Icon icon="icon-link-1" />
-        {_id}
-      </span>
-      <span>
-        <Icon icon="icon-cycle-1" />
-        {(distance && `${distance} km`) || '0 km'}
-      </span>
+  <div className="route-row-wrapper">
+    <div
+      className="route-row"
+      onClick={() => openRoute(_id)}
+    >
+      <div className="route-row-edit">
+        <Icon icon="icon-edit-1" />
+      </div>
+      <div className="route-title">
+        {title || _id}
+      </div>
+      <div className="route-description">
+        <span>
+          <Icon icon="icon-link-1" />
+          {_id}
+        </span>
+        <span>
+          <Icon icon="icon-cycle-1" />
+          {(distance && `${distance} km`) || '0 km'}
+        </span>
+      </div>
     </div>
   </div>
 );

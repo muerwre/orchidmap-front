@@ -138,6 +138,7 @@ class Component extends React.Component<Props> {
                   {...route}
                   key={route._id}
                   openRoute={this.openRoute}
+                  tab={tab}
                 />
               ))
             }
