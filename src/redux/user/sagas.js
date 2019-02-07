@@ -113,10 +113,16 @@ function* iframeLoginVkSaga({ viewer_id, access_token, auth_key }) {
   return yield console.log('GOT', { viewer_id, access_token, auth_key });
 }
 
+
+function* replaceAddressIfItsBusy(destination, original) {
+  pushPath(`/${destination}/edit`);
+}
+
 function* mapInitSaga() {
   pushLoaderState(90);
 
-  const { hash } = getUrlData();
+  const { path, mode, hash } = getUrlData();
+  const { user: { id } } = yield select(getState);
 
   if (hash && /^#map/.test(hash)) {
     const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
@@ -126,13 +132,16 @@ function* mapInitSaga() {
     }
   }
 
-  const { path, mode } = getUrlData();
-
   if (path) {
     const map = yield call(loadMapSaga, path);
 
     if (map) {
       if (mode && mode === 'edit') {
+        if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
+          hideLoader();
+          yield call(replaceAddressIfItsBusy, map.random_url);
+        }
+
         yield put(setEditing(true));
         editor.startEditing();
       } else {
@@ -257,7 +266,9 @@ function* clearSaga({ type }) {
   yield put(setMode(MODES.NONE));
 }
 
-function* sendSaveRequestSaga({ title, address, force, is_public }) {
+function* sendSaveRequestSaga({
+  title, address, force, is_public
+}) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
   const { route, stickers, provider } = editor.dumpData();
@@ -277,7 +288,9 @@ function* sendSaveRequestSaga({ title, address, force, is_public }) {
   if (result && result.mode === 'exists') return yield put(setSaveError(TIPS.SAVE_EXISTS));
   if (timeout || !result || !result.success || !result.address) return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
 
-  return yield put(setSaveSuccess({ address: result.address, save_error: TIPS.SAVE_SUCCESS, title, is_public: result.is_public }));
+  return yield put(setSaveSuccess({
+    address: result.address, save_error: TIPS.SAVE_SUCCESS, title, is_public: result.is_public
+  }));
 }
 
 // function* refreshUserData() {
@@ -382,12 +395,12 @@ function* locationChangeSaga({ location }) {
     const map = yield call(loadMapSaga, path);
 
     if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
-      pushPath(`/${map.random_url}/edit`);
-      return;
+      // pushPath(`/${map.random_url}/edit`);
+      return yield call(replaceAddressIfItsBusy, map.random_url);
     }
   } else if (mode === 'edit' && editor.owner.id !== id) {
-    pushPath(`/${random_url}/edit`);
-    return;
+    // pushPath(`/${random_url}/edit`);
+    return yield call(replaceAddressIfItsBusy, random_url);
   }
 
   if (mode !== 'edit') {

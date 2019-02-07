@@ -2,10 +2,10 @@
 
   ## BUGS
 
-  todo fix arrows (can't reproduce now :-( )
   todo cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo selecting logo on crop
   todo delete sticker icon
+  todo fix arrows (can't reproduce now :-( )
 
   ## FEATURES
 
