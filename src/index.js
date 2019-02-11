@@ -4,12 +4,12 @@
 
   done adding/removing points doesn't change distance
   done cancelling editing someone's else map return back to it's original address /razminochnyj/
-  todo selecting logo on crop
   todo delete sticker icon
   todo fix arrows (can't reproduce now :-( )
 
   ## FEATURES
 
+  todo selecting logo on crop
   todo save spinner
 
   todo public maps
@@ -20,10 +20,6 @@
     done public maps
     done map search
     todo map list lazy loading
-
-  done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
-    done update after point delete
-    todo hidden markers tooltip
 
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
@@ -36,6 +32,10 @@
   todo maybe: stickers clusterization?
 
   ## DONE
+
+  done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
+    done update after point delete
+    done hidden markers tooltip
 
   done clear routing on editing cancellation
   done riding speed slider
