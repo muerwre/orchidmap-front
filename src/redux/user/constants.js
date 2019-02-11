@@ -63,4 +63,6 @@ export const ACTIONS = ({
 
   OPEN_MAP_DIALOG: 'OPEN_MAP_DIALOG',
   SET_SPEED: 'SET_SPEED',
+
+  SET_MARKERS_SHOWN: 'SET_MARKERS_SHOWN',
 }: { [key: String]: String });

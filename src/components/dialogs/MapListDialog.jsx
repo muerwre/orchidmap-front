@@ -122,9 +122,7 @@ class Component extends React.Component<Props, State> {
               value={title}
               onChange={this.setTitle}
             />
-
             <br />
-
             {
               ready
                 ?

@@ -15,7 +15,7 @@ import {
   setAddress,
   setChanged,
   setDistance,
-  setLogo,
+  setLogo, setMarkersShown,
   setMode,
   setPublic,
   setRouterPoints,
@@ -114,6 +114,10 @@ export class Editor {
   setTitle = value => store.dispatch(setTitle(value));
   setAddress = value => store.dispatch(setAddress(value));
   setPublic = value => store.dispatch(setPublic(value));
+
+  setMarkersShown = value => {
+    if (store.getState().user.markers_shown !== value) store.dispatch(setMarkersShown(value));
+  };
 
   resetSaveDialog = () => store.dispatch(resetSaveDialog());
 

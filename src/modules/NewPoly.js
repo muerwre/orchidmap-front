@@ -20,7 +20,7 @@ export class NewPoly {
 
     this.poly = L.Polyline.PolylineEditor(coordinates, {
       ...polyStyle,
-      maxMarkers: 50,
+      maxMarkers: 100,
 
       onPointsSet: this.updateMarks,
       onMarkerDragEnd: this.updateMarks,
@@ -28,8 +28,8 @@ export class NewPoly {
       onPointDropped: this.updateMarks,
       onContinueDrawing: this.setModeOnDrawing,
 
-      onMarkersHide: () => console.log('all markers are hidden'),
-      onMarkersShow: () => console.log('all markers are visible'),
+      onMarkersHide: () => editor.setMarkersShown(false),
+      onMarkersShow: () => editor.setMarkersShown(true),
     }).addTo(map);
 
     this.poly.addTo(map);

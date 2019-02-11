@@ -244,9 +244,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
      * bounds.
      */
     this._showBoundMarkers = () => {
-      if (!this._map) {
-        return;
-      }
+      if (!this._map) return;
 
       this._setBusy(false);
 
@@ -266,9 +264,9 @@ L.Polyline.polylineEditor = L.Polyline.extend({
       }
 
       if (found < that._options.maxMarkers) {
-        // console.log('shown'); // todo: onHide
+        if (this._options.onMarkersShow) this._options.onMarkersShow();
       } else {
-        // console.log('hidden'); // todo: onShow
+        if (this._options.onMarkersHide) this._options.onMarkersHide();
       }
 
       // todo: optimise this

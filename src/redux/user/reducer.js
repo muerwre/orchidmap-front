@@ -159,6 +159,8 @@ const setSpeed = (state, { speed = 15 }) => ({
   estimated: getEstimated(state.distance, speed),
 });
 
+const setMarkersShown = (state, { markers_shown = true }) => ({ ...state, markers_shown });
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -195,6 +197,8 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
   [ACTIONS.SET_PUBLIC]: setPublic,
   [ACTIONS.SET_SPEED]: setSpeed,
+
+  [ACTIONS.SET_MARKERS_SHOWN]: setMarkersShown,
 }: { [key: String]: Function });
 
 export const INITIAL_STATE = {
@@ -214,6 +218,7 @@ export const INITIAL_STATE = {
   changed: false,
   provider: DEFAULT_PROVIDER,
   is_public: false,
+  markers_shown: true,
 
   save_error: '',
   save_finished: false,
