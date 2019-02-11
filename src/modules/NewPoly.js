@@ -70,7 +70,7 @@ export class NewPoly {
           latlngs[i - 1],
           [mid.lat, mid.lng]
         ],
-        { color: 'blue', weight: CLIENT.STROKE_WIDTH }
+        { color: 'none', weight: CLIENT.STROKE_WIDTH }
       ).addTo(this.arrows);
 
       slide._path.setAttribute('marker-end', 'url(#long-arrow)');
