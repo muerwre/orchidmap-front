@@ -228,7 +228,7 @@ export class Editor {
   };
 
   setData = ({
-    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, public: is_public,
+    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, is_public,
   }) => {
     this.setTitle(title || '');
     const { id } = this.getUser();

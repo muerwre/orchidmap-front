@@ -4,7 +4,6 @@ import classnames from 'classnames';
 
 type Props = {
   active: Boolean,
-
   onPress: Function,
 }
 export const Switch = ({ active, onPress = () => {} }: Props) => (

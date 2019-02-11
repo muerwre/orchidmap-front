@@ -28,8 +28,11 @@ type Props = {
       author: String,
       distance: Array<Number>,
       tab: Array<string>,
-    }
+      min: number,
+      max: number,
+    },
   },
+  marks: { [x: number]: string },
   editing: Boolean,
   routes_sorted: Array<string>,
 
@@ -39,7 +42,18 @@ type Props = {
   setDialogActive: Function,
 };
 
-class Component extends React.Component<Props> {
+type State = {
+  editing_item: ?string,
+}
+
+class Component extends React.Component<Props, State> {
+  state = {
+    editing_item: null,
+  };
+
+  startEditing = editing_item => this.setState({ editing_item });
+  stopEditing = () => this.setState({ editing_item: null });
+
   setTitle = ({ target: { value } }) => {
     this.props.searchSetTitle(value);
   };
@@ -66,6 +80,8 @@ class Component extends React.Component<Props> {
       editing,
       marks,
     } = this.props;
+
+    const { editing_item } = this.state;
 
     return (
       <div className="dialog-content">
@@ -136,9 +152,12 @@ class Component extends React.Component<Props> {
                 <RouteRow
                   editing={editing}
                   {...route}
-                  key={route._id}
                   openRoute={this.openRoute}
                   tab={tab}
+                  is_editing={(editing_item === route._id)}
+                  startEditing={this.startEditing}
+                  stopEditing={this.stopEditing}
+                  key={route._id}
                 />
               ))
             }

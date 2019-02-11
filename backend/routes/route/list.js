@@ -32,12 +32,12 @@ module.exports = async (req, res) => {
     {
       ...criteria,
     },
-    '_id title distance owner updated_at',
+    '_id title distance owner updated_at is_public',
     {
       limit: 500,
       sort: { updated_at: -1 },
     }
-  ).populate('owner');
+  ).populate('owner', '_id');
 
   list = list.filter(item => (
     !author || item.owner._id === author

@@ -71,7 +71,7 @@
 }
 
 .dialog-content {
-  background: #271535;
+  background: @dialog_background;
   height: 100%;
   overflow: hidden;
   position: relative;
@@ -163,21 +163,40 @@
 }
 
 .route-row-wrapper {
-  overflow: hidden;
   padding: 0 10px;
+  position: relative;
+  margin-bottom: 10px;
+  transition: all 500ms;
 
-  &:hover {
-    .route-row {
-      transform: translateX(-48px);
-    }
-    .route-row-edit {
-      opacity: 1;
-    }
+  //&:hover {
+  //  .route-row { transform: translateX(-58px); }
+  //  .route-row-edit { transform: translateX(-58px); }
+  //
+  //  &.is_editing {
+  //    .route-row { transform: translateX(0); }
+  //    .route-row-edit { transform: translateX(0); }
+  //  }
+  //}
+
+  &.is_editing {
+    //transform: translateY(-2px);
+    .route-row { background: rgba(255, 100, 100, 0.2); }
   }
 }
 
+.route-row-editor {
+  color: white;
+  padding: 20px 0 5px;
+}
+
+.route-row-buttons {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
 .route-row {
-  margin-bottom: 10px;
   background: rgba(255, 255, 255, 0.05);
   padding: 10px 10px 5px 10px;
   color: white;
@@ -188,23 +207,63 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+
+    .route-row-panel {
+      transform: scaleY(1);
+      pointer-events: all;
+      touch-action: initial;
+    }
+  }
+}
+
+.route-row-panel {
+  position: absolute;
+  top: 100%;
+  height: 32px;
+  width: 100%;
+  left: 0;
+  background: mix(@dialog_background, white, 80%);
+  border-radius: 0 0 @panel_radius @panel_radius;
+  z-index: 1;
+  transform: scaleY(0);
+  pointer-events: none;
+  touch-action: none;
+  transition: transform 250ms;
+  transform-origin: 0 0;
+  padding: 0 5px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  fill: white;
+
+  & > div {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 2px;
+    }
   }
 }
 
 .route-row-edit {
-  fill: rgba(0, 0, 0, 0.5);
-  left: 100%;
+  fill: rgba(255, 255, 255, 0.3);
+  right: -48px;
+  padding-left: 0px;
   stroke: none;
   position: absolute;
   top: 0;
   width: 58px;
-  background: rgba(255, 255, 255, 0.2);
   height: 100%;
-  opacity: 0;
   transition: all 500ms;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    fill: @green_secondary;
+  }
 }
 
 .route-title {

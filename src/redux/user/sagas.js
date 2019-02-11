@@ -17,7 +17,7 @@ import {
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   searchSetTab,
-  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider,
+  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider, openMapDialog,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -70,8 +70,6 @@ function* startEmptyEditorSaga() {
 }
 
 function* startEditingSaga() {
-  // yield put(setEditing(true));
-  // yield editor.startEditing();
   const { path } = getUrlData();
   yield pushPath(`/${path}/edit`);
 }

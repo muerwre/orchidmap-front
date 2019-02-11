@@ -92,8 +92,6 @@ export class Component extends React.PureComponent<Props, void> {
       state: { menuOpened },
     } = this;
 
-    const route_count = Object.keys(user.routes).length;
-
     return (
       <div>
         <div className="panel active panel-user">
@@ -114,7 +112,6 @@ export class Component extends React.PureComponent<Props, void> {
           <div className="control-bar">
             <button
               className={classnames({
-                disabled: route_count <= 0,
                 active: dialog_active && (dialog === DIALOGS.MAP_LIST)
               })}
               onClick={this.openMapsDialog}
