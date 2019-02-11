@@ -131,6 +131,9 @@ function* mapInitSaga() {
 
     if (newUrl) {
       yield pushPath(`/${newUrl}`);
+      yield put(setReady(true));
+      hideLoader();
+      return;
     }
   }
 
