@@ -39,5 +39,6 @@ export const Fills = () => (
         <path d="m 2.625,3.375 h 7.5 L 10.28125,1.609375 13.5,4.25 10.484375,6.921875 10.171875,5.15625 2.625,5.125 Z" fill="#ff3344" fillRule="even-odd" />
       </marker>
     </defs>
+    <image xlinkHref={require('$sprites/stickers/stickers-base.svg')} width={0} height={0} />
   </svg>
 );
