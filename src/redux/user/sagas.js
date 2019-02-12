@@ -438,6 +438,8 @@ function* keyPressedSaga({ key }): void {
     if (renderer_active) return yield put(hideRenderer());
     if (dialog_active) return yield put(setDialogActive(false));
     if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
+  } else if (key === 'Delete') {
+    yield put(setMode(MODES.TRASH));
   }
 }
 
