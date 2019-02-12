@@ -1,6 +1,8 @@
-// @flow
+export interface IModes {
+  [x: string]: string,
+}
 
-export const MODES = ({
+export const MODES: IModes = {
   POLY: 'POLY',
   STICKERS: 'STICKERS',
   STICKERS_SELECT: 'STICKERS_SELECT',
@@ -12,6 +14,5 @@ export const MODES = ({
   SAVE: 'SAVE',
   CONFIRM_CANCEL: 'CONFIRM_CANCEL',
   PROVIDER: 'PROVIDER',
-
   SHOT_PREFETCH: 'SHOT_PREFETCH',
-}: { [key: String]: String });
+};

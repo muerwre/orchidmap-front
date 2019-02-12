@@ -1,8 +1,28 @@
 // Стикеры
 // import L from "leaflet";
+export interface ISticker {
+  off: number,
+  title: string,
+  title_long: string,
+}
+
+export interface IStickerPack {
+  title: string,
+  url: string,
+  size: number,
+  layers: {
+    [x: string]: ISticker,
+  }
+}
+
+export interface IStickers {
+  base: IStickerPack,
+  real: IStickerPack,
+  pin: IStickerPack,
+}
 
 // export const stickers = ['green', 'basic', 'green-small'];
-export const STICKERS = {
+export const STICKERS: IStickers = {
   base: {
     title: 'Простые',
     url: require('$sprites/stickers/stickers-base.svg'),

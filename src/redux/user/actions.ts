@@ -1,8 +1,8 @@
 import { ACTIONS } from '$redux/user/constants';
+import { IUser } from "$constants/auth";
 
-export const setUser = user => ({ type: ACTIONS.SET_USER, user });
+export const setUser = (user: IUser) => ({ type: ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: ACTIONS.USER_LOGOUT });
-
 
 export const setEditing = editing => ({ type: ACTIONS.SET_EDITING, editing });
 export const setMode = mode => ({ type: ACTIONS.SET_MODE, mode });
@@ -61,4 +61,3 @@ export const searchSetLoading = loading => ({ type: ACTIONS.SEARCH_SET_LOADING, 
 export const searchPutRoutes = payload => ({ type: ACTIONS.SEARCH_PUT_ROUTES, ...payload });
 
 export const setMarkersShown = markers_shown => ({ type: ACTIONS.SET_MARKERS_SHOWN, markers_shown });
-

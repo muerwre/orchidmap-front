@@ -1,6 +1,8 @@
-// @flow
+export interface IActions {
+  [x: string]: string,
+}
 
-export const ACTIONS = ({
+export const ACTIONS: IActions = {
   SET_USER: 'SET_USER',
   USER_LOGOUT: 'USER_LOGOUT',
 
@@ -65,4 +67,4 @@ export const ACTIONS = ({
   SET_SPEED: 'SET_SPEED',
 
   SET_MARKERS_SHOWN: 'SET_MARKERS_SHOWN',
-}: { [key: String]: String });
+};

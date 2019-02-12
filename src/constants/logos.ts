@@ -1,3 +1,7 @@
+export interface ILogos {
+  [x: string]: [string, string, string],
+}
+
 export const LOGOS = {
   default: ['Без лого', null, 'bottom-right'],
   nvs: ['НВС', require('../sprites/logos/lgo.png'), 'bottom-right'],

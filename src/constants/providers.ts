@@ -1,5 +1,24 @@
+export interface IPRovider {
+  name: string,
+  url: string,
+  range: Array<string | number>,
+}
+
+export interface ITileMaps {
+  WATERCOLOR: IPRovider,
+  DGIS: IPRovider,
+  DEFAULT: IPRovider,
+  DARQ: IPRovider,
+  BLANK: IPRovider,
+  HOT: IPRovider,
+  YSAT: IPRovider,
+  YMAP: IPRovider,
+  SAT: IPRovider,
+}
+
+
 // Стили карт
-const TILEMAPS = {
+const TILEMAPS: ITileMaps = {
   WATERCOLOR: {
     name: 'Watercolor',
     url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
@@ -47,17 +66,19 @@ const TILEMAPS = {
   },
 };
 
-const ENABLED = ['BLANK', 'DEFAULT', 'DGIS', 'HOT'];
+const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT'];
 
-export const DEFAULT_PROVIDER = ENABLED[0];
-export const PROVIDERS = ENABLED.reduce((obj, provider) => ({
+export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[0];
+export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
   ...obj,
   [provider]: TILEMAPS[provider],
 }), {});
 
 export const replaceProviderUrl = (provider, { x, y, zoom }) => {
   const { url, range } = (PROVIDERS[provider] || PROVIDERS[DEFAULT_PROVIDER]);
-  const random = (range && range.length >= 2) ? range[Math.round((Math.random() * (range.length - 1)))] : 1;
+  const random: (number | string) = (range && range.length >= 2)
+    ? range[Math.round((Math.random() * (range.length - 1)))]
+    : 1;
 
-  return url.replace('{x}', x).replace('{y}', y).replace('{z}', zoom).replace('{s}', random);
+  return url.replace('{x}', x).replace('{y}', y).replace('{z}', zoom).replace('{s}', String(random));
 };
