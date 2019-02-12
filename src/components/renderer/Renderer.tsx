@@ -3,7 +3,7 @@ import * as React from 'react';
 import { hideRenderer, cropAShot } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Croppr from 'croppr';
+import * as Croppr from 'croppr';
 import 'croppr/dist/croppr.css';
 import { LOGOS } from '$constants/logos';
 import { RendererPanel } from '$components/panels/RendererPanel';

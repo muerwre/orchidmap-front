@@ -15,7 +15,7 @@
 
   todo public maps
     todo editing map on map list
-    todo setting map public on map list
+    todo setting map public on map liste
 
   done map catalogue
     done public maps
