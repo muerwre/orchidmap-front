@@ -1,0 +1,32 @@
+{
+  "allowSyntheticDefaultImports": true,
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "lib": [ "es2015", "DOM" ],
+    "baseUrl": ".",
+    "paths": {
+      "$components/*": [ "src/components/*" ],
+      "$containers/*": [ "src/containers/*" ],
+      "$constants/*": [ "src/constants/*" ],
+      "$sprites/*": [ "src/sprites/*" ],
+      "$config/*": [ "./config/*" ],
+      "$styles/*": [ "src/styles/*" ],
+      "$redux/*": [ "src/redux/*" ],
+      "$utils/*": [ "src/utils/*" ],
+      "$modules/*": [ "src/modules/*" ],
+      "custom_modules/*": [
+        "src/custom_modules/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./backend/**/*",
+  ]
+}

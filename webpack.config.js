@@ -42,7 +42,7 @@ const resolve = {
     $modules: join(__dirname, 'src/modules'),
   },
 
-  extensions: ['*', '.js', '.jsx', '.json']
+  extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
 };
 
 /* Configuration */
@@ -76,12 +76,13 @@ module.exports = () => {
           ]
         },
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(ts|tsx|js|jsx)$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader'
           }
         },
+        { test: /\.(ts|tsx)?$/, loader: 'awesome-typescript-loader' },
         {
           test: /\.(eot|ttf|woff|woff2|otf)$/,
           use: {
@@ -105,7 +106,7 @@ module.exports = () => {
     resolve,
     plugins,
     entry: {
-      app: './src/index.js',
+      app: './src/index.tsx',
     },
     output: {
       publicPath: '/',
