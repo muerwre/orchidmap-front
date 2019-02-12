@@ -1,0 +1,39 @@
+// @flow
+import * as React from 'react';
+
+import { STICKERS } from '$constants/stickers';
+import { setActiveSticker as setActiveStickerAction } from "$redux/user/actions";
+
+interface Props {
+  setActiveSticker: typeof setActiveStickerAction,
+  width: number,
+}
+
+export const StickersDialog = ({ setActiveSticker, width }: Props) => (
+  <div className="control-dialog control-dialog-big" style={{ width }}>
+    <div className="helper stickers-helper">
+      {
+        Object.keys(STICKERS).map(set => (
+          <div key={set}>
+            <div className="stickers-set-title">{STICKERS[set].title || null}</div>
+            <div className="stickers-grid">
+              {
+                Object.keys(STICKERS[set].layers).map(sticker => (
+                  <div
+                    style={{
+                      backgroundImage: `url(${STICKERS[set].url})`,
+                      backgroundPosition: `${-STICKERS[set].layers[sticker].off * 48}px 50%`,
+                    }}
+                    className="sticker-preview"
+                    key={`${set}-${sticker}`}
+                    onClick={() => setActiveSticker({ set, sticker })}
+                  />
+                ))
+              }
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+);

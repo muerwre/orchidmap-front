@@ -1,19 +1,19 @@
-export interface IPRovider {
+export interface IProvider {
   name: string,
   url: string,
   range: Array<string | number>,
 }
 
 export interface ITileMaps {
-  WATERCOLOR: IPRovider,
-  DGIS: IPRovider,
-  DEFAULT: IPRovider,
-  DARQ: IPRovider,
-  BLANK: IPRovider,
-  HOT: IPRovider,
-  YSAT: IPRovider,
-  YMAP: IPRovider,
-  SAT: IPRovider,
+  WATERCOLOR: IProvider,
+  DGIS: IProvider,
+  DEFAULT: IProvider,
+  DARQ: IProvider,
+  BLANK: IProvider,
+  HOT: IProvider,
+  YSAT: IProvider,
+  YMAP: IProvider,
+  SAT: IProvider,
 }
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { APP_INFO } from '$constants/app_info';
 
 type Props = {

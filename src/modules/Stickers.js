@@ -12,13 +12,6 @@ export class Stickers {
 
     this.layer.addTo(this.map);
   }
-  //
-  // createOnClick = e => {
-  //   if (!e || !e.latlng) return;
-  //
-  //   const { latlng } = e;
-  //   this.createSticker({ latlng });
-  // };
 
   createSticker = ({ latlng, sticker, angle = 2.2, text = '', set }) => {
     const marker = new Sticker({

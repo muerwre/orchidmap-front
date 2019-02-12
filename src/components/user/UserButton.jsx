@@ -1,10 +1,10 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { UserPicture } from '$components/user/UserPicture';
-import type { UserType } from '$constants/types';
+import { IUser } from '$constants/auth';
 
 type Props = {
-  user: UserType,
+  user: IUser,
   setMenuOpened: Function,
 };
 

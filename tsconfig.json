@@ -6,9 +6,9 @@
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
-    "lib": [ "es2015", "DOM" ],
+    "lib": [ "es2015", "DOM", "es6" ],
     "baseUrl": ".",
     "paths": {
       "$components/*": [ "src/components/*" ],
@@ -28,5 +28,6 @@
   "include": [
     "./src/**/*",
     "./backend/**/*",
+    "./custom.d.ts",
   ]
 }

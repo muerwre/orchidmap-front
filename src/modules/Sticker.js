@@ -1,5 +1,5 @@
 import { marker } from 'leaflet';
-import React from 'react';
+import * as React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
 import { STICKERS } from '$constants/stickers';

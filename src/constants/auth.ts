@@ -1,5 +1,3 @@
-type valueof<T> = T[keyof T]
-
 export interface IRoles {
   guest: string,
   vk: string,
