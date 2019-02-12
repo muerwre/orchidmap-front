@@ -13,7 +13,7 @@ export const GuestButton = ({ onClick }: Props) => (
       onClick={onClick}
     >
       <Icon icon="icon-reg-1" />
-      <span>ВОЙТИ</span>
+      <span className="desktop-only">ВОЙТИ</span>
     </button>
   </div>
 );
