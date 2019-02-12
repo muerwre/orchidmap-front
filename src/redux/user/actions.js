@@ -51,7 +51,7 @@ export const locationChanged = location => ({ type: ACTIONS.LOCATION_CHANGED, lo
 export const setReady = ready => ({ type: ACTIONS.SET_READY, ready });
 
 export const gotVkUser = user => ({ type: ACTIONS.GOT_VK_USER, user });
-export const keyPressed = ({ key }) => ({ type: ACTIONS.KEY_PRESSED, key });
+export const keyPressed = ({ key, target: { tagName } }) => ({ type: ACTIONS.KEY_PRESSED, key, target: tagName });
 
 export const searchSetTitle = title => ({ type: ACTIONS.SEARCH_SET_TITLE, title });
 export const searchSetDistance = distance => ({ type: ACTIONS.SEARCH_SET_DISTANCE, distance });

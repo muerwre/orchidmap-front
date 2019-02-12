@@ -431,7 +431,14 @@ function* gotVkUserSaga({ user }) {
   yield put(setUser(data));
 }
 
-function* keyPressedSaga({ key }): void {
+function* keyPressedSaga({ key, target }): any {
+  if (
+    target === 'INPUT' ||
+    target === 'TEXTAREA'
+  ) {
+    return;
+  }
+
   if (key === 'Escape') {
     const { dialog_active, mode, renderer: { renderer_active } } = yield select(getState);
 
