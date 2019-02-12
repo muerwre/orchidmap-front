@@ -75,10 +75,11 @@ export const getStickersPlacement = () => (
     }))
 );
 
-const getImageSource = coords => replaceProviderUrl(editor.provider, coords);
+const getImageSource = coords => replaceProviderUrl(editor.getProvider(), coords);
 
 export const imageFetcher = source => new Promise((resolve, reject) => {
   const img = new Image();
+
   img.crossOrigin = 'anonymous';
   img.onload = () => resolve(img);
   img.onerror = () => reject(img);
