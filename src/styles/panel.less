@@ -344,6 +344,16 @@
   }
 }
 
+.trash-buttons {
+  @media (max-width: @mobile_breakpoint) {
+    flex-direction: column;
+
+    .button-group {
+      margin-bottom: 10px;
+    }
+  }
+}
+
 .logo-helper {
   width: 200px;
   flex-direction: column;
@@ -496,12 +506,7 @@
   }
 
   &.top-control {
-    //width: 150px;
     justify-content: flex-start;
-
-    @media (max-width: @mobile_breakpoint) {
-      width: 100px;
-    }
   }
 
   svg {

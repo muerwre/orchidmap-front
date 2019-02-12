@@ -21,7 +21,7 @@ export const TrashDialog = ({
       </div>
     </div>
     <div className="helper trash-helper">
-      <div className="helper__buttons flex_1">
+      <div className="helper__buttons flex_1 trash-buttons">
         <div className="button-group">
           <div className="button router-helper__button" onClick={clearPoly}>
             Маршрут
