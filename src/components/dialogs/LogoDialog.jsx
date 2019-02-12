@@ -18,7 +18,7 @@ export const LogoDialog = ({ logo, setLogo }: Props) => (
         Object.keys(LOGOS).map(item => (
           <div
             className={classnames('helper-menu-item', { active: (item === logo) })}
-            onClick={() => setLogo(item)}
+            onMouseDown={() => setLogo(item)}
             key={item}
           >
             {LOGOS[item][0]}
