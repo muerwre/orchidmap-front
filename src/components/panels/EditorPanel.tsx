@@ -39,7 +39,7 @@ class Component extends React.PureComponent<Props, void> {
   startRouterMode = () => this.props.setMode(MODES.ROUTER);
   startTrashMode = () => this.props.setMode(MODES.TRASH);
   startSaveMode = () => {
-    if (!this.props.changed) return;
+    // if (!this.props.changed) return;
     this.props.setMode(MODES.SAVE);
   };
 
