@@ -19,13 +19,14 @@ export class Sticker {
     this.map = map;
     this.sticker = sticker;
     this.set = set;
-    this.editable = true;
+    // this.editable = true;
     this.triggerOnChange = triggerOnChange;
     this.direction = getLabelDirection(this.angle);
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
 
     this.element = document.createElement('div');
+
     ReactDOM.render(
       <React.Fragment>
         <div
@@ -49,6 +50,7 @@ export class Sticker {
           <div
             className="sticker-delete"
             onMouseDown={this.onDelete}
+            onTouchStart={this.onDelete}
           />
         </div>
       </React.Fragment>,

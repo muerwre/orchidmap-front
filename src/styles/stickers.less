@@ -139,6 +139,21 @@
   &:hover {
     transform: scale(1.2) !important;
   }
+
+  &::before, &::after {
+    content: ' ';
+    position: absolute;
+    left: 11px;
+    top: 6px;
+    width: 2px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {
