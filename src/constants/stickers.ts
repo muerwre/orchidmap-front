@@ -47,6 +47,7 @@ export const STICKERS: IStickers = {
       mountains: { off: 17, title: 'Горы', title_long: 'Высокие горы' },
       waterfall: { off: 18, title: 'Водопад', title_long: 'Водопад' },
       fields: { off: 19, title: 'Поля', title_long: 'Зеленые поля' },
+      beach: { off: 38, title: 'Пляж', title_long: 'Жаркий пляж' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
@@ -62,8 +63,6 @@ export const STICKERS: IStickers = {
       fastfood: { off: 35, title: 'Фастфуд', title_long: 'Быстрая еда' },
       swamp: { off: 36, title: 'Болото', title_long: 'Пошла ты,\nтрясина грёбаная!' },
       beer: { off: 37, title: 'Пивко', title_long: 'В Питере - пить!' },
-      skull: { off: 38, title: 'Роджер', title_long: 'Может не надо?' },
-
     },
   },
   pin: {
