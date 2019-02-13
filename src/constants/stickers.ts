@@ -44,6 +44,9 @@ export const STICKERS: IStickers = {
       pancake: { off: 13, title: 'Блинцы', title_long: 'Блинчики' },
       fastfood: { off: 16, title: 'Фастфуд', title_long: 'Быстрая еда' },
       beer: { off: 12, title: 'Пивко', title_long: 'Пивко' },
+      mountains: { off: 17, title: 'Горы', title_long: 'Высокие горы' },
+      waterfall: { off: 18, title: 'Водопад', title_long: 'Водопад' },
+      fields: { off: 19, title: 'Поля', title_long: 'Зеленые поля' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },

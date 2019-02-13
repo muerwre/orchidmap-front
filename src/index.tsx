@@ -5,7 +5,7 @@
   done adding/removing points doesn't change distance
   done cancelling editing someone's else map return back to it's original address /razminochnyj/
   todo change title on route opening
-  todo delete sticker icon
+  done delete sticker icon
   todo fix arrows (can't reproduce now :-( )
 
   ## FEATURES
