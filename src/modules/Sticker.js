@@ -8,6 +8,12 @@ import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
 
+const getX = e => (
+  e.touches && e.touches.length > 0
+    ? { pageX: e.touches[0].pageX, pageY: e.touches[0].pageY }
+    : { pageX: e.pageX, pageY: e.pageY }
+);
+
 export class Sticker {
   constructor({
     latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '',
@@ -46,6 +52,8 @@ export class Sticker {
             }}
             onMouseDown={this.onDragStart}
             onMouseUp={this.onDragStop}
+            onTouchStart={this.onDragStart}
+            onTouchEnd={this.onDragStop}
           />
           <div
             className="sticker-delete"
@@ -66,6 +74,10 @@ export class Sticker {
 
     this.element.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.preventPropagations);
+
+    this.element.addEventListener('touchend', this.onDragStop);
+    this.element.addEventListener('touchend', this.preventPropagations);
+
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
     this.setAngle(this.angle);
@@ -82,6 +94,7 @@ export class Sticker {
   };
 
   onDragStart = e => {
+    console.log('drag started');
     this.preventPropagations(e);
     this.marker.dragging.disable();
 
@@ -91,6 +104,8 @@ export class Sticker {
 
     window.addEventListener('mousemove', this.onDrag);
     window.addEventListener('mouseup', this.onDragStop);
+    window.addEventListener('touchmove', this.onDrag);
+    window.addEventListener('touchend', this.onDragStop);
 
     // this.marker.disableEdit();
   };
@@ -112,6 +127,9 @@ export class Sticker {
     window.removeEventListener('mousemove', this.onDrag);
     window.removeEventListener('mouseup', this.onDragStop);
 
+    window.removeEventListener('touchmove', this.onDrag);
+    window.removeEventListener('touchend', this.onDragStop);
+
     this.lockMapClicks(false);
 
     // this.marker.enableEdit();
@@ -124,7 +142,7 @@ export class Sticker {
 
   estimateAngle = e => {
     const { x, y } = this.element.getBoundingClientRect();
-    const { pageX, pageY } = e;
+    const { pageX, pageY } = getX(e);
     this.angle = parseFloat(Math.atan2((y - pageY), (x - pageX)).toFixed(2));
 
     this.setAngle(this.angle);
