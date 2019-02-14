@@ -98,7 +98,7 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ primary: changed, disabled: !changed })}
               onClick={this.startSaveMode}
             >
-              <span className="desktop-only">СХОРОНИТЬ</span>
+              <span className="desktop-only">СОХРАНИТЬ</span>
               <Icon icon="icon-check-1" />
             </button>
           </div>

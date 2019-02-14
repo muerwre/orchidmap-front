@@ -10,6 +10,9 @@
 
   ## FEATURES
 
+  todo hide arrows on small zooms
+  todo hide stickers and route on small zooms (?)
+
   todo selecting logo on crop
   todo save spinner
 

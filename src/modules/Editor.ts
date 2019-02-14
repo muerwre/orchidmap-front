@@ -290,6 +290,7 @@ export class Editor {
   setInitialData = () => {
     const { path } = getUrlData();
     const { id } = this.getUser();
+    const { is_public } = this.getState();
     const { route, stickers, provider } = this.dumpData();
 
     this.initialData = {
@@ -301,6 +302,7 @@ export class Editor {
       route,
       stickers,
       provider,
+      is_public,
     };
   };
 

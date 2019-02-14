@@ -400,7 +400,7 @@ function* changeProviderSaga({ provider }: ReturnType<typeof ActionCreators.chan
 }
 
 function* locationChangeSaga({ location }: ReturnType<typeof ActionCreators.locationChanged>) {
-  const { address, ready, user: { id, random_url } } = yield select(getState);
+  const { address, ready, user: { id, random_url }, is_public } = yield select(getState);
 
   if (!ready) return;
 
@@ -410,11 +410,9 @@ function* locationChangeSaga({ location }: ReturnType<typeof ActionCreators.loca
     const map = yield call(loadMapSaga, path);
 
     if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
-      // pushPath(`/${map.random_url}/edit`);
       return yield call(replaceAddressIfItsBusy, map.random_url, map.address);
     }
   } else if (mode === 'edit' && editor.owner.id !== id) {
-    // pushPath(`/${random_url}/edit`);
     return yield call(replaceAddressIfItsBusy, random_url, address);
   } else {
     yield put(setAddressOrigin(''));
@@ -553,9 +551,7 @@ function* setUserSaga() {
 }
 
 function* setTitleSaga({ title }: ReturnType<typeof ActionCreators.setTitle>):SagaIterator {
-  if (title) {
-    document.title = `${title} | Редактор маршрутов`;
-  }
+  if (title) { document.title = `${title} | Редактор маршрутов`; }
 }
 
 export function* userSaga() {
