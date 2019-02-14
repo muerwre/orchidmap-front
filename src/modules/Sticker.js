@@ -131,8 +131,6 @@ export class Sticker {
     window.removeEventListener('touchend', this.onDragStop);
 
     this.lockMapClicks(false);
-
-    // this.marker.enableEdit();
   };
 
   onDrag = e => {

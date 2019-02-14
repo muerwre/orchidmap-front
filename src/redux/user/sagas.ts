@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist';
-import { delay } from 'redux-saga';
+import { delay, SagaIterator } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
 import {
   checkIframeToken,
@@ -517,7 +517,9 @@ function* searchSetTabSaga() {
   yield call(searchSetSaga);
 }
 
-function* setSaveSuccessSaga({ address, title, is_public }: ReturnType<typeof ActionCreators.setSaveSuccess>) {
+function* setSaveSuccessSaga({
+  address, title, is_public
+}: ReturnType<typeof ActionCreators.setSaveSuccess>) {
   const { id } = yield select(getUser);
   const { dialog_active } = yield select(getState);
 
@@ -537,7 +539,7 @@ function* setSaveSuccessSaga({ address, title, is_public }: ReturnType<typeof Ac
   return yield editor.setInitialData();
 }
 
-function* userLogoutSaga() {
+function* userLogoutSaga():SagaIterator {
   yield put(setUser(DEFAULT_USER));
   yield call(generateGuestSaga);
 }
@@ -548,6 +550,12 @@ function* setUserSaga() {
   if (dialog_active) yield call(searchSetSagaWorker);
 
   return true;
+}
+
+function* setTitleSaga({ title }: ReturnType<typeof ActionCreators.setTitle>):SagaIterator {
+  if (title) {
+    document.title = `${title} | Редактор маршрутов`;
+  }
 }
 
 export function* userSaga() {
@@ -582,6 +590,8 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
 
   // yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
+
+  yield takeLatest(ACTIONS.SET_TITLE, setTitleSaga);
 
   yield takeLatest([
     ACTIONS.SEARCH_SET_TITLE,

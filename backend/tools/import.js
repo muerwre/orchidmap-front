@@ -141,7 +141,7 @@ const run = async () => {
         title: '',
         version: 1,
         distance: calcPolyDistance(route),
-        is_public: true,
+        is_public: false,
       };
     }));
   }));
