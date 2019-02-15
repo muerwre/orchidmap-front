@@ -14,11 +14,10 @@
   todo hide stickers and route on small zooms (?)
 
   todo selecting logo on crop
-  todo save spinner
 
   todo public maps
     todo editing map on map list
-    todo setting map public on map liste
+    todo setting map public on map list
 
   done map catalogue
     done public maps
@@ -37,6 +36,7 @@
 
   ## DONE
 
+  done save spinner
   done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline
     done update after point delete
     done hidden markers tooltip
