@@ -14,3 +14,5 @@ export const COLORS = {
 };
 
 export const PROVIDER = PROVIDERS[DEFAULT_PROVIDER];
+
+export const MOBILE_BREAKPOINT = 768;

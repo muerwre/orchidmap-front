@@ -20,7 +20,13 @@ export class StickerDesc extends React.PureComponent<Props, State> {
     this.props.onChange(e.target.value);
   };
 
-  blockMouse = e => e.stopPropagation(); // todo: pass here locker for moving markers from Sticker.js
+  blockMouse = e => {
+    e.stopPropagation();
+    this.input.focus();
+  };
+
+  input: HTMLTextAreaElement;
+  // todo: pass here locker for moving markers from Sticker.js
 
   render() {
     const { text } = this.state;
@@ -30,6 +36,7 @@ export class StickerDesc extends React.PureComponent<Props, State> {
         className={classnames('sticker-desc', { is_empty: !text.trim() })}
         onMouseDown={this.blockMouse}
         onMouseUp={this.blockMouse}
+        onDragStart={this.blockMouse}
       >
         <div className="sticker-desc-sizer">
           <span
@@ -42,6 +49,7 @@ export class StickerDesc extends React.PureComponent<Props, State> {
             value={text}
             onMouseDown={this.blockMouse}
             onDragStart={this.blockMouse}
+            ref={el => { this.input = el; }}
           />
         </div>
       </div>

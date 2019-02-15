@@ -14,11 +14,12 @@
 
   transform: translate3d(-100%, 0, 0);
   pointer-events: none;
-  transition: transform 500ms;
+  transition: transform 500ms, background-color 500ms 500ms;
 
   &.active {
     transform: translate3d(0, 0, 0);
     pointer-events: all;
+    transition: transform 500ms 250ms, background-color 250ms;
 
     .dialog-close-button {
       opacity: 1;
@@ -29,9 +30,11 @@
   @media (max-width: @mobile_breakpoint) {
     width: 100%;
     z-index: 6;
+    transform: translate3d(0, 100%, 0);
+    padding: 0 0 68px 0;
 
     &.active {
-      background: rgba(19, 45, 53, 0.8);
+      background: rgba(19, 45, 53, 0.95);
     }
   }
 
@@ -64,9 +67,10 @@
 
   @media (max-width: @mobile_breakpoint) {
     border-radius: @panel_radius;
-    bottom: 10px;
-    right: 10px;
-    width: 49px;
+    bottom: 0;
+    right: 0;
+    width: 68px;
+    height: 68px;
   }
 }
 
@@ -94,8 +98,6 @@
     width: 100%;
     left: 0;
     top: 0;
-    // background: linear-gradient(0deg, rgba(2, 13, 43, 1) 50%, rgba(2,13,43,0));
-    // background: linear-gradient(0deg, rgba(34, 34, 34, 1) 50%, rgba(34, 34, 34, 0));
     background: linear-gradient(180deg, rgba(39, 21, 53, 1), rgba(39, 21, 53, 0));
     position: absolute;
     z-index: 5;

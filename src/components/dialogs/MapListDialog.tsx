@@ -9,6 +9,7 @@ import {
   searchSetTab,
   setDialogActive,
 } from '$redux/user/actions';
+import { isMobile } from '$utils/window';
 import classnames from 'classnames';
 
 import { Range } from 'rc-slider';
@@ -44,6 +45,8 @@ class Component extends React.Component<Props, State> {
   };
 
   openRoute = (_id: string): void => {
+    if (isMobile) this.props.setDialogActive(false);
+
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
 

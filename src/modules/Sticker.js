@@ -94,7 +94,6 @@ export class Sticker {
   };
 
   onDragStart = e => {
-    console.log('drag started');
     this.preventPropagations(e);
     this.marker.dragging.disable();
 
