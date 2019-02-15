@@ -17,7 +17,7 @@ import {
   setSaveError,
   setSaveOverwrite, setSaveSuccess, setTitle,
   searchSetTab,
-  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider, openMapDialog,
+  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider, openMapDialog, setSaveLoading,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -285,6 +285,8 @@ function* sendSaveRequestSaga({
   const { logo, distance } = yield select(getState);
   const { id, token } = yield select(getUser);
 
+  yield put(setSaveLoading(true));
+
   const { result, timeout, cancel } = yield race({
     result: postMap({
       id, token, route, stickers, title, force, address, logo, distance, provider, is_public
@@ -292,6 +294,8 @@ function* sendSaveRequestSaga({
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),
   });
+
+  yield put(setSaveLoading(false));
 
   if (cancel) return yield put(setMode(MODES.NONE));
   if (result && result.mode === 'overwriting') return yield put(setSaveOverwrite());

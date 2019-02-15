@@ -39,6 +39,7 @@ interface IRootReducer {
   save_finished: boolean,
   save_overwriting: boolean,
   save_processing: boolean,
+  save_loading: boolean,
 
   dialog: IDialogs[keyof IDialogs],
   dialog_active: boolean,
@@ -145,6 +146,10 @@ const sendSaveRequest: ActionHandler<typeof ActionCreators.sendSaveRequest> = (s
 
 const setSaveError: ActionHandler<typeof ActionCreators.setSaveError> = (state, { save_error }) => ({
   ...state, save_error, save_finished: false, save_processing: false
+});
+
+const setSaveLoading: ActionHandler<typeof ActionCreators.setSaveLoading> = (state, { save_loading }) => ({
+  ...state, save_loading
 });
 
 const setSaveOverwrite: ActionHandler<typeof ActionCreators.setSaveOverwrite> = (state) => ({
@@ -279,6 +284,7 @@ const HANDLERS = ({
   [ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
 
   [ACTIONS.SET_SAVE_ERROR]: setSaveError,
+  [ACTIONS.SET_SAVE_LOADING]: setSaveLoading,
   [ACTIONS.SET_SAVE_OVERWRITE]: setSaveOverwrite,
   [ACTIONS.SET_SAVE_SUCCESS]: setSaveSuccess,
   [ACTIONS.SEND_SAVE_REQUEST]: sendSaveRequest,
@@ -327,6 +333,7 @@ export const INITIAL_STATE: IRootReducer = {
   save_finished: false,
   save_overwriting: false,
   save_processing: false,
+  save_loading: false,
 
   dialog: DIALOGS.NONE,
   dialog_active: false,

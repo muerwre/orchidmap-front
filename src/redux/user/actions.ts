@@ -31,6 +31,7 @@ export const clearCancel = () => ({ type: ACTIONS.CLEAR_CANCEL });
 export const sendSaveRequest = payload => ({ type: ACTIONS.SEND_SAVE_REQUEST, ...payload });
 export const resetSaveDialog = () => ({ type: ACTIONS.RESET_SAVE_DIALOG });
 
+export const setSaveLoading = save_loading => ({ type: ACTIONS.SET_SAVE_LOADING, save_loading });
 export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...payload });
 export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
 export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });

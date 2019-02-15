@@ -14,6 +14,11 @@ interface Props extends IRootState {
   width: number,
   setMode: typeof setMode,
   sendSaveRequest: typeof sendSaveRequest,
+  save_error: string,
+
+  save_loading: boolean,
+  save_finished: boolean,
+  save_overwriting: boolean,
 }
 
 interface State {
@@ -44,7 +49,6 @@ export class SaveDialog extends React.Component<Props, State> {
 
   setAddress = ({ target: { value } }) => this.setState({ address: (value || '') });
 
-  // cancelSaving = () => this.props.editor.changeMode(MODES.NONE);
   cancelSaving = () => this.props.setMode(MODES.NONE);
 
   sendSaveRequest = (e, force = false) => {
@@ -70,12 +74,14 @@ export class SaveDialog extends React.Component<Props, State> {
 
   render() {
     const { title, is_public } = this.state;
-    const { save_error, save_finished, save_overwriting, width } = this.props;
+    const { save_error, save_finished, save_overwriting, width, save_loading } = this.props;
     const { host, protocol } = getUrlData();
 
     return (
       <div className="control-dialog control-dialog-medium" style={{ width }}>
         <div className="helper save-helper">
+          <div className={classnames('save-loader', { active: save_loading })} />
+
           <div className="save-title">
             <div className="save-title-input">
               <div className="save-title-label">Название</div>
