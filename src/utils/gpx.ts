@@ -24,21 +24,21 @@ export const getGPXString = ({ route, title, stickers }: IGetGPXString): string 
     <name>${title || 'GPX Track'}</name> 
   </metadata>
   ${
-    stickers.reduce((cat, { latlng: { lat, lng }, text }, index) => (
+    stickers.reduce((cat, { latlng: { lat, lng }, text }) => (
         `${cat}
           <wpt lat="${lat}" lon="${lng}">            
             <name>${text}</name>
             <sym>generic</sym>
-            <type>Generic</type>
+            <type>Маршрут</type>
           </wpt>`), '')
         }
       <trk>        
         <name>${title || 'GPX Track'}</name>
         <trkseg>
         ${
-          route.reduce((cat, { lat, lng }, index) => (
+          route.reduce((cat, { lat, lng }) => (
           ` ${cat}
-            <trkpt lat="${lat}" lon="${lng}"></trkpt>`
+            <trkpt lat="${lat}" lon="${lng}" />`
           ), '')
         }
         </trkseg>
