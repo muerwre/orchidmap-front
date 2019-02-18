@@ -17,7 +17,6 @@ interface IGetGPXString {
   title?: string,
 }
 
-
 export const getGPXString = ({ route, title, stickers }: IGetGPXString): string => (`<?xml version="1.0" encoding="UTF-8"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
   <metadata>
