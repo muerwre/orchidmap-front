@@ -40,10 +40,10 @@ export const checkIframeToken = ({ viewer_id, auth_key }) => axios.get(API.IFRAM
 }).then(result => (result && result.data && result.data.success && result.data.user)).catch(() => (false));
 
 export const getRouteList = ({
-  title, distance, author, starred, id, token,
+  title, distance, author, starred, id, token, step, shift,
 }) => axios.get(API.GET_ROUTE_LIST, {
   params: {
-    title, distance, author, starred, id, token,
+    title, distance, author, starred, id, token, step, shift
   }
 }).then(result => (result && result.data && result.data.success && result.data))
-  .catch(() => ({ list: [], min: 0, max: 0 }));
+  .catch(() => ({ list: [], min: 0, max: 0, limit: 0, step: 20, shift: 20 }));

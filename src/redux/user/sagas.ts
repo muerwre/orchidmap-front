@@ -9,15 +9,32 @@ import {
   postMap
 } from '$utils/api';
 import {
-  hideRenderer, searchPutRoutes, searchSetDistance, searchSetLoading,
-  setActiveSticker, setAddress,
-  setChanged, setDialogActive,
+  hideRenderer,
+  searchPutRoutes,
+  searchSetDistance,
+  searchSetLoading,
+  setActiveSticker,
+  setAddress,
+  setChanged,
+  setDialogActive,
   setEditing,
-  setMode, setReady, setRenderer,
+  setMode,
+  setReady,
+  setRenderer,
   setSaveError,
-  setSaveOverwrite, setSaveSuccess, setTitle,
+  setSaveOverwrite,
+  setSaveSuccess,
+  setTitle,
   searchSetTab,
-  setUser, setDialog, setPublic, setAddressOrigin, setProvider, changeProvider, openMapDialog, setSaveLoading,
+  setUser,
+  setDialog,
+  setPublic,
+  setAddressOrigin,
+  setProvider,
+  changeProvider,
+  openMapDialog,
+  setSaveLoading,
+  mapsSetShift, searchChangeDistance,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -456,28 +473,36 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof ActionCreators.keyPr
   }
 }
 
-function* searchSetSagaWorker() {
+function* searchGetRoutes() {
   const { id, token } = yield select(getUser);
 
-  const { routes: { filter, filter: { title, distance, tab } } } = yield select(getState);
+  const { routes: { step, shift, filter: { title, distance, tab } } } = yield select(getState);
 
-  const { list, min, max } = yield call(getRouteList, {
+  return yield call(getRouteList, {
     id,
     token,
     title,
     distance,
+    step,
+    shift,
     author: tab === 'mine' ? id : '',
     starred: tab === 'starred',
   });
+}
 
-  yield put(searchPutRoutes({ list, min, max }));
+function* searchSetSagaWorker() {
+  const { routes: { filter } } = yield select(getState);
+
+  const { list, min, max, limit, shift, step } = yield call(searchGetRoutes);
+
+  yield put(searchPutRoutes({ list, min, max, limit, shift, step }));
 
   // change distange range if needed and load additional data
   if (
     (filter.min > min && filter.distance[0] <= filter.min) ||
     (filter.max < max && filter.distance[1] >= filter.max)
   ) {
-    yield put(searchSetDistance([
+    yield put(searchChangeDistance([
       (filter.min > min && filter.distance[0] <= filter.min)
         ? min
         : filter.distance[0],
@@ -492,6 +517,7 @@ function* searchSetSagaWorker() {
 
 function* searchSetSaga() {
   yield put(searchSetLoading(true));
+  yield put(mapsSetShift(0));
   yield delay(500);
   yield call(searchSetSagaWorker);
 }
@@ -514,8 +540,8 @@ function* openMapDialogSaga({ tab }: ReturnType<typeof ActionCreators.openMapDia
 }
 
 function* searchSetTabSaga() {
-  yield put(searchSetDistance([0, 10000]));
-  yield put(searchPutRoutes({ list: [], min: 0, max: 10000 }));
+  yield put(searchChangeDistance([0, 10000]));
+  yield put(searchPutRoutes({ list: [], min: 0, max: 10000, step: 20, shift: 0 }));
 
   yield call(searchSetSaga);
 }
@@ -572,6 +598,36 @@ function* getGPXTrackSaga(): SagaIterator {
   return downloadGPXTrack({ track, title });
 }
 
+function* mapsLoadMoreSaga() {
+  const { routes: { limit, list, shift, step, loading, filter } } = yield select(getState);
+
+  if (loading || list.length >= limit || limit === 0) return;
+
+  yield delay(500);
+
+  yield put(searchSetLoading(true));
+  yield put(mapsSetShift(shift + step));
+
+  const result = yield call(searchGetRoutes);
+
+  if (
+    (filter.min > result.min && filter.distance[0] <= filter.min) ||
+    (filter.max < result.max && filter.distance[1] >= filter.max)
+  ) {
+    yield put(searchChangeDistance([
+      (filter.min > result.min && filter.distance[0] <= filter.min)
+        ? result.min
+        : filter.distance[0],
+      (filter.max < result.max && filter.distance[1] >= filter.max)
+        ? result.max
+        : filter.distance[1],
+    ]));
+  }
+
+  yield put(searchPutRoutes({ ...result, list: [...list, ...result.list] }));
+  yield put(searchSetLoading(false));
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -614,5 +670,6 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
   yield takeLatest(ACTIONS.SET_USER, setUserSaga);
 
-  yield takeLatest(ACTIONS.GET_GPX_TRACK, getGPXTrackSaga)
+  yield takeLatest(ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
+  yield takeLatest(ACTIONS.MAPS_LOAD_MORE, mapsLoadMoreSaga);
 }

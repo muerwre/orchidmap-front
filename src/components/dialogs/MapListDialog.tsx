@@ -7,7 +7,7 @@ import {
   searchSetDistance,
   searchSetTitle,
   searchSetTab,
-  setDialogActive,
+  setDialogActive, mapsLoadMore,
 } from '$redux/user/actions';
 import { isMobile } from '$utils/window';
 import classnames from 'classnames';
@@ -21,7 +21,7 @@ import { IRootState } from '$redux/user/reducer';
 interface Props extends IRootState {
   marks: { [x: number]: string },
   routes_sorted: Array<string>,
-
+  mapsLoadMore: typeof mapsLoadMore,
   searchSetDistance: typeof searchSetDistance,
   searchSetTitle: typeof searchSetTitle,
   searchSetTab: typeof searchSetTab,
@@ -48,6 +48,19 @@ class Component extends React.Component<Props, State> {
     if (isMobile) this.props.setDialogActive(false);
 
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+  };
+
+  onScroll = (e: { target: { scrollHeight: number, scrollTop: number, clientHeight: number }}): void => {
+    const { target: { scrollHeight, scrollTop, clientHeight }} = e;
+    const delta = scrollHeight - scrollTop - clientHeight;
+
+    if (
+      delta < 300 &&
+      this.props.routes.list.length < this.props.routes.limit &&
+      !this.props.routes.loading
+    ) {
+      this.props.mapsLoadMore();
+    }
   };
 
   render() {
@@ -130,7 +143,10 @@ class Component extends React.Component<Props, State> {
           </div>
         </div>
 
-        <Scroll className="dialog-shader">
+        <Scroll
+          className="dialog-shader"
+          onScroll={this.onScroll}
+        >
           <div className="dialog-maplist">
             {
               list.map(route => (
@@ -148,7 +164,7 @@ class Component extends React.Component<Props, State> {
             }
           </div>
         </Scroll>
-
+        <div className={classnames('dialog-maplist-pulse', { active: loading })} />
       </div>
     );
   }
@@ -178,6 +194,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   searchSetTitle,
   searchSetTab,
   setDialogActive,
+  mapsLoadMore,
 }, dispatch);
 
 export const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

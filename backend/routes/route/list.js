@@ -3,7 +3,7 @@ const { Route, User } = require('../../models');
 module.exports = async (req, res) => {
   const {
     query: {
-      id, token, title, distance, author, starred,
+      id, token, title, distance, author, step = 20, shift = 0,
     }
   } = req;
 
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     },
     '_id title distance owner updated_at is_public',
     {
-      limit: 500,
+      limit: 9000,
       sort: { updated_at: -1 },
     }
   ).populate('owner', '_id');
@@ -61,6 +61,12 @@ module.exports = async (req, res) => {
     ));
   }
 
+  const limit = list.length;
+
+  if (step) {
+    list = list.slice(parseInt(shift, 10), (parseInt(shift, 10) + parseInt(step, 10)));
+  }
+
   if (list.length === 0) {
     limits = { min: 0, max: 0 };
   } else if (limits.max === 0) {
@@ -74,6 +80,9 @@ module.exports = async (req, res) => {
   res.send({
     success: true,
     list,
+    limit,
+    step: parseInt(step, 10),
+    shift: parseInt(shift, 10),
     ...limits,
   });
 };

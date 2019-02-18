@@ -56,6 +56,7 @@ export const keyPressed = ({ key, target: { tagName } }) => ({ type: ACTIONS.KEY
 
 export const searchSetTitle = title => ({ type: ACTIONS.SEARCH_SET_TITLE, title });
 export const searchSetDistance = distance => ({ type: ACTIONS.SEARCH_SET_DISTANCE, distance });
+export const searchChangeDistance = distance => ({ type: ACTIONS.SEARCH_CHANGE_DISTANCE, distance });
 export const searchSetTab = tab => ({ type: ACTIONS.SEARCH_SET_TAB, tab });
 export const searchSetLoading = loading => ({ type: ACTIONS.SEARCH_SET_LOADING, loading });
 
@@ -64,3 +65,6 @@ export const searchPutRoutes = payload => ({ type: ACTIONS.SEARCH_PUT_ROUTES, ..
 export const setMarkersShown = markers_shown => ({ type: ACTIONS.SET_MARKERS_SHOWN, markers_shown });
 export const getGPXTrack = () => ({ type: ACTIONS.GET_GPX_TRACK });
 export const setIsEmpty = is_empty => ({ type: ACTIONS.SET_IS_EMPTY, is_empty });
+
+export const mapsLoadMore = () => ({ type: ACTIONS.MAPS_LOAD_MORE });
+export const mapsSetShift = (shift: number) => ({ type: ACTIONS.MAPS_SET_SHIFT, shift });

@@ -57,6 +57,8 @@ interface IRootReducer {
     limit: 0,
     loading: boolean,
     list: Array<IRoute>,
+    step: number,
+    shift: number,
     filter: {
       title: '',
       starred: boolean,
@@ -237,11 +239,14 @@ const searchSetTab: ActionHandler<typeof ActionCreators.searchSetTab> = (state, 
   }
 });
 
-const searchPutRoutes: ActionHandler<typeof ActionCreators.searchPutRoutes> = (state, { list = [], min, max }) => ({
+const searchPutRoutes: ActionHandler<typeof ActionCreators.searchPutRoutes> = (state, { list = [], min, max, limit, step, shift }) => ({
   ...state,
   routes: {
     ...state.routes,
     list,
+    limit,
+    step,
+    shift,
     filter: {
       ...state.routes.filter,
       distance: (state.routes.filter.min === state.routes.filter.max)
@@ -270,6 +275,13 @@ const setSpeed: ActionHandler<typeof ActionCreators.setSpeed> = (state, { speed 
 
 const setMarkersShown: ActionHandler<typeof ActionCreators.setMarkersShown> = (state, { markers_shown = true }) => ({ ...state, markers_shown });
 const setIsEmpty: ActionHandler<typeof ActionCreators.setIsEmpty> = (state, { is_empty = true }) => ({ ...state, is_empty });
+const mapsSetShift: ActionHandler<typeof ActionCreators.mapsSetShift> = (state, { shift = 0 }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    shift,
+  }
+});
 
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
@@ -302,6 +314,7 @@ const HANDLERS = ({
 
   [ACTIONS.SEARCH_SET_TITLE]: searchSetTitle,
   [ACTIONS.SEARCH_SET_DISTANCE]: searchSetDistance,
+  [ACTIONS.SEARCH_CHANGE_DISTANCE]: searchSetDistance,
   [ACTIONS.SEARCH_SET_TAB]: searchSetTab,
   [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
   [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
@@ -310,6 +323,8 @@ const HANDLERS = ({
 
   [ACTIONS.SET_MARKERS_SHOWN]: setMarkersShown,
   [ACTIONS.SET_IS_EMPTY]: setIsEmpty,
+  [ACTIONS.MAPS_SET_SHIFT]: mapsSetShift,
+
 });
 
 export const INITIAL_STATE: IRootReducer = {
@@ -354,6 +369,8 @@ export const INITIAL_STATE: IRootReducer = {
     limit: 0,
     loading: false, // <-- maybe delete this
     list: [],
+    step: 20,
+    shift: 0,
     filter: {
       title: '',
       starred: false,

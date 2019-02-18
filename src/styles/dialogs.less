@@ -126,6 +126,24 @@
   100% { transform: rotate(360deg); }
 }
 
+.dialog-maplist-pulse {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background: linear-gradient(fade(@red_secondary, 0%), @red_secondary);
+  height: 48px;
+  pointer-events: none;
+  transition: opacity 250ms;
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+    animation: pulse 500ms infinite alternate;
+  }
+}
+
 .dialog-maplist-loader {
   display: flex;
   margin-bottom: 10px;
