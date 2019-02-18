@@ -5,36 +5,44 @@ export interface IRoutePoint {
   lng: number,
 }
 
+
+interface IGPXSticker {
+  latlng: IRoutePoint,
+  text?: string,
+}
+
 interface IGetGPXString {
-  points: Array<IRoutePoint>,
+  route: Array<IRoutePoint>,
+  stickers?: Array<IGPXSticker>
   title?: string,
 }
-//
-// export const getGPXString = ({ points, title }: IGetGPXString): string => (`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-//     <gpx>
-//       <rte>
-//         <name>${title || 'GPX Track'}</name>
-//         ${
-//           points.reduce((cat, { lat, lng }, index) => (
-//               ` ${cat}
-//                 <wpt lat="${lat.toFixed(6)}" lon="${lng.toFixed(6)}"></wpt>`
-//           ), '')
-//         }
-//       </rte>
-//     </gpx>
-// `);
 
-export const getGPXString = ({ points, title }: IGetGPXString): string => (`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <gpx>
-      <rte>
+
+export const getGPXString = ({ route, title, stickers }: IGetGPXString): string => (`<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>${title || 'GPX Track'}</name> 
+  </metadata>
+  ${
+    stickers.reduce((cat, { latlng: { lat, lng }, text }, index) => (
+        `${cat}
+          <wpt lat="${lat}" lon="${lng}">            
+            <name>${text}</name>
+            <sym>generic</sym>
+            <type>Generic</type>
+          </wpt>`), '')
+        }
+      <trk>        
         <name>${title || 'GPX Track'}</name>
+        <trkseg>
         ${
-          points.reduce((cat, { lat, lng }, index) => (
-              `${cat}
-<rtept lat="${lat}" lon="${lng}"></rtept>`
+          route.reduce((cat, { lat, lng }, index) => (
+          ` ${cat}
+            <trkpt lat="${lat}" lon="${lng}"></trkpt>`
           ), '')
         }
-      </rte>
+        </trkseg>
+      </trk>      
     </gpx>
 `);
 

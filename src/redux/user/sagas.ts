@@ -560,12 +560,14 @@ function* setTitleSaga({ title }: ReturnType<typeof ActionCreators.setTitle>):Sa
 }
 
 function* getGPXTrackSaga(): SagaIterator {
-  const { route } = editor.dumpData();
+  const { route, stickers } = editor.dumpData();
   const { title, address } = yield select(getState);
 
   if (!route || route.length <= 0) return;
 
-  const track = getGPXString({ points: route, title: (title || address) });
+  const track = getGPXString({ route, stickers, title: (title || address) });
+
+  console.log({ route, stickers });
 
   return downloadGPXTrack({ track, title });
 }
@@ -600,8 +602,6 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
-
-  // yield takeLatest(ACTIONS.IFRAME_LOGIN_VK, iframeLoginVkSaga);
 
   yield takeLatest(ACTIONS.SET_TITLE, setTitleSaga);
 
