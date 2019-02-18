@@ -63,3 +63,4 @@ export const searchPutRoutes = payload => ({ type: ACTIONS.SEARCH_PUT_ROUTES, ..
 
 export const setMarkersShown = markers_shown => ({ type: ACTIONS.SET_MARKERS_SHOWN, markers_shown });
 export const getGPXTrack = () => ({ type: ACTIONS.GET_GPX_TRACK });
+export const setIsEmpty = is_empty => ({ type: ACTIONS.SET_IS_EMPTY, is_empty });

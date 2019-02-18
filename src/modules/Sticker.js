@@ -81,7 +81,6 @@ export class Sticker {
     this.marker.addEventListener('dragend', this.triggerOnChange);
 
     this.setAngle(this.angle);
-    this.triggerOnChange();
   }
 
   setText = text => {
@@ -89,7 +88,6 @@ export class Sticker {
   };
 
   onDelete = () => {
-    this.triggerOnChange();
     if (!this.isDragging) this.deleteSticker(this);
   };
 

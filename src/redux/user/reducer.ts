@@ -1,4 +1,3 @@
-// @flow
 import { createReducer } from 'reduxsauce';
 import { ACTIONS } from '$redux/user/constants';
 import { DEFAULT_USER, IUser } from '$constants/auth';
@@ -34,6 +33,7 @@ interface IRootReducer {
   provider: keyof typeof PROVIDERS,
   is_public: boolean,
   markers_shown: boolean,
+  is_empty: boolean,
 
   save_error: string,
   save_finished: boolean,
@@ -269,6 +269,7 @@ const setSpeed: ActionHandler<typeof ActionCreators.setSpeed> = (state, { speed 
 });
 
 const setMarkersShown: ActionHandler<typeof ActionCreators.setMarkersShown> = (state, { markers_shown = true }) => ({ ...state, markers_shown });
+const setIsEmpty: ActionHandler<typeof ActionCreators.setIsEmpty> = (state, { is_empty = true }) => ({ ...state, is_empty });
 
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
@@ -308,6 +309,7 @@ const HANDLERS = ({
   [ACTIONS.SET_SPEED]: setSpeed,
 
   [ACTIONS.SET_MARKERS_SHOWN]: setMarkersShown,
+  [ACTIONS.SET_IS_EMPTY]: setIsEmpty,
 });
 
 export const INITIAL_STATE: IRootReducer = {
@@ -328,6 +330,7 @@ export const INITIAL_STATE: IRootReducer = {
   provider: DEFAULT_PROVIDER,
   is_public: false,
   markers_shown: true,
+  is_empty: true,
 
   save_error: '',
   save_finished: false,

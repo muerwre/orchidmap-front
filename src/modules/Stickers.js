@@ -25,9 +25,12 @@ export class Stickers {
       triggerOnChange: this.triggerOnChange,
       text,
     });
+
     this.stickers.push(marker);
 
     marker.marker.addTo(this.map);
+
+    this.triggerOnChange();
     // marker.marker.enableEdit();
   };
 
@@ -38,6 +41,8 @@ export class Stickers {
 
     this.map.removeLayer(ref.marker);
     this.stickers.splice(index, 1);
+
+    this.triggerOnChange();
   };
 
   clearAll = () => {

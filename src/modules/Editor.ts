@@ -13,7 +13,7 @@ import {
   setActiveSticker,
   setAddress,
   setChanged,
-  setDistance,
+  setDistance, setIsEmpty,
   setLogo, setMarkersShown,
   setMode,
   setPublic,
@@ -123,6 +123,7 @@ export class Editor {
   getChanged = () => this.getState().changed;
   getRouterPoints = () => this.getState().routerPoints;
   getDistance = () => this.getState().distance;
+  getIsEmpty = () => this.getState().is_empty;
 
   setLogo: typeof setLogo = logo => store.dispatch(setLogo(logo));
   setMode: typeof setMode = value => store.dispatch(setMode(value));
@@ -131,6 +132,7 @@ export class Editor {
   setTitle: typeof setTitle = value => store.dispatch(setTitle(value));
   setAddress: typeof setAddress = value => store.dispatch(setAddress(value));
   setPublic: typeof setPublic = value => store.dispatch(setPublic(value));
+  setIsEmpty: typeof setIsEmpty = value => store.dispatch(setIsEmpty(value));
 
   setMarkersShown = value => {
     if (this.getState().markers_shown !== value) store.dispatch(setMarkersShown(value));
@@ -156,9 +158,8 @@ export class Editor {
   };
 
   triggerOnChange = () => {
-    if (!this.getEditing() || this.getChanged()) return;
-
-    this.setChanged(true);
+    if (this.isEmpty !== this.getIsEmpty()) this.setIsEmpty(this.isEmpty);
+    if (this.getEditing() && this.getChanged()) this.setChanged(true);
   };
 
   createStickerOnClick = (e) => {
@@ -246,6 +247,8 @@ export class Editor {
     this.poly.clearAll();
     this.router.clearAll();
     this.stickers.clearAll();
+
+    this.setIsEmpty(true);
   };
 
   setData = ({
@@ -360,3 +363,7 @@ export class Editor {
 }
 
 export const editor = new Editor();
+
+declare let window:any;
+
+window.editor = editor;

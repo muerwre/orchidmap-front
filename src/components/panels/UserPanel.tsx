@@ -15,6 +15,10 @@ import { DIALOGS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
 
 interface Props extends IRootState {
+  is_empty: boolean,
+  dialog: string,
+  dialog_active: boolean,
+
   userLogout: typeof userLogout,
   setDialog: typeof setDialog,
   setDialogActive: typeof setDialogActive,
@@ -89,7 +93,7 @@ export class Component extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      props: { user, dialog, dialog_active },
+      props: { user, dialog, dialog_active, is_empty },
       state: { menuOpened },
     } = this;
 
@@ -131,17 +135,21 @@ export class Component extends React.PureComponent<Props, State> {
               <Icon icon="icon-shot-4" />
             </button>
           </div>
+          {
+            !is_empty &&
+              <React.Fragment>
+                <div className="control-sep" />
 
-          <div className="control-sep" />
-
-          <div className="control-bar">
-            <button
-              className={classnames({ active: false })}
-              onClick={this.props.getGPXTrack}
-            >
-              <Icon icon="icon-gpx-1" />
-            </button>
-          </div>
+                <div className="control-bar">
+                  <button
+                    className={classnames({ active: false })}
+                    onClick={this.props.getGPXTrack}
+                  >
+                    <Icon icon="icon-gpx-1" />
+                  </button>
+                </div>
+              </React.Fragment>
+          }
         </div>
       </div>
     );
@@ -149,7 +157,7 @@ export class Component extends React.PureComponent<Props, State> {
 }
 
 
-const mapStateToProps = ({ user: { dialog, dialog_active, user } }) => ({ dialog, dialog_active, user });
+const mapStateToProps = ({ user: { dialog, dialog_active, user, is_empty } }) => ({ dialog, dialog_active, user, is_empty });
 const mapDispatchToProps = dispatch => bindActionCreators({
   setUser,
   userLogout,
