@@ -28,7 +28,7 @@ export const getGPXString = ({ route, title, stickers }: IGetGPXString): string 
           <wpt lat="${lat}" lon="${lng}">            
             <name>${text}</name>
             <sym>generic</sym>
-            <type>Маршрут</type>
+            <type>${title}</type>
           </wpt>`), '')
         }
       <trk>        
