@@ -4,7 +4,7 @@ import { GuestButton } from '$components/user/GuestButton';
 import { DEFAULT_USER, IUser, ROLES } from '$constants/auth';
 import { UserButton } from '$components/user/UserButton';
 import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout, takeAShot, setDialog, gotVkUser, setDialogActive, openMapDialog } from '$redux/user/actions';
+import { setUser, userLogout, takeAShot, setDialog, gotVkUser, setDialogActive, openMapDialog, getGPXTrack } from '$redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon } from '$components/panels/Icon';
@@ -21,7 +21,8 @@ interface Props extends IRootState {
   gotVkUser: typeof gotVkUser,
   takeAShot: typeof takeAShot,
   openMapDialog: typeof openMapDialog,
-};
+  getGPXTrack: typeof getGPXTrack,
+}
 
 interface State {
   menuOpened: boolean
@@ -130,6 +131,17 @@ export class Component extends React.PureComponent<Props, State> {
               <Icon icon="icon-shot-4" />
             </button>
           </div>
+
+          <div className="control-sep" />
+
+          <div className="control-bar">
+            <button
+              className={classnames({ active: false })}
+              onClick={this.props.getGPXTrack}
+            >
+              <Icon icon="icon-gpx-1" />
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -146,6 +158,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   gotVkUser,
   setDialogActive,
   openMapDialog,
+  getGPXTrack,
 }, dispatch);
 
 export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);

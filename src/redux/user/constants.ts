@@ -68,4 +68,6 @@ export const ACTIONS: IActions = {
   SET_SPEED: 'SET_SPEED',
 
   SET_MARKERS_SHOWN: 'SET_MARKERS_SHOWN',
+
+  GET_GPX_TRACK: 'GET_GPX_TRACK',
 };

@@ -22,7 +22,7 @@ import {
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
 import { ACTIONS } from '$redux/user/constants';
-import { IModes, MODES } from '$constants/modes';
+import { MODES } from '$constants/modes';
 import { DEFAULT_USER } from '$constants/auth';
 import { TIPS } from '$constants/tips';
 import {
@@ -34,11 +34,12 @@ import {
   imageFetcher
 } from '$utils/renderer';
 import { ILogos, LOGOS } from '$constants/logos';
-import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
+import { DEFAULT_PROVIDER } from '$constants/providers';
 import { DIALOGS } from '$constants/dialogs';
 
 import * as ActionCreators from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
+import { downloadGPXTrack, getGPXString } from "$utils/gpx";
 
 const getUser = state => (state.user.user);
 const getState = state => (state.user);
@@ -558,6 +559,17 @@ function* setTitleSaga({ title }: ReturnType<typeof ActionCreators.setTitle>):Sa
   if (title) { document.title = `${title} | Редактор маршрутов`; }
 }
 
+function* getGPXTrackSaga(): SagaIterator {
+  const { route } = editor.dumpData();
+  const { title, address } = yield select(getState);
+
+  if (!route || route.length <= 0) return;
+
+  const track = getGPXString({ points: route, title: (title || address) });
+
+  return downloadGPXTrack({ track, title });
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -601,4 +613,6 @@ export function* userSaga() {
   yield takeLatest(ACTIONS.OPEN_MAP_DIALOG, openMapDialogSaga);
   yield takeLatest(ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
   yield takeLatest(ACTIONS.SET_USER, setUserSaga);
+
+  yield takeLatest(ACTIONS.GET_GPX_TRACK, getGPXTrackSaga)
 }

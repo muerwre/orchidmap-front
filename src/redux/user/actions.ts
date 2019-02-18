@@ -62,3 +62,4 @@ export const searchSetLoading = loading => ({ type: ACTIONS.SEARCH_SET_LOADING, 
 export const searchPutRoutes = payload => ({ type: ACTIONS.SEARCH_PUT_ROUTES, ...payload });
 
 export const setMarkersShown = markers_shown => ({ type: ACTIONS.SET_MARKERS_SHOWN, markers_shown });
+export const getGPXTrack = () => ({ type: ACTIONS.GET_GPX_TRACK });
