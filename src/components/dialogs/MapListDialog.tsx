@@ -164,6 +164,7 @@ class Component extends React.Component<Props, State> {
             }
           </div>
         </Scroll>
+
         <div className={classnames('dialog-maplist-pulse', { active: loading })} />
       </div>
     );

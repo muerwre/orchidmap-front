@@ -603,7 +603,7 @@ function* mapsLoadMoreSaga() {
 
   if (loading || list.length >= limit || limit === 0) return;
 
-  yield delay(500);
+  yield delay(100);
 
   yield put(searchSetLoading(true));
   yield put(mapsSetShift(shift + step));
