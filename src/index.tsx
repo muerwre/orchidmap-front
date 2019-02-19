@@ -12,18 +12,18 @@
   ## FEATURES
 
   todo hide arrows on small zooms
-  todo hide stickers and route on small zooms (?)
-
   todo selecting logo on crop
 
-  todo public maps
+  todo tooltips for panel items
+
+  done public maps
     todo editing map on map list
     todo setting map public on map list
 
   done map catalogue
     done public maps
     done map search
-    todo map list lazy loading
+    done map list lazy loading
 
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
@@ -31,7 +31,6 @@
     todo check canvas support at startup
     todo check osrm is up
 
-  todo tooltips for panel items
   todo maybe: map preview on save
   todo maybe: stickers clusterization?
 

@@ -45,7 +45,7 @@ class Component extends React.Component<Props, State> {
   };
 
   openRoute = (_id: string): void => {
-    if (isMobile) this.props.setDialogActive(false);
+    if (isMobile()) this.props.setDialogActive(false);
 
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
@@ -55,7 +55,7 @@ class Component extends React.Component<Props, State> {
     const delta = scrollHeight - scrollTop - clientHeight;
 
     if (
-      delta < 300 &&
+      delta < 500 &&
       this.props.routes.list.length < this.props.routes.limit &&
       !this.props.routes.loading
     ) {
