@@ -1,11 +1,6 @@
 /*
 
   ## BUGS
-
-  done adding/removing points doesn't change distance
-  done cancelling editing someone's else map return back to it's original address /razminochnyj/
-  done change title on route opening
-  done delete sticker icon
   todo fix arrows (can't reproduce now :-( )
   todo adding route, applying it and adding again and deleting it makes ghost points on the map
 
@@ -28,6 +23,11 @@
   todo maybe: stickers clusterization?
 
   ## DONE
+
+  done adding/removing points doesn't change distance
+  done cancelling editing someone's else map return back to it's original address /razminochnyj/
+  done change title on route opening
+  done delete sticker icon
 
   done tooltips for panel items
   done map catalogue

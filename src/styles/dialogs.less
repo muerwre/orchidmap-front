@@ -117,8 +117,8 @@
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.7; }
+  0% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
 
 @keyframes spin {
@@ -132,15 +132,15 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  background: linear-gradient(fade(@red_secondary, 0%), @red_secondary);
-  height: 48px;
+  background: linear-gradient(fade(@loading_shade, 0%), @loading_shade 70%);
+  height: 100px;
   pointer-events: none;
-  transition: opacity 250ms;
+  transition: opacity 100ms;
   opacity: 0;
 
   &.active {
     opacity: 1;
-    animation: pulse 500ms infinite alternate;
+    animation: pulse 500ms 250ms infinite alternate;
   }
 }
 
