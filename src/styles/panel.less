@@ -93,13 +93,16 @@
       }
     }
 
-    &.disabled {
+    &.disabled, &.inactive {
       color: #999999;
-      pointer-events: none;
 
       svg {
         fill: #999999;
       }
+    }
+
+    &.disabled {
+      pointer-events: none;
     }
 
     &.highlighted {

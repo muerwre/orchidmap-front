@@ -100,7 +100,7 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
-              className={classnames({ primary: changed, disabled: !changed })}
+              className={classnames({ primary: changed, inactive: !changed })}
               onClick={this.startSaveMode}
             >
               <span className="desktop-only">СОХРАНИТЬ</span>
