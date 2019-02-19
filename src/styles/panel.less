@@ -143,6 +143,51 @@
   }
 }
 
+.panel-tooltip {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  background: @tooltip_backgroud;
+  padding: 10px;
+  transform: translateX(-50%);
+  border-radius: @panel_radius;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms;
+  font-size: 13px;
+  color: white;
+
+  &::after {
+    content: ' ';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background: @tooltip_backgroud;
+    bottom: 0;
+    transform: translate(-50%, 5px) rotate(45deg);
+    left: 50%;
+  }
+
+  &.top {
+    bottom: auto;
+    top: 43px;
+
+    &::after {
+      bottom: auto;
+      top: 0;
+      transform: translate(-50%, -5px) rotate(45deg);
+    }
+  }
+}
+
+.panel button, .tooltip-container {
+  position: relative;
+
+  &:hover .panel-tooltip {
+    opacity: 1;
+  }
+}
+
 .control-bar-counter {
   color: white;
   min-width: 12px;

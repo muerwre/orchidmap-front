@@ -14,16 +14,9 @@
   todo hide arrows on small zooms
   todo selecting logo on crop
 
-  todo tooltips for panel items
-
   done public maps
     todo editing map on map list
     todo setting map public on map list
-
-  done map catalogue
-    done public maps
-    done map search
-    done map list lazy loading
 
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
@@ -35,6 +28,12 @@
   todo maybe: stickers clusterization?
 
   ## DONE
+
+  done tooltips for panel items
+  done map catalogue
+    done public maps
+    done map search
+    done map list lazy loading
 
   done save spinner
   done better poly editor https://github.com/SupriyaSudhindra/leaflet-editable-polyline

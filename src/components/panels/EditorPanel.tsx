@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setMode, startEditing, stopEditing, setLogo, takeAShot, keyPressed } from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
+import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {
   setMode: typeof setMode,
@@ -56,18 +57,21 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ active: mode === MODES.ROUTER })}
               onClick={this.startRouterMode}
             >
+              <Tooltip>Автоматический маршрут</Tooltip>
               <Icon icon="icon-route-2" />
             </button>
             <button
               className={classnames({ active: mode === MODES.POLY })}
               onClick={this.startPolyMode}
             >
+              <Tooltip>Редактирование маршрута</Tooltip>
               <Icon icon="icon-poly-3" />
             </button>
             <button
               className={classnames({ active: (mode === MODES.STICKERS || mode === MODES.STICKERS_SELECT) })}
               onClick={this.startStickerMode}
             >
+              <Tooltip>Точки маршрута</Tooltip>
               <Icon icon="icon-sticker-3" />
             </button>
 
@@ -80,6 +84,7 @@ class Component extends React.PureComponent<Props, void> {
               className={classnames({ active: mode === MODES.TRASH })}
               onClick={this.startTrashMode}
             >
+              <Tooltip>Удаление элементов</Tooltip>
               <Icon icon="icon-trash-4" />
             </button>
           </div>

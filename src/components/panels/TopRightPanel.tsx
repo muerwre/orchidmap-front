@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { MODES } from '$constants/modes';
 import { IRootState } from "$redux/user/reducer";
 
+import { Tooltip } from "$components/panels/Tooltip";
+
 interface Props extends IRootState {
   startProviderMode: () => void,
   startLogoMode: () => void,
@@ -20,18 +22,20 @@ const Component = ({
   <div className="status-panel top right">
     {
       editing && !markers_shown &&
-      <div className="status-bar pointer top-control padded warning icon-only">
+      <div className="status-bar pointer top-control padded warning icon-only tooltip-container">
         <Icon icon="icon-eye-1" size={24} />
-        <div className="status-bar-tip">Приблизьте, чтобы редактировать кривую</div>
+        <Tooltip position="top">Приблизьте, чтобы редактировать кривую</Tooltip>
       </div>
     }
-    <div className="status-bar pointer top-control padded" onFocus={startProviderMode} onBlur={clearMode} tabIndex={-1}>
+    <div className="status-bar pointer top-control padded tooltip-container" onFocus={startProviderMode} onBlur={clearMode} tabIndex={-1}>
+      <Tooltip position="top">Стиль карты</Tooltip>
       <Icon icon="icon-map-1" size={24} />
       <div className="status-bar-sep" />
       <span>{(provider && PROVIDERS[provider] && PROVIDERS[provider].name) || '...'}</span>
     </div>
 
-    <div className="status-bar pointer top-control padded" onFocus={startLogoMode} onBlur={clearMode} tabIndex={-1}>
+    <div className="status-bar pointer top-control padded tooltip-container" onFocus={startLogoMode} onBlur={clearMode} tabIndex={-1}>
+      <Tooltip position="top">Логотип</Tooltip>
       <Icon icon="icon-logo-3" size={24} />
       <div className="status-bar-sep" />
       <span>{(logo && LOGOS[logo] && LOGOS[logo][0]) || '...'}</span>

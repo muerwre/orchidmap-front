@@ -7,6 +7,7 @@ import Slider from 'rc-slider';
 import { bindActionCreators } from 'redux';
 import { setSpeed } from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
+import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {
   setSpeed: typeof setSpeed,
@@ -45,8 +46,9 @@ class Component extends React.PureComponent<Props, State> {
 
     return (
       <React.Fragment>
-        <div className="status-bar padded desktop-only pointer" onClick={this.toggleDialog}>
+        <div className="status-bar padded desktop-only pointer tooltip-container" onClick={this.toggleDialog}>
           {distance} км&nbsp;
+          <Tooltip position="top">Примерное время</Tooltip>
           <Icon icon="icon-cycle" size={32} />
           {
             <span>{toHours(estimated)}</span>

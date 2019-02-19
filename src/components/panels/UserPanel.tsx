@@ -13,6 +13,7 @@ import classnames from 'classnames';
 import { CLIENT } from '$config/frontend';
 import { DIALOGS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
+import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {
   is_empty: boolean,
@@ -121,6 +122,7 @@ export class Component extends React.PureComponent<Props, State> {
               })}
               onClick={this.openMapsDialog}
             >
+              <Tooltip>Каталог маршрутов</Tooltip>
               <Icon icon="icon-folder-1" />
             </button>
           </div>
@@ -132,6 +134,7 @@ export class Component extends React.PureComponent<Props, State> {
               className={classnames({ active: false })}
               onClick={this.props.takeAShot}
             >
+              <Tooltip>Снимок карты</Tooltip>
               <Icon icon="icon-shot-4" />
             </button>
           </div>
@@ -145,6 +148,7 @@ export class Component extends React.PureComponent<Props, State> {
                     className={classnames({ active: false })}
                     onClick={this.props.getGPXTrack}
                   >
+                    <Tooltip>Экспорт GPX</Tooltip>
                     <Icon icon="icon-gpx-1" />
                   </button>
                 </div>
