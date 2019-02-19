@@ -157,6 +157,10 @@
   font-size: 13px;
   color: white;
 
+  @media (max-width: @mobile_breakpoint) {
+    display: none;
+  }
+
   &::after {
     content: ' ';
     width: 10px;
