@@ -147,13 +147,13 @@
   position: absolute;
   bottom: 58px;
   left: 50%;
-  background: @tooltip_backgroud;
+  background: @tooltip_background;
   padding: 10px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -10px);
   border-radius: @panel_radius;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 250ms;
+  transition: all 250ms;
   font-size: 13px;
   color: white;
 
@@ -162,7 +162,7 @@
     width: 10px;
     height: 10px;
     position: absolute;
-    background: @tooltip_backgroud;
+    background: @tooltip_background;
     bottom: 0;
     transform: translate(-50%, 5px) rotate(45deg);
     left: 50%;
@@ -171,6 +171,7 @@
   &.top {
     bottom: auto;
     top: 43px;
+    transform: translate(-50%, 10px);
 
     &::after {
       bottom: auto;
@@ -185,6 +186,7 @@
 
   &:hover .panel-tooltip {
     opacity: 1;
+    transform: translate(-50%, 0);
   }
 }
 
