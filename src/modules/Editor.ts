@@ -44,15 +44,10 @@ export class Editor {
       map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
     });
 
-    // this.newPoly = new NewPoly({
-    //   map, editor: this,
-    // });
-
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange, editor: this });
     this.router = new Router({
       map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
     });
-    // this.shotter = new Shotter({ map });
 
     this.switches = {
       [MODES.POLY]: {
