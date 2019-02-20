@@ -379,6 +379,13 @@
                 <circle cx="16" cy="16" fill="white" r="4" />
             </g>
 
+            <g id="icon-cluster-1" stroke="none">
+                <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
+                <circle cx="10" cy="21" fill="white" r="4" />
+                <circle cx="22" cy="21" fill="white" r="4" />
+                <circle cx="16" cy="11" fill="white" r="4" />
+            </g>
+
             <g id="icon-sad-1" stroke="none">
                 <path stroke="none" fill="black"/>
                 <g transform="translate(4 4)">
@@ -390,5 +397,5 @@
         </svg>
     </defs>
 
-    <use xlink:href="#icon-sad-1" />
+    <use xlink:href="#icon-cluster-1" />
 </svg>

@@ -1,5 +1,8 @@
-import { layerGroup } from 'leaflet';
+import L, { layerGroup } from 'leaflet';
 import { Sticker } from '$modules/Sticker';
+import 'leaflet.markercluster';
+import icons from '$sprites/icon.svg';
+import { clusterIcon } from '$utils/clusterIcon';
 
 export class Stickers {
   constructor({ map, lockMapClicks, triggerOnChange }) {
@@ -7,13 +10,25 @@ export class Stickers {
     this.layer = layerGroup();
     this.triggerOnChange = triggerOnChange;
 
+    this.clusterLayer = L.markerClusterGroup({
+      spiderfyOnMaxZoom: false,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      animate: false,
+      maxClusterRadius: 80,
+      disableClusteringAtZoom: 15,
+      iconCreateFunction: clusterIcon,
+    }).addTo(map);
+
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];
 
     this.layer.addTo(this.map);
   }
 
-  createSticker = ({ latlng, sticker, angle = 2.2, text = '', set }) => {
+  createSticker = ({
+    latlng, sticker, angle = 2.2, text = '', set
+  }) => {
     const marker = new Sticker({
       latlng,
       angle,
@@ -28,7 +43,7 @@ export class Stickers {
 
     this.stickers.push(marker);
 
-    marker.marker.addTo(this.map);
+    marker.marker.addTo(this.clusterLayer);
 
     this.triggerOnChange();
     // marker.marker.enableEdit();
@@ -39,7 +54,7 @@ export class Stickers {
 
     if (index < 0) return;
 
-    this.map.removeLayer(ref.marker);
+    this.clusterLayer.removeLayer(ref.marker);
     this.stickers.splice(index, 1);
 
     this.triggerOnChange();
@@ -62,4 +77,6 @@ export class Stickers {
   stopEditing = () => {
     this.stickers.map(sticker => sticker.stopEditing());
   };
+
+  clusterLayer;
 }

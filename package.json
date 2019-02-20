@@ -74,6 +74,7 @@
     "leaflet-editable-polyline": "muerwre/leaflet-editable-polyline#master",
     "leaflet-geometryutil": "^0.9.0",
     "leaflet-routing-machine": "muerwre/leaflet-routing-machine#no-osrm-text",
+    "leaflet.markercluster": "^1.4.1",
     "less": "^3.8.1",
     "less-middleware": "~2.2.1",
     "lodash": "^4.17.10",

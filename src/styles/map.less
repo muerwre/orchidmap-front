@@ -107,3 +107,27 @@
 .leaflet-top {
   top: 42px;
 }
+
+.leaflet-div-icon {
+  background: none;
+  border: none;
+}
+.custom-marker-cluster {
+  width: 24px;
+  height: 24px;
+  background: @cluster_small;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: fade(@cluster_small, 70%) 0 0 0 5px;
+  font-weight: bold;
+  font-size: 13px;
+  transform: translate(-12px, -12px);
+  transition: box-shadow 250ms;
+
+  &:hover {
+    box-shadow: fade(@cluster_small, 70%) 0 0 0 7px;
+  }
+}
