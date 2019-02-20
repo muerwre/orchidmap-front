@@ -1,11 +1,12 @@
-import L, { Map, LayerGroup, Polyline } from 'leaflet';
+import { Map, LayerGroup } from 'leaflet';
 import 'leaflet-geometryutil';
 import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { findDistance, middleCoord } from '$utils/geom';
 import { CLIENT } from '$config/frontend';
 import { MODES } from '$constants/modes';
-import { Editor } from "$modules/Editor";
+import { editor, Editor } from "$modules/Editor";
+import { ILatLng } from "$modules/Stickers";
 
 const polyStyle = {
   color: 'url(#activePathGradient)',
@@ -13,24 +14,20 @@ const polyStyle = {
   markerMid: 'url(#arrow)'
 };
 
-interface IPoly {
-  poly: EditablePolyline;
-  editor: Editor;
+interface Props {
   map: Map;
-  routerMoveStart: () => void;
-  setTotalDist: (dist: number) => void;
-  triggerOnChange: () => void;
-  lockMapClicks: (status: boolean) => void;
-  arrows: LayerGroup;
+  editor: Editor;
+  routerMoveStart: typeof editor.routerMoveStart,
+  lockMapClicks: typeof editor.lockMapClicks,
+  setDistance: typeof editor.setDistance,
+  triggerOnChange: typeof editor.triggerOnChange,
 }
 
-export class Poly implements IPoly {
+export class Poly {
   constructor({
-    map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange, editor,
-  }) {
-    const coordinates = [];
-
-    this.poly = new EditablePolyline(coordinates, {
+    map, routerMoveStart, lockMapClicks, setDistance, triggerOnChange, editor,
+  }: Props) {
+    this.poly = new EditablePolyline([], {
       ...polyStyle,
       maxMarkers: 100,
 
@@ -51,14 +48,14 @@ export class Poly implements IPoly {
     this.map = map;
 
     this.routerMoveStart = routerMoveStart;
-    this.setTotalDist = setTotalDist;
+    this.setDistance = setDistance;
     this.triggerOnChange = triggerOnChange;
     this.lockMapClicks = lockMapClicks;
 
     this.arrows.addTo(map);
   }
 
-  setModeOnDrawing = () => {
+  setModeOnDrawing = (): void => {
     if (this.editor.getMode() !== MODES.POLY) this.editor.setMode(MODES.POLY);
   };
 
@@ -105,7 +102,7 @@ export class Poly implements IPoly {
     // if (coords.length > 1) this.triggerOnChange();
   };
 
-  preventMissClicks = e => {
+  preventMissClicks = (e): void => {
     const mode = this.editor.getMode();
 
     if (mode === MODES.POLY) return;
@@ -115,28 +112,28 @@ export class Poly implements IPoly {
     if (mode === MODES.NONE) this.editor.setMode(MODES.POLY);
   };
 
-  continue = () => {
+  continue = (): void => {
     this.poly.editor.continueForward();
   };
 
-  stop = () => {
+  stop = (): void => {
     if (this.poly) this.poly.editor.stopDrawing();
   };
 
-  continueForward = () => {
+  continueForward = (): void => {
     this.poly.continueForward();
   };
 
-  lockMap = () => {
+  lockMap = (): void => {
     this.lockMapClicks(true);
   };
 
-  setPoints = latlngs => {
+  setPoints = (latlngs: Array<ILatLng>): void => {
     if (!latlngs || latlngs.length <= 1) return;
     this.poly.setPoints(latlngs);
   };
 
-  pushPoints = latlngs => {
+  pushPoints = (latlngs: Array<ILatLng>): void => {
     const { map } = this;
     const simplified = simplify({ map, latlngs });
     const summary = [
@@ -150,32 +147,33 @@ export class Poly implements IPoly {
     this.updateMarks();
   };
 
-  clearAll = () => {
+  clearAll = (): void => {
     // this.poly.setLatLngs([]);
     this.poly.editor.clear();
     this.updateMarks();
   };
 
-  clearArrows = () => this.arrows.clearLayers();
+  clearArrows = (): LayerGroup<any> => this.arrows.clearLayers();
 
-  dumpData = () => this.latlngs;
+  dumpData = (): Array<ILatLng> => this.latlngs;
 
-  get latlngs() {
+  get latlngs(): Array<ILatLng> {
     return (
       this.poly && this.poly.getLatLngs().length
         && this.poly.getLatLngs().map(el => ({ ...el }))) || [];
   }
 
-  get isEmpty() {
+  get isEmpty(): boolean {
     return (!this.latlngs || Object.values(this.latlngs).length <= 0);
   }
 
-  poly;
-  editor;
-  map;
-  routerMoveStart;
-  setTotalDist;
-  triggerOnChange;
-  lockMapClicks;
-  arrows = new LayerGroup();
+  poly: EditablePolyline;
+  arrows: LayerGroup = new LayerGroup();
+
+  editor: Props['editor'];
+  map: Props['map'];
+  routerMoveStart: Props['routerMoveStart'];
+  setDistance: Props['setDistance'];
+  triggerOnChange: Props['triggerOnChange'];
+  lockMapClicks: Props['lockMapClicks'];
 }

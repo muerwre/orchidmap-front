@@ -76,7 +76,7 @@ export class Editor implements IEditor {
     } = this;
 
     this.poly = new Poly({
-      map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
+      map, routerMoveStart, lockMapClicks, setDistance: this.setDistance, triggerOnChange, editor: this,
     });
 
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange, editor: this });
