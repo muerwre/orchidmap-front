@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
 import { ILatLng } from "$modules/Stickers";
 import { IRootState } from "$redux/user/reducer";
+import { editor } from "$modules/Editor";
 
 const getX = e => (
   e.touches && e.touches.length > 0
@@ -25,34 +26,18 @@ export interface IStickerDump {
   text?: string,
 }
 
-interface IStickerson {
-  element: HTMLDivElement;
-  stickerImage: HTMLDivElement;
-  stickerArrow: HTMLDivElement;
-  marker: Marker;
-  text: string;
-  latlng: { lat: number, lng: number };
-  angle: number;
-  isDragging: boolean;
-  map: Map;
-  sticker: string;
-  set: string;
-  triggerOnChange: () => void;
-  direction: string;
-  deleteSticker: (sticker: this) => void;
-  lockMapClicks: (x: boolean) => void;
-}
-
 interface Props {
   latlng: ILatLng;
-  deleteSticker: (sticker: this) => void;
   map: Map;
-  lockMapClicks: (status: boolean) => void;
   sticker:  IRootState['activeSticker']['sticker'];
   set: IRootState['activeSticker']['set'];
-  triggerOnChange: () => void;
   angle?: number;
   text?: string;
+
+  deleteSticker: (sticker: this) => void;
+  
+  triggerOnChange: typeof editor.triggerOnChange;
+  lockMapClicks: typeof editor.lockMapClicks;
 }
 
 export class Sticker {

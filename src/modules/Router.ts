@@ -1,7 +1,8 @@
-import { Marker } from 'leaflet';
+import { Map, Marker } from 'leaflet';
 import * as Routing from 'leaflet-routing-machine/src/index';
 import { CLIENT } from '$config/frontend';
 import { DomMarker } from '$utils/DomMarker';
+import { editor } from "$modules/Editor";
 
 interface ILatLng {
   lat: number, lng: number
@@ -11,19 +12,17 @@ interface IWaypoint {
   latLng: ILatLng
 }
 
-interface IRouter {
-  waypoints: Array<IWaypoint>;
-  lockMapClicks: (status: boolean) => void;
-  setRouterPoints: (count: void) => void;
-  pushPolyPoints: (coordinates: Array<{ lat: number, lng: number }>) => void;
-  router: Routing;
-  clearAll: () => void;
+interface Props {
+  map: Map,
+  setRouterPoints: typeof editor.setRouterPoints,
+  pushPolyPoints: typeof editor.pushPolyPoints,
+  lockMapClicks: typeof editor.lockMapClicks;
 }
 
-export class Router implements IRouter {
+export class Router {
   constructor({
     map, lockMapClicks, setRouterPoints, pushPolyPoints
-  }) {
+  }: Props) {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
     this.setRouterPoints = setRouterPoints;
@@ -149,8 +148,8 @@ export class Router implements IRouter {
   };
 
   waypoints: Array<IWaypoint> = [];
-  lockMapClicks: (status: boolean) => void;
-  setRouterPoints: (count: void) => void;
-  pushPolyPoints: (coordinates: Array<{ lat: number, lng: number }>) => void;
+  lockMapClicks: Props['lockMapClicks'];
+  setRouterPoints: Props['setRouterPoints'];
+  pushPolyPoints: Props['pushPolyPoints'];
   router: Routing;
 }

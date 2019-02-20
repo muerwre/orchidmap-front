@@ -2,7 +2,7 @@ import { LayerGroup, layerGroup, Map } from 'leaflet';
 import { IStickerDump, Sticker } from '$modules/Sticker';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { clusterIcon } from '$utils/clusterIcon';
-import { Editor } from "$modules/Editor";
+import { editor, Editor } from "$modules/Editor";
 
 export interface ILatLng {
   lat: number,
@@ -12,8 +12,9 @@ export interface ILatLng {
 interface Props {
   editor: Editor;
   map: Map;
-  triggerOnChange: () => void;
-  lockMapClicks: (x: boolean) => void;
+
+  triggerOnChange: typeof editor.triggerOnChange;
+  lockMapClicks: typeof editor.lockMapClicks;
 }
 
 export class Stickers {
