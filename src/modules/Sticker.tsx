@@ -1,4 +1,4 @@
-import { marker } from 'leaflet';
+import { Map, Marker, marker } from 'leaflet';
 import * as React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
@@ -25,7 +25,6 @@ export class Sticker {
     this.map = map;
     this.sticker = sticker;
     this.set = set;
-    // this.editable = true;
     this.triggerOnChange = triggerOnChange;
     this.direction = getLabelDirection(this.angle);
     this.deleteSticker = deleteSticker;
@@ -136,7 +135,7 @@ export class Sticker {
   };
 
   estimateAngle = e => {
-    const { x, y } = this.element.getBoundingClientRect();
+    const { x, y } = this.element.getBoundingClientRect() as DOMRect;
     const { pageX, pageY } = getX(e);
     this.angle = parseFloat(Math.atan2((y - pageY), (x - pageX)).toFixed(2));
 
@@ -156,8 +155,8 @@ export class Sticker {
     const x = ((Math.cos(angle + Math.PI) * rad) - 30);
     const y = ((Math.sin(angle + Math.PI) * rad) - 30);
 
-    this.stickerImage.style.left = 6 + x;
-    this.stickerImage.style.top = 6 + y;
+    this.stickerImage.style.left = String(6 + x);
+    this.stickerImage.style.top = String(6 + y);
 
     this.stickerArrow.style.transform = `rotate(${angle + Math.PI}rad)`;
   };
@@ -177,4 +176,20 @@ export class Sticker {
   startEditing = () => {
     this.element.className = 'sticker-container';
   };
+
+  element: HTMLDivElement;
+  stickerImage: HTMLDivElement;
+  stickerArrow: HTMLDivElement;
+  marker: Marker;
+  text: string;
+  latlng: { lat: number, lng: number };
+  angle: number;
+  isDragging: boolean;
+  map: Map;
+  sticker: string;
+  set: string;
+  triggerOnChange: () => void;
+  direction: string;
+  deleteSticker: (sticker: this) => void;
+  lockMapClicks: (x: boolean) => void;
 }
