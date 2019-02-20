@@ -1,34 +1,28 @@
 import { LayerGroup, layerGroup, Map } from 'leaflet';
-import { Sticker } from '$modules/Sticker';
+import { IStickerDump, Sticker } from '$modules/Sticker';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { clusterIcon } from '$utils/clusterIcon';
 import { Editor } from "$modules/Editor";
 
-interface IStickers {
-  clusterLayer: MarkerClusterGroup;
-  map: Map;
-  stickers: Array<Sticker>;
-  layer: LayerGroup;
-  triggerOnChange: () => void;
+export interface ILatLng {
+  lat: number,
+  lng: number,
+}
+
+interface Props {
   editor: Editor;
+  map: Map;
+  triggerOnChange: () => void;
   lockMapClicks: (x: boolean) => void;
 }
 
-export class Stickers implements IStickers {
-  constructor({ map, lockMapClicks, triggerOnChange, editor }) {
+export class Stickers {
+  constructor({ map, lockMapClicks, triggerOnChange, editor }: Props) {
     this.map = map;
     this.triggerOnChange = triggerOnChange;
     this.editor = editor;
 
-    this.clusterLayer = new MarkerClusterGroup({
-      spiderfyOnMaxZoom: false,
-      showCoverageOnHover: false,
-      zoomToBoundsOnClick: true,
-      animate: false,
-      maxClusterRadius: 80,
-      disableClusteringAtZoom: 13,
-      iconCreateFunction: clusterIcon,
-    }).addTo(map);
+    this.clusterLayer.addTo(map);
 
     this.clusterLayer.on('animationend', this.onSpiderify);
 
@@ -40,7 +34,7 @@ export class Stickers implements IStickers {
 
   createSticker = ({
     latlng, sticker, angle = 2.2, text = '', set
-  }) => {
+  }: IStickerDump): void => {
     const marker = new Sticker({
       latlng,
       angle,
@@ -58,10 +52,9 @@ export class Stickers implements IStickers {
     marker.marker.addTo(this.clusterLayer);
 
     this.triggerOnChange();
-    // marker.marker.enableEdit();
   };
 
-  deleteStickerByReference = ref => {
+  deleteStickerByReference = (ref: Sticker): void => {
     const index = this.stickers.indexOf(ref);
 
     if (index < 0) return;
@@ -72,7 +65,7 @@ export class Stickers implements IStickers {
     this.triggerOnChange();
   };
 
-  clearAll = () => {
+  clearAll = (): void => {
     const target = [...this.stickers];
     target.map(sticker => {
       this.deleteStickerByReference(sticker);
@@ -80,9 +73,9 @@ export class Stickers implements IStickers {
     });
   };
 
-  dumpData = () => this.stickers.map(sticker => sticker.dumpData());
+  dumpData = (): Array<IStickerDump> => this.stickers.map(sticker => sticker.dumpData());
 
-  onSpiderify = () => {
+  onSpiderify = (): void => {
     // todo: it has markers passed as argument. Update only them.
     if (this.editor.getEditing()) {
       this.startEditing();
@@ -91,20 +84,31 @@ export class Stickers implements IStickers {
     }
   };
 
-  startEditing = () => {
+  startEditing = (): void => {
     this.stickers.map(sticker => sticker.startEditing());
   };
 
-  stopEditing = () => {
+  stopEditing = (): void => {
     this.stickers.map(sticker => sticker.stopEditing());
   };
 
-  clusterLayer;
-  map;
-  stickers;
-  triggerOnChange;
-  editor;
-  lockMapClicks;
+  clusterLayer: MarkerClusterGroup = new MarkerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    animate: false,
+    maxClusterRadius: 80,
+    disableClusteringAtZoom: 13,
+    iconCreateFunction: clusterIcon,
+  });
 
-  layer = layerGroup();
+  editor: Props['editor'];
+  map: Props['map'];
+
+
+  stickers: Array<Sticker> = [];
+  layer: LayerGroup = layerGroup();
+
+  triggerOnChange: Props['triggerOnChange'];
+  lockMapClicks: Props['lockMapClicks'];
 }

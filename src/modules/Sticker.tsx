@@ -7,6 +7,8 @@ import * as ReactDOM from 'react-dom';
 import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
+import { ILatLng } from "$modules/Stickers";
+import { IRootState } from "$redux/user/reducer";
 
 const getX = e => (
   e.touches && e.touches.length > 0
@@ -14,7 +16,16 @@ const getX = e => (
     : { pageX: e.pageX, pageY: e.pageY }
 );
 
-interface ISticker {
+
+export interface IStickerDump {
+  latlng: ILatLng,
+  sticker: string,
+  set: IRootState['activeSticker']['set'],
+  angle?: number,
+  text?: string,
+}
+
+interface IStickerson {
   element: HTMLDivElement;
   stickerImage: HTMLDivElement;
   stickerArrow: HTMLDivElement;
@@ -32,10 +43,22 @@ interface ISticker {
   lockMapClicks: (x: boolean) => void;
 }
 
-export class Sticker implements ISticker {
+interface Props {
+  latlng: ILatLng;
+  deleteSticker: (sticker: this) => void;
+  map: Map;
+  lockMapClicks: (status: boolean) => void;
+  sticker:  IRootState['activeSticker']['sticker'];
+  set: IRootState['activeSticker']['set'];
+  triggerOnChange: () => void;
+  angle?: number;
+  text?: string;
+}
+
+export class Sticker {
   constructor({
     latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '',
-  }) {
+  }: Props) {
     this.text = text;
     this.latlng = latlng;
     this.angle = parseFloat(((angle && (angle % Math.PI)) || 2.2).toFixed(2));
@@ -97,15 +120,15 @@ export class Sticker implements ISticker {
     this.setAngle(this.angle);
   }
 
-  setText = text => {
+  setText = (text: Props['text']): void => {
     this.text = text;
   };
 
-  onDelete = () => {
+  onDelete = (): void => {
     if (!this.isDragging) this.deleteSticker(this);
   };
 
-  onDragStart = e => {
+  onDragStart = (e): void => {
     this.preventPropagations(e);
     this.marker.dragging.disable();
 
@@ -121,14 +144,14 @@ export class Sticker implements ISticker {
     // this.marker.disableEdit();
   };
 
-  preventPropagations = e => {
+  preventPropagations = (e): void => {
     if (!e || !e.stopPropagation) return;
 
     e.stopPropagation();
     e.preventDefault();
   };
 
-  onDragStop = e => {
+  onDragStop = (e): void => {
     this.preventPropagations(e);
     this.marker.dragging.enable();
 
@@ -144,20 +167,21 @@ export class Sticker implements ISticker {
     this.lockMapClicks(false);
   };
 
-  onDrag = e => {
+  onDrag = (e: DragEvent): void => {
     this.preventPropagations(e);
     this.estimateAngle(e);
   };
 
-  estimateAngle = e => {
+  estimateAngle = (e): void => {
     const { x, y } = this.element.getBoundingClientRect() as DOMRect;
     const { pageX, pageY } = getX(e);
+
     this.angle = parseFloat(Math.atan2((y - pageY), (x - pageX)).toFixed(2));
 
     this.setAngle(this.angle);
   };
 
-  setAngle = angle => {
+  setAngle = (angle: Props['angle']): void => {
     const direction = getLabelDirection(angle);
 
     if (direction !== this.direction) {
@@ -176,7 +200,7 @@ export class Sticker implements ISticker {
     this.stickerArrow.style.transform = `rotate(${angle + Math.PI}rad)`;
   };
 
-  dumpData = () => ({
+  dumpData = (): IStickerDump => ({
     angle: this.angle,
     latlng: { ...this.marker.getLatLng() },
     sticker: this.sticker,
@@ -184,27 +208,29 @@ export class Sticker implements ISticker {
     text: this.text,
   });
 
-  stopEditing = () => {
+  stopEditing = (): void => {
     this.element.className = 'sticker-container inactive';
   };
 
-  startEditing = () => {
+  startEditing = (): void => {
     this.element.className = 'sticker-container';
   };
 
-  element = document.createElement('div');
-  stickerImage;
-  stickerArrow;
-  marker;
-  text;
-  latlng;
-  angle;
-  isDragging = false;
-  map;
-  sticker;
-  set;
-  triggerOnChange;
-  direction;
-  deleteSticker;
-  lockMapClicks;
+  element: HTMLDivElement = document.createElement('div');
+  stickerImage: HTMLDivElement;
+  stickerArrow: HTMLDivElement;
+  marker: Marker;
+  isDragging: boolean = false;
+  direction: string;
+
+  text: Props['text'];
+  latlng:  Props['latlng'];
+  angle: Props['angle'];
+  map: Props['map'];
+  sticker:  Props['sticker'];
+  set: Props['set'];
+  triggerOnChange: Props['triggerOnChange'];
+
+  deleteSticker: Props['deleteSticker'];
+  lockMapClicks: Props['lockMapClicks'];
 }

@@ -1,7 +1,7 @@
 import { Map } from '$modules/Map';
 import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
-import { Stickers } from '$modules/Stickers';
+import { ILatLng, Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
 import { DEFAULT_LOGO, ILogos, LOGOS } from '$constants/logos';
 
@@ -32,17 +32,18 @@ interface IEditor {
   router: Router;
 
   logo: keyof ILogos;
-  owner: string;
+  owner: { id: string };
   initialData: {
     version: number,
     title: string,
-    owner: string,
+    owner: { id: string },
     address: string,
     path: any,
     route: any,
     stickers: any,
     provider: string,
     is_public: boolean,
+    logo: string,
   };
   activeSticker: IRootState['activeSticker'];
   mode: IRootState['mode'];
@@ -54,7 +55,9 @@ interface IEditor {
       toggle?: () => any,
     }
   };
-  clickHandlers;
+  clickHandlers: {
+    [x: string]: (event) => void
+  };
   user: IUser;
 }
 
@@ -63,7 +66,6 @@ export class Editor implements IEditor {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
     this.map = new Map({ container: 'map' });
-    this.initialData = {};
     this.activeSticker = {};
     this.mode = MODES.NONE;
     this.provider = PROVIDERS[DEFAULT_PROVIDER];
@@ -126,20 +128,31 @@ export class Editor implements IEditor {
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
 
-  map;
-  poly;
-  stickers;
-  router;
+  map: IEditor['map'];
+  poly: IEditor['poly'];
+  stickers: IEditor['stickers'];
+  router: IEditor['router'];
 
-  logo = DEFAULT_LOGO;
-  owner = null;
-  initialData;
-  activeSticker;
-  mode;
-  provider;
-  switches;
-  clickHandlers;
-  user = DEFAULT_USER;
+  logo: IEditor['logo'] = DEFAULT_LOGO;
+  owner: IEditor['owner'] = null;
+  initialData: IEditor['initialData'] = {
+    version: null,
+    title: null,
+    owner: null,
+    address: null,
+    path: null,
+    route: null,
+    stickers: null,
+    provider: null,
+    is_public: null,
+    logo: null,
+  };
+  activeSticker: IEditor['activeSticker'];
+  mode: IEditor['mode'];
+  provider: IEditor['provider'];
+  switches: IEditor['switches'];
+  clickHandlers: IEditor['clickHandlers'];
+  user: IEditor['user'] = DEFAULT_USER;
 
   getState = (): IRootState => <any>store.getState().user;
 
@@ -192,7 +205,7 @@ export class Editor implements IEditor {
 
   createStickerOnClick = (e) => {
     if (!e || !e.latlng || !this.activeSticker) return;
-    const { latlng } = e;
+    const { latlng }: { latlng: ILatLng } = e;
 
     this.stickers.createSticker({ latlng, sticker: this.activeSticker.sticker, set: this.activeSticker.set });
     this.setActiveSticker(null);
@@ -281,7 +294,7 @@ export class Editor implements IEditor {
 
   setData = ({
     route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, is_public,
-  }) => {
+  }: IEditor['initialData']) => {
     this.setTitle(title || '');
     const { id } = this.getUser();
 
@@ -308,6 +321,7 @@ export class Editor implements IEditor {
     this.setPublic(is_public);
     this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
     this.setProvider((provider && PROVIDERS[provider] && provider) || DEFAULT_PROVIDER);
+
     if (owner) this.owner = owner;
   };
 
@@ -321,19 +335,20 @@ export class Editor implements IEditor {
   setInitialData = () => {
     const { path } = getUrlData();
     const { id } = this.getUser();
-    const { is_public } = this.getState();
+    const { is_public, logo } = this.getState();
     const { route, stickers, provider } = this.dumpData();
 
     this.initialData = {
       version: 2,
       title: this.getTitle(),
       owner: this.owner,
-      address: (this.owner === id ? path : null),
+      address: (this.owner.id === id ? path : null),
       path,
       route,
       stickers,
       provider,
       is_public,
+      logo,
     };
   };
 

@@ -1,6 +1,6 @@
 // Стикеры
 // import L from "leaflet";
-export interface ISticker {
+export interface IStickerItem {
   off: number,
   title: string,
   title_long: string,
@@ -11,7 +11,7 @@ export interface IStickerPack {
   url: string,
   size: number,
   layers: {
-    [x: string]: ISticker,
+    [x: string]: IStickerItem,
   }
 }
 

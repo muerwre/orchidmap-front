@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 interface Props {
   value: string;
-  onChange: EventHandlerNonNull;
+  onChange: (text: string) => void;
 }
 
 type State = {
