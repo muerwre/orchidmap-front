@@ -20,7 +20,7 @@
     todo check osrm is up
 
   todo maybe: map preview on save
-  todo maybe: stickers clusterization?
+  done maybe: stickers clusterization?
 
   ## DONE
 

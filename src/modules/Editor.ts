@@ -48,7 +48,7 @@ export class Editor {
     //   map, editor: this,
     // });
 
-    this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange });
+    this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange, editor: this });
     this.router = new Router({
       map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
     });

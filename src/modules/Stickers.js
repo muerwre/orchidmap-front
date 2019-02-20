@@ -5,10 +5,11 @@ import icons from '$sprites/icon.svg';
 import { clusterIcon } from '$utils/clusterIcon';
 
 export class Stickers {
-  constructor({ map, lockMapClicks, triggerOnChange }) {
+  constructor({ map, lockMapClicks, triggerOnChange, editor }) {
     this.map = map;
     this.layer = layerGroup();
     this.triggerOnChange = triggerOnChange;
+    this.editor = editor;
 
     this.clusterLayer = L.markerClusterGroup({
       spiderfyOnMaxZoom: false,
@@ -19,6 +20,8 @@ export class Stickers {
       disableClusteringAtZoom: 15,
       iconCreateFunction: clusterIcon,
     }).addTo(map);
+
+    this.clusterLayer.on('animationend', this.onSpiderify);
 
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];
@@ -69,6 +72,14 @@ export class Stickers {
   };
 
   dumpData = () => this.stickers.map(sticker => sticker.dumpData());
+
+  onSpiderify = () => {
+    if (this.editor.getEditing()) {
+      this.startEditing();
+    } else {
+      this.stopEditing();
+    }
+  };
 
   startEditing = () => {
     this.stickers.map(sticker => sticker.startEditing());
