@@ -154,7 +154,7 @@ export class Editor {
 
   triggerOnChange = () => {
     if (this.isEmpty !== this.getIsEmpty()) this.setIsEmpty(this.isEmpty);
-    if (this.getEditing() && this.getChanged()) this.setChanged(true);
+    if (this.getEditing() && !this.getChanged()) this.setChanged(true);
   };
 
   createStickerOnClick = (e) => {
