@@ -60,9 +60,6 @@ export class Sticker {
             onMouseDown={this.onDelete}
             onTouchStart={this.onDelete}
           />
-          {
-            console.log('A?')
-          }
         </div>
       </React.Fragment>,
       this.element

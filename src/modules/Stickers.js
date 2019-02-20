@@ -1,7 +1,6 @@
 import L, { layerGroup } from 'leaflet';
 import { Sticker } from '$modules/Sticker';
 import 'leaflet.markercluster';
-import icons from '$sprites/icon.svg';
 import { clusterIcon } from '$utils/clusterIcon';
 
 export class Stickers {
@@ -17,7 +16,7 @@ export class Stickers {
       zoomToBoundsOnClick: true,
       animate: false,
       maxClusterRadius: 80,
-      disableClusteringAtZoom: 15,
+      disableClusteringAtZoom: 13,
       iconCreateFunction: clusterIcon,
     }).addTo(map);
 
@@ -74,6 +73,7 @@ export class Stickers {
   dumpData = () => this.stickers.map(sticker => sticker.dumpData());
 
   onSpiderify = () => {
+    // todo: it has markers passed as argument. Update only them.
     if (this.editor.getEditing()) {
       this.startEditing();
     } else {
