@@ -1,10 +1,11 @@
-import L from 'leaflet';
+import L, { Map, LayerGroup, Polyline } from 'leaflet';
 import 'leaflet-geometryutil';
-import '$utils/EditablePolyline';
+import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { findDistance, middleCoord } from '$utils/geom';
 import { CLIENT } from '$config/frontend';
 import { MODES } from '$constants/modes';
+import { Editor } from "$modules/Editor";
 
 const polyStyle = {
   color: 'url(#activePathGradient)',
@@ -12,13 +13,24 @@ const polyStyle = {
   markerMid: 'url(#arrow)'
 };
 
-export class NewPoly {
+interface IPoly {
+  poly: EditablePolyline;
+  editor: Editor;
+  map: Map;
+  routerMoveStart: () => void;
+  setTotalDist: (dist: number) => void;
+  triggerOnChange: () => void;
+  lockMapClicks: (status: boolean) => void;
+  arrows: LayerGroup;
+}
+
+export class Poly implements IPoly {
   constructor({
     map, routerMoveStart, lockMapClicks, setTotalDist, triggerOnChange, editor,
   }) {
     const coordinates = [];
 
-    this.poly = L.Polyline.PolylineEditor(coordinates, {
+    this.poly = new EditablePolyline(coordinates, {
       ...polyStyle,
       maxMarkers: 100,
 
@@ -42,9 +54,8 @@ export class NewPoly {
     this.setTotalDist = setTotalDist;
     this.triggerOnChange = triggerOnChange;
     this.lockMapClicks = lockMapClicks;
-    // this.bindEvents();
 
-    this.arrows = new L.LayerGroup().addTo(map);
+    this.arrows.addTo(map);
   }
 
   setModeOnDrawing = () => {
@@ -52,45 +63,46 @@ export class NewPoly {
   };
 
   drawArrows = () => {
-    this.arrows.clearLayers();
-    const { latlngs } = this;
-
-    if (!latlngs || latlngs.length <= 1) return;
-
-    latlngs.forEach((latlng, i) => {
-      if (i === 0) return;
-
-      const mid = middleCoord(latlngs[i], latlngs[i - 1]);
-      const dist = findDistance(latlngs[i - 1].lat, latlngs[i - 1].lng, latlngs[i].lat, latlngs[i].lng);
-
-      if (dist <= 1) return;
-
-      const slide = new L.Polyline(
-        [
-          latlngs[i - 1],
-          [mid.lat, mid.lng]
-        ],
-        { color: 'none', weight: CLIENT.STROKE_WIDTH }
-      ).addTo(this.arrows);
-
-      slide._path.setAttribute('marker-end', 'url(#long-arrow)');
-    });
+    // todo: fix this
+    // this.arrows.clearLayers();
+    // const { latlngs } = this;
+    //
+    // if (!latlngs || latlngs.length <= 1) return;
+    //
+    // latlngs.forEach((latlng, i) => {
+    //   if (i === 0) return;
+    //
+    //   const mid = middleCoord(latlngs[i], latlngs[i - 1]);
+    //   const dist = findDistance(latlngs[i - 1].lat, latlngs[i - 1].lng, latlngs[i].lat, latlngs[i].lng);
+    //
+    //   if (dist <= 1) return;
+    //
+    //   const slide = new Polyline(
+    //     [
+    //       latlngs[i - 1],
+    //       [mid.lat, mid.lng]
+    //     ],
+    //     { color: 'none', weight: CLIENT.STROKE_WIDTH }
+    //   ).addTo(this.arrows);
+    //
+    //   // todo: uncomment and fix this:
+    //   // slide._path.setAttribute('marker-end', 'url(#long-arrow)');
+    // });
   };
 
   updateMarks = () => {
-    // return;
-    const coords = this.poly.toGeoJSON().geometry.coordinates;
-
-    // this.latlngs = (coords && coords.length && coords.map(([lng, lat]) => ({ lng, lat }))) || [];
-    const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
-    const kilometers = (meters && meters.toFixed(1)) || 0;
-
-    this.setTotalDist(kilometers);
-    this.routerMoveStart();
-
-    this.drawArrows(); // <-- uncomment
-
-    if (coords.length > 1) this.triggerOnChange();
+    // todo: fix this
+    // const coords = this.poly.toGeoJSON().geometry.coordinates;
+    //
+    // const meters = (this.poly && (L.GeometryUtil.length(this.poly) / 1000)) || 0;
+    // const kilometers = (meters && meters.toFixed(1)) || 0;
+    //
+    // this.setTotalDist(kilometers);
+    // this.routerMoveStart();
+    //
+    // this.drawArrows(); // <-- uncomment
+    //
+    // if (coords.length > 1) this.triggerOnChange();
   };
 
   preventMissClicks = e => {
@@ -157,4 +169,13 @@ export class NewPoly {
   get isEmpty() {
     return (!this.latlngs || Object.values(this.latlngs).length <= 0);
   }
+
+  poly;
+  editor;
+  map;
+  routerMoveStart;
+  setTotalDist;
+  triggerOnChange;
+  lockMapClicks;
+  arrows = new LayerGroup();
 }

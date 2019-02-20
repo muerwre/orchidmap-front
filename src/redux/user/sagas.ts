@@ -11,7 +11,6 @@ import {
 import {
   hideRenderer,
   searchPutRoutes,
-  searchSetDistance,
   searchSetLoading,
   setActiveSticker,
   setAddress,
@@ -32,7 +31,6 @@ import {
   setAddressOrigin,
   setProvider,
   changeProvider,
-  openMapDialog,
   setSaveLoading,
   mapsSetShift, searchChangeDistance,
 } from '$redux/user/actions';
@@ -246,7 +244,7 @@ function* setActiveStickerSaga({ activeSticker }: { type: string, activeSticker:
   return true;
 }
 
-function* setLogoSaga({ logo }: { type: string, logo: keyof ILogos }) {
+function* setLogoSaga({ logo }: { type: string, logo: string }) {
   const { mode } = yield select(getState);
   editor.logo = logo;
 

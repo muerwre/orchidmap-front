@@ -1,9 +1,9 @@
 import { Map } from '$modules/Map';
-import { NewPoly } from '$modules/NewPoly';
+import { Poly } from '$modules/Poly';
 import { MODES } from '$constants/modes';
 import { Stickers } from '$modules/Stickers';
 import { Router } from '$modules/Router';
-import { DEFAULT_LOGO, LOGOS } from '$constants/logos';
+import { DEFAULT_LOGO, ILogos, LOGOS } from '$constants/logos';
 
 import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
@@ -23,9 +23,42 @@ import {
 import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
 import { IRootState } from "$redux/user/reducer";
-import { DEFAULT_USER } from "$constants/auth";
+import { DEFAULT_USER, IUser } from "$constants/auth";
 
-export class Editor {
+interface IEditor {
+  map: Map;
+  poly: Poly;
+  stickers: Stickers;
+  router: Router;
+
+  logo: keyof ILogos;
+  owner: string;
+  initialData: {
+    version: number,
+    title: string,
+    owner: string,
+    address: string,
+    path: any,
+    route: any,
+    stickers: any,
+    provider: string,
+    is_public: boolean,
+  };
+  activeSticker: IRootState['activeSticker'];
+  mode: IRootState['mode'];
+  provider: IProvider;
+  switches: {
+    [x: string]: {
+      start?: () => any,
+      stop?: () => any,
+      toggle?: () => any,
+    }
+  };
+  clickHandlers;
+  user: IUser;
+}
+
+export class Editor implements IEditor {
   constructor() {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -40,13 +73,13 @@ export class Editor {
       map: { map }
     } = this;
 
-    this.poly = new NewPoly({
+    this.poly = new Poly({
       map, routerMoveStart, lockMapClicks, setTotalDist: this.setDistance, triggerOnChange, editor: this,
     });
 
     this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange, editor: this });
     this.router = new Router({
-      map, lockMapClicks, setRouterPoints: this.setRouterPoints, changeMode, pushPolyPoints
+      map, lockMapClicks, setRouterPoints: this.setRouterPoints, pushPolyPoints
     });
 
     this.switches = {
@@ -93,17 +126,17 @@ export class Editor {
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
 
-  map; // todo typecheck
-  poly; // todo typecheck
+  map;
+  poly;
   stickers;
   router;
 
-  logo: string | number = DEFAULT_LOGO;
+  logo = DEFAULT_LOGO;
   owner = null;
   initialData;
-  activeSticker: IRootState['activeSticker'];
-  mode: IRootState['mode'];
-  provider: IProvider;
+  activeSticker;
+  mode;
+  provider;
   switches;
   clickHandlers;
   user = DEFAULT_USER;
@@ -359,6 +392,6 @@ export class Editor {
 
 export const editor = new Editor();
 
-declare let window:any;
+declare let window: any;
 
 window.editor = editor;

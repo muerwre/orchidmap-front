@@ -1,24 +1,38 @@
-import L from 'leaflet';
-import Routing from 'leaflet-routing-machine/src/index';
+import { Marker } from 'leaflet';
+import * as Routing from 'leaflet-routing-machine/src/index';
 import { CLIENT } from '$config/frontend';
 import { DomMarker } from '$utils/DomMarker';
 
-export class Router {
+interface ILatLng {
+  lat: number, lng: number
+}
+
+interface IWaypoint {
+  latLng: ILatLng
+}
+
+interface IRouter {
+  waypoints: Array<IWaypoint>;
+  lockMapClicks: (status: boolean) => void;
+  setRouterPoints: (count: void) => void;
+  pushPolyPoints: (coordinates: Array<{ lat: number, lng: number }>) => void;
+  router: Routing;
+  clearAll: () => void;
+}
+
+export class Router implements IRouter {
   constructor({
-    map, lockMapClicks, setRouterPoints, pushPolyPoints 
+    map, lockMapClicks, setRouterPoints, pushPolyPoints
   }) {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
     this.setRouterPoints = setRouterPoints;
-    // this.changeMode = changeMode;
     this.pushPolyPoints = pushPolyPoints;
 
     const routeLine = r => Routing.line(r, {
       styles: [
         { color: 'white', opacity: 0.8, weight: 6 },
-        {
-          color: '#4597d0', opacity: 1, weight: 4, dashArray: '15,10'
-        }
+        { color: '#4597d0', opacity: 1, weight: 4, dashArray: '15,10' }
       ],
       addWaypoints: true,
     }).on('linetouched', this.lockPropagations);
@@ -33,7 +47,7 @@ export class Router {
       },
       show: false,
       plan: Routing.plan([], {
-        createMarker: (i, wp) => L.marker(wp.latLng, {
+        createMarker: (i, wp) => new Marker(wp.latLng, {
           draggable: true,
           icon: this.createWaypointMarker(),
         }),
@@ -43,18 +57,14 @@ export class Router {
     }).on('waypointschanged', this.updateWaypointsCount);
 
     this.router.addTo(map);
-
-    // this.router._line.on('mousedown', console.log);
   }
 
-  // changeMode = value => store.dispatch(setMode(value));
-  //
-  pushWaypointOnClick = ({ latlng: { lat, lng } }) => {
+  pushWaypointOnClick = ({ latlng: { lat, lng } }: { latlng: ILatLng }): void => {
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
     this.router.setWaypoints([...waypoints, { lat, lng }]);
   };
 
-  createWaypointMarker = () => {
+  createWaypointMarker = (): DomMarker => {
     const element = document.createElement('div');
 
     element.addEventListener('mousedown', this.lockPropagations);
@@ -65,13 +75,13 @@ export class Router {
       className: 'router-waypoint',
     });
   };
-  //
-  lockPropagations = () => {
+
+  lockPropagations = (): void => {
     window.addEventListener('mouseup', this.unlockPropagations);
     this.lockMapClicks(true);
   };
-  //
-  unlockPropagations = e => {
+
+  unlockPropagations = (e): void => {
     if (e && e.preventPropagations) {
       e.preventDefault();
       e.preventPropagations();
@@ -81,7 +91,7 @@ export class Router {
     setTimeout(() => this.lockMapClicks(false), 300);
   };
 
-  startFrom = latlngs => {
+  startFrom = (latlngs: ILatLng): void => {
     const waypoints = this.router.getWaypoints();
 
     if (waypoints && waypoints.length) {
@@ -93,9 +103,9 @@ export class Router {
     this.router.setWaypoints([{ ...latlngs }]);
   };
 
-  moveStart = latlng => {
+  moveStart = (latlng: ILatLng): void => {
     const waypoints = this.router.getWaypoints();
-    const { latLng } = (waypoints[0] || {});
+    const { latLng }: { latLng: ILatLng } = (waypoints[0] || {});
 
     if (!latLng || !latlng) return;
 
@@ -111,18 +121,16 @@ export class Router {
     this.router.setWaypoints(waypoints);
   };
 
-  updateWaypointsCount = () => {
+  updateWaypointsCount = (): void => {
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
     this.setRouterPoints(waypoints.length);
   };
 
-  cancelDrawing = () => {
+  cancelDrawing = (): void => {
     this.router.setWaypoints([]);
-    // this.router.
-    // this.changeMode(MODES.NONE);
   };
 
-  submitDrawing = () => {
+  submitDrawing = (): void => {
     const [route] = this.router._routes;
     if (!route) return;
 
@@ -136,7 +144,13 @@ export class Router {
     // this.router.setWaypoints(waypoints[waypoints.length - 1]);
   };
 
-  clearAll = () => {
+  clearAll = (): void => {
     this.router.setWaypoints([]);
-  }
+  };
+
+  waypoints: Array<IWaypoint> = [];
+  lockMapClicks: (status: boolean) => void;
+  setRouterPoints: (count: void) => void;
+  pushPolyPoints: (coordinates: Array<{ lat: number, lng: number }>) => void;
+  router: Routing;
 }

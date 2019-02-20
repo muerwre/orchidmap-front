@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-L.Polyline.polylineEditor = L.Polyline.extend({
+const EditablePolyline = L.Polyline.polylineEditor = L.Polyline.extend({
   _prepareMapIfNeeded() {
     const that = this;
     that._changed = false;
@@ -14,7 +14,7 @@ L.Polyline.polylineEditor = L.Polyline.extend({
     this._map._editablePolylinesEnabled = true;
 
     // Click anywhere on map to add a new point-polyline:
-    if (this._options.newPolylines) {
+    if (this._options && this._options.newPolylines) {
       that._map.on('dblclick', (event) => {
         // console.log(`click, target=${event.target == that._map} type=${event.type}`);
         if (that._map.isEditablePolylinesBusy()) { return; }
@@ -778,3 +778,5 @@ L.Polyline.PolylineEditor = (latlngs, options, contexts, polylineNo) => {
 
   return result;
 };
+
+export { EditablePolyline };

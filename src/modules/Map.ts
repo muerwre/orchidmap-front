@@ -9,7 +9,13 @@ import 'leaflet/dist/leaflet.css';
 import { PROVIDER } from '$config/frontend';
 import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 
-export class Map {
+interface IMap {
+  map: MapInterface;
+  tileLayer: TileLayer;
+  setProvider: (provider: string) => void;
+}
+
+export class Map implements IMap {
   constructor({ container }) {
     this.map = map(container).setView([55.0153275, 82.9071235], 13);
     // todo: change coords?
@@ -23,10 +29,10 @@ export class Map {
     this.tileLayer.addTo(this.map);
   }
 
-  map: MapInterface;
-  tileLayer: TileLayer;
+  map;
+  tileLayer;
 
-  setProvider = (provider: string): void => {
+  setProvider = (provider) => {
     const { url } = (provider && PROVIDERS[provider] && PROVIDERS[provider]) || PROVIDERS[DEFAULT_PROVIDER];
 
     this.tileLayer.setUrl(url);

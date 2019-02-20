@@ -1,16 +1,26 @@
-import L, { layerGroup } from 'leaflet';
+import { LayerGroup, layerGroup, Map } from 'leaflet';
 import { Sticker } from '$modules/Sticker';
-import 'leaflet.markercluster';
+import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { clusterIcon } from '$utils/clusterIcon';
+import { Editor } from "$modules/Editor";
 
-export class Stickers {
+interface IStickers {
+  clusterLayer: MarkerClusterGroup;
+  map: Map;
+  stickers: Array<Sticker>;
+  layer: LayerGroup;
+  triggerOnChange: () => void;
+  editor: Editor;
+  lockMapClicks: (x: boolean) => void;
+}
+
+export class Stickers implements IStickers {
   constructor({ map, lockMapClicks, triggerOnChange, editor }) {
     this.map = map;
-    this.layer = layerGroup();
     this.triggerOnChange = triggerOnChange;
     this.editor = editor;
 
-    this.clusterLayer = L.markerClusterGroup({
+    this.clusterLayer = new MarkerClusterGroup({
       spiderfyOnMaxZoom: false,
       showCoverageOnHover: false,
       zoomToBoundsOnClick: true,
@@ -90,4 +100,11 @@ export class Stickers {
   };
 
   clusterLayer;
+  map;
+  stickers;
+  triggerOnChange;
+  editor;
+  lockMapClicks;
+
+  layer = layerGroup();
 }

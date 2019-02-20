@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
 import { STICKERS } from '$constants/stickers';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
@@ -14,14 +14,31 @@ const getX = e => (
     : { pageX: e.pageX, pageY: e.pageY }
 );
 
-export class Sticker {
+interface ISticker {
+  element: HTMLDivElement;
+  stickerImage: HTMLDivElement;
+  stickerArrow: HTMLDivElement;
+  marker: Marker;
+  text: string;
+  latlng: { lat: number, lng: number };
+  angle: number;
+  isDragging: boolean;
+  map: Map;
+  sticker: string;
+  set: string;
+  triggerOnChange: () => void;
+  direction: string;
+  deleteSticker: (sticker: this) => void;
+  lockMapClicks: (x: boolean) => void;
+}
+
+export class Sticker implements ISticker {
   constructor({
     latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '',
   }) {
     this.text = text;
     this.latlng = latlng;
     this.angle = parseFloat(((angle && (angle % Math.PI)) || 2.2).toFixed(2));
-    this.isDragging = false;
     this.map = map;
     this.sticker = sticker;
     this.set = set;
@@ -29,8 +46,6 @@ export class Sticker {
     this.direction = getLabelDirection(this.angle);
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
-
-    this.element = document.createElement('div');
 
     ReactDOM.render(
       <React.Fragment>
@@ -177,19 +192,19 @@ export class Sticker {
     this.element.className = 'sticker-container';
   };
 
-  element: HTMLDivElement;
-  stickerImage: HTMLDivElement;
-  stickerArrow: HTMLDivElement;
-  marker: Marker;
-  text: string;
-  latlng: { lat: number, lng: number };
-  angle: number;
-  isDragging: boolean;
-  map: Map;
-  sticker: string;
-  set: string;
-  triggerOnChange: () => void;
-  direction: string;
-  deleteSticker: (sticker: this) => void;
-  lockMapClicks: (x: boolean) => void;
+  element = document.createElement('div');
+  stickerImage;
+  stickerArrow;
+  marker;
+  text;
+  latlng;
+  angle;
+  isDragging = false;
+  map;
+  sticker;
+  set;
+  triggerOnChange;
+  direction;
+  deleteSticker;
+  lockMapClicks;
 }
