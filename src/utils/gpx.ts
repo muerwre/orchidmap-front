@@ -5,7 +5,6 @@ export interface IRoutePoint {
   lng: number,
 }
 
-
 interface IGPXSticker {
   latlng: IRoutePoint,
   text?: string,
@@ -45,7 +44,7 @@ export const getGPXString = ({ route, title, stickers }: IGetGPXString): string 
     </gpx>
 `);
 
-export const downloadGPXTrack = ({ track, title }: { track: string, title?: string }) => (
+export const downloadGPXTrack = ({ track, title }: { track: string, title?: string }): void => (
   saveAs(
     new Blob([track], { type: 'application/gpx+xml;charset=utf-8' }),
     `${title || 'track'}.gpx`

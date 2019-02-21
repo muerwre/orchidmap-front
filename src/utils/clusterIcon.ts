@@ -1,6 +1,6 @@
-import { divIcon } from 'leaflet';
+import { DivIcon, divIcon } from 'leaflet';
 
-export const clusterIcon = cluster => divIcon({
+export const clusterIcon = (cluster): DivIcon => divIcon({
   html: `
     <div class="custom-marker-cluster">
       <span>${cluster.getChildCount()}</span>          

@@ -1,8 +1,16 @@
 import { history } from '$redux/store';
 
-export const getPath = () => (window.location && window.location.pathname);
-export const pushPath = url => history.push(url);
-export const replacePath = url => history.replace(url);
+interface IUrlData {
+  path: string,
+  mode: 'edit' | '',
+  host: string,
+  hash: string,
+  protocol: 'http' | 'https',
+}
+
+export const getPath = (): string => (window.location && window.location.pathname);
+export const pushPath = (url: string): string => history.push(url);
+export const replacePath = (url: string): string => history.replace(url);
 
 export const getUrlData = (url = getPath()) => {
   const [, path, mode] = url.split('/');
@@ -31,14 +39,15 @@ export const pushLoaderState = state => {
 };
 
 export const pushNetworkInitError = () => {
-  document.getElementById('loader-error').style.opacity = 1;
+  document.getElementById('loader-error').style.opacity = String(1);
 };
 
 export const copyToClipboard = str => {
   const el = document.createElement('textarea');
   el.value = str;
   el.setAttribute('readonly', '');
-  el.style = { position: 'absolute', left: '-9999px' };
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
   document.body.appendChild(el);
   el.select();
   document.execCommand('copy');
