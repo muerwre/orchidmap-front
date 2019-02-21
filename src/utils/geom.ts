@@ -34,3 +34,14 @@ export const findDistance = (t1: number, n1: number, t2: number, n2: number): nu
 export const getLabelDirection = (angle: number): 'left' | 'right' => (
   ((angle % Math.PI) >= -(Math.PI / 2) && (angle % Math.PI) <= (Math.PI / 2)) ? 'left' : 'right'
 );
+
+// export const getPolyLength = (latlngs: ILatLng[]): number => latlngs.reduce((distance, latlng, i) => (
+//   i < latlngs.length
+//     ? distance + findDistance(latlng.lat, latlng.lng, latlngs[i + 1].lat, latlngs[i + 1].lng)
+//     : distance
+// ), 0);
+export const getPolyLength = (latlngs: ILatLng[]): number => {
+  console.log('latlngs', latlngs);
+
+  return 0;
+};
