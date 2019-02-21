@@ -397,7 +397,7 @@ function* getCropData({
 function* cropAShotSaga(params) {
   const { title, address } = yield select(getState);
   yield call(getCropData, params);
-  const canvas = document.getElementById('renderer');
+  const canvas = document.getElementById('renderer') as HTMLCanvasElement;
 
   downloadCanvas(canvas, (title || address));
 
@@ -486,8 +486,6 @@ function* searchGetRoutes() {
     author: tab === 'mine' ? id : '',
     starred: tab === 'starred',
   });
-
-  console.log('RESULT?', result);
 
   return result;
 }

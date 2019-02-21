@@ -74,7 +74,7 @@ export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => (
   [provider]: TILEMAPS[provider],
 }), {});
 
-export const replaceProviderUrl = (provider, { x, y, zoom }) => {
+export const replaceProviderUrl = (provider, { x, y, zoom }: { x: number, y: number, zoom: number }): string => {
   const { url, range } = (PROVIDERS[provider] || PROVIDERS[DEFAULT_PROVIDER]);
   const random: (number | string) = (range && range.length >= 2)
     ? range[Math.round((Math.random() * (range.length - 1)))]

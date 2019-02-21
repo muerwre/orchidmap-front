@@ -2,18 +2,45 @@ import { editor } from '$modules/Editor';
 import { COLORS, CLIENT } from '$config/frontend';
 import saveAs from 'file-saver';
 import { replaceProviderUrl } from '$constants/providers';
-import { STICKERS } from '$constants/stickers';
+import { IStickerItem, STICKERS } from '$constants/stickers';
+import { ILatLng } from "$modules/Stickers";
+import { IStickerDump } from "$modules/Sticker";
+import { Canvas, Point } from "leaflet";
+import { IRootState } from "$redux/user/reducer";
 
-const latLngToTile = latlng => {
+export interface IMapPoint {
+  x: number,
+  y: number,
+}
+
+export interface ITilePlacement {
+  minX: number,
+  maxX: number,
+  minY: number,
+  maxY: number,
+  shiftX: number,
+  shiftY: number,
+  size: number,
+  width: number,
+  height: number,
+  zoom: number,
+}
+
+export interface IStickerPlacement extends IStickerDump {
+  x: number,
+  y: number,
+}
+
+const latLngToTile = (latlng: { lat: number, lng: number }): { x: number, y: number, z: number } => {
   const { map } = editor.map;
   const zoom = map.getZoom();
-  const xtile = parseInt(Math.floor((latlng.lng + 180) / 360 * (1 << zoom)));
-  const ytile = parseInt(Math.floor((1 - Math.log(Math.tan(latlng.lat * Math.PI / 180) + 1 / Math.cos(latlng.lat * Math.PI / 180)) / Math.PI) / 2 * (1 << zoom)));
+  const xtile = Number(Math.floor((latlng.lng + 180) / 360 * (1 << zoom)));
+  const ytile = Number(Math.floor((1 - Math.log(Math.tan(latlng.lat * Math.PI / 180) + 1 / Math.cos(latlng.lat * Math.PI / 180)) / Math.PI) / 2 * (1 << zoom)));
 
   return { x: xtile, y: ytile, z: zoom };
 };
 
-const tileToLatLng = point => {
+const tileToLatLng = (point: { x: number, y: number }): ILatLng => {
   const { map } = editor.map;
   const z = map.getZoom();
   const lng = (point.x / Math.pow(2, z) * 360 - 180);
@@ -23,13 +50,14 @@ const tileToLatLng = point => {
   return { lat, lng };
 };
 
-export const getTilePlacement = () => {
+export const getTilePlacement = (): ITilePlacement => {
   const { map } = editor.map;
   const width = window.innerWidth;
   const height = window.innerHeight;
 
   // map corners
-  const { _southWest: southWest, _northEast: northEast } = map.getBounds();
+  const southWest = map.getBounds().getSouthWest();
+  const northEast = map.getBounds().getNorthEast();
 
   // map corner's tile files [x, y, z] to fetch from server
   const southWestTile = latLngToTile(southWest);
@@ -51,7 +79,6 @@ export const getTilePlacement = () => {
     minY,
     maxY,
     shiftX: tileTransformTranslate.x - msw2.x,
-    // shiftY: window.innerHeight + (tileTransformTranslate.y - msw2.y),
     shiftY: ((maxY - minY) * 256) - (window.innerHeight + (tileTransformTranslate.y - msw2.y)),
     size: 256,
     width,
@@ -60,13 +87,13 @@ export const getTilePlacement = () => {
   };
 };
 
-export const getPolyPlacement = () => (
+export const getPolyPlacement = (): IMapPoint[] => (
   (!editor.poly.poly || !editor.poly.poly.getLatLngs() || editor.poly.poly.getLatLngs().length <= 0)
     ? []
     : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
 );
 
-export const getStickersPlacement = () => (
+export const getStickersPlacement = (): IStickerPlacement[] => (
   (!editor.stickers || editor.stickers.dumpData().length <= 0)
     ? []
     : editor.stickers.dumpData().map(sticker => ({
@@ -75,9 +102,11 @@ export const getStickersPlacement = () => (
     }))
 );
 
-const getImageSource = coords => replaceProviderUrl(editor.getProvider(), coords);
+const getImageSource = (coords: { x: number, y: number, zoom: number }): string => (
+  replaceProviderUrl(editor.getProvider(), coords)
+);
 
-export const imageFetcher = source => new Promise((resolve, reject) => {
+export const imageFetcher = (source: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
   const img = new Image();
 
   img.crossOrigin = 'anonymous';
@@ -87,7 +116,7 @@ export const imageFetcher = source => new Promise((resolve, reject) => {
   img.src = source;
 });
 
-export const fetchImages = (ctx, geometry) => {
+export const fetchImages = (ctx: CanvasRenderingContext2D, geometry: ITilePlacement ): Promise<{ x: number, y: number, image: HTMLImageElement }[]> => {
   const {
     minX, maxX, minY, maxY, zoom
   } = geometry;
@@ -104,7 +133,10 @@ export const fetchImages = (ctx, geometry) => {
   )));
 };
 
-export const composeImages = ({ images, geometry, ctx }) => {
+export const composeImages = (
+  { images, geometry, ctx }:
+  { images: [], geometry: ITilePlacement, ctx: CanvasRenderingContext2D }
+): void => {
   const {
     minX, minY, shiftX, shiftY, size
   } = geometry;
@@ -115,11 +147,9 @@ export const composeImages = ({ images, geometry, ctx }) => {
 
     return ctx.drawImage(image, posX, posY, 256, 256);
   });
-
-  return images;
 };
 
-export const composePoly = ({ points, ctx }) => {
+export const composePoly = ({ points, ctx }: { points: IMapPoint[], ctx: CanvasRenderingContext2D }): void => {
   if (editor.poly.isEmpty) return;
 
   let minX = points[0].x;
@@ -154,7 +184,11 @@ export const composePoly = ({ points, ctx }) => {
   ctx.closePath();
 };
 
-const measureText = (ctx, text, lineHeight) => (
+const measureText = (
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  lineHeight: number
+): { width: number, height: number } => (
   text.split('\n').reduce((obj, line) => (
     {
       width: Math.max(ctx.measureText(line).width, obj.width),
@@ -163,7 +197,12 @@ const measureText = (ctx, text, lineHeight) => (
   ), { width: 0, height: 0 })
 );
 
-const composeStickerArrow = (ctx, x, y, angle) => {
+const composeStickerArrow = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  angle: number,
+) => {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(angle + (Math.PI * 0.75));
@@ -179,7 +218,13 @@ const composeStickerArrow = (ctx, x, y, angle) => {
   ctx.restore();
 };
 
-const measureRect = (x, y, width, height, reversed) => ({
+const measureRect = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  reversed: boolean,
+) => ({
   rectX: reversed ? (x - width - 36 - 10) : x,
   rectY: (y - 7 - (height / 2)),
   rectW: width + 36 + 10,
@@ -187,7 +232,13 @@ const measureRect = (x, y, width, height, reversed) => ({
   textX: reversed ? (x - width - 36) : x + 36
 });
 
-const composeStickerText = (ctx, x, y, angle, text) => {
+const composeStickerText = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  angle: number,
+  text: string,
+) => {
   const rad = 56;
   const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + x + 28;
   const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + y + 29;
@@ -222,7 +273,14 @@ const composeStickerText = (ctx, x, y, angle, text) => {
   ));
 };
 
-const composeStickerImage = async (ctx, x, y, angle, set, sticker) => {
+const composeStickerImage = async (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  angle: number,
+  set: IRootState['activeSticker']['set'],
+  sticker: IRootState['activeSticker']['sticker'],
+): Promise<void> => {
   const rad = 56;
   const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + (x - 8);
   const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + (y - 4);
@@ -231,10 +289,12 @@ const composeStickerImage = async (ctx, x, y, angle, set, sticker) => {
   return imageFetcher(STICKERS[set].url).then(image => (
     ctx.drawImage(image, offsetX, 0, 72, 72, tX, tY, 72, 72)
   ));
-
 };
 
-export const composeStickers = async ({ stickers, ctx }) => {
+export const composeStickers = async (
+  { stickers, ctx }:
+  { stickers: IStickerPlacement[], ctx: CanvasRenderingContext2D }
+): Promise<void> => {
   if (!stickers || stickers.length < 0) return;
 
   stickers.map(({ x, y, angle, text }) => {
@@ -250,5 +310,5 @@ export const composeStickers = async ({ stickers, ctx }) => {
   )));
 };
 
-export const downloadCanvas = (canvas, title) => canvas.toBlob(blob => saveAs(blob, title));
+export const downloadCanvas = (canvas: HTMLCanvasElement, title: IRootState['title']): void => canvas.toBlob(blob => saveAs(blob, title));
 
