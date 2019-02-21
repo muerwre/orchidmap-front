@@ -55,6 +55,7 @@ export class InteractivePoly extends Polyline {
   };
 
   showAllMarkers = (): void => {
+    if (!this.is_editing) return;
     if (this._map.hasLayer(this.markerLayer)) return;
 
     this._map.addLayer(this.markerLayer);
@@ -69,6 +70,8 @@ export class InteractivePoly extends Polyline {
   };
 
   showVisibleMarkers = (): void => {
+    if (!this.is_editing) return;
+
     const northEast = this._map.getBounds().getNorthEast();
     const southWest = this._map.getBounds().getSouthWest();
 
@@ -98,7 +101,14 @@ export class InteractivePoly extends Polyline {
   };
 
   editor = {
-
+    disable: () => {
+      this.hideAllMarkers();
+      this.is_editing = false;
+    },
+    enable: () => {
+      this.is_editing = true;
+      this.showVisibleMarkers();
+    }
   };
 
   onMarkerDrag = ({ target }: { target: Marker}) => {
@@ -139,6 +149,18 @@ export class InteractivePoly extends Polyline {
   };
 
   setConstraints = (prev?: LatLng, marker?: LatLng, next?: LatLng) => {
+    if (!prev && this._map.hasLayer(this.constr1)) {
+      this._map.removeLayer(this.constr1);
+    } else if (prev && !this._map.hasLayer(this.constr1)) {
+      this._map.removeLayer(this.constr1);
+    }
+
+    if (!next && this._map.hasLayer(this.constr2)) {
+      this._map.removeLayer(this.constr2);
+    } else if (next && !this._map.hasLayer(this.constr2)) {
+      this._map.removeLayer(this.constr2);
+    }
+
     if (prev) this.constr1.setLatLngs([prev, marker]);
     if (next) this.constr2.setLatLngs([next, marker]);
   };
@@ -157,6 +179,7 @@ export class InteractivePoly extends Polyline {
   constr1: Polyline;
   constr2: Polyline;
 
+  is_editing: boolean = true;
   is_dragging: boolean = false;
   vertex_index?: number = null;
   markers_visible: boolean = true;
@@ -172,7 +195,7 @@ InteractivePoly.addInitHook(function () {
     }
   });
 
-  this.once('remove', () => {
+  this.once('remove', (event) => {
     if (event.target instanceof InteractivePoly) {
       this.markerLayer.removeFrom(this.map);
       this.map.off('moveend', this.updateMarkers);
