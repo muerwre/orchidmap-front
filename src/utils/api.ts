@@ -53,7 +53,7 @@ export const checkUserToken = (
   routes: (result.data.routes && result.data.routes.length > 0 && arrayToObject(result.data.routes, '_id')) || {},
 })).catch(() => null);
 
-export const getGuestToken = ():AxiosPromise<any> => axios.get(API.GET_GUEST).then(result => (result && result.data));
+export const getGuestToken = ():AxiosPromise<IUser> => axios.get(API.GET_GUEST).then(result => (result && result.data));
 
 export const getStoredMap = (
   { name }: { name: IRootState['address'] }
