@@ -9,13 +9,15 @@ import { DIALOGS, IDialogs, TABS } from '$constants/dialogs';
 import * as ActionCreators from '$redux/user/actions';
 import { IStickers } from "$constants/stickers";
 
-interface IRoute {
-  lat: number,
-  lng: number,
+export interface IRouteListItem {
   _id: string,
+  title: string,
+  distance: number,
+  is_public: boolean,
+  updated_at: string,
 }
 
-interface IRootReducer {
+export interface IRootReducer {
   ready: boolean,
   user: IUser,
   editing: boolean,
@@ -56,15 +58,15 @@ interface IRootReducer {
   routes: {
     limit: 0,
     loading: boolean,
-    list: Array<IRoute>,
+    list: Array<IRouteListItem>,
     step: number,
     shift: number,
     filter: {
-      title: '',
+      title: string,
       starred: boolean,
       distance: [number, number],
-      author: '',
-      tab: '',
+      author: string,
+      tab: string,
       min: number,
       max: number,
     }

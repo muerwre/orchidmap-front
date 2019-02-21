@@ -476,7 +476,7 @@ function* searchGetRoutes() {
 
   const { routes: { step, shift, filter: { title, distance, tab } } } = yield select(getState);
 
-  return yield call(getRouteList, {
+  const result = yield call(getRouteList, {
     id,
     token,
     title,
@@ -486,6 +486,10 @@ function* searchGetRoutes() {
     author: tab === 'mine' ? id : '',
     starred: tab === 'starred',
   });
+
+  console.log('RESULT?', result);
+
+  return result;
 }
 
 function* searchSetSagaWorker() {

@@ -17,7 +17,9 @@ interface Props {
   key: string,
 }
 
-export const RouteRow = ({ title, distance, _id, openRoute, tab, is_editing, startEditing }: any) => (
+export const RouteRow = ({
+  title, distance, _id, openRoute, tab, is_editing, startEditing
+}: Props) => (
   <div className={classnames('route-row-wrapper', { is_editing })}>
     {
       tab === 'mine' &&

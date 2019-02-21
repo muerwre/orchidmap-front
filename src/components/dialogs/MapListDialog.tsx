@@ -16,11 +16,12 @@ import { Range } from 'rc-slider';
 import { TABS } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';
 import { pushPath } from '$utils/history';
-import { IRootState } from '$redux/user/reducer';
+import { IRootState, IRouteListItem } from '$redux/user/reducer';
 
 interface Props extends IRootState {
   marks: { [x: number]: string },
-  routes_sorted: Array<string>,
+  routes_sorted: Array<IRouteListItem>,
+
   mapsLoadMore: typeof mapsLoadMore,
   searchSetDistance: typeof searchSetDistance,
   searchSetTitle: typeof searchSetTitle,
@@ -29,7 +30,7 @@ interface Props extends IRootState {
 }
 
 interface State {
-  editing_item: string,
+  editing_item: IRouteListItem['_id'],
 }
 
 class Component extends React.Component<Props, State> {
@@ -77,9 +78,8 @@ class Component extends React.Component<Props, State> {
           tab,
         }
       },
-      editing,
       marks,
-    } = this.props;
+    }: Props = this.props;
 
     const { editing_item } = this.state;
 
@@ -151,8 +151,10 @@ class Component extends React.Component<Props, State> {
             {
               list.map(route => (
                 <RouteRow
-                  editing={editing}
-                  {...route}
+                  title={route.title}
+                  distance={route.distance}
+                  _id={route._id}
+                  is_public={route.is_public}
                   tab={tab}
                   is_editing={(editing_item === route._id)}
                   openRoute={this.openRoute}
