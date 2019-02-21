@@ -61,7 +61,7 @@ interface IEditor {
   user: IUser;
 }
 
-export class Editor implements IEditor {
+export class Editor {
   constructor() {
     this.logo = DEFAULT_LOGO;
     this.owner = null;
@@ -71,7 +71,7 @@ export class Editor implements IEditor {
     this.provider = PROVIDERS[DEFAULT_PROVIDER];
 
     const {
-      triggerOnChange, lockMapClicks, routerMoveStart, changeMode, pushPolyPoints,
+      triggerOnChange, lockMapClicks, routerMoveStart, pushPolyPoints,
       map: { map }
     } = this;
 
@@ -175,35 +175,34 @@ export class Editor implements IEditor {
   setPublic: typeof setPublic = value => store.dispatch(setPublic(value));
   setIsEmpty: typeof setIsEmpty = value => store.dispatch(setIsEmpty(value));
 
-  setMarkersShown = value => {
+  setMarkersShown = (value: boolean): void => {
     if (this.getState().markers_shown !== value) store.dispatch(setMarkersShown(value));
   };
 
-  resetSaveDialog = () => store.dispatch(resetSaveDialog());
+  resetSaveDialog = (): void => { store.dispatch(resetSaveDialog()); };
 
-  setDistance = value => {
+  setDistance = (value: number): void => {
     if (this.getDistance() !== value) store.dispatch(setDistance(value));
   };
 
-  setChanged = value => {
+  setChanged = (value: boolean): void => {
     if (this.getChanged() !== value) store.dispatch(setChanged(value));
   };
 
-  clearMode = () => this.setMode(MODES.NONE);
-  clearChanged = () => store.dispatch(setChanged(false));
+  clearMode = (): void => { this.setMode(MODES.NONE); };
+  clearChanged = (): void => { store.dispatch(setChanged(false)); };
 
-  startPoly = () => {
+  startPoly = (): void => {
     if (this.getRouterPoints()) this.router.clearAll();
-
     this.poly.continue();
   };
 
-  triggerOnChange = () => {
+  triggerOnChange = (): void => {
     if (this.isEmpty !== this.getIsEmpty()) this.setIsEmpty(this.isEmpty);
     if (this.getEditing() && !this.getChanged()) this.setChanged(true);
   };
 
-  createStickerOnClick = (e) => {
+  createStickerOnClick = (e): void => {
     if (!e || !e.latlng || !this.activeSticker) return;
     const { latlng }: { latlng: ILatLng } = e;
 
@@ -213,7 +212,7 @@ export class Editor implements IEditor {
     this.setMode(MODES.STICKERS_SELECT);
   };
 
-  changeMode = mode => {
+  changeMode = (mode: IRootState['mode']): void => {
     if (this.mode === mode) {
       if (this.switches[mode] && this.switches[mode].toggle) {
         // if we have special function on mode when it clicked again
@@ -231,20 +230,20 @@ export class Editor implements IEditor {
     }
   };
 
-  enableMode = mode => {
+  enableMode = (mode: IRootState['mode']): void => {
     if (this.switches[mode] && this.switches[mode].start) this.switches[mode].start();
   };
 
-  disableMode = mode => {
+  disableMode = (mode: IRootState['mode']): void => {
     if (this.switches[mode] && this.switches[mode].stop) this.switches[mode].stop();
   };
 
-  onClick = e => {
+  onClick = (e): void => {
     if (e.originalEvent.which === 3) return; // skip right / middle click
     if (this.clickHandlers[this.mode]) this.clickHandlers[this.mode](e);
   };
 
-  lockMapClicks = lock => {
+  lockMapClicks = (lock: boolean): void => {
     if (lock) {
       this.map.map.removeEventListener('mouseup', this.onClick);
       this.map.map.addEventListener('mouseup', this.unlockMapClicks);
@@ -254,11 +253,11 @@ export class Editor implements IEditor {
     }
   };
 
-  unlockMapClicks = () => {
+  unlockMapClicks = (): void => {
     this.lockMapClicks(false);
   };
 
-  routerSetStart = () => {
+  routerSetStart = (): void => {
     const { latlngs } = this.poly;
 
     if (!latlngs || !latlngs.length) return;
@@ -266,17 +265,17 @@ export class Editor implements IEditor {
     this.router.startFrom(latlngs[latlngs.length - 1]);
   };
 
-  routerMoveStart = () => {
+  routerMoveStart = (): void => {
     const { _latlngs } = this.poly.poly;
 
     if (_latlngs) this.router.moveStart(_latlngs[_latlngs.length - 1]);
   };
 
-  pushPolyPoints = latlngs => {
+  pushPolyPoints = (latlngs: Array<ILatLng>): void => {
     this.poly.pushPoints(latlngs);
   };
 
-  clearSticker = () => {
+  clearSticker = (): void => {
     if (this.activeSticker) {
       this.setActiveSticker(null);
     } else {
@@ -284,7 +283,7 @@ export class Editor implements IEditor {
     }
   };
 
-  clearAll = () => {
+  clearAll = (): void => {
     this.poly.clearAll();
     this.router.clearAll();
     this.stickers.clearAll();
@@ -294,7 +293,7 @@ export class Editor implements IEditor {
 
   setData = ({
     route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, is_public,
-  }: IEditor['initialData']) => {
+  }: IEditor['initialData']): void => {
     this.setTitle(title || '');
     const { id } = this.getUser();
 
@@ -305,6 +304,7 @@ export class Editor implements IEditor {
     if (route) this.poly.setPoints(route);
 
     this.stickers.clearAll();
+
     if (stickers) {
       stickers.map(sticker =>
         sticker.set && STICKERS[sticker.set].url &&
@@ -325,14 +325,14 @@ export class Editor implements IEditor {
     if (owner) this.owner = owner;
   };
 
-  fitDrawing = () => {
+  fitDrawing = (): void => {
     if (this.poly.isEmpty) return;
 
     const bounds = this.poly.poly.getBounds();
     if (bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
   };
 
-  setInitialData = () => {
+  setInitialData = (): void => {
     const { path } = getUrlData();
     const { id } = this.getUser();
     const { is_public, logo } = this.getState();
@@ -352,7 +352,7 @@ export class Editor implements IEditor {
     };
   };
 
-  startEditing = () => {
+  startEditing = (): void => {
     const { id } = this.getUser();
 
     this.setInitialData();
@@ -362,13 +362,13 @@ export class Editor implements IEditor {
     this.stickers.startEditing();
   };
 
-  stopEditing = () => {
+  stopEditing = (): void => {
     this.poly.poly.editor.disable();
     this.stickers.stopEditing();
     this.router.clearAll();
   };
 
-  cancelEditing = () => {
+  cancelEditing = (): void => {
     if (this.hasEmptyHistory) {
       this.clearAll();
       this.startEditing();
@@ -380,8 +380,6 @@ export class Editor implements IEditor {
 
     this.stopEditing();
     this.clearChanged();
-
-    return true;
   };
 
   dumpData = () => ({
@@ -390,15 +388,15 @@ export class Editor implements IEditor {
     provider: this.getProvider(),
   });
 
-  setProvider = provider => store.dispatch(changeProvider(provider));
+  setProvider: typeof changeProvider = provider => store.dispatch(changeProvider(provider));
 
-  get isEmpty() {
+  get isEmpty(): boolean {
     const { route, stickers } = this.dumpData();
 
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
   }
 
-  get hasEmptyHistory() {
+  get hasEmptyHistory(): boolean {
     const { route, stickers } = this.initialData;
 
     return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
@@ -407,6 +405,6 @@ export class Editor implements IEditor {
 
 export const editor = new Editor();
 
+// for debug purposes
 declare let window: any;
-
 window.editor = editor;

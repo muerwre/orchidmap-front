@@ -20,8 +20,8 @@ const getX = e => (
 
 export interface IStickerDump {
   latlng: ILatLng,
-  sticker: string,
   set: IRootState['activeSticker']['set'],
+  sticker: IRootState['activeSticker']['sticker'],
   angle?: number,
   text?: string,
 }
@@ -35,7 +35,7 @@ interface Props {
   text?: string;
 
   deleteSticker: (sticker: this) => void;
-  
+
   triggerOnChange: typeof editor.triggerOnChange;
   lockMapClicks: typeof editor.lockMapClicks;
 }
