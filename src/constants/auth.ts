@@ -12,12 +12,13 @@ export interface IUser {
   success: boolean,
   id?: string,
   token?: string,
-  userdata: {
-    name: string,
-    agent: string,
-    ip: string,
-    photo: string,
-  }
+  photo: string,
+  first_name: string,
+  // userdata: {
+  //   name: string,
+  //   agent: string,
+  //   ip: string,
+  // }
 }
 
 export const ROLES: IRoles = {
@@ -34,10 +35,6 @@ export const DEFAULT_USER: IUser = {
   success: false,
   id: null,
   token: null,
-  userdata: {
-    name: '',
-    agent: '',
-    ip: '',
-    photo: '',
-  }
+  photo: null,
+  first_name: null,
 };

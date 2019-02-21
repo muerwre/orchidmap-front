@@ -16,10 +16,6 @@ import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {
-  is_empty: boolean,
-  dialog: string,
-  dialog_active: boolean,
-
   userLogout: typeof userLogout,
   setDialog: typeof setDialog,
   setDialogActive: typeof setDialogActive,
@@ -109,7 +105,7 @@ export class Component extends React.PureComponent<Props, State> {
             }
             {
               (user && user.role && user.role !== 'guest' && menuOpened) &&
-                <UserMenu user={user} userLogout={this.props.userLogout} openAppInfoDialog={this.openAppInfoDialog} />
+                <UserMenu userLogout={this.props.userLogout} openAppInfoDialog={this.openAppInfoDialog} />
             }
           </div>
 

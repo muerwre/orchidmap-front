@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Icon } from '$components/panels/Icon';
 
 type Props = {
-  onClick: Function,
+  onClick: () => void,
 }
 
 export const GuestButton = ({ onClick }: Props) => (

@@ -1,17 +1,17 @@
 // @flow
 import * as React from 'react';
 import { UserPicture } from '$components/user/UserPicture';
-import { IUser } from '$constants/auth';
+import { IUser } from "$constants/auth";
 
-type Props = {
+interface Props {
   user: IUser,
-  setMenuOpened: Function,
-};
+  setMenuOpened: () => void,
+}
 
 export const UserButton = ({
   setMenuOpened,
   user: {
-    _id,
+    id,
     photo,
     first_name,
   }
@@ -21,8 +21,8 @@ export const UserButton = ({
       <UserPicture photo={photo} />
 
       <div className="user-button-fields">
-        <div className="user-button-name">{(first_name || _id || '...')}</div>
-        <div className="user-button-text">{(_id || 'пользователь')}</div>
+        <div className="user-button-name">{(first_name || id || '...')}</div>
+        <div className="user-button-text">{(id || 'пользователь')}</div>
       </div>
     </div>
   </div>

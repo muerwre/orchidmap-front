@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { APP_INFO } from '$constants/app_info';
+import { userLogout } from "$redux/user/actions";
 
-type Props = {
-  userLogout: Function,
-  openAppInfoDialog: Function,
+interface Props {
+  userLogout: typeof userLogout,
+  openAppInfoDialog: () => void,
 }
 
 export const UserMenu = ({ userLogout, openAppInfoDialog }: Props) => (
@@ -13,7 +14,7 @@ export const UserMenu = ({ userLogout, openAppInfoDialog }: Props) => (
       <br />
       MAP
       <span className="user-panel-ver">
-        - {(APP_INFO.VERSION || 1)}.{(APP_INFO.RELEASE.length || 0)}
+        - {(APP_INFO.VERSION || 1)}.{(Object.keys(APP_INFO.CHANGELOG).length || 0)}
       </span>
     </div>
     <div className="user-panel-item" onClick={openAppInfoDialog}>
