@@ -104,16 +104,16 @@ export class InteractivePoly extends Polyline {
     disable: () => {
       this.hideAllMarkers();
       this.is_editing = false;
+      this.fire('editordisable');
     },
     enable: () => {
       this.is_editing = true;
       this.showVisibleMarkers();
+      this.fire('editorenable');
     }
   };
 
   onMarkerDrag = ({ target }: { target: Marker}) => {
-    console.log(this.vertex_index, this.markers.length);
-
     this.setConstraints(
       this.vertex_index > 0 && this.markers[this.vertex_index - 1].getLatLng(),
       target.getLatLng(),
@@ -211,4 +211,7 @@ InteractivePoly.addInitHook(function () {
 
   allvertexhide
   allvertexshow
+
+  editordisable
+  editorenable
  */
