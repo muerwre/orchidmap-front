@@ -82,4 +82,4 @@ const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
 
 const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.sqrt(distToSegmentSquared(A, B, C));
 // if C between A and B
-export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.001);
+export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.01);
