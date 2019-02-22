@@ -5,15 +5,14 @@ interface InteractivePolylineOptions extends PolylineOptions {
   constraintsStyle?: PolylineOptions,
 }
 
-export class InteractivePoly extends Polyline {
+export class Component extends Polyline {
   constructor(latlngs: LatLngExpression[] | LatLngExpression[][], options?: InteractivePolylineOptions) {
     super(latlngs, options);
 
     this.constraintsStyle = { ...this.constraintsStyle, ...options.constraintsStyle };
     this.maxMarkers = options.maxMarkers || this.maxMarkers;
 
-    this.constr1 = new Polyline([], this.constraintsStyle).addTo(this.constraintsLayer);
-    this.constr2 = new Polyline([], this.constraintsStyle).addTo(this.constraintsLayer);
+    this.constrLine = new Polyline([], this.constraintsStyle).addTo(this.constraintsLayer);
   }
 
   setPoints = (latlngs: LatLng[]) => {
@@ -149,20 +148,13 @@ export class InteractivePoly extends Polyline {
   };
 
   setConstraints = (prev?: LatLng, marker?: LatLng, next?: LatLng) => {
-    if (!prev && this._map.hasLayer(this.constr1)) {
-      this._map.removeLayer(this.constr1);
-    } else if (prev && !this._map.hasLayer(this.constr1)) {
-      this._map.removeLayer(this.constr1);
-    }
+    const coords = [];
 
-    if (!next && this._map.hasLayer(this.constr2)) {
-      this._map.removeLayer(this.constr2);
-    } else if (next && !this._map.hasLayer(this.constr2)) {
-      this._map.removeLayer(this.constr2);
-    }
+    if (prev) coords.push(prev);
+    coords.push(marker);
+    if (next) coords.push(next);
 
-    if (prev) this.constr1.setLatLngs([prev, marker]);
-    if (next) this.constr2.setLatLngs([next, marker]);
+    this.constrLine.setLatLngs(coords);
   };
 
   markers: Marker[] = [];
@@ -172,21 +164,21 @@ export class InteractivePoly extends Polyline {
   constraintsStyle: InteractivePolylineOptions['constraintsStyle'] = {
     weight: 6,
     color: 'red',
-    dashArray: '2, 10',
+    dashArray: '5, 10',
     opacity: 0.5,
   };
 
-  constr1: Polyline;
-  constr2: Polyline;
+  constrLine: Polyline;
 
   is_editing: boolean = true;
   is_dragging: boolean = false;
   vertex_index?: number = null;
-  markers_visible: boolean = true;
 }
 
-InteractivePoly.addInitHook(function () {
+Component.addInitHook(function () {
   this.once('add', (event) => {
+    console.log('bup');
+
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
       this.markerLayer.addTo(event.target._map);
@@ -203,6 +195,7 @@ InteractivePoly.addInitHook(function () {
   });
 });
 
+export const InteractivePoly = Component;
 /*
   events:
   vertexdragstart,
