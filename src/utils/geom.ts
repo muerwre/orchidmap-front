@@ -33,25 +33,21 @@ export const findDistance = (t1: number, n1: number, t2: number, n2: number): nu
   return (Math.round(dk * 1000) / 1000);
 };
 
+export const distKm = (A: LatLngLiteral, B: LatLngLiteral): number => findDistance(A.lat, A.lng, B.lat, B.lng);
+
 export const getLabelDirection = (angle: number): 'left' | 'right' => (
   ((angle % Math.PI) >= -(Math.PI / 2) && (angle % Math.PI) <= (Math.PI / 2)) ? 'left' : 'right'
 );
 
-// export const getPolyLength = (latlngs: ILatLng[]): number => latlngs.reduce((distance, latlng, i) => (
-//   i < latlngs.length
-//     ? distance + findDistance(latlng.lat, latlng.lng, latlngs[i + 1].lat, latlngs[i + 1].lng)
-//     : distance
-// ), 0);
+export const getPolyLength = (latlngs: LatLngLiteral[]): number => {
+  if (latlngs.length < 2) return 0;
 
-export const getPolyLength = (latlngs: ILatLng[]): number => {
-  console.log('latlngs', latlngs);
-
-  return 0;
+  return latlngs.reduce((dist, item, index) => (
+    index < (latlngs.length - 1)
+      ? dist + distKm(item, latlngs[index + 1])
+      : dist
+  ), 0)
 };
-
-const distanceBetweenPoints = (A: LatLng, B: LatLng): number => (
-  parseFloat(Math.sqrt(((A.lat - B.lat) ** 2) + ((A.lng - B.lng) ** 2)).toFixed(3))
-);
 
 // if C between A and B
 export const pointInArea = (A: LatLng, B: LatLng, C: LatLng): boolean => (

@@ -1,4 +1,4 @@
-import { Map, LayerGroup, Polyline } from 'leaflet';
+import { Map, LayerGroup, Polyline, LatLng } from 'leaflet';
 import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { findDistance, getPolyLength, middleCoord } from '$utils/geom';
@@ -173,9 +173,9 @@ export class Poly {
 
   clearArrows = (): LayerGroup<any> => this.arrows.clearLayers();
 
-  dumpData = (): Array<ILatLng> => this.latlngs;
+  dumpData = (): Array<LatLng> => this.latlngs;
 
-  get latlngs(): Array<ILatLng> {
+  get latlngs(): Array<LatLng> {
     return (
       this.poly && this.poly.getLatLngs().length
         && this.poly.getLatLngs().map(el => ({ ...el }))) || [];

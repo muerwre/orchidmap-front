@@ -7,9 +7,9 @@ import {
   divIcon,
   LayerGroup,
   LatLng,
-  LeafletMouseEvent, latLng,
+  LeafletMouseEvent, latLng, LatLngLiteral,
 } from 'leaflet';
-import { pointBetweenPoints, pointInArea } from "$utils/geom";
+import { distKm, getPolyLength, pointBetweenPoints, pointInArea } from "$utils/geom";
 
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number,
@@ -31,6 +31,7 @@ export class Component extends Polyline {
   setPoints = (latlngs: LatLng[]) => {
     this.setLatLngs(latlngs);
     this.recreateMarkers();
+    this.recalcDistance();
   };
 
   createHintMarker = (latlng: LatLng): Marker => marker(latlng, {
@@ -50,6 +51,7 @@ export class Component extends Polyline {
       iconAnchor: [6, 6]
     })
   })
+    .on('contextmenu', this.dropMarker)
     .on('drag', this.onMarkerDrag)
     .on('dragstart', this.onMarkerDragStart)
     .on('dragend', this.onMarkerDragEnd)
@@ -153,11 +155,11 @@ export class Component extends Polyline {
     this.hintMarker.setLatLng(latlng);
   };
 
-  hideDragHint = ({ latlng }: LeafletMouseEvent): void => {
+  hideDragHint = (): void => {
     this._map.removeLayer(this.hintMarker);
   };
 
-  showDragHint = ({ latlng }: LeafletMouseEvent): void => {
+  showDragHint = (): void => {
     this._map.addLayer(this.hintMarker);
   };
 
@@ -197,9 +199,7 @@ export class Component extends Polyline {
 
   stopDragHintMove = (): void => {
     this._map.dragging.enable();
-
     this.is_dragging = false;
-
     this.constrLine.removeFrom(this._map);
 
     this._map.off('mousemove', this.dragHintMove);
@@ -208,9 +208,27 @@ export class Component extends Polyline {
   };
 
   dragHintAddMarker = ({ latlng }: LeafletMouseEvent): void => {
-    this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng))
+    this.dragHintChangeDistance(this.hint_prev_marker, latlng);
+
+    this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng));
     this.insertLatLng(latlng, this.hint_prev_marker + 1);
     this.stopDragHintMove();
+  };
+
+  dragHintChangeDistance = (index: number, current: LatLngLiteral): void => {
+    const prev = this.markers[index];
+    const next = this.markers[index + 1];
+
+    const initial_distance = distKm(prev.getLatLng(), next.getLatLng());
+
+    const current_distance = (
+      ((prev && distKm(prev.getLatLng(), current)) || 0) +
+      ((next && distKm(next.getLatLng(), current)) || 0)
+    );
+
+    this.distance += (current_distance - initial_distance);
+
+    this.fire('distancechange', { distance: this.distance });
   };
 
   dragHintFindNearest = (latlng: LatLng): any => {
@@ -261,6 +279,9 @@ export class Component extends Polyline {
   };
 
   onMarkerDragEnd = ({ target }: { target: Marker}): void => {
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
+    this.markerDragChangeDistance(this.vertex_index, latlngs[this.vertex_index], target.getLatLng());
+
     this.replaceLatlng(target.getLatLng(), this.vertex_index);
 
     this.is_dragging = false;
@@ -271,6 +292,25 @@ export class Component extends Polyline {
     if (this.is_drawing) this.startDrawing();
 
     this.fire('vertexdragend', { index: this.vertex_index, vertex: target });
+  };
+
+  markerDragChangeDistance = (index: number, initial: LatLngLiteral, current: LatLngLiteral): void => {
+    const prev = index > 0 ? this.markers[index - 1] : null;
+    const next = index <= (this.markers.length + 1) ? this.markers[index + 1] : null;
+
+    const initial_distance = (
+      ((prev && distKm(prev.getLatLng(), initial)) || 0) +
+      ((next && distKm(next.getLatLng(), initial)) || 0)
+    );
+
+    const current_distance = (
+      ((prev && distKm(prev.getLatLng(), current)) || 0) +
+      ((next && distKm(next.getLatLng(), current)) || 0)
+    );
+
+    this.distance += (current_distance - initial_distance);
+
+    this.fire('distancechange', { distance: this.distance });
   };
 
   startDrawing = (): void => {
@@ -306,6 +346,8 @@ export class Component extends Polyline {
     this.stopDrawing();
     const latlngs = this.getLatLngs() as any[];
 
+    this.drawingChangeDistance(latlng);
+
     if (this.drawing_direction === 'forward') {
       latlngs.push(latlng);
       this.markers.push(this.createMarker(latlng));
@@ -317,8 +359,18 @@ export class Component extends Polyline {
     this.startDrawing();
   };
 
+  drawingChangeDistance = (latlng: LatLngLiteral): void => {
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
+    const point = this.drawing_direction === 'forward'
+      ? latlngs[latlngs.length - 1]
+      : latlngs[0];
+
+    this.distance += distKm(point, latlng);
+    this.fire('distancechange', { distance: this.distance });
+  };
+
   replaceLatlng = (latlng: LatLng, index: number): void => {
-    const latlngs = this.getLatLngs();
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
     latlngs.splice(index, 1, latlng);
     this.setLatLngs(latlngs);
   };
@@ -331,6 +383,45 @@ export class Component extends Polyline {
 
   setConstraints = (coords: LatLng[]) => {
     this.constrLine.setLatLngs(coords);
+  };
+
+  dropMarker = ({ target }: LeafletMouseEvent): void => {
+    const index = this.markers.indexOf(target);
+    const latlngs = this.getLatLngs();
+
+    if (typeof index === 'undefined' || latlngs.length <= 2) return;
+
+    this.dropMarkerDistanceChange(index);
+    this._map.removeLayer(this.markers[index]);
+    this.markers.splice(index, 1);
+    latlngs.splice(index, 1);
+    this.setLatLngs(latlngs);
+  };
+
+  dropMarkerDistanceChange = (index: number): void => {
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
+
+    const prev = index > 0 ? latlngs[index - 1] : null;
+    const current = latlngs[index];
+    const next = index <= (latlngs.length + 1) ? latlngs[index + 1] : null;
+
+    const initial_distance = (
+      ((prev && distKm(prev, current)) || 0) +
+      ((next && distKm(next, current)) || 0)
+    );
+
+    const current_distance = (prev && next && distKm(prev, next)) || 0;
+
+    this.distance += (current_distance - initial_distance);
+
+    this.fire('distancechange', { distance: this.distance });
+  };
+
+  recalcDistance = () => {
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
+    this.distance = getPolyLength(latlngs);
+
+    this.fire('distancechange', { distance: this.distance });
   };
 
   markers: Marker[] = [];
@@ -394,4 +485,6 @@ export const InteractivePoly = Component;
 
   editordisable
   editorenable
+
+  distancechange
  */
