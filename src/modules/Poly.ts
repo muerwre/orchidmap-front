@@ -1,18 +1,11 @@
-import { Map, LayerGroup, Polyline, LatLng } from 'leaflet';
+import { Map, LayerGroup, LatLng } from 'leaflet';
 import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
-import { findDistance, getPolyLength, middleCoord } from '$utils/geom';
 import { CLIENT } from '$config/frontend';
-import { MODES } from '$constants/modes';
 import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
 
-const polyStyle = {
-  color: 'url(#activePathGradient)',
-  weight: '6',
-  markerMid: 'url(#arrow)'
-};
 
 interface Props {
   map: Map;
@@ -30,7 +23,7 @@ export class Poly {
     this.poly = new InteractivePoly([], {
       color: 'url(#activePathGradient)',
       weight: 6,
-      maxMarkers: 300,
+      maxMarkers: 100,
     })
       .on('distancechange', this.onDistanceUpdate);
 
