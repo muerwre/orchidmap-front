@@ -360,6 +360,7 @@ export class Editor {
 
     // todo: implement
     // if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.editor.enable();
+    this.poly.enableEditor();
     this.stickers.startEditing();
   };
 

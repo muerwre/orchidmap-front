@@ -108,30 +108,35 @@ export class Poly {
 
     if (coords.length > 1) this.triggerOnChange();
   };
-
-  preventMissClicks = (e): void => {
-    const mode = this.editor.getMode();
-
-    if (mode === MODES.POLY) return;
-
-    e.cancel();
-
-    if (mode === MODES.NONE) this.editor.setMode(MODES.POLY);
-  };
+  //
+  // preventMissClicks = (e): void => {
+  //   const mode = this.editor.getMode();
+  //
+  //   if (mode === MODES.POLY) return;
+  //
+  //   e.cancel();
+  //
+  //   if (mode === MODES.NONE) this.editor.setMode(MODES.POLY);
+  // };
 
   continue = (): void => {
     // todo: implement
-    // this.poly.editor.continueForward();
+    this.poly.editor.continue();
   };
 
   stop = (): void => {
     // todo: implement
     // if (this.poly) this.poly.editor.stopDrawing();
+    this.poly.stopDrawing();
+  };
+
+  enableEditor = (): void => {
+    this.poly.editor.enable();
   };
 
   continueForward = (): void => {
     // todo: implement
-    // this.poly.continueForward();
+    this.poly.editor.continue();
   };
 
   lockMap = (): void => {

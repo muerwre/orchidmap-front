@@ -1,3 +1,5 @@
+import { LatLng, LatLngLiteral } from "leaflet";
+
 interface ILatLng {
   lat: number,
   lng: number,
@@ -40,8 +42,48 @@ export const getLabelDirection = (angle: number): 'left' | 'right' => (
 //     ? distance + findDistance(latlng.lat, latlng.lng, latlngs[i + 1].lat, latlngs[i + 1].lng)
 //     : distance
 // ), 0);
+
 export const getPolyLength = (latlngs: ILatLng[]): number => {
   console.log('latlngs', latlngs);
 
   return 0;
 };
+
+const distanceBetweenPoints = (A: LatLng, B: LatLng): number => (
+  parseFloat(Math.sqrt(((A.lat - B.lat) ** 2) + ((A.lng - B.lng) ** 2)).toFixed(3))
+);
+
+// if C between A and B
+export const pointInArea = (A: LatLng, B: LatLng, C: LatLng): boolean => (
+  C.lat >= Math.min(A.lat, B.lat) &&
+  C.lat <= Math.max(A.lat, B.lat) &&
+  C.lng >= Math.min(A.lng, B.lng) &&
+  C.lng <= Math.max(A.lng, B.lng)
+);
+
+
+const dist2 = (A: LatLngLiteral, B: LatLngLiteral): number => (((A.lat - B.lat) ** 2) + ((A.lng - B.lng) ** 2));
+
+const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
+  const l2 = dist2(A, B);
+  if (l2 == 0) return dist2(C, A);
+
+  const t = Math.max(
+    0,
+    Math.min(
+      1,
+      (((C.lat - A.lat) * (B.lat - A.lat) + (C.lng - A.lng) * (B.lng - A.lng)) / l2)
+    )
+  );
+
+  return dist2(
+    C,
+    {
+      lat: A.lat + t * (B.lat - A.lat),
+      lng: A.lng + t * (B.lng - A.lng)
+    });
+};
+
+const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.sqrt(distToSegmentSquared(A, B, C));
+// if C between A and B
+export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.001);

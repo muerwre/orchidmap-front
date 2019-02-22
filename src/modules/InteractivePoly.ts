@@ -7,8 +7,9 @@ import {
   divIcon,
   LayerGroup,
   LatLng,
-  LeafletEventHandlerFn, LeafletEvent, LeafletMouseEvent, LatLngLiteral, latLng
+  LeafletMouseEvent, latLng,
 } from 'leaflet';
+import { pointBetweenPoints, pointInArea } from "$utils/geom";
 
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number,
@@ -22,13 +23,24 @@ export class Component extends Polyline {
     this.constraintsStyle = { ...this.constraintsStyle, ...options.constraintsStyle };
     this.maxMarkers = options.maxMarkers || this.maxMarkers;
 
-    this.constrLine = new Polyline([], this.constraintsStyle).addTo(this.constraintsLayer);
+    this.constrLine = new Polyline([], this.constraintsStyle);
+
+    this.startDragHinting();
   }
 
   setPoints = (latlngs: LatLng[]) => {
     this.setLatLngs(latlngs);
     this.recreateMarkers();
   };
+
+  createHintMarker = (latlng: LatLng): Marker => marker(latlng, {
+    draggable: false,
+    icon: divIcon({
+      className: 'leaflet-vertex-drag-helper',
+      iconSize: [11, 11],
+      iconAnchor: [6, 6]
+    })
+  });
 
   createMarker = (latlng: LatLng): Marker => marker(latlng, {
     draggable: true,
@@ -113,11 +125,16 @@ export class Component extends Polyline {
     disable: () => {
       this.hideAllMarkers();
       this.is_editing = false;
+      this.stopDragHinting();
+      this.stopDrawing();
+
       this.fire('editordisable');
     },
     enable: () => {
       this.is_editing = true;
       this.showVisibleMarkers();
+      this.startDragHinting();
+
       this.fire('editorenable');
     },
     continue: () => {
@@ -132,8 +149,92 @@ export class Component extends Polyline {
     }
   };
 
+  moveDragHint = ({ latlng }: LeafletMouseEvent): void => {
+    this.hintMarker.setLatLng(latlng);
+  };
+
+  hideDragHint = ({ latlng }: LeafletMouseEvent): void => {
+    this._map.removeLayer(this.hintMarker);
+  };
+
+  showDragHint = ({ latlng }: LeafletMouseEvent): void => {
+    this._map.addLayer(this.hintMarker);
+  };
+
+  startDragHinting = (): void => {
+    this.on('mousemove', this.moveDragHint);
+    this.on('mousedown', this.startDragHintMove);
+    this.on('mouseover', this.showDragHint);
+    this.on('mouseout', this.hideDragHint);
+  };
+
+  stopDragHinting = (): void => {
+    this.off('mousemove', this.moveDragHint);
+    this.off('mousedown', this.startDragHintMove);
+    this.off('mouseover', this.showDragHint);
+    this.off('mouseout', this.hideDragHint);
+  };
+
+  startDragHintMove = (event: LeafletMouseEvent): void => {
+    event.originalEvent.stopPropagation();
+    event.originalEvent.preventDefault();
+
+    const prev = this.dragHintFindNearest(event.latlng);
+    if (prev < 0) return;
+
+    this.hint_prev_marker = prev;
+
+    this.constrLine.setLatLngs([]).addTo(this._map);
+
+    this._map.dragging.disable();
+
+    this.is_dragging = true;
+
+    this._map.on('mousemove', this.dragHintMove);
+    this._map.on('mouseup', this.dragHintAddMarker);
+    this._map.on('mouseout', this.stopDragHintMove);
+  };
+
+  stopDragHintMove = (): void => {
+    this._map.dragging.enable();
+
+    this.is_dragging = false;
+
+    this.constrLine.removeFrom(this._map);
+
+    this._map.off('mousemove', this.dragHintMove);
+    this._map.off('mouseup', this.dragHintAddMarker);
+    this._map.off('mouseout', this.stopDragHintMove);
+  };
+
+  dragHintAddMarker = ({ latlng }: LeafletMouseEvent): void => {
+    this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng))
+    this.insertLatLng(latlng, this.hint_prev_marker + 1);
+    this.stopDragHintMove();
+  };
+
+  dragHintFindNearest = (latlng: LatLng): any => {
+    const latlngs = this.getLatLngs();
+
+    return latlngs.findIndex((current, index) => {
+      const next = latlngs[index + 1] as LatLng;
+
+      return (next && pointInArea(current, next, latlng) && pointBetweenPoints(current, next, latlng));
+    });
+  };
+
+  dragHintMove = (event: LeafletMouseEvent): void => {
+    event.originalEvent.stopPropagation();
+    event.originalEvent.preventDefault();
+
+    this.setConstraints([
+      this.markers[this.hint_prev_marker].getLatLng(),
+      event.latlng,
+      this.markers[this.hint_prev_marker + 1].getLatLng(),
+    ]);
+  };
+
   onMarkerDrag = ({ target }: { target: Marker}) => {
-    console.log('drag?');
     const coords = new Array(0)
       .concat((this.vertex_index > 0 && this.markers[this.vertex_index - 1].getLatLng()) || [])
       .concat(target.getLatLng())
@@ -145,12 +246,16 @@ export class Component extends Polyline {
   };
 
   onMarkerDragStart = ({ target }: { target: Marker}) => {
-    if (this.is_drawing) this.stopDrawing();
+    if (this.is_drawing) {
+      this.stopDrawing();
+      this.is_drawing = true;
+    }
+    if (this.is_dragging) this.stopDragHintMove();
 
     this.vertex_index = this.markers.indexOf(target);
 
     this.is_dragging = true;
-    this.constraintsLayer.addTo(this._map);
+    this.constrLine.addTo(this._map);
 
     this.fire('vertexdragstart', { index: this.vertex_index, vertex: target });
   };
@@ -159,26 +264,37 @@ export class Component extends Polyline {
     this.replaceLatlng(target.getLatLng(), this.vertex_index);
 
     this.is_dragging = false;
-    this.constraintsLayer.removeFrom(this._map);
+    this.constrLine.removeFrom(this._map);
+
+    this.vertex_index = null;
+
+    if (this.is_drawing) this.startDrawing();
 
     this.fire('vertexdragend', { index: this.vertex_index, vertex: target });
-    this.vertex_index = null;
-    if (this.is_drawing) this.startDrawing();
   };
 
   startDrawing = (): void => {
-    this.constraintsLayer.addTo(this._map);
+    this.setConstraints([]);
+    this.constrLine.addTo(this._map);
     this._map.on('mousemove', this.onDrawingMove);
     this._map.on('click', this.onDrawingClick);
   };
 
   stopDrawing = (): void => {
-    this.constraintsLayer.removeFrom(this._map);
+    this.constrLine.removeFrom(this._map);
     this._map.off('mousemove', this.onDrawingMove);
     this._map.off('click', this.onDrawingClick);
+    this.is_drawing = false;
   };
 
   onDrawingMove = ({ latlng }: LeafletMouseEvent): void => {
+    if (this.markers.length === 0) {
+      this.setConstraints([]);
+      return;
+    }
+
+    if (!this._map.hasLayer(this.constrLine)) this._map.addLayer(this.constrLine);
+
     const marker = this.drawing_direction === 'forward'
       ? this.markers[this.markers.length - 1]
       : this.markers[0];
@@ -207,6 +323,12 @@ export class Component extends Polyline {
     this.setLatLngs(latlngs);
   };
 
+  insertLatLng = (latlng, index): void => {
+    const latlngs = this.getLatLngs();
+    latlngs.splice(index, 0, latlng);
+    this.setLatLngs(latlngs);
+  };
+
   setConstraints = (coords: LatLng[]) => {
     this.constrLine.setLatLngs(coords);
   };
@@ -214,13 +336,15 @@ export class Component extends Polyline {
   markers: Marker[] = [];
   maxMarkers: InteractivePolylineOptions['maxMarkers'] = 2;
   markerLayer: LayerGroup = new LayerGroup();
-  constraintsLayer: LayerGroup = new LayerGroup();
+
   constraintsStyle: InteractivePolylineOptions['constraintsStyle'] = {
     weight: 6,
     color: 'red',
-    dashArray: '5, 10',
+    dashArray: '10, 12',
     opacity: 0.5,
   };
+
+  hintMarker: Marker = this.createHintMarker(latLng({ lat: 0, lng: 0 }));
 
   constrLine: Polyline;
 
@@ -230,15 +354,18 @@ export class Component extends Polyline {
 
   drawing_direction: 'forward' | 'backward' = 'forward';
   vertex_index?: number = null;
+
+  hint_prev_marker: number = null;
+  distance: number = 0;
 }
 
 Component.addInitHook(function () {
   this.once('add', (event) => {
-    console.log('bup');
-
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
       this.markerLayer.addTo(event.target._map);
+      this.hintMarker.addTo(event.target._map);
+      this.constrLine.addTo(event.target._map);
 
       this.map.on('moveend', this.updateMarkers);
     }
@@ -246,7 +373,10 @@ Component.addInitHook(function () {
 
   this.once('remove', (event) => {
     if (event.target instanceof InteractivePoly) {
-      this.markerLayer.removeFrom(this.map);
+      this.markerLayer.removeFrom(this._map);
+      this.hintMarker.removeFrom(this._map);
+      this.constrLine.removeFrom(this._map);
+
       this.map.off('moveend', this.updateMarkers);
     }
   });
