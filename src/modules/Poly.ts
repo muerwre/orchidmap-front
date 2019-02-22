@@ -51,6 +51,7 @@ export class Poly {
     const { distance } = event as { distance: number };
     this.setDistance(parseFloat(distance.toFixed(2)));
   };
+
   // setModeOnDrawing = (): void => {
   //   if (this.editor.getMode() !== MODES.POLY) this.editor.setMode(MODES.POLY);
   // };
