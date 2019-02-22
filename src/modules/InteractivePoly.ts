@@ -1,3 +1,7 @@
+/*
+  todo IMPORTANT: select closest point on drag instead of first
+*/
+
 import {
   LatLngExpression,
   Marker,
@@ -14,6 +18,8 @@ import { distKm, getPolyLength, pointBetweenPoints, pointInArea } from "$utils/g
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number,
   constraintsStyle?: PolylineOptions,
+  kmMarksEnabled?: boolean,
+  kmMarksStep?: number,
 }
 
 export class Component extends Polyline {
@@ -22,6 +28,8 @@ export class Component extends Polyline {
 
     this.constraintsStyle = { ...this.constraintsStyle, ...options.constraintsStyle };
     this.maxMarkers = options.maxMarkers || this.maxMarkers;
+    this.kmMarksEnabled = options.kmMarksEnabled || this.kmMarksEnabled;
+    this.kmMarksStep = options.kmMarksStep || this.kmMarksStep;
 
     this.constrLine = new Polyline([], this.constraintsStyle);
 
@@ -32,6 +40,7 @@ export class Component extends Polyline {
     this.setLatLngs(latlngs);
     this.recreateMarkers();
     this.recalcDistance();
+    this.recalcKmMarks();
   };
 
   createHintMarker = (latlng: LatLng): Marker => marker(latlng, {
@@ -361,6 +370,13 @@ export class Component extends Polyline {
 
   drawingChangeDistance = (latlng: LatLngLiteral): void => {
     const latlngs = this.getLatLngs() as LatLngLiteral[];
+
+    if (latlngs.length < 1) {
+      this.distance = 0;
+      this.fire('distancechange', { distance: this.distance });
+      return;
+    }
+
     const point = this.drawing_direction === 'forward'
       ? latlngs[latlngs.length - 1]
       : latlngs[0];
@@ -424,6 +440,38 @@ export class Component extends Polyline {
     this.fire('distancechange', { distance: this.distance });
   };
 
+  recalcKmMarks = () => {
+    if (!this.kmMarksEnabled) return;
+
+    const latlngs = this.getLatLngs() as LatLngLiteral[];
+
+    this.kmMarks = { };
+
+    let last_km_mark = 0;
+
+    latlngs.reduce((dist, latlng, index) => {
+      if (index >= latlngs.length - 1) return;
+
+      const next = latlngs[index + 1];
+      const sum = dist + distKm(latlng, next);
+      const rounded = Math.floor(dist / this.kmMarksStep) * this.kmMarksStep;
+
+      if (rounded > last_km_mark) {
+        last_km_mark = rounded;
+        this.kmMarks[rounded] = latlng;
+      }
+
+      return sum;
+    }, 0);
+
+    console.log('counting km marks', this.kmMarks);
+  };
+
+  kmMarksEnabled?: InteractivePolylineOptions['kmMarksEnabled'] = true;
+  kmMarksStep?: InteractivePolylineOptions['kmMarksStep'] = 5;
+  kmMarks?: { [x: number]: LatLngLiteral };
+  // kmMarksLayer?: LayerGroup = new LayerGroup();
+
   markers: Marker[] = [];
   maxMarkers: InteractivePolylineOptions['maxMarkers'] = 2;
   markerLayer: LayerGroup = new LayerGroup();
@@ -455,6 +503,7 @@ Component.addInitHook(function () {
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
       this.markerLayer.addTo(event.target._map);
+      // this.kmMarksLayer.addTo(event.target._map);
       this.hintMarker.addTo(event.target._map);
       this.constrLine.addTo(event.target._map);
 
@@ -465,6 +514,7 @@ Component.addInitHook(function () {
   this.once('remove', (event) => {
     if (event.target instanceof InteractivePoly) {
       this.markerLayer.removeFrom(this._map);
+      // this.kmMarksLayer.removeFrom(this._map);
       this.hintMarker.removeFrom(this._map);
       this.constrLine.removeFrom(this._map);
 

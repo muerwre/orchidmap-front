@@ -32,7 +32,7 @@ import {
   setProvider,
   changeProvider,
   setSaveLoading,
-  mapsSetShift, searchChangeDistance,
+  mapsSetShift, searchChangeDistance, clearAll,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -467,7 +467,14 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof ActionCreators.keyPr
     if (dialog_active) return yield put(setDialogActive(false));
     if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
   } else if (key === 'Delete') {
-    yield put(setMode(MODES.TRASH));
+    const { mode } = yield select(getState);
+
+    if (mode === MODES.TRASH) {
+      yield put(clearAll());
+    } else {
+      yield put(setMode(MODES.TRASH));
+    }
+
   }
 }
 

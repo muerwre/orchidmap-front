@@ -1,6 +1,7 @@
 /*
 
   ## BUGS
+
   todo fix arrows (can't reproduce now :-( )
   todo adding route, applying it and adding again and deleting it makes ghost points on the map
 
