@@ -24,6 +24,7 @@ export class Poly {
       color: 'url(#activePathGradient)',
       weight: 6,
       maxMarkers: 100,
+      smoothFactor: 3,
     })
       .on('distancechange', this.onDistanceUpdate);
 
