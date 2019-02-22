@@ -1,4 +1,14 @@
-import { LatLngExpression, Marker, Polyline, PolylineOptions, marker, divIcon, LayerGroup, LatLng } from 'leaflet';
+import {
+  LatLngExpression,
+  Marker,
+  Polyline,
+  PolylineOptions,
+  marker,
+  divIcon,
+  LayerGroup,
+  LatLng,
+  LeafletEventHandlerFn, LeafletEvent, LeafletMouseEvent, LatLngLiteral, latLng
+} from 'leaflet';
 
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number,
@@ -109,20 +119,34 @@ export class Component extends Polyline {
       this.is_editing = true;
       this.showVisibleMarkers();
       this.fire('editorenable');
+    },
+    continue: () => {
+      this.is_drawing = true;
+      this.drawing_direction = 'forward';
+      this.startDrawing();
+    },
+    prepend: () => {
+      this.is_drawing = true;
+      this.drawing_direction = 'backward';
+      this.startDrawing();
     }
   };
 
   onMarkerDrag = ({ target }: { target: Marker}) => {
-    this.setConstraints(
-      this.vertex_index > 0 && this.markers[this.vertex_index - 1].getLatLng(),
-      target.getLatLng(),
-      this.vertex_index < (this.markers.length - 1) && this.markers[this.vertex_index + 1].getLatLng(),
-    );
+    console.log('drag?');
+    const coords = new Array(0)
+      .concat((this.vertex_index > 0 && this.markers[this.vertex_index - 1].getLatLng()) || [])
+      .concat(target.getLatLng())
+      .concat((this.vertex_index < (this.markers.length - 1) && this.markers[this.vertex_index + 1].getLatLng()) || []);
+
+    this.setConstraints(coords);
 
     this.fire('vertexdrag', { index: this.vertex_index, vertex: target });
   };
 
   onMarkerDragStart = ({ target }: { target: Marker}) => {
+    if (this.is_drawing) this.stopDrawing();
+
     this.vertex_index = this.markers.indexOf(target);
 
     this.is_dragging = true;
@@ -139,6 +163,42 @@ export class Component extends Polyline {
 
     this.fire('vertexdragend', { index: this.vertex_index, vertex: target });
     this.vertex_index = null;
+    if (this.is_drawing) this.startDrawing();
+  };
+
+  startDrawing = (): void => {
+    this.constraintsLayer.addTo(this._map);
+    this._map.on('mousemove', this.onDrawingMove);
+    this._map.on('click', this.onDrawingClick);
+  };
+
+  stopDrawing = (): void => {
+    this.constraintsLayer.removeFrom(this._map);
+    this._map.off('mousemove', this.onDrawingMove);
+    this._map.off('click', this.onDrawingClick);
+  };
+
+  onDrawingMove = ({ latlng }: LeafletMouseEvent): void => {
+    const marker = this.drawing_direction === 'forward'
+      ? this.markers[this.markers.length - 1]
+      : this.markers[0];
+
+    this.setConstraints([latlng, marker.getLatLng()]);
+  };
+
+  onDrawingClick = ({ latlng }: LeafletMouseEvent): void => {
+    this.stopDrawing();
+    const latlngs = this.getLatLngs() as any[];
+
+    if (this.drawing_direction === 'forward') {
+      latlngs.push(latlng);
+      this.markers.push(this.createMarker(latlng));
+    } else {
+      latlngs.unshift(latlng);
+      this.markers.unshift(this.createMarker(latlng));
+    }
+    this.setLatLngs(latlngs);
+    this.startDrawing();
   };
 
   replaceLatlng = (latlng: LatLng, index: number): void => {
@@ -147,13 +207,7 @@ export class Component extends Polyline {
     this.setLatLngs(latlngs);
   };
 
-  setConstraints = (prev?: LatLng, marker?: LatLng, next?: LatLng) => {
-    const coords = [];
-
-    if (prev) coords.push(prev);
-    coords.push(marker);
-    if (next) coords.push(next);
-
+  setConstraints = (coords: LatLng[]) => {
     this.constrLine.setLatLngs(coords);
   };
 
@@ -172,6 +226,9 @@ export class Component extends Polyline {
 
   is_editing: boolean = true;
   is_dragging: boolean = false;
+  is_drawing: boolean = false;
+
+  drawing_direction: 'forward' | 'backward' = 'forward';
   vertex_index?: number = null;
 }
 
