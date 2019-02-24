@@ -361,6 +361,14 @@ export class Component extends Polyline {
 
   drawingChangeDistance = (latlng: LatLngLiteral): void => {
     const latlngs = this.getLatLngs() as LatLngLiteral[];
+
+    if (latlngs.length < 1) {
+      this.distance = 0;
+      this.fire('distancechange', { distance: 0 });
+
+      return;
+    }
+
     const point = this.drawing_direction === 'forward'
       ? latlngs[latlngs.length - 1]
       : latlngs[0];
