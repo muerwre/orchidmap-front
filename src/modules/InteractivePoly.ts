@@ -148,13 +148,14 @@ export class Component extends Polyline {
       this.is_editing = false;
       this.stopDragHinting();
       this.stopDrawing();
-
+      this.touchHinter.removeFrom(this._map);
       this.fire('editordisable');
     },
     enable: () => {
       this.is_editing = true;
       this.showVisibleMarkers();
       this.startDragHinting();
+      this.touchHinter.addTo(this._map);
 
       this.fire('editorenable');
     },
@@ -525,9 +526,9 @@ export class Component extends Polyline {
   };
 
   touchHinter: Polyline = new Polyline([], {
-    weight: 25,
-    color: 'rgba(255, 255, 255, 0)',
+    weight: 24,
     smoothFactor: 3,
+    className: 'touch-hinter-poly'
     // bubblingMouseEvents: false,
   });
 
@@ -563,7 +564,7 @@ Component.addInitHook(function () {
       this.on('latlngschange', this.updateTouchHinter);
 
       if (window.innerWidth < 768) {
-        this.touchHinter.setStyle({ weight: 50 });
+        this.touchHinter.setStyle({ weight: 32 });
       }
     }
   });

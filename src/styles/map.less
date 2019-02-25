@@ -50,6 +50,7 @@
       width: 32px;
       height: 32px;
       transform: translate(-8px, -8px);
+      background: rgba(255, 50, 0, 0.3);
     }
   }
 
@@ -68,6 +69,14 @@
 
   &:hover {
     opacity: 1;
+  }
+}
+
+.touch-hinter-poly {
+  stroke: rgba(255, 50, 0, 0);
+
+  @media (max-width: @mobile_breakpoint) {
+    stroke: rgba(255, 50, 0, 0.1);
   }
 }
 
