@@ -200,6 +200,11 @@ export class Component extends Polyline {
     event.originalEvent.stopPropagation();
     event.originalEvent.preventDefault();
 
+    if (this.is_drawing) {
+      this.stopDrawing();
+      this.is_drawing = true;
+    }
+
     const prev = this.dragHintFindNearest(event.latlng);
 
     if (prev < 0) return;
@@ -219,12 +224,16 @@ export class Component extends Polyline {
 
   stopDragHintMove = (): void => {
     this._map.dragging.enable();
-    this.is_dragging = false;
+
     this.constrLine.removeFrom(this._map);
 
     this._map.off('mousemove', this.dragHintMove);
     this._map.off('mouseup', this.dragHintAddMarker);
     this._map.off('mouseout', this.stopDragHintMove);
+
+    if (this.is_drawing) this.startDrawing();
+
+    setTimeout(() => { this.is_dragging = false; }, 0);
   };
 
   dragHintAddMarker = ({ latlng }: LeafletMouseEvent): void => {
@@ -232,8 +241,10 @@ export class Component extends Polyline {
 
     this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng));
     this.insertLatLng(latlng, this.hint_prev_marker + 1);
-    this.stopDragHintMove();
+    console.log('--> dragHintAddMarker');
     this.hideDragHint();
+    this.stopDragHintMove();
+
   };
 
   dragHintChangeDistance = (index: number, current: LatLngLiteral): void => {
@@ -295,6 +306,7 @@ export class Component extends Polyline {
       this.stopDrawing();
       this.is_drawing = true;
     }
+
     if (this.is_dragging) this.stopDragHintMove();
 
     this.vertex_index = this.markers.indexOf(target);
@@ -341,6 +353,7 @@ export class Component extends Polyline {
   };
 
   startDrawing = (): void => {
+    this.is_drawing = true;
     this.setConstraints([]);
     this.constrLine.addTo(this._map);
     this._map.on('mousemove', this.onDrawingMove);
@@ -370,10 +383,12 @@ export class Component extends Polyline {
   };
 
   onDrawingClick = (event: LeafletMouseEvent): void => {
-    console.log(event);
+    if (this.is_dragging) return;
+
     const { latlng } = event;
 
     this.stopDrawing();
+
     const latlngs = this.getLatLngs() as any[];
 
     this.drawingChangeDistance(latlng);
@@ -506,6 +521,7 @@ export class Component extends Polyline {
     color: 'red',
     dashArray: '10, 12',
     opacity: 0.5,
+    interactive: false,
   };
 
   touchHinter: Polyline = new Polyline([], {
@@ -514,6 +530,7 @@ export class Component extends Polyline {
     smoothFactor: 3,
     // bubblingMouseEvents: false,
   });
+
   hintMarker: Marker = this.createHintMarker(latLng({ lat: 0, lng: 0 }));
 
   constrLine: Polyline;
