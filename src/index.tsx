@@ -3,11 +3,11 @@
   ## BUGS
 
   todo fix arrows (can't reproduce now :-( )
-  todo adding route, applying it and adding again and deleting it makes ghost points on the map
+  done adding route, applying it and adding again and deleting it makes ghost points on the map
 
   ## FEATURES
 
-  todo hide arrows on small zooms
+  todo make arrows and distance points
   todo selecting logo on crop
 
   done public maps

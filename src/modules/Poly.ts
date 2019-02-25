@@ -27,7 +27,9 @@ export class Poly {
       smoothFactor: 3,
       // bubblingMouseEvents: false,
     })
-      .on('distancechange', this.onDistanceUpdate);
+      .on('distancechange', this.onDistanceUpdate)
+      .on('allvertexhide', this.onVertexHide)
+      .on('allvertexshow', this.onVertexShow);
 
     this.poly.addTo(map);
     this.editor = editor;
@@ -46,6 +48,9 @@ export class Poly {
     const { distance } = event as { distance: number };
     this.setDistance(parseFloat(distance.toFixed(2)));
   };
+
+  onVertexHide = (): void => this.editor.setMarkersShown(false);
+  onVertexShow = (): void => this.editor.setMarkersShown(true);
 
   // setModeOnDrawing = (): void => {
   //   if (this.editor.getMode() !== MODES.POLY) this.editor.setMode(MODES.POLY);
