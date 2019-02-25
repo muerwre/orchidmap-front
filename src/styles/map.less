@@ -17,10 +17,27 @@
  border-radius: @panel_radius !important;
 }
 
+@keyframes vertex_spin {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.2); }
+}
+
 .leaflet-vertex-drag-helper {
   pointer-events: none !important;
-  background: red;
+  background: fade(red, 50%);
   border-radius: 12px;
+
+  &::after {
+    content: ' ';
+    width: 24px;
+    height: 24px;
+    border: 2px solid @red_secondary;
+    border-radius: 24px;
+    position: absolute;
+    top: -9px;
+    left: -9px;
+    animation: vertex_spin 500ms infinite linear alternate;
+  }
 }
 
 .leaflet-vertex-icon, .leaflet-middle-icon {
@@ -32,6 +49,7 @@
   height: 16px !important;margin-left:-8px !important;margin-top:-8px !important;
   background: transparent;
   position: absolute;
+  cursor: grab;
 
   &::before {
     width: 24px;
@@ -75,6 +93,7 @@
 
 .touch-hinter-poly {
   stroke: rgba(255, 50, 0, 0);
+  cursor: grab;
 
   @media (max-width: @mobile_breakpoint) {
     stroke: rgba(255, 50, 0, 0.1);
