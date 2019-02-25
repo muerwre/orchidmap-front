@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@types/classnames": "^2.2.7",
-    "@types/leaflet": "^1.4.1",
+    "@types/leaflet": "^1.4.3",
     "@types/node": "^11.9.0",
     "@types/react": "16.8.1",
     "axios": "^0.18.0",

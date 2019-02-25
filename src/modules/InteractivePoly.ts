@@ -1,6 +1,7 @@
 /*
-  todo IMPORTANT: select closest point on drag instead of first
-  todo add touch hint poly
+  done IMPORTANT: select closest point on drag instead of first
+  done add touch hint poly
+  done approx radius for dragFindNearest
 */
 
 import {
@@ -12,9 +13,11 @@ import {
   divIcon,
   LayerGroup,
   LatLng,
-  LeafletMouseEvent, latLng, LatLngLiteral,
+  LeafletMouseEvent,
+  latLng,
+  LatLngLiteral,
 } from 'leaflet';
-import { distKm, getPolyLength, pointBetweenPoints, pointInArea } from "$utils/geom";
+import { distKm, distToSegment, getPolyLength, pointInArea } from "$utils/geom";
 
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number,
@@ -35,6 +38,7 @@ export class Component extends Polyline {
     this.constrLine = new Polyline([], this.constraintsStyle);
 
     this.startDragHinting();
+    this.touchHinter.on('click', console.log);
   }
 
   setPoints = (latlngs: LatLng[]) => {
@@ -167,7 +171,7 @@ export class Component extends Polyline {
   };
 
   hideDragHint = (): void => {
-    this._map.removeLayer(this.hintMarker);
+    if (this._map.hasLayer(this.hintMarker)) this._map.removeLayer(this.hintMarker);
   };
 
   showDragHint = (): void => {
@@ -189,13 +193,11 @@ export class Component extends Polyline {
   };
 
   startDragHintMove = (event: LeafletMouseEvent): void => {
-    console.log('hoop');
     event.originalEvent.stopPropagation();
     event.originalEvent.preventDefault();
 
-    // console.log(this.closestLayerPoint(event.latlng));
-
     const prev = this.dragHintFindNearest(event.latlng);
+
     if (prev < 0) return;
 
     this.hint_prev_marker = prev;
@@ -227,6 +229,7 @@ export class Component extends Polyline {
     this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng));
     this.insertLatLng(latlng, this.hint_prev_marker + 1);
     this.stopDragHintMove();
+    this.hideDragHint();
   };
 
   dragHintChangeDistance = (index: number, current: LatLngLiteral): void => {
@@ -246,13 +249,19 @@ export class Component extends Polyline {
   };
 
   dragHintFindNearest = (latlng: LatLng): any => {
-    const latlngs = this.getLatLngs();
+    const latlngs = this.getLatLngs() as LatLng[];
 
-    return latlngs.findIndex((current, index) => {
+    const neighbours = latlngs.filter((current, index) => {
       const next = latlngs[index + 1] as LatLng;
 
-      return (next && pointInArea(current, next, latlng) && pointBetweenPoints(current, next, latlng));
-    });
+      return (next && pointInArea(current, next, latlng));
+    })
+      .map(el => latlngs.indexOf(el))
+      .sort((a, b) => (
+        distToSegment(latlngs[a], latlngs[a + 1], latlng) - distToSegment(latlngs[b], latlngs[b + 1], latlng)
+      ));
+
+    return neighbours.length > 0 ? neighbours[0] : -1;
   };
 
   dragHintMove = (event: LeafletMouseEvent): void => {
@@ -524,9 +533,8 @@ Component.addInitHook(function () {
       this.map.on('moveend', this.updateMarkers);
 
       if (window.innerWidth < 768) {
-        this.touchHinter.setStyle({ weight: 30 });
+        this.touchHinter.setStyle({ weight: 50 });
       }
-      console.log('touchHinter', this.touchHinter);
     }
   });
 

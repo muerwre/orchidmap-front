@@ -50,11 +50,11 @@ export const getPolyLength = (latlngs: LatLngLiteral[]): number => {
 };
 
 // if C between A and B
-export const pointInArea = (A: LatLng, B: LatLng, C: LatLng): boolean => (
-  C.lat >= Math.min(A.lat, B.lat) &&
-  C.lat <= Math.max(A.lat, B.lat) &&
-  C.lng >= Math.min(A.lng, B.lng) &&
-  C.lng <= Math.max(A.lng, B.lng)
+export const pointInArea = (A: LatLng, B: LatLng, C: LatLng, radius: number = 0.001): boolean => (
+  C.lng <= Math.max(A.lng + radius, B.lng + radius) &&
+  C.lat <= Math.max(A.lat + radius, B.lat + radius) &&
+  C.lat >= Math.min(A.lat - radius, B.lat - radius) &&
+  C.lng >= Math.min(A.lng - radius, B.lng - radius)
 );
 
 
@@ -80,6 +80,6 @@ const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
     });
 };
 
-const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.sqrt(distToSegmentSquared(A, B, C));
+export const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.sqrt(distToSegmentSquared(A, B, C));
 // if C between A and B
 export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.01);
