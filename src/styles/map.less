@@ -26,32 +26,49 @@
 .leaflet-vertex-icon, .leaflet-middle-icon {
   outline: none !important;
   border-radius: 10px;
-  opacity :1;
+  opacity: 1;
   border: none;
   width: 16px !important;
   height: 16px !important;margin-left:-8px !important;margin-top:-8px !important;
   background: transparent;
-}
+  position: absolute;
 
-.leaflet-middle-icon {
-  opacity: 0.5;
-}
+  &::before {
+    width: 24px;
+    height: 24px;
+    background: none;
+    content: ' ';
+    position: absolute;
+    transform: translate(-4px, -4px);
+    border-radius: 16px;
+    top: 0;
+    left: 0;
+  }
 
-.leaflet-vertex-icon::after, .leaflet-middle-icon::after {
-  content: ' ';
-  position:absolute;top:4px;left:4px;width:8px;height:8px;
-  background:white;border-radius: 8px;transform:scale(1);
-  transition:transform 150ms;
-}
+  @media (max-width: @mobile_breakpoint) {
+    &::before {
+      width: 32px;
+      height: 32px;
+      transform: translate(-8px, -8px);
+    }
+  }
 
-.leaflet-vertex-icon:hover, .leaflet-middle-icon:hover {
-  opacity: 1 !important;
-}
+  &::after {
+    content: ' ';
+    position:absolute;
+    top:4px;
+    left:4px;
+    width:8px;
+    height:8px;
+    background:white;
+    border-radius: 8px;
+    transform:scale(1);
+    transition:transform 150ms;
+  }
 
-.leaflet-vertex-icon:hover::after, .leaflet-middle-icon:hover::after,
-.leaflet-vertex-icon:active::after, .leaflet-middle-icon:active::after  {
-  transform: scale(2);
-  box-shadow: #999 0 0 5px 2px;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {

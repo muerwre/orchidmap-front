@@ -38,8 +38,11 @@ export class Component extends Polyline {
     this.constrLine = new Polyline([], this.constraintsStyle);
 
     this.startDragHinting();
-    this.touchHinter.on('click', console.log);
   }
+
+  updateTouchHinter = ({ latlngs }: { latlngs: LatLngLiteral[] }): void => {
+    this.touchHinter.setLatLngs(latlngs);
+  };
 
   setPoints = (latlngs: LatLng[]) => {
     this.setLatLngs(latlngs);
@@ -47,6 +50,7 @@ export class Component extends Polyline {
     this.recalcDistance();
     this.recalcKmMarks();
     this.touchHinter.setLatLngs(latlngs);
+    this.fire('latlngschange', { latlngs });
   };
 
   createHintMarker = (latlng: LatLng): Marker => marker(latlng, {
@@ -365,7 +369,10 @@ export class Component extends Polyline {
     this.setConstraints([latlng, marker.getLatLng()]);
   };
 
-  onDrawingClick = ({ latlng }: LeafletMouseEvent): void => {
+  onDrawingClick = (event: LeafletMouseEvent): void => {
+    console.log(event);
+    const { latlng } = event;
+
     this.stopDrawing();
     const latlngs = this.getLatLngs() as any[];
 
@@ -378,8 +385,9 @@ export class Component extends Polyline {
       latlngs.unshift(latlng);
       this.markers.unshift(this.createMarker(latlng));
     }
+
     this.setLatLngs(latlngs);
-    this.touchHinter.setLatLngs(latlngs);
+    this.fire('latlngschange', { latlngs });
     this.startDrawing();
   };
 
@@ -403,15 +411,15 @@ export class Component extends Polyline {
   replaceLatlng = (latlng: LatLng, index: number): void => {
     const latlngs = this.getLatLngs() as LatLngLiteral[];
     latlngs.splice(index, 1, latlng);
-    this.touchHinter.setLatLngs(latlngs);
     this.setLatLngs(latlngs);
+    this.fire('latlngschange', { latlngs });
   };
 
   insertLatLng = (latlng, index): void => {
     const latlngs = this.getLatLngs();
     latlngs.splice(index, 0, latlng);
-    this.touchHinter.setLatLngs(latlngs);
     this.setLatLngs(latlngs);
+    this.fire('latlngschange', { latlngs });
   };
 
   setConstraints = (coords: LatLng[]) => {
@@ -430,7 +438,7 @@ export class Component extends Polyline {
     latlngs.splice(index, 1);
 
     this.setLatLngs(latlngs);
-    this.touchHinter.setLatLngs(latlngs);
+    this.fire('latlngschange', { latlngs });
   };
 
   dropMarkerDistanceChange = (index: number): void => {
@@ -482,8 +490,6 @@ export class Component extends Polyline {
 
       return sum;
     }, 0);
-
-    console.log('counting km marks', this.kmMarks);
   };
 
   kmMarksEnabled?: InteractivePolylineOptions['kmMarksEnabled'] = true;
@@ -502,7 +508,12 @@ export class Component extends Polyline {
     opacity: 0.5,
   };
 
-  touchHinter: Polyline = new Polyline([], { weight: 25, color: 'rgba(255, 255, 255, 0.7)' });
+  touchHinter: Polyline = new Polyline([], {
+    weight: 25,
+    color: 'rgba(255, 255, 255, 0)',
+    smoothFactor: 3,
+    // bubblingMouseEvents: false,
+  });
   hintMarker: Marker = this.createHintMarker(latLng({ lat: 0, lng: 0 }));
 
   constrLine: Polyline;
@@ -531,6 +542,8 @@ Component.addInitHook(function () {
       this.touchHinter.addTo(event.target._map);
 
       this.map.on('moveend', this.updateMarkers);
+
+      this.on('latlngschange', this.updateTouchHinter);
 
       if (window.innerWidth < 768) {
         this.touchHinter.setStyle({ weight: 50 });
