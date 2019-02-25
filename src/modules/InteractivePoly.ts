@@ -1,5 +1,6 @@
 /*
   todo IMPORTANT: select closest point on drag instead of first
+  todo add touch hint poly
 */
 
 import {
@@ -41,6 +42,7 @@ export class Component extends Polyline {
     this.recreateMarkers();
     this.recalcDistance();
     this.recalcKmMarks();
+    this.touchHinter.setLatLngs(latlngs);
   };
 
   createHintMarker = (latlng: LatLng): Marker => marker(latlng, {
@@ -173,22 +175,25 @@ export class Component extends Polyline {
   };
 
   startDragHinting = (): void => {
-    this.on('mousemove', this.moveDragHint);
-    this.on('mousedown', this.startDragHintMove);
-    this.on('mouseover', this.showDragHint);
-    this.on('mouseout', this.hideDragHint);
+    this.touchHinter.on('mousemove', this.moveDragHint);
+    this.touchHinter.on('mousedown', this.startDragHintMove);
+    this.touchHinter.on('mouseover', this.showDragHint);
+    this.touchHinter.on('mouseout', this.hideDragHint);
   };
 
   stopDragHinting = (): void => {
-    this.off('mousemove', this.moveDragHint);
-    this.off('mousedown', this.startDragHintMove);
-    this.off('mouseover', this.showDragHint);
-    this.off('mouseout', this.hideDragHint);
+    this.touchHinter.off('mousemove', this.moveDragHint);
+    this.touchHinter.off('mousedown', this.startDragHintMove);
+    this.touchHinter.off('mouseover', this.showDragHint);
+    this.touchHinter.off('mouseout', this.hideDragHint);
   };
 
   startDragHintMove = (event: LeafletMouseEvent): void => {
+    console.log('hoop');
     event.originalEvent.stopPropagation();
     event.originalEvent.preventDefault();
+
+    // console.log(this.closestLayerPoint(event.latlng));
 
     const prev = this.dragHintFindNearest(event.latlng);
     if (prev < 0) return;
@@ -365,6 +370,7 @@ export class Component extends Polyline {
       this.markers.unshift(this.createMarker(latlng));
     }
     this.setLatLngs(latlngs);
+    this.touchHinter.setLatLngs(latlngs);
     this.startDrawing();
   };
 
@@ -388,12 +394,14 @@ export class Component extends Polyline {
   replaceLatlng = (latlng: LatLng, index: number): void => {
     const latlngs = this.getLatLngs() as LatLngLiteral[];
     latlngs.splice(index, 1, latlng);
+    this.touchHinter.setLatLngs(latlngs);
     this.setLatLngs(latlngs);
   };
 
   insertLatLng = (latlng, index): void => {
     const latlngs = this.getLatLngs();
     latlngs.splice(index, 0, latlng);
+    this.touchHinter.setLatLngs(latlngs);
     this.setLatLngs(latlngs);
   };
 
@@ -411,7 +419,9 @@ export class Component extends Polyline {
     this._map.removeLayer(this.markers[index]);
     this.markers.splice(index, 1);
     latlngs.splice(index, 1);
+
     this.setLatLngs(latlngs);
+    this.touchHinter.setLatLngs(latlngs);
   };
 
   dropMarkerDistanceChange = (index: number): void => {
@@ -483,6 +493,7 @@ export class Component extends Polyline {
     opacity: 0.5,
   };
 
+  touchHinter: Polyline = new Polyline([], { weight: 25, color: 'rgba(255, 255, 255, 0.7)' });
   hintMarker: Marker = this.createHintMarker(latLng({ lat: 0, lng: 0 }));
 
   constrLine: Polyline;
@@ -502,21 +513,29 @@ Component.addInitHook(function () {
   this.once('add', (event) => {
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
+
+      this.map.on('touch', console.log);
+
       this.markerLayer.addTo(event.target._map);
-      // this.kmMarksLayer.addTo(event.target._map);
       this.hintMarker.addTo(event.target._map);
       this.constrLine.addTo(event.target._map);
+      this.touchHinter.addTo(event.target._map);
 
       this.map.on('moveend', this.updateMarkers);
+
+      if (window.innerWidth < 768) {
+        this.touchHinter.setStyle({ weight: 30 });
+      }
+      console.log('touchHinter', this.touchHinter);
     }
   });
 
   this.once('remove', (event) => {
     if (event.target instanceof InteractivePoly) {
       this.markerLayer.removeFrom(this._map);
-      // this.kmMarksLayer.removeFrom(this._map);
       this.hintMarker.removeFrom(this._map);
       this.constrLine.removeFrom(this._map);
+      this.touchHinter.removeFrom(this._map);
 
       this.map.off('moveend', this.updateMarkers);
     }

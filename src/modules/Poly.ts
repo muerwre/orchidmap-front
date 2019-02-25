@@ -25,6 +25,7 @@ export class Poly {
       weight: 6,
       maxMarkers: 100,
       smoothFactor: 3,
+      bubblingMouseEvents: false,
     })
       .on('distancechange', this.onDistanceUpdate);
 
