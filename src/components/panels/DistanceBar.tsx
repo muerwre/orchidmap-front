@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { setSpeed } from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
+import { isMobile } from "$utils/window";
 
 interface Props extends IRootState {
   setSpeed: typeof setSpeed,
@@ -34,7 +35,11 @@ class Component extends React.PureComponent<Props, State> {
     [this.min + (index * this.step)]: String(this.min + (index * this.step)),
   }), { });
 
-  toggleDialog = () => this.setState({ dialogOpened: !this.state.dialogOpened });
+  toggleDialog = () => {
+    if (isMobile()) return;
+
+    this.setState({ dialogOpened: !this.state.dialogOpened });
+  };
 
   render() {
     const {
@@ -46,13 +51,13 @@ class Component extends React.PureComponent<Props, State> {
 
     return (
       <React.Fragment>
-        <div className="status-bar padded desktop-only pointer tooltip-container" onClick={this.toggleDialog}>
+        <div className="status-bar padded pointer tooltip-container" onClick={this.toggleDialog}>
           {distance} км&nbsp;
           <Tooltip position="top">Примерное время</Tooltip>
-          <Icon icon="icon-cycle" size={32} />
-          {
-            <span>{toHours(estimated)}</span>
-          }
+          <span className="desktop-only">
+            <Icon icon="icon-cycle" size={32} />
+          </span>
+          <span className="desktop-only">{toHours(estimated)}</span>
         </div>
         {
           dialogOpened &&

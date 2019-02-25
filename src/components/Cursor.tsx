@@ -30,7 +30,7 @@ export class Cursor extends React.PureComponent<Props, {}> {
     const activeSticker = (sticker && set && STICKERS[set] && STICKERS[set].layers[sticker]);
 
     return (
-      <div className="cursor-tooltip" ref={el => { this.cursor = el; }}>
+      <div className="cursor-tooltip desktop-only" ref={el => { this.cursor = el; }}>
         { mode === MODES.ROUTER && <Icon icon="icon-router" />}
         { mode === MODES.POLY && <Icon icon="icon-poly" />}
         { mode === MODES.STICKERS && activeSticker && <StickerIcon sticker={sticker} set={set} /> }
