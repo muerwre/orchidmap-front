@@ -168,7 +168,7 @@ export class Poly {
     showCoverageOnHover: false,
     zoomToBoundsOnClick: false,
     animate: false,
-    maxClusterRadius: 100,
+    maxClusterRadius: 60,
     // disableClusteringAtZoom: 13,
     iconCreateFunction: arrowClusterIcon,
   });
