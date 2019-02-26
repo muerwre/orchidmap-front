@@ -1,11 +1,14 @@
-import { Map, LayerGroup, LatLng } from 'leaflet';
+import { Map, LayerGroup, LatLng, LatLngLiteral, LeafletEventHandlerFn, marker, divIcon, Marker } from 'leaflet';
 import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { CLIENT } from '$config/frontend';
 import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
-
+import { clusterIcon } from "$utils/clusterIcon";
+import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
+import { angleBetweenPoints, dist2, distToSegment, middleCoord } from "$utils/geom";
+import { arrowClusterIcon, createArrow } from "$utils/arrow";
 
 interface Props {
   map: Map;
@@ -29,7 +32,8 @@ export class Poly {
     })
       .on('distancechange', this.onDistanceUpdate)
       .on('allvertexhide', this.onVertexHide)
-      .on('allvertexshow', this.onVertexShow);
+      .on('allvertexshow', this.onVertexShow)
+      .on('latlngschange', this.updateArrows);
 
     this.poly.addTo(map);
     this.editor = editor;
@@ -41,7 +45,7 @@ export class Poly {
     this.triggerOnChange = triggerOnChange;
     this.lockMapClicks = lockMapClicks;
 
-    this.arrows.addTo(map);
+    this.arrowLayer.addTo(map);
   }
 
   onDistanceUpdate = (event) => {
@@ -51,6 +55,32 @@ export class Poly {
 
   onVertexHide = (): void => this.editor.setMarkersShown(false);
   onVertexShow = (): void => this.editor.setMarkersShown(true);
+
+  updateArrows = event => {
+    const { latlngs } = event;
+    this.arrowLayer.clearLayers();
+
+    if (latlngs.length === 0) return;
+
+    const midpoints = latlngs.reduce((res, latlng, i) => (
+      latlngs[i + 1] && dist2(latlngs[i], latlngs[i + 1]) > 0.00005
+        ? [
+            ...res,
+            {
+              latlng: middleCoord(latlngs[i], latlngs[i + 1]),
+              angle: angleBetweenPoints(
+                this.map.latLngToContainerPoint(latlngs[i]),
+                this.map.latLngToContainerPoint(latlngs[i + 1])
+              ),
+            }
+          ]
+        : res
+    ), []);
+
+    midpoints.forEach(({ latlng, angle }) => (
+      this.arrowLayer.addLayer(createArrow(latlng, angle))
+    ));
+  };
 
   // setModeOnDrawing = (): void => {
   //   if (this.editor.getMode() !== MODES.POLY) this.editor.setMode(MODES.POLY);
@@ -133,7 +163,15 @@ export class Poly {
   }
 
   poly: EditablePolyline;
-  arrows: LayerGroup = new LayerGroup();
+  arrowLayer: MarkerClusterGroup = new MarkerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false,
+    animate: false,
+    maxClusterRadius: 100,
+    // disableClusteringAtZoom: 13,
+    iconCreateFunction: arrowClusterIcon,
+  });
 
   editor: Props['editor'];
   map: Props['map'];

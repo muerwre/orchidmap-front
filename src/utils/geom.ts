@@ -1,4 +1,4 @@
-import { LatLng, LatLngLiteral } from "leaflet";
+import { LatLng, LatLngLiteral, Point } from "leaflet";
 
 interface ILatLng {
   lat: number,
@@ -58,7 +58,7 @@ export const pointInArea = (A: LatLng, B: LatLng, C: LatLng, radius: number = 0.
 );
 
 
-const dist2 = (A: LatLngLiteral, B: LatLngLiteral): number => (((A.lat - B.lat) ** 2) + ((A.lng - B.lng) ** 2));
+export const dist2 = (A: LatLngLiteral, B: LatLngLiteral): number => (((A.lat - B.lat) ** 2) + ((A.lng - B.lng) ** 2));
 
 const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
   const l2 = dist2(A, B);
@@ -83,3 +83,5 @@ const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
 export const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.sqrt(distToSegmentSquared(A, B, C));
 // if C between A and B
 export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.01);
+
+export const angleBetweenPoints = (A: Point, B: Point): number => parseFloat(((Math.atan2(B.y - A.y, B.x - A.x))* 180 / Math.PI).toFixed(6));

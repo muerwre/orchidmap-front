@@ -595,4 +595,6 @@ export const InteractivePoly = Component;
   editorenable
 
   distancechange
+
+  latlngschange
  */
