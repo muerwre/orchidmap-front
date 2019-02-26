@@ -7,8 +7,8 @@ export const createArrow = (latlng: LatLngLiteral, angle: number): Marker => mar
   icon: divIcon({
     html: `
       <div class="leaflet-arrow" style="transform: rotate(${angle}deg);">
-        <svg width="40" height="40" preserveAspectRatio="xMidYMid">        
-          <use xlink:href="#path-arrow" transform="scale(1.6) translate(4)"/>
+        <svg width="48" height="48" preserveAspectRatio="xMidYMid">        
+          <use xlink:href="#path-arrow" transform="scale(2) translate(5 -2)"/>
         </svg>      
       </div>
     `,
