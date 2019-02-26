@@ -57,6 +57,8 @@ export class Poly {
   onVertexShow = (): void => this.editor.setMarkersShown(true);
 
   updateArrows = event => {
+    this.editor.setChanged(true);
+
     const { latlngs } = event;
     this.arrowLayer.clearLayers();
 
@@ -168,7 +170,7 @@ export class Poly {
     showCoverageOnHover: false,
     zoomToBoundsOnClick: false,
     animate: false,
-    maxClusterRadius: 60,
+    maxClusterRadius: 120,
     // disableClusteringAtZoom: 13,
     iconCreateFunction: arrowClusterIcon,
   });
