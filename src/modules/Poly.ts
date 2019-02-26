@@ -129,8 +129,6 @@ export class Poly {
   };
 
   setPoints = (latlngs: Array<ILatLng>): void => {
-    console.log('setP');
-
     if (!latlngs || latlngs.length <= 1) return;
     this.poly.setPoints(latlngs);
   };

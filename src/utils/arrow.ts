@@ -19,7 +19,6 @@ export const createArrow = (latlng: LatLngLiteral, angle: number): Marker => mar
 });
 
 export const arrowClusterIcon = (cluster): DivIcon => {
-  console.log(cluster.getAllChildMarkers());
   const markers = cluster.getAllChildMarkers();
 
   const nearest = markers.sort((a, b) => (

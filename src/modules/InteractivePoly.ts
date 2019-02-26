@@ -242,7 +242,6 @@ export class Component extends Polyline {
 
     this.markers.splice((this.hint_prev_marker + 1), 0, this.createMarker(latlng));
     this.insertLatLng(latlng, this.hint_prev_marker + 1);
-    console.log('--> dragHintAddMarker');
     this.hideDragHint();
     this.stopDragHintMove();
 
