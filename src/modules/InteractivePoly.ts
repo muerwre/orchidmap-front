@@ -103,6 +103,7 @@ export class Component extends Polyline {
 
     this._map.addLayer(this.markerLayer);
     this.fire('allvertexshow');
+    console.log();
   };
 
   hideAllMarkers = (): void => {

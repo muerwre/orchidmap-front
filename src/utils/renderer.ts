@@ -1,11 +1,10 @@
 import { editor } from '$modules/Editor';
 import { COLORS, CLIENT } from '$config/frontend';
-import saveAs from 'file-saver';
+import * as saveAs from 'file-saver';
 import { replaceProviderUrl } from '$constants/providers';
-import { IStickerItem, STICKERS } from '$constants/stickers';
+import { STICKERS } from '$constants/stickers';
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";
-import { Canvas, Point } from "leaflet";
 import { IRootState } from "$redux/user/reducer";
 
 export interface IMapPoint {
