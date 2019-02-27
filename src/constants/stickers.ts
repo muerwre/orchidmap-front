@@ -48,6 +48,7 @@ export const STICKERS: IStickers = {
       waterfall: { off: 18, title: 'Водопад', title_long: 'Водопад' },
       fields: { off: 19, title: 'Поля', title_long: 'Зеленые поля' },
       beach: { off: 38, title: 'Пляж', title_long: 'Жаркий пляж' },
+      village: { off: 39, title: 'Деревня', title_long: 'Деревня' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
