@@ -379,6 +379,11 @@
                 <circle cx="16" cy="16" fill="white" r="4" />
             </g>
 
+            <g id="icon-more-vert" stroke="none">
+                <path stroke="none" fill="black"/>
+                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
+            </g>
+
             <g id="icon-cluster-1" stroke="none">
                 <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
                 <circle cx="10" cy="21" fill="white" r="4" />

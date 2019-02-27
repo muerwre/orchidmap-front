@@ -18,7 +18,7 @@ import { Icon } from '$components/panels/Icon';
 import { pushPath } from '$utils/history';
 import { IRootState, IRouteListItem } from '$redux/user/reducer';
 
-interface Props extends IRootState {
+export interface IMapListDialogProps extends IRootState {
   marks: { [x: number]: string },
   routes_sorted: Array<IRouteListItem>,
 
@@ -29,17 +29,33 @@ interface Props extends IRootState {
   setDialogActive: typeof setDialogActive,
 }
 
-interface State {
-  editing_item: IRouteListItem['_id'],
+export interface IMapListDialogState {
+  selected_item: IRouteListItem['_id'],
+  selected_item_mode: 'menu' | 'edit' | 'drop' | null,
 }
 
-class Component extends React.Component<Props, State> {
+class Component extends React.Component<IMapListDialogProps, IMapListDialogState> {
   state = {
-    editing_item: null,
+    selected_item: null,
+    selected_item_mode: null,
   };
 
-  startEditing = editing_item => this.setState({ editing_item });
-  stopEditing = () => this.setState({ editing_item: null });
+  startEditing = (selected_item: IRouteListItem['_id']): void => this.setState({
+    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
+    selected_item_mode: 'edit',
+  });
+
+  showMenu = (selected_item: IRouteListItem['_id']): void => this.setState({
+    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
+    selected_item_mode: 'menu',
+  });
+
+  showDropCard = (selected_item: IRouteListItem['_id']): void => this.setState({
+    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
+    selected_item_mode: 'drop',
+  });
+
+  stopEditing = (): void => this.setState({ selected_item: null });
 
   setTitle = ({ target: { value } }: { target: { value: string }}): void => {
     this.props.searchSetTitle(value);
@@ -79,9 +95,9 @@ class Component extends React.Component<Props, State> {
         }
       },
       marks,
-    }: Props = this.props;
+    }: IMapListDialogProps = this.props;
 
-    const { editing_item } = this.state;
+    const { selected_item, selected_item_mode } = this.state;
 
     return (
       <div className="dialog-content">
@@ -156,10 +172,13 @@ class Component extends React.Component<Props, State> {
                   _id={route._id}
                   is_public={route.is_public}
                   tab={tab}
-                  is_editing={(editing_item === route._id)}
+                  selected={(selected_item === route._id)}
+                  mode={selected_item_mode}
                   openRoute={this.openRoute}
                   startEditing={this.startEditing}
                   stopEditing={this.stopEditing}
+                  showMenu={this.showMenu}
+                  showDropCard={this.showDropCard}
                   key={route._id}
                 />
               ))
