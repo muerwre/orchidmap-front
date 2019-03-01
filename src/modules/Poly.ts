@@ -5,6 +5,7 @@ import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
 import { Arrows } from "$modules/Arrows";
+import { KmMarks } from "$modules/KmMarks";
 
 interface Props {
   map: Map;
@@ -28,7 +29,7 @@ export class Poly {
       .on('distancechange', this.onDistanceUpdate)
       .on('allvertexhide', this.onVertexHide)
       .on('allvertexshow', this.onVertexShow)
-      .on('latlngschange', this.updateArrows);
+      .on('latlngschange', this.updateMarks)
 
     this.poly.addTo(map);
     this.editor = editor;
@@ -41,6 +42,7 @@ export class Poly {
     this.lockMapClicks = lockMapClicks;
 
     this.arrows = new Arrows({}).addTo(map);
+    this.kmMarks = new KmMarks().addTo(map);
   }
 
   onDistanceUpdate = (event) => {
@@ -51,11 +53,12 @@ export class Poly {
   onVertexHide = (): void => this.editor.setMarkersShown(false);
   onVertexShow = (): void => this.editor.setMarkersShown(true);
 
-  updateArrows = event => {
+  updateMarks = event => {
     this.editor.setChanged(true);
 
     const { latlngs } = event;
     this.arrows.setLatLngs(latlngs);
+    this.kmMarks.setLatLngs(latlngs);
   };
 
   continue = (): void => {
@@ -104,6 +107,7 @@ export class Poly {
 
   arrows;
   poly;
+  kmMarks;
 
   editor: Props['editor'];
   map: Props['map'];
