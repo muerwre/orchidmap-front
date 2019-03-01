@@ -4,9 +4,6 @@ import { CLIENT } from '$config/frontend';
 import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
-import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { angleBetweenPoints, dist2, distToSegment, middleCoord } from "$utils/geom";
-import { arrowClusterIcon, createArrow } from "$utils/arrow";
 import { Arrows } from "$modules/Arrows";
 
 interface Props {
