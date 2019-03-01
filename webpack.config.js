@@ -41,7 +41,6 @@ const resolve = {
     $utils: join(__dirname, 'src/utils'),
     $modules: join(__dirname, 'src/modules'),
   },
-
   extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
 };
 

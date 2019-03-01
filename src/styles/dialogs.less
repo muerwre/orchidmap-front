@@ -188,13 +188,14 @@
   margin-bottom: 10px;
   transition: all 500ms;
   display: flex;
+  flex-direction: column;
 
   &.has_edit {
     //transform: translateY(-2px);
-    .route-row { background: rgba(255, 100, 100, 0.2); }
+    .route-row { background: fade(@green_secondary, 30%); }
   }
 
-  &.has_menu {
+  &.is_menu_target {
     .route-row {
       transform: translateX(-100px);
     }
@@ -204,18 +205,37 @@
     }
   }
 }
-//
-//.route-row-editor {
-//  color: white;
-//  padding: 20px 0 5px;
-//}
-//
-//.route-row-buttons {
-//  flex: 1;
-//  flex-direction: row;
-//  display: flex;
-//  align-items: center;
-//}
+
+.route-row-editor {
+  color: white;
+  padding: 5px 0 5px;
+}
+
+.route-row-buttons {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.route-row-view {
+  overflow: hidden;
+  transition: height 500ms;
+  padding-right: 32px;
+  position: relative;
+}
+
+.route-row-edit {
+  background: fade(@green_secondary, 30%);
+}
+
+.route-row-drop {
+  background: fade(@red_secondary, 20%);
+
+  .route-row {
+    align-items: center;
+  }
+}
 
 .route-row {
   background: rgba(255, 255, 255, 0.05);
@@ -226,6 +246,12 @@
   transition: background 250ms, transform 500ms;
   position: relative;
   flex: 1;
+  min-height: 64px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -246,7 +272,10 @@
   justify-content: center;
   align-items: center;
   transition: all 250ms;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -256,13 +285,14 @@
 .route-row-edit-menu {
   width: 0;
   height: 100%;
-  right: 100%;
+  right: 32px;
   bottom: 0;
   position: absolute;
   background: rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: all 500ms;
   display: flex;
+  fill: fade(white, 30%);
 
   div {
     width: 50px;

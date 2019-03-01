@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { RouteRow } from '$components/maps/RouteRow';
+import { RouteRowWrapper } from '$components/maps/RouteRowWrapper';
 import { Scroll } from '$components/Scroll';
 import {
   searchSetDistance,
@@ -21,6 +21,8 @@ import { IRootState, IRouteListItem } from '$redux/user/reducer';
 export interface IMapListDialogProps extends IRootState {
   marks: { [x: number]: string },
   routes_sorted: Array<IRouteListItem>,
+  routes: IRootState['routes'],
+  ready: IRootState['ready'],
 
   mapsLoadMore: typeof mapsLoadMore,
   searchSetDistance: typeof searchSetDistance,
@@ -30,32 +32,44 @@ export interface IMapListDialogProps extends IRootState {
 }
 
 export interface IMapListDialogState {
-  selected_item: IRouteListItem['_id'],
-  selected_item_mode: 'menu' | 'edit' | 'drop' | null,
+  menu_target: IRouteListItem['_id'],
+  editor_target: IRouteListItem['_id'],
+
+  is_editing: boolean,
+  is_dropping: boolean,
 }
 
 class Component extends React.Component<IMapListDialogProps, IMapListDialogState> {
   state = {
-    selected_item: null,
-    selected_item_mode: null,
+    menu_target: null,
+    editor_target: null,
+
+    is_editing: false,
+    is_dropping: false,
   };
 
-  startEditing = (selected_item: IRouteListItem['_id']): void => this.setState({
-    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
-    selected_item_mode: 'edit',
+  startEditing = (editor_target: IRouteListItem['_id']): void => this.setState({
+    editor_target,
+    menu_target: null,
+    is_editing: true,
+    is_dropping: false,
   });
 
-  showMenu = (selected_item: IRouteListItem['_id']): void => this.setState({
-    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
-    selected_item_mode: 'menu',
+  showMenu = (menu_target: IRouteListItem['_id']): void => this.setState({
+    menu_target,
   });
 
-  showDropCard = (selected_item: IRouteListItem['_id']): void => this.setState({
-    selected_item: ((this.state.selected_item !== selected_item && selected_item) || null),
-    selected_item_mode: 'drop',
+  showDropCard = (editor_target: IRouteListItem['_id']): void => this.setState({
+    editor_target,
+    menu_target: null,
+    is_editing: false,
+    is_dropping: true,
   });
 
-  stopEditing = (): void => this.setState({ selected_item: null });
+  stopEditing = (): void => {
+    console.log('stop it!');
+    this.setState({ editor_target: null });
+  };
 
   setTitle = ({ target: { value } }: { target: { value: string }}): void => {
     this.props.searchSetTitle(value);
@@ -63,6 +77,8 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
 
   openRoute = (_id: string): void => {
     if (isMobile()) this.props.setDialogActive(false);
+
+    this.stopEditing();
 
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
@@ -79,6 +95,8 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
       this.props.mapsLoadMore();
     }
   };
+
+  dropRoute = (): void => null;
 
   render() {
     const {
@@ -97,7 +115,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
       marks,
     }: IMapListDialogProps = this.props;
 
-    const { selected_item, selected_item_mode } = this.state;
+    const { editor_target, menu_target, is_editing, is_dropping } = this.state;
 
     return (
       <div className="dialog-content">
@@ -166,19 +184,21 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
           <div className="dialog-maplist">
             {
               list.map(route => (
-                <RouteRow
+                <RouteRowWrapper
                   title={route.title}
                   distance={route.distance}
                   _id={route._id}
                   is_public={route.is_public}
                   tab={tab}
-                  selected={(selected_item === route._id)}
-                  mode={selected_item_mode}
+                  is_editing_mode={is_dropping ? 'drop' : 'edit'}
+                  is_editing_target={editor_target === route._id}
+                  is_menu_target={menu_target === route._id}
                   openRoute={this.openRoute}
                   startEditing={this.startEditing}
                   stopEditing={this.stopEditing}
                   showMenu={this.showMenu}
                   showDropCard={this.showDropCard}
+                  dropRoute={this.dropRoute}
                   key={route._id}
                 />
               ))

@@ -1,11 +1,10 @@
-import { Map, LayerGroup, LatLng, LatLngLiteral, LeafletEventHandlerFn, marker, divIcon, Marker } from 'leaflet';
+import { Map, LatLng } from 'leaflet';
 import { EditablePolyline } from '$utils/EditablePolyline';
 import { simplify } from '$utils/simplify';
 import { CLIENT } from '$config/frontend';
 import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
-import { clusterIcon } from "$utils/clusterIcon";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { angleBetweenPoints, dist2, distToSegment, middleCoord } from "$utils/geom";
 import { arrowClusterIcon, createArrow } from "$utils/arrow";
@@ -23,17 +22,17 @@ export class Poly {
   constructor({
     map, routerMoveStart, lockMapClicks, setDistance, triggerOnChange, editor,
   }: Props) {
-    this.poly = new InteractivePoly([], {
+    this.poly = new InteractivePoly([ ], {
       color: 'url(#activePathGradient)',
       weight: 6,
       maxMarkers: 100,
       smoothFactor: 3,
-      // bubblingMouseEvents: false,
     })
       .on('distancechange', this.onDistanceUpdate)
       .on('allvertexhide', this.onVertexHide)
       .on('allvertexshow', this.onVertexShow)
-      .on('latlngschange', this.updateArrows);
+      .on('latlngschange', this.updateArrows)
+      .on('latlngschange', triggerOnChange);
 
     this.poly.addTo(map);
     this.editor = editor;
@@ -162,7 +161,7 @@ export class Poly {
     return (!this.latlngs || Object.values(this.latlngs).length <= 0);
   }
 
-  poly: EditablePolyline;
+  poly;
   arrowLayer: MarkerClusterGroup = new MarkerClusterGroup({
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
