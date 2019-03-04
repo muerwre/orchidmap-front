@@ -6,6 +6,7 @@ import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";
 import { Arrows } from "$modules/Arrows";
 import { KmMarks } from "$modules/KmMarks";
+import { isMobile } from "$utils/window";
 
 interface Props {
   map: Map;
@@ -23,7 +24,7 @@ export class Poly {
     this.poly = new InteractivePoly([], {
       color: 'url(#activePathGradient)',
       weight: 6,
-      maxMarkers: 100,
+      maxMarkers: isMobile() ? 20 : 100,
       smoothFactor: 3,
     })
       .on('distancechange', this.onDistanceUpdate)
