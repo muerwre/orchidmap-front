@@ -55,8 +55,6 @@ export class Sticker {
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
 
-    console.log({ set, sticker });
-
     ReactDOM.render(
       <React.Fragment>
         <div
