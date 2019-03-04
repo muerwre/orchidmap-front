@@ -1,4 +1,4 @@
-import { LatLng, LatLngLiteral, Point } from "leaflet";
+import { LatLng, LatLngLiteral, Point, PointExpression } from "leaflet";
 
 interface ILatLng {
   lat: number,
@@ -84,4 +84,18 @@ export const distToSegment = (A: LatLng, B: LatLng, C: LatLng): number => Math.s
 // if C between A and B
 export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => (distToSegment(A, B, C) < 0.01);
 
-export const angleBetweenPoints = (A: Point, B: Point): number => parseFloat(((Math.atan2(B.y - A.y, B.x - A.x))* 180 / Math.PI).toFixed(6));
+export const angleBetweenPoints = (A: Point, B: Point): number => parseFloat(((Math.atan2(B.y - A.y, B.x - A.x))* 180 / Math.PI).toFixed());
+export const angleBetweenPointsRad = (A: Point, B: Point): number => ((Math.atan2(B.x - A.x, B.y - A.y)));
+
+export const pointOnDistance = (A: Point, B: Point, shift: number): Point => {
+  const c = Math.sqrt((((B.x - A.x) ** 2) + ((B.y - A.y) ** 2)));
+  const angle = angleBetweenPointsRad(A, B);
+
+  // console.log({ angle, c, shift });
+  const x = Math.floor(B.x - c * Math.sin(angle) * shift);
+  const y = Math.floor(B.y - c * Math.cos(angle) * shift);
+
+  // console.log({ x, y });
+
+  return new Point(x, y);
+};

@@ -1,7 +1,7 @@
 import { divIcon, LatLngLiteral, LayerGroup, Map, marker, Marker } from "leaflet";
 import { arrowClusterIcon, createArrow } from "$utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { angleBetweenPoints, dist2, distKm, middleCoord } from "$utils/geom";
+import { angleBetweenPoints, dist2, distKm, middleCoord, pointOnDistance } from "$utils/geom";
 
 interface KmMarksOptions {
   showMiddleMarkers: boolean,
@@ -16,7 +16,7 @@ class Component extends LayerGroup {
     this.options = {
       showMiddleMarkers: true,
       showEndMarker: true,
-      kmMarksStep: 5,
+      kmMarksStep: 10,
       ...(options || {}),
     } as KmMarksOptions;
   }
@@ -50,8 +50,6 @@ class Component extends LayerGroup {
           this.map.latLngToContainerPoint(next),
         );
 
-        console.log(`[${count}] found at ${index}`, dist, sum, rounded);
-
         for (let i = 1; i <= count; i += 1) {
           const step = last_km_mark + (i * this.options.kmMarksStep);
           const shift = (step - dist) / diff;
@@ -63,8 +61,6 @@ class Component extends LayerGroup {
 
           kmMarks[step] = { ...coords, angle };
           this.marksLayer.addLayer(this.createMiddleMarker(coords, angle, step));
-
-          console.log('-->', step, shift);
         }
 
         last_km_mark = rounded;
@@ -72,13 +68,11 @@ class Component extends LayerGroup {
 
       return sum;
     }, 0);
-
-    console.log(kmMarks);
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
     draggable: false,
-    interactive: false,
+    interactive: true,
     icon: divIcon({
       html: `
       <div class="leaflet-km-dist" style="transform: rotate(${angle}deg);">
@@ -91,7 +85,6 @@ class Component extends LayerGroup {
     })
   });
 
-
   drawEndMarker = (latlngs: LatLngLiteral[]): void => {
 
   };
@@ -103,8 +96,8 @@ class Component extends LayerGroup {
     showCoverageOnHover: false,
     zoomToBoundsOnClick: false,
     animate: false,
-    maxClusterRadius: 10,
-    // iconCreateFunction: arrowClusterIcon,
+    maxClusterRadius: 120,
+    iconCreateFunction: arrowClusterIcon,
   });
 }
 
