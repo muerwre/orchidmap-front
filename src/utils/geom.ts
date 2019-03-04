@@ -100,9 +100,6 @@ export const angleBetweenPointsRad = (A: Point, B: Point): number => ((Math.atan
 //   return new Point(x, y);
 // };
 
-export const allwaysPositiveAngleDeg = (angle: number): number => {
-  const res = (angle >= -90 && angle <= 90) ? angle : (180 + angle)
-  console.log(`${angle} ==> ${res}`)
-
-  return res;
-};
+export const allwaysPositiveAngleDeg = (angle: number): number => (
+  (angle >= -90 && angle <= 90) ? angle : (180 + angle)
+);

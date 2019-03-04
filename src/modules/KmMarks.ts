@@ -69,7 +69,6 @@ class Component extends LayerGroup {
       return sum;
     }, 0);
 
-    console.log(kmMarks);
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
