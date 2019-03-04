@@ -48,6 +48,8 @@ class Component extends React.Component<Props, State> {
   openRoute = (_id: string): void => {
     if (isMobile()) this.props.setDialogActive(false);
 
+    console.log('HERE!', { isMobile: isMobile() });
+
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
 
