@@ -38,7 +38,7 @@ export class Stickers {
     latlng, sticker, angle = 2.2, text = '', set
   }: IStickerDump): void => {
 
-    if (!STICKERS[set] || !STICKERS[set].layers || !STICKERS[set].layers[sticker + 111]) return;
+    if (!STICKERS[set] || !STICKERS[set].layers || !STICKERS[set].layers[sticker]) return;
 
     const marker = new Sticker({
       latlng,
