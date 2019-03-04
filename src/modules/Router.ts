@@ -40,6 +40,7 @@ export class Router {
       serviceUrl: CLIENT.OSRM_URL,
       profile: 'bike',
       fitSelectedRoutes: false,
+      showAlternatives: false,
       routeLine,
       altLineOptions: {
         styles: [{ color: '#4597d0', opacity: 1, weight: 3 }]
@@ -50,9 +51,13 @@ export class Router {
           draggable: true,
           icon: this.createWaypointMarker(),
         }),
-        routeWhileDragging: true,
+        routeWhileDragging: false,
       }),
-      routeWhileDragging: true
+      routeWhileDragging: false,
+      routingOptions: {
+        geometryOnly: false,
+      },
+      useHints: false,
     }).on('waypointschanged', this.updateWaypointsCount);
 
     this.router.addTo(map);
@@ -87,7 +92,7 @@ export class Router {
     }
 
     window.removeEventListener('mouseup', this.unlockPropagations);
-    setTimeout(() => this.lockMapClicks(false), 300);
+    setTimeout(() => this.lockMapClicks(false), 0);
   };
 
   startFrom = (latlngs: ILatLng): void => {
