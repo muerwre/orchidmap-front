@@ -1,7 +1,8 @@
-import { divIcon, LatLngLiteral, LayerGroup, Map, marker, Marker } from "leaflet";
+import { divIcon, LatLngLiteral, Layer, LayerGroup, Map, marker, Marker } from "leaflet";
 import { arrowClusterIcon, createArrow } from "$utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { allwaysPositiveAngleDeg, angleBetweenPoints, distKm } from "$utils/geom";
+import classNames from 'classnames';
 
 interface KmMarksOptions {
   showMiddleMarkers: boolean,
@@ -24,8 +25,11 @@ class Component extends LayerGroup {
   setLatLngs = (latlngs: LatLngLiteral[]): void => {
     if (!this.map) return;
     this.marksLayer.clearLayers();
+    this.endMarker.clearLayers();
 
-    if (latlngs.length === 0) return;
+    this.distance = 0;
+
+    if (latlngs.length <= 1) return;
 
     if (this.options.showMiddleMarkers) this.drawMiddleMarkers(latlngs);
     if (this.options.showEndMarker) this.drawEndMarker(latlngs);
@@ -35,8 +39,8 @@ class Component extends LayerGroup {
     const kmMarks = {};
     let last_km_mark = 0;
 
-    latlngs.reduce((dist, current, index) => {
-      if (index >= latlngs.length - 1) return;
+    this.distance = latlngs.reduce((dist, current, index) => {
+      if (index >= latlngs.length - 1) return dist;
 
       const next = latlngs[index + 1];
       const diff = distKm(current, next);
@@ -86,8 +90,35 @@ class Component extends LayerGroup {
     })
   });
 
-  drawEndMarker = (latlngs: LatLngLiteral[]): void => {
+  createEndMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
+    draggable: false,
+    interactive: true,
+    icon: divIcon({
+      html: `
+        <div class="leaflet-km-dist">
+          ${parseFloat(distance.toFixed(1))}
+        </div>
+      `,
+      className: classNames('leaflet-km-marker end-marker', { right: (angle > -90 && angle < 90) }),
+      iconSize: [11, 11],
+      iconAnchor: [6, 6]
+    }),
+    zIndexOffset: -100,
+  });
 
+  drawEndMarker = (latlngs: LatLngLiteral[]): void => {
+    this.endMarker.clearLayers();
+
+    const current = latlngs[latlngs.length - 2];
+    const next = latlngs[latlngs.length - 1
+      ];
+
+    const angle = angleBetweenPoints(
+      this.map.latLngToContainerPoint(current),
+      this.map.latLngToContainerPoint(next),
+    );
+
+    this.endMarker.addLayer(this.createEndMarker(next, angle, this.distance));
   };
 
   options: KmMarksOptions;
@@ -100,6 +131,8 @@ class Component extends LayerGroup {
     maxClusterRadius: 120,
     iconCreateFunction: arrowClusterIcon,
   });
+  endMarker: LayerGroup = new LayerGroup();
+  distance: number = 0;
 }
 
 
@@ -108,12 +141,14 @@ Component.addInitHook(function () {
     if (event.target instanceof KmMarks) {
       this.map = event.target._map;
       this.marksLayer.addTo(this.map);
+      this.endMarker.addTo(this.map);
     }
   });
 
   this.once('remove', (event) => {
     if (event.target instanceof KmMarks) {
       this.marksLayer.removeFrom(this.map);
+      this.endMarker.removeFrom(this.map);
     }
   });
 });

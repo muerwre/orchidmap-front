@@ -405,6 +405,7 @@ export class Component extends Polyline {
 
     this.setLatLngs(latlngs);
     this.fire('latlngschange', { latlngs });
+    this.showVisibleMarkers();
     this.startDrawing();
   };
 

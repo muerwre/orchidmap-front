@@ -2,12 +2,10 @@
 
   ## BUGS
 
-  todo fix arrows (can't reproduce now :-( )
-  done adding route, applying it and adding again and deleting it makes ghost points on the map
-
+  todo moving out the screen makes stickers editable again
   ## FEATURES
 
-  todo make arrows and distance points
+  done make arrows and distance points
   todo selecting logo on crop
 
   done public maps
@@ -20,10 +18,12 @@
     todo check canvas support at startup
     todo check osrm is up
 
-  todo maybe: map preview on save
+  todo maybe: map preview on save (nope)
   done maybe: stickers clusterization?
 
   ## DONE
+  done fix arrows (can't reproduce now :-( )
+  done adding route, applying it and adding again and deleting it makes ghost points on the map
 
   done adding/removing points doesn't change distance
   done cancelling editing someone's else map return back to it's original address /razminochnyj/
