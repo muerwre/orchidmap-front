@@ -3,6 +3,8 @@
   ## BUGS
 
   todo moving out the screen makes stickers editable again
+  todo make poly editable only on click/manual edit dialog open
+
   ## FEATURES
 
   done make arrows and distance points

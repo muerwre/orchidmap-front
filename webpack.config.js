@@ -143,7 +143,7 @@ module.exports = () => {
     devServer: {
       historyApiFallback: true,
       port: 8000,
-      host: '192.168.88.40',
+      // host: '192.168.88.40',
       contentBase: 'dist',
       publicPath: '/',
       hot: true,
