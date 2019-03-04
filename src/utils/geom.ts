@@ -87,15 +87,22 @@ export const pointBetweenPoints = (A: LatLng, B: LatLng, C: LatLng): boolean => 
 export const angleBetweenPoints = (A: Point, B: Point): number => parseFloat(((Math.atan2(B.y - A.y, B.x - A.x))* 180 / Math.PI).toFixed());
 export const angleBetweenPointsRad = (A: Point, B: Point): number => ((Math.atan2(B.x - A.x, B.y - A.y)));
 
-export const pointOnDistance = (A: Point, B: Point, shift: number): Point => {
-  const c = Math.sqrt((((B.x - A.x) ** 2) + ((B.y - A.y) ** 2)));
-  const angle = angleBetweenPointsRad(A, B);
+// export const pointOnDistance = (A: Point, B: Point, shift: number): Point => {
+//   const c = Math.sqrt((((B.x - A.x) ** 2) + ((B.y - A.y) ** 2)));
+//   const angle = angleBetweenPointsRad(A, B);
+//
+//   // console.log({ angle, c, shift });
+//   const x = Math.floor(B.x - c * Math.sin(angle) * shift);
+//   const y = Math.floor(B.y - c * Math.cos(angle) * shift);
+//
+//   // console.log({ x, y });
+//
+//   return new Point(x, y);
+// };
 
-  // console.log({ angle, c, shift });
-  const x = Math.floor(B.x - c * Math.sin(angle) * shift);
-  const y = Math.floor(B.y - c * Math.cos(angle) * shift);
+export const allwaysPositiveAngleDeg = (angle: number): number => {
+  const res = (angle >= -90 && angle <= 90) ? angle : (180 + angle)
+  console.log(`${angle} ==> ${res}`)
 
-  // console.log({ x, y });
-
-  return new Point(x, y);
+  return res;
 };

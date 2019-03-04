@@ -1,7 +1,7 @@
 import { divIcon, LatLngLiteral, LayerGroup, Map, marker, Marker } from "leaflet";
 import { arrowClusterIcon, createArrow } from "$utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { angleBetweenPoints, dist2, distKm, middleCoord, pointOnDistance } from "$utils/geom";
+import { allwaysPositiveAngleDeg, angleBetweenPoints, distKm } from "$utils/geom";
 
 interface KmMarksOptions {
   showMiddleMarkers: boolean,
@@ -68,17 +68,19 @@ class Component extends LayerGroup {
 
       return sum;
     }, 0);
+
+    console.log(kmMarks);
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
     draggable: false,
-    interactive: true,
+    interactive: false,
     icon: divIcon({
       html: `
-      <div class="leaflet-km-dist" style="transform: rotate(${angle}deg);">
-        ${distance}
-      </div>
-    `,
+        <div class="leaflet-km-dist" style="transform: translate(0, 0) rotate(${allwaysPositiveAngleDeg(angle)}deg);">
+          ${distance}
+        </div>
+      `,
       className: 'leaflet-km-marker',
       iconSize: [11, 11],
       iconAnchor: [6, 6]
