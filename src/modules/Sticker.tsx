@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
 import { ILatLng } from "$modules/Stickers";
 import { IRootState } from "$redux/user/reducer";
-import { editor } from "$modules/Editor";
+import { Editor, editor } from "$modules/Editor";
 
 const getX = e => (
   e.touches && e.touches.length > 0
@@ -33,6 +33,7 @@ interface Props {
   set: IRootState['activeSticker']['set'];
   angle?: number;
   text?: string;
+  editor: Editor,
 
   deleteSticker: (sticker: this) => void;
 
@@ -42,7 +43,7 @@ interface Props {
 
 export class Sticker {
   constructor({
-    latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '',
+    latlng, deleteSticker, map, lockMapClicks, sticker, set, triggerOnChange, angle = 2.2, text = '', editor,
   }: Props) {
     this.text = text;
     this.latlng = latlng;
@@ -54,6 +55,7 @@ export class Sticker {
     this.direction = getLabelDirection(this.angle);
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
+    this.editor = editor;
 
     ReactDOM.render(
       <React.Fragment>
@@ -94,16 +96,26 @@ export class Sticker {
 
     this.marker = marker(latlng, { icon: mark, draggable: true });
 
+    this.marker.on('add', this.updateModeOnAdd);
+
     this.element.addEventListener('mouseup', this.onDragStop);
     this.element.addEventListener('mouseup', this.preventPropagations);
 
     this.element.addEventListener('touchend', this.onDragStop);
     this.element.addEventListener('touchend', this.preventPropagations);
 
-    this.marker.addEventListener('dragend', this.triggerOnChange);
+    this.marker.on('dragend', this.triggerOnChange);
 
     this.setAngle(this.angle);
   }
+
+  updateModeOnAdd = () => {
+    if (this.editor.getEditing()) {
+      this.startEditing();
+    } else {
+      this.stopEditing();
+    }
+  };
 
   setText = (text: Props['text']): void => {
     this.text = text;
@@ -207,6 +219,7 @@ export class Sticker {
   marker: Marker;
   isDragging: boolean = false;
   direction: string;
+  editor: Editor;
 
   text: Props['text'];
   latlng:  Props['latlng'];

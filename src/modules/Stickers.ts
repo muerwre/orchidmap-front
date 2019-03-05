@@ -26,7 +26,7 @@ export class Stickers {
 
     this.clusterLayer.addTo(map);
 
-    this.clusterLayer.on('animationend', this.onSpiderify);
+    // this.clusterLayer.on('animationend', this.onSpiderify);
 
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];
@@ -50,6 +50,7 @@ export class Stickers {
       set,
       triggerOnChange: this.triggerOnChange,
       text,
+      editor: this.editor,
     });
 
     this.stickers.push(marker);
@@ -80,14 +81,15 @@ export class Stickers {
 
   dumpData = (): Array<IStickerDump> => this.stickers.map(sticker => sticker.dumpData());
 
-  onSpiderify = (): void => {
-    // todo: it has markers passed as argument. Update only them.
-    if (this.editor.getEditing()) {
-      this.startEditing();
-    } else {
-      this.stopEditing();
-    }
-  };
+  // onSpiderify = (): void => {
+  //   console.log('spider?');
+  //   // todo: it has markers passed as argument. Update only them.
+  //   if (this.editor.getEditing()) {
+  //     this.startEditing();
+  //   } else {
+  //     this.stopEditing();
+  //   }
+  // };
 
   startEditing = (): void => {
     this.stickers.map(sticker => sticker.startEditing());
