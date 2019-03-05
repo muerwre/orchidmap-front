@@ -5,10 +5,9 @@
 
 
   ## FEATURES
-
   todo arrows on screenshot
 
-  todo refactor reducer to use is_editing and etc (mb move them to status object)
+  todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
   todo tower sticker
   todo route description
 
