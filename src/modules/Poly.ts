@@ -55,7 +55,8 @@ export class Poly {
   onVertexShow = (): void => this.editor.setMarkersShown(true);
 
   updateMarks = event => {
-    this.editor.setChanged(true);
+    // this.editor.setChanged(true);
+    this.editor.triggerOnChange();
 
     const { latlngs } = event;
     this.arrows.setLatLngs(latlngs);

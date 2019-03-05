@@ -200,8 +200,6 @@ export class Editor {
   };
 
   triggerOnChange = (): void => {
-    console.log('trigger on change', this.isEmpty, this.getIsEmpty());
-
     if (this.isEmpty !== this.getIsEmpty()) this.setIsEmpty(this.isEmpty);
     if (this.getEditing() && !this.getChanged()) this.setChanged(true);
   };
