@@ -22,7 +22,7 @@
     done delayed notify (delay(2000).then(showLoadingMsg))
     todo network error notifications
     todo check canvas support at startup
-    todo check osrm is up
+    done check osrm is up
 
   todo maybe: map preview on save (dont think so)
 
