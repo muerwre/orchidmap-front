@@ -38,7 +38,7 @@ export class Router {
 
     this.router = Routing.control({
       serviceUrl: CLIENT.OSRM_URL,
-      profile: 'bike',
+      profile: CLIENT.OSRM_PROFILE,
       fitSelectedRoutes: false,
       showAlternatives: false,
       routeLine,

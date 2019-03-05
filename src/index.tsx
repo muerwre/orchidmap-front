@@ -2,7 +2,7 @@
 
   ## BUGS
 
-  todo moving out the screen makes stickers editable again
+
 
   ## FEATURES
 
@@ -26,6 +26,7 @@
 
   todo maybe: map preview on save (nope)
   done maybe: stickers clusterization?
+  done moving out the screen makes stickers editable again
 
   ## DONE
   done fix arrows (can't reproduce now :-( )
