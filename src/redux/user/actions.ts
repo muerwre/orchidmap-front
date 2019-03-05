@@ -70,3 +70,4 @@ export const mapsLoadMore = () => ({ type: ACTIONS.MAPS_LOAD_MORE });
 export const mapsSetShift = (shift: number) => ({ type: ACTIONS.MAPS_SET_SHIFT, shift });
 
 export const setFeature = (features: { [x: string]: boolean }) => ({ type: ACTIONS.SET_FEATURE, features });
+export const setIsRouting = (is_routing: boolean) => ({ type: ACTIONS.SET_IS_ROUTING, is_routing });

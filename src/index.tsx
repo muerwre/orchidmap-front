@@ -6,12 +6,13 @@
 
   ## FEATURES
 
-  done check if osrm available
-  done selecting map on dialog in edit mode opens it at view mode
-  todo routing spinner
-  todo polyline editing only in manual mode (or by click)
+  todo arrows on screenshot
 
-  done make arrows and distance points
+  todo refactor reducer to use is_editing and etc (mb move them to status object)
+  todo tower sticker
+  todo route description
+
+  todo polyline editing only in manual mode (or by click)
   todo selecting logo on crop
 
   done public maps
@@ -24,11 +25,18 @@
     todo check canvas support at startup
     todo check osrm is up
 
-  todo maybe: map preview on save (nope)
+  todo maybe: map preview on save (dont think so)
+
+  ## DONE
+
+  done routing spinner
   done maybe: stickers clusterization?
   done moving out the screen makes stickers editable again
 
-  ## DONE
+  done check if osrm available
+  done selecting map on dialog in edit mode opens it at view mode
+  done make arrows and distance points
+
   done fix arrows (can't reproduce now :-( )
   done adding route, applying it and adding again and deleting it makes ghost points on the map
 

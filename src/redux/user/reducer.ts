@@ -33,9 +33,11 @@ export interface IRootReducer {
   address_origin: string,
   changed: boolean,
   provider: keyof typeof PROVIDERS,
-  is_public: boolean,
   markers_shown: boolean,
+
+  is_public: boolean,
   is_empty: boolean,
+  is_routing: boolean,
 
   save_error: string,
   save_finished: boolean,
@@ -297,6 +299,11 @@ const setFeature: ActionHandler<typeof ActionCreators.setFeature> = (state, { fe
   }
 });
 
+const setIsRouting: ActionHandler<typeof ActionCreators.setIsRouting> = (state, { is_routing }) => ({
+  ...state,
+  is_routing,
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -340,12 +347,13 @@ const HANDLERS = ({
   [ACTIONS.MAPS_SET_SHIFT]: mapsSetShift,
 
   [ACTIONS.SET_FEATURE]: setFeature,
+  [ACTIONS.SET_IS_ROUTING]: setIsRouting,
 });
 
 export const INITIAL_STATE: IRootReducer = {
   ready: false,
   user: { ...DEFAULT_USER },
-  editing: false,
+
   mode: MODES.NONE,
   logo: DEFAULT_LOGO,
   routerPoints: 0,
@@ -356,11 +364,14 @@ export const INITIAL_STATE: IRootReducer = {
   title: '',
   address: '',
   address_origin: '',
-  changed: false,
   provider: DEFAULT_PROVIDER,
-  is_public: false,
+
   markers_shown: true,
+  changed: false,
+  editing: false,
+  is_public: false,
   is_empty: true,
+  is_routing: false,
 
   save_error: '',
   save_finished: false,
