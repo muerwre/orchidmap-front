@@ -48,7 +48,8 @@ class Component extends React.Component<Props, State> {
   openRoute = (_id: string): void => {
     if (isMobile()) this.props.setDialogActive(false);
 
-    pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+    // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+    pushPath(`/${_id}`);
   };
 
   onScroll = (e: { target: { scrollHeight: number, scrollTop: number, clientHeight: number }}): void => {

@@ -75,4 +75,6 @@ export const ACTIONS: IActions = {
 
   MAPS_LOAD_MORE: 'MAPS_LOAD_MORE',
   MAPS_SET_SHIFT: 'MAPS_SET_SHIFT',
+
+  SET_FEATURE: 'SET_FEATURE',
 };

@@ -3,9 +3,13 @@
   ## BUGS
 
   todo moving out the screen makes stickers editable again
-  todo make poly editable only on click/manual edit dialog open
 
   ## FEATURES
+
+  done check if osrm available
+  done selecting map on dialog in edit mode opens it at view mode
+  todo routing spinner
+  todo polyline editing only in manual mode (or by click)
 
   done make arrows and distance points
   todo selecting logo on crop

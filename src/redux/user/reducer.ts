@@ -46,6 +46,10 @@ export interface IRootReducer {
   dialog: IDialogs[keyof IDialogs],
   dialog_active: boolean,
 
+  features: {
+    routing: boolean,
+  },
+
   renderer: {
     data: string,
     width: number,
@@ -285,6 +289,14 @@ const mapsSetShift: ActionHandler<typeof ActionCreators.mapsSetShift> = (state, 
   }
 });
 
+const setFeature: ActionHandler<typeof ActionCreators.setFeature> = (state, { features }) => ({
+  ...state,
+  features: {
+    ...state.features,
+    ...features,
+  }
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -327,6 +339,7 @@ const HANDLERS = ({
   [ACTIONS.SET_IS_EMPTY]: setIsEmpty,
   [ACTIONS.MAPS_SET_SHIFT]: mapsSetShift,
 
+  [ACTIONS.SET_FEATURE]: setFeature,
 });
 
 export const INITIAL_STATE: IRootReducer = {
@@ -357,6 +370,10 @@ export const INITIAL_STATE: IRootReducer = {
 
   dialog: DIALOGS.NONE,
   dialog_active: false,
+
+  features: {
+    routing: false,
+  },
 
   renderer: {
     data: '',

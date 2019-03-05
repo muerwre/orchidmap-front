@@ -11,6 +11,7 @@ import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {
+  routing: IRootState['features']['routing'],
   setMode: typeof setMode,
   startEditing: typeof startEditing,
   stopEditing: typeof stopEditing,
@@ -46,20 +47,25 @@ class Component extends React.PureComponent<Props, void> {
 
   render() {
     const {
-      mode, changed, editing,
+      mode, changed, editing, routing,
     } = this.props;
 
     return (
       <div>
         <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
           <div className="control-bar control-bar-padded">
-            <button
-              className={classnames({ active: mode === MODES.ROUTER })}
-              onClick={this.startRouterMode}
-            >
-              <Tooltip>Автоматический маршрут</Tooltip>
-              <Icon icon="icon-route-2" />
-            </button>
+            {
+              routing &&
+              <button
+                className={classnames({ active: mode === MODES.ROUTER })}
+                onClick={this.startRouterMode}
+              >
+                <Tooltip>Автоматический маршрут</Tooltip>
+                <Icon icon="icon-route-2" />
+              </button>
+            }
+
+
             <button
               className={classnames({ active: mode === MODES.POLY })}
               onClick={this.startPolyMode}
@@ -67,6 +73,7 @@ class Component extends React.PureComponent<Props, void> {
               <Tooltip>Редактирование маршрута</Tooltip>
               <Icon icon="icon-poly-3" />
             </button>
+
             <button
               className={classnames({ active: (mode === MODES.STICKERS || mode === MODES.STICKERS_SELECT) })}
               onClick={this.startStickerMode}
@@ -133,26 +140,20 @@ class Component extends React.PureComponent<Props, void> {
 function mapStateToProps(state) {
   const {
     user: {
-      user,
       editing,
       mode,
-      routerPoints,
-      activeSticker,
-      title,
-      address,
       changed,
+      features: {
+        routing,
+      }
     },
   } = state;
 
   return {
-    user,
     editing,
     mode,
-    routerPoints,
-    activeSticker,
-    title,
-    address,
     changed,
+    routing,
   };
 }
 

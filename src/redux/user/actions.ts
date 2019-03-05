@@ -68,3 +68,5 @@ export const setIsEmpty = is_empty => ({ type: ACTIONS.SET_IS_EMPTY, is_empty })
 
 export const mapsLoadMore = () => ({ type: ACTIONS.MAPS_LOAD_MORE });
 export const mapsSetShift = (shift: number) => ({ type: ACTIONS.MAPS_SET_SHIFT, shift });
+
+export const setFeature = (features: { [x: string]: boolean }) => ({ type: ACTIONS.SET_FEATURE, features });

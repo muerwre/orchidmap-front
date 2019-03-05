@@ -4,6 +4,8 @@ import { IRootState } from "$redux/user/reducer";
 import { IUser } from "$constants/auth";
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";
+import { CLIENT } from '$config/frontend';
+import { LatLngLiteral } from "leaflet";
 
 const arrayToObject = (array: any[], key: string): {} => array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
 
@@ -95,3 +97,7 @@ export const getRouteList = ({
   }
 }).then(result => (result && result.data && result.data.success && result.data))
   .catch(() => ({ list: [], min: 0, max: 0, limit: 0, step: 20, shift: 20 }));
+
+export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> => (
+  CLIENT && CLIENT.OSRM_URL && axios.get(CLIENT.OSRM_TEST_URL(bounds)).then(() => true).catch(() => false)
+);
