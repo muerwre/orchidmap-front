@@ -397,7 +397,7 @@ export class Editor {
   get isEmpty(): boolean {
     const { route, stickers } = this.dumpData();
 
-    return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
+    return (!route || route.length <= 1) && (!stickers || stickers.length <= 0);
   }
 
   get hasEmptyHistory(): boolean {
