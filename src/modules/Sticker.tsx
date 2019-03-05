@@ -134,11 +134,10 @@ export class Sticker {
     this.lockMapClicks(true);
 
     window.addEventListener('mousemove', this.onDrag);
-    window.addEventListener('mouseup', this.onDragStop);
     window.addEventListener('touchmove', this.onDrag);
-    window.addEventListener('touchend', this.onDragStop);
 
-    // this.marker.disableEdit();
+    window.addEventListener('mouseup', this.onDragStop);
+    window.addEventListener('touchend', this.onDragStop);
   };
 
   preventPropagations = (e): void => {
@@ -156,9 +155,9 @@ export class Sticker {
     this.isDragging = false;
 
     window.removeEventListener('mousemove', this.onDrag);
-    window.removeEventListener('mouseup', this.onDragStop);
-
     window.removeEventListener('touchmove', this.onDrag);
+
+    window.removeEventListener('mouseup', this.onDragStop);
     window.removeEventListener('touchend', this.onDragStop);
 
     this.lockMapClicks(false);
