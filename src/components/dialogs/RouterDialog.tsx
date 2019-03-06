@@ -4,10 +4,12 @@ import {
   routerCancel as routerCancelAction,
   routerSubmit as routerSubmitAction,
 } from "$redux/user/actions";
+import classnames from "classnames";
 
 type Props = {
   routerPoints: number,
   width: number,
+  is_routing: boolean,
 
   routerCancel: typeof routerCancelAction,
   routerSubmit: typeof routerSubmitAction,
@@ -81,9 +83,11 @@ const draggablePoints = ({
 );
 
 export const RouterDialog = ({
-  routerPoints, routerCancel, routerSubmit, width
+  routerPoints, routerCancel, routerSubmit, width, is_routing,
 }: Props) => (
   <div className="control-dialog" style={{ width }}>
+    <div className={classnames('save-loader', { active: is_routing })} />
+
     {!routerPoints && noPoints({ routerCancel })}
     {routerPoints === 1 && firstPoint({ routerCancel })}
     {routerPoints >= 2 && draggablePoints({ routerCancel, routerSubmit })}

@@ -57,7 +57,7 @@ class Component extends React.PureComponent<Props, State> {
           <span className="desktop-only">
             <Icon icon="icon-cycle" size={32} />
           </span>
-          <span className="desktop-only">{toHours(estimated)}</span>
+          <div className="desktop-only">{toHours(estimated)}</div>
         </div>
         {
           dialogOpened &&

@@ -14,7 +14,7 @@ import {
   setAddress,
   setChanged,
   setDistance,
-  setIsEmpty,
+  setIsEmpty, setIsRouting,
   setLogo,
   setMarkersShown,
   setMode,
@@ -81,9 +81,19 @@ export class Editor {
       map, routerMoveStart, lockMapClicks, setDistance: this.setDistance, triggerOnChange, editor: this,
     });
 
-    this.stickers = new Stickers({ map, lockMapClicks, triggerOnChange, editor: this });
+    this.stickers = new Stickers({
+      map,
+      lockMapClicks,
+      triggerOnChange,
+      editor: this
+    });
+
     this.router = new Router({
-      map, lockMapClicks, setRouterPoints: this.setRouterPoints, pushPolyPoints
+      map,
+      lockMapClicks,
+      pushPolyPoints,
+      setRouterPoints: this.setRouterPoints,
+      setIsRouting: this.setIsRouting,
     });
 
     this.switches = {
@@ -176,6 +186,7 @@ export class Editor {
   setAddress: typeof setAddress = value => store.dispatch(setAddress(value));
   setPublic: typeof setPublic = value => store.dispatch(setPublic(value));
   setIsEmpty: typeof setIsEmpty = value => store.dispatch(setIsEmpty(value));
+  setIsRouting: typeof setIsRouting = value => store.dispatch(setIsRouting(value));
 
   setMarkersShown = (value: boolean): void => {
     if (this.getState().markers_shown !== value) store.dispatch(setMarkersShown(value));
@@ -397,7 +408,7 @@ export class Editor {
   get isEmpty(): boolean {
     const { route, stickers } = this.dumpData();
 
-    return (!route || route.length < 1) && (!stickers || stickers.length <= 0);
+    return (!route || route.length <= 1) && (!stickers || stickers.length <= 0);
   }
 
   get hasEmptyHistory(): boolean {

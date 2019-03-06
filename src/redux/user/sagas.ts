@@ -2,7 +2,7 @@ import { REHYDRATE } from 'redux-persist';
 import { delay, SagaIterator } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
 import {
-  checkIframeToken,
+  checkIframeToken, checkOSRMService,
   checkUserToken,
   getGuestToken, getRouteList,
   getStoredMap,
@@ -32,7 +32,7 @@ import {
   setProvider,
   changeProvider,
   setSaveLoading,
-  mapsSetShift, searchChangeDistance, clearAll,
+  mapsSetShift, searchChangeDistance, clearAll, setFeature,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -85,7 +85,7 @@ function* startEmptyEditorSaga() {
   yield put(setChanged(false));
   yield put(setEditing(true));
 
-  return hideLoader();
+  return yield call(setReadySaga);
 }
 
 function* startEditingSaga() {
@@ -136,6 +136,21 @@ function* replaceAddressIfItsBusy(destination, original) {
   pushPath(`/${destination}/edit`);
 }
 
+function* checkOSRMServiceSaga() {
+  const north_east = editor.map.map.getBounds().getNorthEast();
+  const south_west = editor.map.map.getBounds().getSouthWest();
+  const routing = yield call(checkOSRMService, [north_east, south_west]);
+
+  yield put(setFeature({ routing }));
+}
+
+function* setReadySaga() {
+  yield put(setReady(true));
+  hideLoader();
+
+  yield call(checkOSRMServiceSaga);
+}
+
 function* mapInitSaga() {
   pushLoaderState(90);
 
@@ -150,9 +165,7 @@ function* mapInitSaga() {
 
     if (newUrl) {
       yield pushPath(`/${newUrl}`);
-      yield put(setReady(true));
-      hideLoader();
-      return;
+      return yield call(setReadySaga);
     }
   }
 
@@ -162,7 +175,7 @@ function* mapInitSaga() {
     if (map) {
       if (mode && mode === 'edit') {
         if (map && map.owner && mode === 'edit' && map.owner.id !== id) {
-          hideLoader();
+          yield call(setReadySaga);
           yield call(replaceAddressIfItsBusy, map.random_url, map.address);
         } else {
           yield put(setAddressOrigin(''));
@@ -175,8 +188,7 @@ function* mapInitSaga() {
         editor.stopEditing();
       }
 
-      yield put(setReady(true));
-      hideLoader();
+      yield call(setReadySaga);
       return true;
     }
   }

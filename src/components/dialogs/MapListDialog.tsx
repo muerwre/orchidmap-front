@@ -78,6 +78,8 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
   openRoute = (_id: string): void => {
     if (isMobile()) this.props.setDialogActive(false);
 
+    // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+    pushPath(`/${_id}`);
     this.stopEditing();
 
     pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);

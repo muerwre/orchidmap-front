@@ -3,6 +3,7 @@ import { IStickerDump, Sticker } from '$modules/Sticker';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { clusterIcon } from '$utils/clusterIcon';
 import { editor, Editor } from "$modules/Editor";
+import { STICKERS } from "$constants/stickers";
 
 export interface ILatLng {
   lat: number,
@@ -25,7 +26,7 @@ export class Stickers {
 
     this.clusterLayer.addTo(map);
 
-    this.clusterLayer.on('animationend', this.onSpiderify);
+    // this.clusterLayer.on('animationend', this.onSpiderify);
 
     this.lockMapClicks = lockMapClicks;
     this.stickers = [];
@@ -36,6 +37,9 @@ export class Stickers {
   createSticker = ({
     latlng, sticker, angle = 2.2, text = '', set
   }: IStickerDump): void => {
+
+    if (!STICKERS[set] || !STICKERS[set].layers || !STICKERS[set].layers[sticker]) return;
+
     const marker = new Sticker({
       latlng,
       angle,
@@ -46,6 +50,7 @@ export class Stickers {
       set,
       triggerOnChange: this.triggerOnChange,
       text,
+      editor: this.editor,
     });
 
     this.stickers.push(marker);
@@ -76,14 +81,15 @@ export class Stickers {
 
   dumpData = (): Array<IStickerDump> => this.stickers.map(sticker => sticker.dumpData());
 
-  onSpiderify = (): void => {
-    // todo: it has markers passed as argument. Update only them.
-    if (this.editor.getEditing()) {
-      this.startEditing();
-    } else {
-      this.stopEditing();
-    }
-  };
+  // onSpiderify = (): void => {
+  //   console.log('spider?');
+  //   // todo: it has markers passed as argument. Update only them.
+  //   if (this.editor.getEditing()) {
+  //     this.startEditing();
+  //   } else {
+  //     this.stopEditing();
+  //   }
+  // };
 
   startEditing = (): void => {
     this.stickers.map(sticker => sticker.startEditing());

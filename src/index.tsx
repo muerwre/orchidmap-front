@@ -2,12 +2,16 @@
 
   ## BUGS
 
-  todo fix arrows (can't reproduce now :-( )
-  done adding route, applying it and adding again and deleting it makes ghost points on the map
+
 
   ## FEATURES
+  todo arrows on screenshot
 
-  todo make arrows and distance points
+  todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
+  todo tower sticker
+  todo route description
+
+  todo polyline editing only in manual mode (or by click)
   todo selecting logo on crop
 
   done public maps
@@ -18,12 +22,22 @@
     done delayed notify (delay(2000).then(showLoadingMsg))
     todo network error notifications
     todo check canvas support at startup
-    todo check osrm is up
+    done check osrm is up
 
-  todo maybe: map preview on save
-  done maybe: stickers clusterization?
+  todo maybe: map preview on save (dont think so)
 
   ## DONE
+
+  done routing spinner
+  done maybe: stickers clusterization?
+  done moving out the screen makes stickers editable again
+
+  done check if osrm available
+  done selecting map on dialog in edit mode opens it at view mode
+  done make arrows and distance points
+
+  done fix arrows (can't reproduce now :-( )
+  done adding route, applying it and adding again and deleting it makes ghost points on the map
 
   done adding/removing points doesn't change distance
   done cancelling editing someone's else map return back to it's original address /razminochnyj/

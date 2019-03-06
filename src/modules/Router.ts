@@ -13,6 +13,7 @@ interface IWaypoint {
 }
 
 interface Props {
+  setIsRouting: typeof editor.setIsRouting,
   map: Map,
   setRouterPoints: typeof editor.setRouterPoints,
   pushPolyPoints: typeof editor.pushPolyPoints,
@@ -21,12 +22,13 @@ interface Props {
 
 export class Router {
   constructor({
-    map, lockMapClicks, setRouterPoints, pushPolyPoints
+    map, lockMapClicks, setRouterPoints, pushPolyPoints, setIsRouting,
   }: Props) {
     this.waypoints = [];
     this.lockMapClicks = lockMapClicks;
     this.setRouterPoints = setRouterPoints;
     this.pushPolyPoints = pushPolyPoints;
+    this.setIsRouting = setIsRouting;
 
     const routeLine = r => Routing.line(r, {
       styles: [
@@ -38,8 +40,9 @@ export class Router {
 
     this.router = Routing.control({
       serviceUrl: CLIENT.OSRM_URL,
-      profile: 'bike',
+      profile: CLIENT.OSRM_PROFILE,
       fitSelectedRoutes: false,
+      showAlternatives: false,
       routeLine,
       altLineOptions: {
         styles: [{ color: '#4597d0', opacity: 1, weight: 3 }]
@@ -50,13 +53,28 @@ export class Router {
           draggable: true,
           icon: this.createWaypointMarker(),
         }),
-        routeWhileDragging: true,
+        routeWhileDragging: false,
       }),
-      routeWhileDragging: true
-    }).on('waypointschanged', this.updateWaypointsCount);
+      routeWhileDragging: false,
+      routingOptions: {
+        geometryOnly: false,
+      },
+      useHints: false,
+    })
+      .on('routingstart', this.showSpinner)
+      .on('routesfound routingerror', this.hideSpinner)
+      .on('waypointschanged', this.updateWaypointsCount);
 
     this.router.addTo(map);
   }
+
+  showSpinner = () => {
+    this.setIsRouting(true);
+  };
+
+  hideSpinner = () => {
+    this.setIsRouting(false);
+  };
 
   pushWaypointOnClick = ({ latlng: { lat, lng } }: { latlng: ILatLng }): void => {
     const waypoints = this.router.getWaypoints().filter(({ latLng }) => !!latLng);
@@ -87,7 +105,7 @@ export class Router {
     }
 
     window.removeEventListener('mouseup', this.unlockPropagations);
-    setTimeout(() => this.lockMapClicks(false), 300);
+    setTimeout(() => this.lockMapClicks(false), 0);
   };
 
   startFrom = (latlngs: ILatLng): void => {
@@ -148,6 +166,7 @@ export class Router {
   };
 
   waypoints: Array<IWaypoint> = [];
+  setIsRouting: Props['setIsRouting'];
   lockMapClicks: Props['lockMapClicks'];
   setRouterPoints: Props['setRouterPoints'];
   pushPolyPoints: Props['pushPolyPoints'];
