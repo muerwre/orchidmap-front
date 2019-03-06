@@ -7,7 +7,10 @@ import {
   searchSetDistance,
   searchSetTitle,
   searchSetTab,
-  setDialogActive, mapsLoadMore,
+  setDialogActive,
+  mapsLoadMore,
+  dropRoute,
+  modifyRoute,
 } from '$redux/user/actions';
 import { isMobile } from '$utils/window';
 import classnames from 'classnames';
@@ -29,6 +32,8 @@ export interface IMapListDialogProps extends IRootState {
   searchSetTitle: typeof searchSetTitle,
   searchSetTab: typeof searchSetTab,
   setDialogActive: typeof setDialogActive,
+  dropRoute: typeof dropRoute,
+  modifyRoute: typeof modifyRoute,
 }
 
 export interface IMapListDialogState {
@@ -98,7 +103,14 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     }
   };
 
-  dropRoute = (): void => null;
+  dropRoute = (_id: string): void => {
+    this.props.dropRoute(_id);
+  };
+
+  modifyRoute = ({ _id, title, is_public }: { _id: string, title: string, is_public: boolean }): void => {
+    this.props.modifyRoute(_id, { title, is_public });
+    this.stopEditing();
+  };
 
   render() {
     const {
@@ -201,6 +213,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                   showMenu={this.showMenu}
                   showDropCard={this.showDropCard}
                   dropRoute={this.dropRoute}
+                  modifyRoute={this.modifyRoute}
                   key={route._id}
                 />
               ))
@@ -239,6 +252,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   searchSetTab,
   setDialogActive,
   mapsLoadMore,
+  dropRoute,
+  modifyRoute,
 }, dispatch);
 
 export const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

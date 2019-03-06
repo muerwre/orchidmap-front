@@ -22,6 +22,7 @@ interface Props {
   showMenu: typeof MapListDialog.showMenu,
   showDropCard: typeof MapListDialog.showDropCard,
   dropRoute: typeof MapListDialog.dropRoute,
+  modifyRoute: typeof MapListDialog.modifyRoute,
 
   is_editing_mode: 'edit' | 'drop',
 }
@@ -29,7 +30,7 @@ interface Props {
 export const RouteRowWrapper = ({
   title, distance, _id, openRoute, tab,  startEditing, showMenu,
   showDropCard, is_public, is_editing_target, is_menu_target, is_editing_mode,
-  dropRoute, stopEditing,
+  dropRoute, stopEditing, modifyRoute,
 }: Props): ReactElement<Props, null> => (
   <div
     className={classnames('route-row-wrapper', {
@@ -43,6 +44,7 @@ export const RouteRowWrapper = ({
           title={title}
           _id={_id}
           is_public={is_public}
+          modifyRoute={modifyRoute}
         />
     }
     {

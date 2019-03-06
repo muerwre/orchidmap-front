@@ -71,3 +71,8 @@ export const mapsSetShift = (shift: number) => ({ type: ACTIONS.MAPS_SET_SHIFT, 
 
 export const setFeature = (features: { [x: string]: boolean }) => ({ type: ACTIONS.SET_FEATURE, features });
 export const setIsRouting = (is_routing: boolean) => ({ type: ACTIONS.SET_IS_ROUTING, is_routing });
+
+export const dropRoute = (_id: string) => ({ type: ACTIONS.DROP_ROUTE, _id });
+export const modifyRoute = (_id: string, { title, is_public }: { title: string, is_public: boolean }) => ({
+  type: ACTIONS.MODIFY_ROUTE,  _id,  title,  is_public
+});

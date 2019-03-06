@@ -21,7 +21,7 @@ export const RouteRowDrop = ({
       className="route-row"
     >
       <div className="button-group">
-        <div className="button" onClick={() => dropRoute(_id)}>Удалить</div>
+        <div className="button" onClick={dropRoute.bind(null, _id)}>Удалить</div>
         <div className="button primary" onClick={stopEditing}>Отмена</div>
       </div>
     </div>

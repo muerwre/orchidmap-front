@@ -2,11 +2,13 @@
 import * as React from 'react';
 import { Icon } from '$components/panels/Icon';
 import { Switch } from '$components/Switch';
+import { MapListDialog } from "$components/dialogs/MapListDialog";
 
 interface Props {
   title: string;
   _id: string;
   is_public: boolean,
+  modifyRoute: typeof MapListDialog.modifyRoute,
 }
 
 interface State {
@@ -24,14 +26,21 @@ export class RouteRowEditor extends React.Component<Props, State> {
     };
   }
 
-  stopEditing = () => console.log();
+  stopEditing = () => {
+    const {
+      state: { title, is_public },
+      props: { _id }
+    } = this;
+
+    this.props.modifyRoute({ _id, title, is_public })
+  };
+
   setPublic = () => this.setState({ is_public: !this.state.is_public });
   setTitle = ({ target: { value } }: { target: { value: string } }) => this.setState({ title: value });
 
   render() {
     const {
       state: { title, is_public },
-      props: { _id }
     } = this;
 
     return (
