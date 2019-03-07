@@ -6,11 +6,8 @@ import { STICKERS } from '$constants/stickers';
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";
 import { IRootState } from "$redux/user/reducer";
-
-export interface IMapPoint {
-  x: number,
-  y: number,
-}
+import { angleBetweenPoints, angleBetweenPointsRad, findDistancePx, middleCoordPx } from "$utils/geom";
+import { Point } from "leaflet";
 
 export interface ITilePlacement {
   minX: number,
@@ -86,7 +83,7 @@ export const getTilePlacement = (): ITilePlacement => {
   };
 };
 
-export const getPolyPlacement = (): IMapPoint[] => (
+export const getPolyPlacement = (): Point[] => (
   (!editor.poly.poly || !editor.poly.poly.getLatLngs() || editor.poly.poly.getLatLngs().length <= 0)
     ? []
     : editor.poly.poly.getLatLngs().map((latlng) => ({ ...editor.map.map.latLngToContainerPoint(latlng) }))
@@ -148,7 +145,7 @@ export const composeImages = (
   });
 };
 
-export const composePoly = ({ points, ctx }: { points: IMapPoint[], ctx: CanvasRenderingContext2D }): void => {
+export const composePoly = ({ points, ctx }: { points: Point[], ctx: CanvasRenderingContext2D }): void => {
   if (editor.poly.isEmpty) return;
 
   let minX = points[0].x;
@@ -181,6 +178,42 @@ export const composePoly = ({ points, ctx }: { points: IMapPoint[], ctx: CanvasR
   ctx.strokeStyle = gradient;
   ctx.stroke();
   ctx.closePath();
+};
+
+export const composeArrows = async ({ points, ctx }: { points: Point[], ctx: CanvasRenderingContext2D }): Promise<boolean[]> => {
+  const image = await imageFetcher(require('$sprites/arrow.svg'));
+
+  const distances = points.map((point, i) => (
+    (points[i + 1] && findDistancePx(points[i], points[i + 1])) || 0
+  ));
+
+  // we want to annotate at least 5 arrows
+  const min_arrows = (distances.length >= 5 ? 5 : distances.length - 1);
+  const min_distance = distances.sort((a, b) => (b - a))[min_arrows];
+
+  return points.map((point, i) => {
+    if (!points[i + 1]) return false;
+
+    const distance = findDistancePx(points[i], points[i + 1]);
+    const angle = angleBetweenPointsRad(points[i], points[i + 1]);
+
+    if (distance < min_distance && distance < 100) return false;
+
+    const middle = middleCoordPx(points[i], points[i + 1]);
+
+    ctx.save();
+    ctx.translate(middle.x, middle.y);
+    ctx.rotate((Math.PI * 0.5) - angle);
+    ctx.translate(-middle.x, -middle.y);
+
+    ctx.moveTo(middle.x, middle.y);
+
+    ctx.drawImage(image, middle.x - 24, middle.y - 24, 48, 48);
+
+    ctx.restore();
+
+    return true;
+  });
 };
 
 const measureText = (

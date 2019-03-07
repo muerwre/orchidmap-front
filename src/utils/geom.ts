@@ -1,4 +1,4 @@
-import { LatLng, LatLngLiteral, Point, PointExpression } from "leaflet";
+import { LatLng, LatLngLiteral, point, Point, PointExpression } from "leaflet";
 
 interface ILatLng {
   lat: number,
@@ -10,8 +10,17 @@ export const middleCoord = (l1: ILatLng, l2: ILatLng): ILatLng => ({
   lng: (l2.lng + ((l1.lng - l2.lng) / 2))
 });
 
+export const middleCoordPx = (p1: Point, p2: Point): Point => point({
+  x: (p1.x + ((p2.x - p1.x) / 2)),
+  y: (p1.y + ((p2.y - p1.y) / 2))
+});
+
 export const deg2rad = (deg: number): number => ((deg * Math.PI) / 180);
 export const rad2deg = (rad: number): number => ((rad / Math.PI) * 180);
+
+export const findDistancePx = (p1: Point, p2: Point): number => {
+  return Math.sqrt(((p1.x - p2.x) ** 2) + ((p1.y - p2.y) ** 2));
+};
 
 export const findDistance = (t1: number, n1: number, t2: number, n2: number): number => {
   // convert coordinates to radians

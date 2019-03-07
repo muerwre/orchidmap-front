@@ -14,10 +14,6 @@
   todo polyline editing only in manual mode (or by click)
   todo selecting logo on crop
 
-  done public maps
-    done editing map on map list
-    done setting map public on map list
-
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
     todo network error notifications
@@ -27,6 +23,10 @@
   todo maybe: map preview on save (dont think so)
 
   ## DONE
+
+  done public maps
+    done editing map on map list
+    done setting map public on map list
 
   done routing spinner
   done maybe: stickers clusterization?

@@ -76,7 +76,6 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
   });
 
   stopEditing = (): void => {
-    console.log('stop it!');
     this.setState({ editor_target: null });
   };
 

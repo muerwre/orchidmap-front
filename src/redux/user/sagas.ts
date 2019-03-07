@@ -41,6 +41,7 @@ import { MODES } from '$constants/modes';
 import { DEFAULT_USER } from '$constants/auth';
 import { TIPS } from '$constants/tips';
 import {
+  composeArrows,
   composeImages,
   composePoly, composeStickers, downloadCanvas,
   fetchImages,
@@ -362,6 +363,7 @@ function* getRenderData() {
 
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
+  yield composeArrows({ points, ctx });
   yield composeStickers({ stickers, ctx });
 
   yield put(setRenderer({ info: 'Готово', progress: 1 }));

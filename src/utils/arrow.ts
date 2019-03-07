@@ -1,5 +1,8 @@
 import { divIcon, LatLngLiteral, Marker, marker, DivIcon } from "leaflet";
 
+const arrow_image = require('$sprites/arrow.svg');
+
+// <use xlink:href="#path-arrow" transform="scale(2) translate(5 -2)"/>
 export const createArrow = (latlng: LatLngLiteral, angle: number): Marker => marker(latlng, {
   draggable: false,
   interactive: false,
@@ -7,7 +10,7 @@ export const createArrow = (latlng: LatLngLiteral, angle: number): Marker => mar
     html: `
       <div class="leaflet-arrow" style="transform: rotate(${angle}deg);">
         <svg width="48" height="48" preserveAspectRatio="xMidYMid">        
-          <use xlink:href="#path-arrow" transform="scale(2) translate(5 -2)"/>
+          <image xlink:href="${arrow_image}" x="0" y="0" width="48" height="48"/>
         </svg>      
       </div>
     `,
