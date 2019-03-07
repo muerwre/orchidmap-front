@@ -149,6 +149,7 @@ function* setReadySaga() {
   hideLoader();
 
   yield call(checkOSRMServiceSaga);
+  yield put(searchSetTab('mine'));
 }
 
 function* mapInitSaga() {
