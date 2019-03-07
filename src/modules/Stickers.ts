@@ -105,7 +105,7 @@ export class Stickers {
     zoomToBoundsOnClick: true,
     animate: false,
     maxClusterRadius: 80,
-    disableClusteringAtZoom: 13,
+    // disableClusteringAtZoom: 13,
     iconCreateFunction: clusterIcon,
   });
 
