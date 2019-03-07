@@ -88,10 +88,11 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     if (isMobile()) this.props.setDialogActive(false);
 
     // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
-    pushPath(`/${_id}`);
     this.stopEditing();
 
-    pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
+    pushPath(`/${_id}`);
+
+    // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
 
   onScroll = (e: { target: { scrollHeight: number, scrollTop: number, clientHeight: number }}): void => {
