@@ -3,9 +3,9 @@ import { delay, SagaIterator } from 'redux-saga';
 import { takeLatest, select, call, put, takeEvery, race, take } from 'redux-saga/effects';
 import {
   checkIframeToken, checkOSRMService,
-  checkUserToken,
+  checkUserToken, dropRoute,
   getGuestToken, getRouteList,
-  getStoredMap,
+  getStoredMap, modifyRoute,
   postMap
 } from '$utils/api';
 import {
@@ -647,6 +647,20 @@ function* mapsLoadMoreSaga() {
   yield put(searchSetLoading(false));
 }
 
+function* dropRouteSaga({ _id }: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
+  const { id, token } = yield select(getUser);
+  const result = yield call(dropRoute, { address: _id, id, token });
+
+  console.log('result', result);
+}
+
+function* modifyRouteSaga({ _id, title, is_public }: ReturnType<typeof ActionCreators.modifyRoute>): SagaIterator {
+  const { id, token } = yield select(getUser);
+  const result = yield call(modifyRoute, { address: _id, id, token, title, is_public });
+
+  console.log('result', result);
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -691,4 +705,7 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
   yield takeLatest(ACTIONS.MAPS_LOAD_MORE, mapsLoadMoreSaga);
+
+  yield takeLatest(ACTIONS.DROP_ROUTE, dropRouteSaga);
+  yield takeLatest(ACTIONS.MODIFY_ROUTE, modifyRouteSaga);
 }

@@ -101,3 +101,14 @@ export const getRouteList = ({
 export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> => (
   CLIENT && CLIENT.OSRM_URL && axios.get(CLIENT.OSRM_TEST_URL(bounds)).then(() => true).catch(() => false)
 );
+
+export const dropRoute = ({ address, id, token }: { address: string, id: string, token: string }): AxiosPromise<any> => (
+  axios.delete(API.DROP_ROUTE, { data: { address: '1123123123123', id, token } })
+);
+
+export const modifyRoute = (
+  { address, id, token, title, is_public }:
+  { address: string, id: string, token: string, title: string, is_public: boolean }
+): AxiosPromise<any> => (
+  axios.patch(API.DROP_ROUTE, { address, id, token, title, is_public })
+);

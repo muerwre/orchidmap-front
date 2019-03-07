@@ -7,4 +7,7 @@ export const API: { [x: string]: string } = {
   GET_MAP: `${CLIENT.API_ADDR}/route`,
   POST_MAP: `${CLIENT.API_ADDR}/route`,
   GET_ROUTE_LIST: `${CLIENT.API_ADDR}/route/list`,
+
+  DROP_ROUTE: `${CLIENT.API_ADDR}/route`,
+  MODIFY_ROUTE: `${CLIENT.API_ADDR}/route/modify`,
 };
