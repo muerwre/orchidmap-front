@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
   const user = await User.findOne({ _id: id, token });
 
-  let criteria = {};
+  let criteria = { is_deleted: false };
 
   if (title) {
     criteria = {
@@ -32,16 +32,14 @@ module.exports = async (req, res) => {
     {
       ...criteria,
     },
-    '_id title distance owner updated_at is_public',
+    '_id title distance owner updated_at is_public is_deleted',
     {
       limit: 9000,
       sort: { updated_at: -1 },
     }
   ).populate('owner', '_id');
 
-  list = list.filter(item => (
-    !author || item.owner._id === author
-  ));
+  list = list.filter(item => !author || (item.owner && item.owner._id === author));
 
   let limits = list.reduce(({ min, max }, { distance: dist }) => ({
     min: Math.ceil(Math.min(dist, min) / 25) * 25,

@@ -197,11 +197,11 @@
 
   &.is_menu_target {
     .route-row {
-      transform: translateX(-100px);
+      transform: translateX(-120px);
     }
 
     .route-row-edit-menu {
-      width: 100px;
+      width: 120px;
     }
   }
 }
@@ -221,8 +221,11 @@
 .route-row-view {
   overflow: hidden;
   transition: height 500ms;
-  padding-right: 32px;
   position: relative;
+
+  &.has_menu {
+    padding-right: 32px;
+  }
 }
 
 .route-row-edit {
@@ -295,14 +298,24 @@
   fill: fade(white, 30%);
 
   div {
-    width: 50px;
+    width: 60px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    &:first-child {
+      box-shadow: fade(black, 30%) 1px 0;
+    }
+
     &:hover {
       background: fade(@red_secondary, 30%);
+    }
+
+    &.modify-button {
+      &:hover {
+        background: fade(@green_secondary, 30%);
+      }
     }
   }
 

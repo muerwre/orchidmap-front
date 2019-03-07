@@ -64,6 +64,10 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     menu_target,
   });
 
+  hideMenu = (): void => this.setState({
+    menu_target: null,
+  });
+
   showDropCard = (editor_target: IRouteListItem['_id']): void => this.setState({
     editor_target,
     menu_target: null,
@@ -211,6 +215,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                   startEditing={this.startEditing}
                   stopEditing={this.stopEditing}
                   showMenu={this.showMenu}
+                  hideMenu={this.hideMenu}
                   showDropCard={this.showDropCard}
                   dropRoute={this.dropRoute}
                   modifyRoute={this.modifyRoute}

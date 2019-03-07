@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     return res.send({ success: false, mode: 'empty' });
   }
 
-  const exists = await Route.findOne({ _id: address }).populate('owner', '_id');
+  const exists = await Route.findOne({ _id: address, is_deleted: false }).populate('owner', '_id');
 
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'exists' });
   if (exists && !force) return res.send({ success: false, mode: 'overwriting' });

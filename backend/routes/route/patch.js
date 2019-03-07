@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   const title = parseString(body.title, 32);
   const is_public = !!body.is_public;
 
-  const exists = await Route.findOne({ _id: address }).populate('owner', '_id');
+  const exists = await Route.findOne({ _id: address, is_deleted: false }).populate('owner', '_id');
 
   if (!exists) return res.send({ success: false, mode: 'not_exists' });
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'not_yours' });

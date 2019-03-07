@@ -103,7 +103,7 @@ export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> => (
 );
 
 export const dropRoute = ({ address, id, token }: { address: string, id: string, token: string }): AxiosPromise<any> => (
-  axios.delete(API.DROP_ROUTE, { data: { address: '1123123123123', id, token } })
+  axios.delete(API.DROP_ROUTE, { data: { address, id, token } })
 );
 
 export const modifyRoute = (

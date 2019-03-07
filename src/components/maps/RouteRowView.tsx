@@ -4,6 +4,7 @@ import { Icon } from '$components/panels/Icon';
 import { MapListDialog } from "$components/dialogs/MapListDialog";
 import { Tooltip } from "$components/panels/Tooltip";
 import { ReactElement } from "react";
+import classnames from 'classnames';
 
 interface Props {
   _id: string,
@@ -16,14 +17,15 @@ interface Props {
   startEditing: typeof MapListDialog.startEditing,
   stopEditing: typeof MapListDialog.stopEditing,
   showMenu: typeof MapListDialog.showMenu,
+  hideMenu: typeof MapListDialog.hideMenu,
   showDropCard: typeof MapListDialog.showDropCard,
 }
 
 export const RouteRowView = ({
-  title, distance, _id, openRoute, tab, startEditing, showMenu, showDropCard
+  title, distance, _id, openRoute, tab, startEditing, showMenu, showDropCard, hideMenu,
 }: Props): ReactElement<Props, null> => (
   <div
-    className="route-row-view"
+    className={classnames('route-row-view', { has_menu: (tab === 'mine') })}
   >
     <div
       className="route-row"
@@ -44,18 +46,27 @@ export const RouteRowView = ({
         </span>
       </div>
     </div>
-    <div className="route-row-edit-button pointer" onClick={() => showMenu(_id)}>
-      <Icon icon="icon-more-vert" />
-    </div>
-    <div className="route-row-edit-menu pointer">
-      <div onMouseDown={() => showDropCard(_id)}>
-        <Tooltip>Удалить</Tooltip>
-        <Icon icon="icon-trash-3" size={32} />
-      </div>
-      <div onMouseDown={() => startEditing(_id)}>
-        <Tooltip>Редактировать</Tooltip>
-        <Icon icon="icon-edit-1" size={32} />
-      </div>
-    </div>
+    {
+      tab === 'mine' &&
+        <React.Fragment>
+          <div
+            className="route-row-edit-button pointer"
+            onMouseOver={showMenu.bind(null, _id)}
+            onMouseOut={hideMenu}
+          >
+            <Icon icon="icon-more-vert" />
+            <div className="route-row-edit-menu pointer">
+              <div onMouseDown={showDropCard.bind(null, _id)}>
+                <Tooltip>Удалить</Tooltip>
+                <Icon icon="icon-trash-3" size={32} />
+              </div>
+              <div onMouseDown={startEditing.bind(null, _id)} className="modify-button">
+                <Tooltip>Редактировать</Tooltip>
+                <Icon icon="icon-edit-1" size={32} />
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+    }
   </div>
 );

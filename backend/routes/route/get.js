@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 
   if (!name) return res.send({ success: false, mode: 'not_found_1' });
 
-  const exists = await Route.findOne({ _id: name }).populate('owner', '_id');
+  const exists = await Route.findOne({ _id: name, is_deleted: false }).populate('owner', '_id');
 
   if (!exists) return res.send({ success: false, mode: 'not_found_2' });
   const data = exists.toObject();

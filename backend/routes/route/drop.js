@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   if (!exists) return res.send({ success: false, mode: 'not_exists' });
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'not_yours' });
 
-  exists.delete();
+  await exists.set({ is_deleted: true }).save();
 
   return res.send({ success: true, address });
 };

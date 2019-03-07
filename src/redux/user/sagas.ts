@@ -649,16 +649,46 @@ function* mapsLoadMoreSaga() {
 
 function* dropRouteSaga({ _id }: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
   const { id, token } = yield select(getUser);
-  const result = yield call(dropRoute, { address: _id, id, token });
+  const {
+    routes: { list, step, shift, limit, filter: { min, max } }
+  } = yield select(getState);
 
-  console.log('result', result);
+  const index = list.findIndex(el => el._id === _id);
+
+  if (index >= 0) {
+    yield put(searchPutRoutes({
+      list: list.filter(el => el._id !== _id),
+      min,
+      max,
+      step,
+      shift: (shift > 0) ? shift - 1 : 0,
+      limit: (limit > 0) ? limit - 1 : limit,
+    }));
+  }
+
+  return yield call(dropRoute, { address: _id, id, token });
 }
 
 function* modifyRouteSaga({ _id, title, is_public }: ReturnType<typeof ActionCreators.modifyRoute>): SagaIterator {
   const { id, token } = yield select(getUser);
-  const result = yield call(modifyRoute, { address: _id, id, token, title, is_public });
+  const {
+    routes: { list, step, shift, limit, filter: { min, max } }
+  } = yield select(getState);
 
-  console.log('result', result);
+  const index = list.findIndex(el => el._id === _id);
+
+  if (index >= 0) {
+    yield put(searchPutRoutes({
+      list: list.map(el => (el._id !== _id ? el : { ...el, title, is_public })),
+      min,
+      max,
+      step,
+      shift: (shift > 0) ? shift - 1 : 0,
+      limit: (limit > 0) ? limit - 1 : limit,
+    }));
+  }
+
+  return yield call(modifyRoute, { address: _id, id, token, title, is_public });
 }
 
 export function* userSaga() {
