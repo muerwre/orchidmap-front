@@ -15,8 +15,8 @@
   todo selecting logo on crop
 
   done public maps
-    todo editing map on map list
-    todo setting map public on map list
+    done editing map on map list
+    done setting map public on map list
 
   todo network operations notify
     done delayed notify (delay(2000).then(showLoadingMsg))
