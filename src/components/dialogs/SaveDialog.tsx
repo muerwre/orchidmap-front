@@ -42,12 +42,12 @@ export class SaveDialog extends React.Component<Props, State> {
     const { path } = getUrlData();
     const { title, address } = this.state;
 
-    return toTranslit(address.trim()) || toTranslit(title.trim().toLowerCase()) || toTranslit(path.trim()).substr(0, 32);
+    return toTranslit(address.trim()) || toTranslit(title.trim().toLowerCase()).substr(0, 32) || toTranslit(path.trim()).substr(0, 32);
   };
 
-  setTitle = ({ target: { value } }) => this.setState({ title: (value || '') });
+  setTitle = ({ target: { value } }) => this.setState({ title: ((value && value.substr(0, 64)) || '') });
 
-  setAddress = ({ target: { value } }) => this.setState({ address: (value || '') });
+  setAddress = ({ target: { value } }) => this.setState({ address: (value && value.substr(0, 32) || '') });
 
   cancelSaving = () => this.props.setMode(MODES.NONE);
 

@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
   const owner = await User.findOne({ _id: id, token }).populate('routes');
   if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
 
-  const title = parseString(body.title, 32);
+  const title = parseString(body.title, 64);
   const address = parseString(body.address, 32);
   const route = parseRoute(body.route);
   const stickers = parseStickers(body.stickers);

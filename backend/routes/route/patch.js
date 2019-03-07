@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
   if (!owner) return res.send({ success: false, reason: 'unauthorized' });
 
-  const title = parseString(body.title, 32);
+  const title = parseString(body.title, 64);
   const is_public = !!body.is_public;
 
   const exists = await Route.findOne({ _id: address, is_deleted: false }).populate('owner', '_id');
