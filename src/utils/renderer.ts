@@ -229,6 +229,17 @@ const measureText = (
   ), { width: 0, height: 0 })
 );
 
+const measureDistText = (
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  height: number
+): { width: number, height: number } => (
+  {
+    width: ctx.measureText(text).width,
+    height,
+  }
+);
+
 const composeStickerArrow = (
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -264,13 +275,58 @@ const measureRect = (
   textX: reversed ? (x - width - 36) : x + 36
 });
 
+const measureDistRect = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  reversed: boolean,
+) => ({
+  rectX: reversed ? (x - width - 12) : x - 8,
+  rectY: (y - 4 - (height / 2)),
+  rectW: width + 16,
+  rectH: height + 4,
+  textX: reversed ? (x - width - 8) : x + 8
+});
+
+export const roundedRect = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, fill: string, rad: number = 5): void => {
+  ctx.fillStyle = fill;
+  ctx.beginPath();
+  ctx.moveTo(x, y + rad);
+  ctx.lineTo(x, y + height - rad);
+
+  ctx.lineTo(x + rad, y + height - rad);
+  ctx.lineTo(x + rad, y + height);
+  ctx.lineTo(x + width - rad, y + height);
+  ctx.lineTo(x + width - rad, y + height - rad);
+  ctx.lineTo(x + width, y + height - rad);
+  ctx.lineTo(x + width, y + rad);
+  ctx.lineTo(x + width - rad, y + rad);
+  ctx.lineTo(x + width - rad, y);
+  ctx.lineTo(x + rad, y);
+  ctx.lineTo(x + rad, y + rad);
+
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(x + rad, y + rad, rad, 0, 360);
+  ctx.arc(x + width - rad, y + height - rad, rad, 0, 360);
+  ctx.arc(x + width - rad, y + rad, rad, 0, 360);
+  ctx.arc(x + rad, y + height - rad, rad, 0, 360);
+  ctx.closePath();
+
+  ctx.fill();
+
+};
+
 const composeStickerText = (
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
   angle: number,
   text: string,
-) => {
+): void => {
   const rad = 56;
   const tX = ((Math.cos(angle + Math.PI) * rad) - 30) + x + 28;
   const tY = ((Math.sin(angle + Math.PI) * rad) - 30) + y + 29;
@@ -283,16 +339,17 @@ const composeStickerText = (
     rectX, rectY, rectW, rectH, textX
   } = measureRect(tX, tY, width, height, (angle > -(Math.PI / 2) && angle < (Math.PI / 2)));
   // rectangle
-  ctx.fillStyle = '#222222';
-  ctx.beginPath();
-  ctx.rect(
-    rectX,
-    rectY,
-    rectW,
-    rectH,
-  );
-  ctx.closePath();
-  ctx.fill();
+  // ctx.fillStyle = '#222222';
+  // ctx.beginPath();
+  // ctx.rect(
+  //   rectX,
+  //   rectY,
+  //   rectW,
+  //   rectH,
+  // );
+  // ctx.closePath();
+  // ctx.fill();
+  roundedRect(ctx, rectX, rectY, rectW, rectH, '#222222', 2);
 
   // text
   ctx.fillStyle = 'white';
@@ -303,6 +360,36 @@ const composeStickerText = (
       rectY + 6 + (16 * (i + 1)),
     )
   ));
+};
+
+export const composeDistMark = (
+  { ctx, points, distance }:
+  {
+    ctx: CanvasRenderingContext2D,
+    points: Point[],
+    distance: number,
+  }
+): void => {
+  if (points.length <= 1) return;
+
+  ctx.font = 'bold 12px "Helvetica Neue", Arial';
+
+  const angle = angleBetweenPoints(points[points.length - 2], points[points.length - 1]);
+  const dist = parseFloat(distance.toFixed(2));
+  const { x, y } = points[points.length - 1];
+  const { width, height } = measureDistText(ctx, String(dist), 16);
+  const {
+    rectX, rectY, rectW, rectH, textX
+  } = measureDistRect(x, y, width, height, !(angle > -90 && angle < 90));
+
+  roundedRect(ctx, rectX, rectY, rectW, rectH, '#ff3344', 2);
+
+  ctx.fillStyle = 'white';
+  ctx.fillText(
+    String(dist),
+    textX,
+    rectY + 14,
+  );
 };
 
 const composeStickerImage = async (

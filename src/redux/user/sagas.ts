@@ -41,7 +41,7 @@ import { MODES } from '$constants/modes';
 import { DEFAULT_USER } from '$constants/auth';
 import { TIPS } from '$constants/tips';
 import {
-  composeArrows,
+  composeArrows, composeDistMark,
   composeImages,
   composePoly, composeStickers, downloadCanvas,
   fetchImages,
@@ -355,6 +355,8 @@ function* getRenderData() {
   const geometry = getTilePlacement();
   const points = getPolyPlacement();
   const stickers = getStickersPlacement();
+  const distance = editor.poly.poly.distance;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const images = yield fetchImages(ctx, geometry);
@@ -362,6 +364,7 @@ function* getRenderData() {
   yield put(setRenderer({ info: 'Отрисовка', progress: 0.5 }));
 
   yield composeImages({ geometry, images, ctx });
+  yield composeDistMark({ ctx, points, distance });
   yield composePoly({ points, ctx });
   yield composeArrows({ points, ctx });
   yield composeStickers({ stickers, ctx });
