@@ -283,8 +283,8 @@ const measureDistRect = (
   reversed: boolean,
 ) => ({
   rectX: reversed ? (x - width - 12) : x - 8,
-  rectY: (y - 4 - (height / 2)),
-  rectW: width + 16,
+  rectY: (y - 2 - (height / 2)),
+  rectW: reversed ? (width + 22) : (width + 20),
   rectH: height + 4,
   textX: reversed ? (x - width - 8) : x + 8
 });
@@ -375,7 +375,7 @@ export const composeDistMark = (
   ctx.font = 'bold 12px "Helvetica Neue", Arial';
 
   const angle = angleBetweenPoints(points[points.length - 2], points[points.length - 1]);
-  const dist = parseFloat(distance.toFixed(2));
+  const dist = parseFloat(distance.toFixed(1));
   const { x, y } = points[points.length - 1];
   const { width, height } = measureDistText(ctx, String(dist), 16);
   const {
@@ -385,6 +385,11 @@ export const composeDistMark = (
   roundedRect(ctx, rectX, rectY, rectW, rectH, '#ff3344', 2);
 
   ctx.fillStyle = 'white';
+  ctx.beginPath();
+  ctx.arc(x, y, 5, 0, 360);
+  ctx.closePath();
+  ctx.fill();
+
   ctx.fillText(
     String(dist),
     textX,

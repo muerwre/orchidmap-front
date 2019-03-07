@@ -364,9 +364,9 @@ function* getRenderData() {
   yield put(setRenderer({ info: 'Отрисовка', progress: 0.5 }));
 
   yield composeImages({ geometry, images, ctx });
-  yield composeDistMark({ ctx, points, distance });
   yield composePoly({ points, ctx });
   yield composeArrows({ points, ctx });
+  yield composeDistMark({ ctx, points, distance });
   yield composeStickers({ stickers, ctx });
 
   yield put(setRenderer({ info: 'Готово', progress: 1 }));

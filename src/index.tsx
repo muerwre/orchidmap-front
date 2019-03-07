@@ -5,8 +5,6 @@
 
 
   ## FEATURES
-  todo arrows on screenshot
-
   todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
   todo tower sticker
   todo route description
@@ -24,6 +22,7 @@
 
   ## DONE
 
+  done arrows on screenshot
   done public maps
     done editing map on map list
     done setting map public on map list

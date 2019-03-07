@@ -77,7 +77,7 @@ class Component extends LayerGroup {
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
     draggable: false,
-    interactive: true,
+    interactive: false,
     icon: divIcon({
       html: `
         <div class="leaflet-km-dist" style="transform: translate(-50%, -50%) rotate(${allwaysPositiveAngleDeg(angle)}deg);">
@@ -92,7 +92,7 @@ class Component extends LayerGroup {
 
   createEndMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {
     draggable: false,
-    interactive: true,
+    interactive: false,
     icon: divIcon({
       html: `
         <div class="leaflet-km-dist">
