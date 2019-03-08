@@ -1,6 +1,8 @@
 {
   "presets": ["env", "react","stage-2"],
   "plugins": [
+    "ramda",
+    "lodash",
     "react-hot-loader/babel",
     "lodash",
     ["transform-runtime", {
