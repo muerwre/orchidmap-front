@@ -19,3 +19,4 @@ yarn-error.log
 
 # Bundle
 *.js.map
+stats.json
