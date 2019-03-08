@@ -4,7 +4,7 @@ import { toHours } from '$utils/format';
 import { Icon } from '$components/panels/Icon';
 import { connect } from 'react-redux';
 // import Slider from 'rc-slider';
-import Slider from 'rc-slider/lib/Slider';
+import * as Slider from 'rc-slider/lib/Slider';
 import { bindActionCreators } from 'redux';
 import { setSpeed } from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
