@@ -2,15 +2,16 @@
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 // const FlowWebpackPlugin = require('flow-webpack-plugin');
-const { version } = require('./package.json');
-
-const WebpackGitHash = require('webpack-git-hash');
+// const { version } = require('./package.json');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+// const WebpackGitHash = require('webpack-git-hash');
 const { join } = require('path');
-
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 /* Plugins */
 
-const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
+// const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './src/index.html',
   filename: './index.html',
@@ -19,12 +20,17 @@ const htmlPlugin = new HtmlWebPackPlugin({
   favicon: 'src/sprites/favicon.png',
 });
 
+const miniCssExractPlugin = new MiniCssExtractPlugin({
+  filename: '[name].css',
+  chunkFilename: '[id].css'
+});
+
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const devtool = isDevelopment ? 'cheap-module-eval-source-map' : 'source-map';
 
 // const flowPlugin = new FlowWebpackPlugin();
 
-const gitPlugin = new WebpackGitHash();
+// const gitPlugin = new WebpackGitHash();
 
 
 /* Resolve */
@@ -52,8 +58,10 @@ module.exports = () => {
     // concatPlugin,
     htmlPlugin,
     // flowPlugin,
-    gitPlugin,
-    new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/)
+    // gitPlugin,
+    new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/),
+    miniCssExractPlugin,
+    new webpack.HashedModuleIdsPlugin(),
   ];
 
   return {
@@ -69,7 +77,8 @@ module.exports = () => {
         {
           test: /\.less$/,
           use: [
-            { loader: 'style-loader' },
+            { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
+            // { loader: 'style-loader' },
             { loader: 'css-loader' },
             { loader: 'less-loader' }
           ]
@@ -109,7 +118,7 @@ module.exports = () => {
     },
     output: {
       publicPath: '/',
-      filename: '[name].bundle.[githash].js',
+      filename: isDevelopment ? '[name].[hash].js' : '[name].[contenthash].js',
     },
     optimization: {
       splitChunks: {
@@ -137,6 +146,14 @@ module.exports = () => {
           }
         }
       },
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: true // set to true if you want JS source maps
+        }),
+        new OptimizeCSSAssetsPlugin({})
+      ],
       occurrenceOrder: true // To keep filename consistent between different modes (for example building only)
     },
     devServer: {
