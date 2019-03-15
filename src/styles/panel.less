@@ -615,3 +615,32 @@
     width: 100%;
   }
 }
+
+.title-dialog {
+  position: fixed;
+  left: 10px;
+  bottom: 68px;
+  width: 340px;
+  z-index: 2;
+  opacity: 0.5;
+  transition: opacity 500ms;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .title-dialog-pane {
+    padding: 10px;
+    background: #111111;
+    color: fade(white, 50%);
+    font-size: 13px;
+
+    h2 {
+      margin: 0;
+      padding: 0 5px 0 0;
+      font-weight: 400;
+      font-size: 1.6em;
+      color: white;
+    }
+  }
+}

@@ -2,8 +2,6 @@
 
   ## BUGS
 
-
-
   ## FEATURES
   todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
   todo tower sticker

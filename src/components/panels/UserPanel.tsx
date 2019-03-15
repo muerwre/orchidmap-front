@@ -14,6 +14,7 @@ import { CLIENT } from '$config/frontend';
 import { DIALOGS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
+import { TitleDialog } from "$components/dialogs/TitleDialog";
 
 interface Props extends IRootState {
   userLogout: typeof userLogout,
@@ -64,8 +65,6 @@ export class Component extends React.PureComponent<Props, State> {
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
   openMapsDialog = () => {
-    // this.props.setDialog(DIALOGS.MAP_LIST);
-    // this.props.setDialogActive(this.props.dialog !== DIALOGS.MAP_LIST);
     this.props.openMapDialog('mine');
   };
 
@@ -96,6 +95,7 @@ export class Component extends React.PureComponent<Props, State> {
 
     return (
       <div>
+        <TitleDialog />
         <div className="panel active panel-user">
           <div className="user-panel">
             {
