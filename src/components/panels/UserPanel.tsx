@@ -95,6 +95,9 @@ export class Component extends React.PureComponent<Props, State> {
 
     return (
       <div>
+        {
+          // <TitleDialog />
+        }
         <div className="panel active panel-user">
           <div className="user-panel">
             {
