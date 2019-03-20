@@ -616,20 +616,48 @@
   }
 }
 
-.title-dialog {
+.title-dialog-wrapper {
   position: fixed;
-  left: 10px;
-  bottom: 68px;
-  width: 340px;
+  bottom: 0;
+  left: 0;
+  width: 360px;
+  height: 100%;
+  background: transparent;
   z-index: 2;
-  opacity: 0.5;
-  transition: opacity 500ms;
+  padding: 10px 10px 58px 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+  touch-action: none;
+}
 
-  &:hover {
-    opacity: 1;
+.title-dialog-sizer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.title-dialog {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 500ms, transform 1s;
+  transform: translate(0, 68px);
+  user-select: none;
+  pointer-events: all;
+  touch-action: auto;
+
+  &.active {
+    opacity: 0.5;
+    transform: translate(0, 0);
+    &:hover {
+      opacity: 1;
+    }
   }
 
   .title-dialog-pane {
+    margin-bottom: 10px;
     padding: 10px;
     background: #111111;
     color: fade(white, 50%);

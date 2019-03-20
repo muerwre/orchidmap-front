@@ -1,6 +1,6 @@
 const { User, Route } = require('../../models');
 
-const { parseRoute, parseStickers, parseString, parseNumber } = require('../../utils/parse');
+const { parseRoute, parseStickers, parseString, parseNumber, parseAddress } = require('../../utils/parse');
 
 module.exports = async (req, res) => {
   const { body, body: { id, token, force } } = req;
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
 
   const title = parseString(body.title, 64);
-  const address = parseString(body.address, 32);
+  const address = parseAddress(body.address, 32)
   const route = parseRoute(body.route);
   const stickers = parseStickers(body.stickers);
   const logo = parseString(body.logo, 16);

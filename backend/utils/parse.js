@@ -21,5 +21,10 @@ module.exports.parseStickers = stickers => stickers.filter(el => (
 ));
 // .map(el => ((el.text && String(el.text).substr(0, 100)) || ''));
 
-module.exports.parseString = (value, size) => (value && String(value).substr(0, size)) || '';
+const parseString = (value, size) => (value && String(value).substr(0, size)) || '';
 module.exports.parseNumber = (value, min, max) => (value && Number(value) && Math.min(max, Math.max(min, value))) || 0;
+
+module.exports.parseString = parseString;
+module.exports.parseAddress = (value, size) => (
+  parseString(value, size).replace(/[^A-Za-z\-_0-9]/ig, '_').replace(/_{2,}/ig, '_')
+);
