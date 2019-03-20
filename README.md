@@ -1,8 +1,10 @@
 # Bicycle routes map editor
 Bicycle routes app with automatic routes, map screenshots, stickers and other features.
 
+See it in action: [Demo](http://map.vault48.org/)
+
 ## Prerequisites
-node, osrm-server
+node, ts-node, osrm-server
 
 ### Installing
 First, download and install the project
