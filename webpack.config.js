@@ -71,13 +71,19 @@ module.exports = () => {
           test: /\.css$/,
           use: [
             { loader: 'style-loader' },
-            { loader: 'css-loader' }
+            { loader: 'css-loader' },
           ]
         },
         {
           test: /\.less$/,
           use: [
-            { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
+            {
+              loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+              options: {
+                filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+                chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
+              }
+            },
             // { loader: 'style-loader' },
             { loader: 'css-loader' },
             { loader: 'less-loader' }
