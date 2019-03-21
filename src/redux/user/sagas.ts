@@ -32,7 +32,7 @@ import {
   setProvider,
   changeProvider,
   setSaveLoading,
-  mapsSetShift, searchChangeDistance, clearAll, setFeature,
+  mapsSetShift, searchChangeDistance, clearAll, setFeature, searchSetTitle,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -568,7 +568,7 @@ function* searchSetTabSaga() {
   yield put(searchChangeDistance([0, 10000]));
   yield put(searchPutRoutes({ list: [], min: 0, max: 10000, step: 20, shift: 0 }));
 
-  yield call(searchSetSaga);
+  yield put(searchSetTitle(''));
 }
 
 function* setSaveSuccessSaga({
