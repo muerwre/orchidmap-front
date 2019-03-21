@@ -20,12 +20,13 @@ const htmlPlugin = new HtmlWebPackPlugin({
   favicon: 'src/sprites/favicon.png',
 });
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 const miniCssExractPlugin = new MiniCssExtractPlugin({
-  filename: '[name].css',
-  chunkFilename: '[id].css'
+  filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+  chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
 });
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
 const devtool = isDevelopment ? 'cheap-module-eval-source-map' : 'source-map';
 
 // const flowPlugin = new FlowWebpackPlugin();
@@ -77,13 +78,7 @@ module.exports = () => {
         {
           test: /\.less$/,
           use: [
-            {
-              loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
-              options: {
-                filename: isDevelopment ? '[name].css' : '[name].[hash].css',
-                chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
-              }
-            },
+            { loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader },
             // { loader: 'style-loader' },
             { loader: 'css-loader' },
             { loader: 'less-loader' }
