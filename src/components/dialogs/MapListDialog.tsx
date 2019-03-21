@@ -10,7 +10,7 @@ import {
   setDialogActive,
   mapsLoadMore,
   dropRoute,
-  modifyRoute,
+  modifyRoute, toggleRouteStarred,
 } from '$redux/user/actions';
 import { isMobile } from '$utils/window';
 import classnames from 'classnames';
@@ -21,12 +21,14 @@ import { TABS } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';
 import { pushPath } from '$utils/history';
 import { IRootState, IRouteListItem } from '$redux/user/reducer';
+import { ROLES } from "$constants/auth";
 
 export interface IMapListDialogProps extends IRootState {
   marks: { [x: number]: string },
   routes_sorted: Array<IRouteListItem>,
   routes: IRootState['routes'],
   ready: IRootState['ready'],
+  role: IRootState['user']['role'],
 
   mapsLoadMore: typeof mapsLoadMore,
   searchSetDistance: typeof searchSetDistance,
@@ -35,6 +37,7 @@ export interface IMapListDialogProps extends IRootState {
   setDialogActive: typeof setDialogActive,
   dropRoute: typeof dropRoute,
   modifyRoute: typeof modifyRoute,
+  toggleRouteStarred: typeof toggleRouteStarred,
 }
 
 export interface IMapListDialogState {
@@ -117,9 +120,12 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     this.stopEditing();
   };
 
+  toggleStarred = (id: string) => this.props.toggleRouteStarred(id);
+
   render() {
     const {
       ready,
+      role,
       routes: {
         list,
         loading,
@@ -135,6 +141,8 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     }: IMapListDialogProps = this.props;
 
     const { editor_target, menu_target, is_editing, is_dropping } = this.state;
+
+    console.log('role', this.props.role);
 
     return (
       <div className="dialog-content">
@@ -156,7 +164,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
         }
         <div className="dialog-tabs">
           {
-            Object.keys(TABS).map(item => (
+            Object.keys(TABS).map(item => (role === ROLES.admin || item !== 'all') && (
               <div
                 className={classnames('dialog-tab', { active: tab === item })}
                 onClick={() => this.props.searchSetTab(item)}
@@ -208,6 +216,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                   distance={route.distance}
                   _id={route._id}
                   is_public={route.is_public}
+                  is_starred={route.is_starred}
                   tab={tab}
                   is_editing_mode={is_dropping ? 'drop' : 'edit'}
                   is_editing_target={editor_target === route._id}
@@ -220,7 +229,9 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                   showDropCard={this.showDropCard}
                   dropRoute={this.dropRoute}
                   modifyRoute={this.modifyRoute}
+                  toggleStarred={this.toggleStarred}
                   key={route._id}
+                  is_admin={role === ROLES.admin}
                 />
               ))
             }
@@ -233,13 +244,15 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
   }
 }
 
-const mapStateToProps = ({ user: { editing, routes } }) => {
+const mapStateToProps = ({ user: { editing, routes, user: { role } } }: { user: IRootState }) => {
   if (routes.filter.max >= 9999) {
     return {
-      routes, editing, marks: {}, ready: false,
+      routes, editing, marks: {}, ready: false, role,
     };
   }
+
   return ({
+    role,
     routes,
     editing,
     ready: true,
@@ -260,6 +273,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   mapsLoadMore,
   dropRoute,
   modifyRoute,
+  toggleRouteStarred,
 }, dispatch);
 
 export const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

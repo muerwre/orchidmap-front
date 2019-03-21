@@ -14,6 +14,7 @@ export interface IRouteListItem {
   title: string,
   distance: number,
   is_public: boolean,
+  is_starred: boolean,
   updated_at: string,
 }
 
@@ -304,6 +305,18 @@ const setIsRouting: ActionHandler<typeof ActionCreators.setIsRouting> = (state, 
   is_routing,
 });
 
+const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (state, { _id, is_starred }) => ({
+  ...state,
+  routes: {
+    ...state.routes,
+    list: (
+      state.routes.list
+        .map(el => el._id === _id ? { ...el, is_starred } : el)
+        .filter(el => state.routes.filter.tab !== 'starred' || el.is_starred)
+    )
+  }
+});
+
 const HANDLERS = ({
   [ACTIONS.SET_USER]: setUser,
   [ACTIONS.SET_EDITING]: setEditing,
@@ -348,6 +361,8 @@ const HANDLERS = ({
 
   [ACTIONS.SET_FEATURE]: setFeature,
   [ACTIONS.SET_IS_ROUTING]: setIsRouting,
+
+  [ACTIONS.SET_ROUTE_STARRED]: setRouteStarred,
 });
 
 export const INITIAL_STATE: IRootReducer = {

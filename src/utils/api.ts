@@ -29,7 +29,7 @@ interface IGetRouteList {
   author: IRootState['routes']['filter']['author'],
   step: IRootState['routes']['step'],
   shift: IRootState['routes']['step'],
-  starred: IRootState['routes']['filter']['starred'],
+  starred: number,
   id: IRootState['user']['id'],
   token: IRootState['user']['token'],
 }
@@ -112,3 +112,13 @@ export const modifyRoute = (
 ): AxiosPromise<any> => (
   axios.patch(API.DROP_ROUTE, { address, id, token, title, is_public })
 );
+
+export const sendRouteStarred = (
+  { id, token, _id, is_starred }:
+  { id: string, token: string, _id: string, is_starred: boolean }
+): Promise<boolean> => (
+  axios.post(API.SET_STARRED, { id, token, address: _id, is_starred })
+    .then(() => true)
+    .catch(() => true)
+);
+

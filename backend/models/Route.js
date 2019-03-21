@@ -13,6 +13,7 @@ const RouteSchema = new Schema(
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     distance: { type: Number, default: 0 },
     is_public: { type: Boolean, default: false },
+    is_starred: { type: Boolean, default: false },
     is_deleted: { type: Boolean, default: false },
     created_at: { type: Date, default: Date.now() },
     updated_at: { type: Date, default: Date.now() },

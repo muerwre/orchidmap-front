@@ -12,7 +12,9 @@ interface Props {
   title: string,
   distance: number,
   is_public: boolean,
+  is_starred: boolean,
 
+  is_admin: boolean,
   is_editing_target: boolean,
   is_menu_target: boolean,
 
@@ -24,6 +26,7 @@ interface Props {
   showDropCard: typeof MapListDialog.showDropCard,
   dropRoute: typeof MapListDialog.dropRoute,
   modifyRoute: typeof MapListDialog.modifyRoute,
+  toggleStarred: typeof MapListDialog.toggleStarred,
 
   is_editing_mode: 'edit' | 'drop',
 }
@@ -31,7 +34,7 @@ interface Props {
 export const RouteRowWrapper = ({
   title, distance, _id, openRoute, tab,  startEditing, showMenu,
   showDropCard, is_public, is_editing_target, is_menu_target, is_editing_mode,
-  dropRoute, stopEditing, modifyRoute, hideMenu,
+  dropRoute, stopEditing, modifyRoute, hideMenu, is_admin, is_starred, toggleStarred,
 }: Props): ReactElement<Props, null> => (
   <div
     className={classnames('route-row-wrapper', {
@@ -64,12 +67,15 @@ export const RouteRowWrapper = ({
           title={title}
           distance={distance}
           is_public={is_public}
+          is_starred={is_starred}
           openRoute={openRoute}
           startEditing={startEditing}
           stopEditing={stopEditing}
           showMenu={showMenu}
           hideMenu={hideMenu}
           showDropCard={showDropCard}
+          is_admin={is_admin}
+          toggleStarred={toggleStarred}
         />
     }
   </div>

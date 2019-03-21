@@ -3,9 +3,11 @@ const { Route, User } = require('../../models');
 module.exports = async (req, res) => {
   const {
     query: {
-      id, token, title, distance, author, step = 20, shift = 0,
+      id, token, title, distance, author, step = 20, shift = 0, starred,
     }
   } = req;
+
+  const is_starred = parseInt(starred, 10) === 1;
 
   const user = await User.findOne({ _id: id, token });
 
@@ -14,10 +16,18 @@ module.exports = async (req, res) => {
   if (title) {
     criteria = {
       ...criteria,
-      $or: [
+      $and: [
         { title: new RegExp(title.trim(), 'ig') },
         { _id: new RegExp(title.trim(), 'ig') },
       ],
+    };
+  }
+
+  console.log('is starred?', starred);
+  if (is_starred) {
+    criteria = {
+      ...criteria,
+      is_starred: true,
     };
   }
 
@@ -32,7 +42,7 @@ module.exports = async (req, res) => {
     {
       ...criteria,
     },
-    '_id title distance owner updated_at is_public is_deleted',
+    '_id title distance owner updated_at is_public is_deleted is_starred',
     {
       limit: 9000,
       sort: { updated_at: -1 },

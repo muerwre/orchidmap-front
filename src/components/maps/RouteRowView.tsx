@@ -5,15 +5,20 @@ import { MapListDialog } from "$components/dialogs/MapListDialog";
 import { Tooltip } from "$components/panels/Tooltip";
 import { ReactElement } from "react";
 import classnames from 'classnames';
+import { toggleRouteStarred } from "$redux/user/actions";
 
 interface Props {
-  _id: string,
   tab: string,
+
+  _id: string,
   title: string,
   distance: number,
   is_public: boolean,
+  is_admin: boolean,
+  is_starred: boolean,
 
   openRoute: typeof MapListDialog.openRoute,
+  toggleStarred: typeof MapListDialog.toggleStarred,
   startEditing: typeof MapListDialog.startEditing,
   stopEditing: typeof MapListDialog.stopEditing,
   showMenu: typeof MapListDialog.showMenu,
@@ -22,11 +27,21 @@ interface Props {
 }
 
 export const RouteRowView = ({
-  title, distance, _id, openRoute, tab, startEditing, showMenu, showDropCard, hideMenu,
+  title, distance, _id, openRoute, tab, startEditing, showMenu, showDropCard, hideMenu, is_admin, is_starred, toggleStarred,
 }: Props): ReactElement<Props, null> => (
   <div
     className={classnames('route-row-view', { has_menu: (tab === 'mine') })}
   >
+    {
+      (tab === 'all' || tab === 'starred') && is_admin &&
+      <div className="route-row-fav" onClick={toggleStarred.bind(null, _id)}>
+        {
+          is_starred
+            ? <Icon icon="icon-star-fill" size={24}/>
+            : <Icon icon="icon-star-blank" size={24}/>
+        }
+      </div>
+    }
     <div
       className="route-row"
       onClick={() => openRoute(_id)}

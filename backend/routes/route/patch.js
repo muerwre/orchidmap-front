@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   if (!exists) return res.send({ success: false, mode: 'not_exists' });
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'not_yours' });
 
-  exists.set({ title, is_public }).save();
+  await exists.set({ title, is_public }).save();
 
   return res.send({ success: true, ...exists });
 };

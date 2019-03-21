@@ -6,7 +6,7 @@ import {
   checkUserToken, dropRoute,
   getGuestToken, getRouteList,
   getStoredMap, modifyRoute,
-  postMap
+  postMap, sendRouteStarred
 } from '$utils/api';
 import {
   hideRenderer,
@@ -32,7 +32,7 @@ import {
   setProvider,
   changeProvider,
   setSaveLoading,
-  mapsSetShift, searchChangeDistance, clearAll, setFeature, searchSetTitle,
+  mapsSetShift, searchChangeDistance, clearAll, setFeature, searchSetTitle, setRouteStarred,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -51,7 +51,7 @@ import {
 } from '$utils/renderer';
 import { ILogos, LOGOS } from '$constants/logos';
 import { DEFAULT_PROVIDER } from '$constants/providers';
-import { DIALOGS } from '$constants/dialogs';
+import { DIALOGS, TABS } from '$constants/dialogs';
 
 import * as ActionCreators from '$redux/user/actions';
 import { IRootState } from "$redux/user/reducer";
@@ -501,7 +501,7 @@ function* searchGetRoutes() {
 
   const { routes: { step, shift, filter: { title, distance, tab } } } = yield select(getState);
 
-  const result = yield call(getRouteList, {
+  return yield call(getRouteList, {
     id,
     token,
     title,
@@ -509,10 +509,8 @@ function* searchGetRoutes() {
     step,
     shift,
     author: tab === 'mine' ? id : '',
-    starred: tab === 'starred',
+    starred: tab === 'starred' ? 1 : 0,
   });
-
-  return result;
 }
 
 function* searchSetSagaWorker() {
@@ -697,6 +695,17 @@ function* modifyRouteSaga({ _id, title, is_public }: ReturnType<typeof ActionCre
   return yield call(modifyRoute, { address: _id, id, token, title, is_public });
 }
 
+function* toggleRouteStarredSaga({ _id }: ReturnType<typeof ActionCreators.toggleRouteStarred>) {
+  const { routes: { list } } = yield select(getState);
+  const route = list.find(el => el._id === _id);
+  const { id, token } = yield select(getUser);
+
+  yield put(setRouteStarred(_id, !route.is_starred));
+  const result = yield sendRouteStarred({ id, token, _id, is_starred: !route.is_starred });
+
+  if (!result) return yield put(setRouteStarred(_id, route.is_starred));
+}
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
   yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
@@ -744,4 +753,5 @@ export function* userSaga() {
 
   yield takeLatest(ACTIONS.DROP_ROUTE, dropRouteSaga);
   yield takeLatest(ACTIONS.MODIFY_ROUTE, modifyRouteSaga);
+  yield takeLatest(ACTIONS.TOGGLE_ROUTE_STARRED, toggleRouteStarredSaga);
 }

@@ -1,6 +1,7 @@
 export interface IRoles {
   guest: string,
   vk: string,
+  admin: string,
 }
 
 export interface IUser {
@@ -24,6 +25,7 @@ export interface IUser {
 export const ROLES: IRoles = {
   guest: 'guest',
   vk: 'vk',
+  admin: 'admin',
 };
 
 export const DEFAULT_USER: IUser = {

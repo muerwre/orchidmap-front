@@ -10,4 +10,5 @@ export const API: { [x: string]: string } = {
 
   DROP_ROUTE: `${CLIENT.API_ADDR}/route`,
   MODIFY_ROUTE: `${CLIENT.API_ADDR}/route/modify`,
+  SET_STARRED: `${CLIENT.API_ADDR}/route/star`,
 };

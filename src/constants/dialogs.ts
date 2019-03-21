@@ -7,6 +7,7 @@ export interface IDialogs {
 export interface IMapTabs {
   mine: string,
   all: string,
+  starred: string,
 }
 
 export const DIALOGS: IDialogs = ({
@@ -17,5 +18,6 @@ export const DIALOGS: IDialogs = ({
 
 export const TABS: IMapTabs = ({
   mine: 'Мои',
-  all: 'Общие',
+  starred: 'Общие',
+  all: 'ВСЕ',
 });

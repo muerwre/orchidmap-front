@@ -196,7 +196,7 @@
   }
 
   &.is_menu_target {
-    .route-row {
+    .route-row, .route-row-fav {
       transform: translateX(-120px);
     }
 
@@ -222,6 +222,7 @@
   overflow: hidden;
   transition: height 500ms;
   position: relative;
+  display: flex;
 
   &.has_menu {
     padding-right: 32px;
@@ -282,6 +283,21 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.route-row-fav {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: fade(white, 30%);
+  background: fade(white, 5%);
+  cursor: pointer;
+  transition: background 250ms, transform 500ms;
+
+  &:hover {
+    background: fade(white, 10%);
   }
 }
 

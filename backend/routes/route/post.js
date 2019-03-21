@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
   if (exists && !force) return res.send({ success: false, mode: 'overwriting' });
 
   if (exists) {
-    exists.set({
+    await exists.set({
       title, route, stickers, logo, distance, updated_at: Date.now(), provider, is_public,
     }).save();
 
