@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
 
   const title = parseString(body.title, 64);
-  const address = parseAddress(body.address, 32)
+  const address = parseAddress(body.address, 32);
   const route = parseRoute(body.route);
   const stickers = parseStickers(body.stickers);
   const logo = parseString(body.logo, 16);
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     return res.send({ success: false, mode: 'empty' });
   }
 
-  const exists = await Route.findOne({ _id: address, is_deleted: false }).populate('owner', '_id');
+  const exists = await Route.findOne({ _id: address }).populate('owner', '_id');
 
   if (exists && exists.owner._id !== id) return res.send({ success: false, mode: 'exists' });
   if (exists && !force) return res.send({ success: false, mode: 'overwriting' });
