@@ -141,8 +141,6 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
 
     const { editor_target, menu_target, is_editing, is_dropping } = this.state;
 
-    console.log('role', this.props.role);
-
     return (
       <div className="dialog-content">
         { list.length === 0 && loading &&
