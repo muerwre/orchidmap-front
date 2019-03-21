@@ -312,7 +312,10 @@ const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (s
     list: (
       state.routes.list
         .map(el => el._id === _id ? { ...el, is_starred } : el)
-        .filter(el => state.routes.filter.tab !== 'starred' || el.is_starred)
+        .filter(el => (
+          (state.routes.filter.tab === 'starred' && el.is_starred) ||
+          (state.routes.filter.tab === 'all' && !el.is_starred)
+        ))
     )
   }
 });

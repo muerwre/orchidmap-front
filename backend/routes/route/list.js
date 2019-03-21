@@ -23,17 +23,16 @@ module.exports = async (req, res) => {
     };
   }
 
-  console.log('is starred?', starred);
   if (is_starred) {
     criteria = {
       ...criteria,
       is_starred: true,
+      is_public: true,
     };
-  }
-
-  if (!author || !user || (user._id !== author)) {
+  } else if (!author || !user || (user._id !== author)) {
     criteria = {
       ...criteria,
+      is_starred: false,
       is_public: true,
     };
   }

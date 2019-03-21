@@ -15,7 +15,6 @@ import {
 import { isMobile } from '$utils/window';
 import classnames from 'classnames';
 
-// import { Range } from 'rc-slider';
 import * as Range from 'rc-slider/lib/Range';
 import { TABS } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';

@@ -14,7 +14,6 @@ import { CLIENT } from '$config/frontend';
 import { DIALOGS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
-import { TitleDialog } from "$components/dialogs/TitleDialog";
 
 interface Props extends IRootState {
   userLogout: typeof userLogout,
