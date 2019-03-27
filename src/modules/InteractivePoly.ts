@@ -484,36 +484,6 @@ export class Component extends Polyline {
 
     this.fire('distancechange', { distance: this.distance });
   };
-  //
-  // recalcKmMarks = () => {
-  //   if (!this.kmMarksEnabled) return;
-  //
-  //   const latlngs = this.getLatLngs() as LatLngLiteral[];
-  //
-  //   this.kmMarks = { };
-  //
-  //   let last_km_mark = 0;
-  //
-  //   latlngs.reduce((dist, latlng, index) => {
-  //     if (index >= latlngs.length - 1) return;
-  //
-  //     const next = latlngs[index + 1];
-  //     const sum = dist + distKm(latlng, next);
-  //     const rounded = Math.floor(dist / this.kmMarksStep) * this.kmMarksStep;
-  //
-  //     if (rounded > last_km_mark) {
-  //       last_km_mark = rounded;
-  //       this.kmMarks[rounded] = latlng;
-  //     }
-  //
-  //     return sum;
-  //   }, 0);
-  // };
-
-  // kmMarksEnabled?: InteractivePolylineOptions['kmMarksEnabled'] = true;
-  // kmMarksStep?: InteractivePolylineOptions['kmMarksStep'] = 5;
-  // kmMarks?: { [x: number]: LatLngLiteral };
-  // kmMarksLayer?: LayerGroup = new LayerGroup();
 
   markers: Marker[] = [];
   maxMarkers: InteractivePolylineOptions['maxMarkers'] = 2;
@@ -531,7 +501,6 @@ export class Component extends Polyline {
     weight: 24,
     smoothFactor: 3,
     className: 'touch-hinter-poly'
-    // bubblingMouseEvents: false,
   });
 
   hintMarker: Marker = this.createHintMarker(latLng({ lat: 0, lng: 0 }));
