@@ -641,19 +641,16 @@
 
 .title-dialog {
   z-index: 2;
-  opacity: 0;
   transition: opacity 500ms, transform 1s;
   transform: translate(0, 68px);
   user-select: none;
   pointer-events: all;
   touch-action: auto;
+  display: flex;
+  flex-direction: column;
 
   &.active {
-    opacity: 0.5;
     transform: translate(0, 0);
-    &:hover {
-      opacity: 1;
-    }
   }
 
   .title-dialog-pane {
@@ -662,6 +659,7 @@
     background: #111111;
     color: fade(white, 50%);
     font-size: 13px;
+    box-sizing: border-box;
 
     h2 {
       margin: 0;
@@ -669,6 +667,18 @@
       font-weight: 400;
       font-size: 1.6em;
       color: white;
+    }
+  }
+
+  .title-dialog-text {
+    overflow: hidden;
+    //display: flex;
+    transition: height 500ms;
+    line-height: 14px;
+    padding: 0;
+
+    > div {
+      margin: 10px;
     }
   }
 }

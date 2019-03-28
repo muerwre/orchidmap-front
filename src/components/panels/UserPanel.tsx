@@ -14,6 +14,7 @@ import { CLIENT } from '$config/frontend';
 import { DIALOGS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
+import { TitleDialog } from "$components/dialogs/TitleDialog";
 
 interface Props extends IRootState {
   userLogout: typeof userLogout,
@@ -95,7 +96,7 @@ export class Component extends React.PureComponent<Props, State> {
     return (
       <div>
         {
-          // <TitleDialog />
+          <TitleDialog />
         }
         <div className="panel active panel-user">
           <div className="user-panel">
