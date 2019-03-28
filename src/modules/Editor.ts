@@ -371,8 +371,6 @@ export class Editor {
     this.setInitialData();
     this.owner = { id };
 
-    // todo: implement
-    // if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.editor.enable();
     this.poly.enableEditor();
     this.stickers.startEditing();
   };
