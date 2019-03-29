@@ -65,7 +65,10 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
     const height = nearestInt(Math.min(container_height, Math.min(text_height, min_height)), text_line) + text_margins;
     const height_raised = nearestInt(Math.min(container_height, Math.min(text_height, max_height)), text_line) + text_margins;
 
-    this.setState({ height, height_raised });
+    this.setState({
+      height: ((height_raised - height) < 2 * text_line ? height_raised : height),
+      height_raised
+    });
   };
 
   render() {
