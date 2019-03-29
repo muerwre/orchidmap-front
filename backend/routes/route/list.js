@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
   } = req;
 
   const is_starred = parseInt(starred, 10) === 1;
-
   const user = await User.findOne({ _id: id, token });
 
   let criteria = { is_deleted: false };
@@ -16,7 +15,7 @@ module.exports = async (req, res) => {
   if (title) {
     criteria = {
       ...criteria,
-      $and: [
+      $or: [
         { title: new RegExp(title.trim(), 'ig') },
         { _id: new RegExp(title.trim(), 'ig') },
       ],
@@ -48,6 +47,7 @@ module.exports = async (req, res) => {
     }
   ).populate('owner', '_id');
 
+
   list = list.filter(item => !author || (item.owner && item.owner._id === author));
 
   let limits = list.reduce(({ min, max }, { distance: dist }) => ({
@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
   //   ? parseInt(distance[1], 10)
   //   : 10000;
 
-  if (distance && distance.length === 2) {
+  if (distance && distance.length === 2 && !(minDist === maxDist && minDist === 0)) {
     list = list.filter(item => (
       item.distance >= minDist &&
       item.distance <= maxDist
