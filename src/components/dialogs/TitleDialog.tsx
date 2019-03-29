@@ -73,26 +73,31 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
             onMouseOver={this.onHover}
             onMouseOut={this.onLeave}
           >
-            <div
-              className="title-dialog-pane title-dialog-name"
-              ref={el => { this.ref_title = el; }}
-            >
-              <h2>{title}</h2>
-            </div>
-            <div
-              className="title-dialog-pane title-dialog-text"
-              style={{
-                height: (raised ? height_raised : height),
-                display: height === 0 ? 'none' : 'block'
-              }}
-              ref={el => { this.ref_overflow = el; }}
-            >
+            {
+              title &&
+                <div
+                  className="title-dialog-pane title-dialog-name"
+                  ref={el => { this.ref_title = el; }}
+                >
+                  <h2>{title}</h2>
+                </div>
+            }
+            {
               <div
-                ref={el => { this.ref_text = el; }}
+                className="title-dialog-pane title-dialog-text"
+                style={{
+                  height: (raised ? height_raised : height),
+                  display: height === 0 ? 'none' : 'block'
+                }}
+                ref={el => { this.ref_overflow = el; }}
               >
+                <div
+                  ref={el => { this.ref_text = el; }}
+                >
 
+                </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>
