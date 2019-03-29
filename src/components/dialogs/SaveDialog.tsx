@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { copyToClipboard, getUrlData } from '$utils/history';
-import { toTranslit } from '$utils/format';
+import { toTranslit, parseDesc } from '$utils/format';
 import { TIPS } from '$constants/tips';
 import { MODES } from '$constants/modes';
 import { Icon } from '$components/panels/Icon';
 import { Switch } from '$components/Switch';
 
 import classnames from 'classnames';
-import { IRootState } from "$redux/user/reducer";
 import { sendSaveRequest, setMode } from "$redux/user/actions";
+import ExpandableTextarea from 'react-expandable-textarea';
 
-interface Props extends IRootState {
+interface Props {
+  address: string,
+  title: string,
+  is_public: boolean,
+
   width: number,
   setMode: typeof setMode,
   sendSaveRequest: typeof sendSaveRequest,
@@ -25,6 +29,7 @@ interface State {
   address: string,
   title: string,
   is_public: boolean,
+  description: string,
 }
 
 export class SaveDialog extends React.Component<Props, State> {
@@ -35,6 +40,7 @@ export class SaveDialog extends React.Component<Props, State> {
       address: props.address || '',
       title: props.title || '',
       is_public: props.is_public || false,
+      description: props.description || '',
     };
   }
 
@@ -46,21 +52,22 @@ export class SaveDialog extends React.Component<Props, State> {
   };
 
   setTitle = ({ target: { value } }) => this.setState({ title: ((value && value.substr(0, 64)) || '') });
-
   setAddress = ({ target: { value } }) => this.setState({ address: (value && value.substr(0, 32) || '') });
+  setDescription = ({ target: { value } }) => this.setState({ description: (value && value.substr(0, 256) || '') });
 
-  cancelSaving = () => this.props.setMode(MODES.NONE);
+
 
   sendSaveRequest = (e, force = false) => {
-    const { title, is_public } = this.state;
+    const { title, is_public, description } = this.state;
     const address = this.getAddress();
 
     this.props.sendSaveRequest({
-      title, address, force, is_public
+      title, address, force, is_public, description,
     });
   };
-
   forceSaveRequest = e => this.sendSaveRequest(e, true);
+
+  cancelSaving = () => this.props.setMode(MODES.NONE);
 
   onCopy = e => {
     e.preventDefault();
@@ -73,7 +80,7 @@ export class SaveDialog extends React.Component<Props, State> {
   };
 
   render() {
-    const { title, is_public } = this.state;
+    const { title, is_public, description } = this.state;
     const { save_error, save_finished, save_overwriting, width, save_loading } = this.props;
     const { host, protocol } = getUrlData();
 
@@ -104,6 +111,15 @@ export class SaveDialog extends React.Component<Props, State> {
               </div>
             </div>
 
+            <div className="save-textarea">
+              <ExpandableTextarea
+                minRows={2}
+                maxRows={5}
+                placeholder="Описание маршрута"
+                value={parseDesc(description)}
+                onChange={this.setDescription}
+              />
+            </div>
             <div className="save-text">
               { save_error || TIPS.SAVE_INFO }
             </div>

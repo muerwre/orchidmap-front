@@ -1,14 +1,21 @@
 const { User, Route } = require('../../models');
 
-const { parseRoute, parseStickers, parseString, parseNumber, parseAddress } = require('../../utils/parse');
+const {
+  parseRoute, parseStickers, parseString, parseNumber, parseAddress
+} = require('../../utils/parse');
 
 module.exports = async (req, res) => {
   const { body, body: { id, token, force } } = req;
 
   const owner = await User.findOne({ _id: id, token }).populate('routes');
-  if (!owner) return res.send({ success: false, reason: 'unauthorized', id, token });
+  if (!owner) {
+    return res.send({
+      success: false, reason: 'unauthorized', id, token
+    });
+  }
 
   const title = parseString(body.title, 64);
+  const description = parseString(body.description, 256);
   const address = parseAddress(body.address, 32);
   const route = parseRoute(body.route);
   const stickers = parseStickers(body.stickers);
@@ -28,23 +35,23 @@ module.exports = async (req, res) => {
 
   if (exists) {
     await exists.set({
-      title, route, stickers, logo, distance, updated_at: Date.now(), provider, is_public,
+      title, route, stickers, logo, distance, updated_at: Date.now(), provider, is_public, description,
     }).save();
 
     return res.send({
-      success: true, title, address, route, stickers, mode: 'overwrited', is_public,
+      success: true, title, address, route, stickers, mode: 'overwrited', is_public, description,
     });
   }
 
   const created = await Route.create({
-    _id: address, title, route, stickers, owner, logo, distance, provider, is_public,
+    _id: address, title, route, stickers, owner, logo, distance, provider, is_public, description,
   });
 
   await owner.routes.push(created);
   await owner.save();
 
   return res.send({
-    success: true, title, address, route, stickers, provider, is_public,
+    success: true, title, address, route, stickers, provider, is_public, description,
   });
 };
 

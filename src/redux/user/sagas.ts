@@ -32,7 +32,7 @@ import {
   setProvider,
   changeProvider,
   setSaveLoading,
-  mapsSetShift, searchChangeDistance, clearAll, setFeature, searchSetTitle, setRouteStarred,
+  mapsSetShift, searchChangeDistance, clearAll, setFeature, searchSetTitle, setRouteStarred, setDescription,
 } from '$redux/user/actions';
 import { getUrlData, parseQuery, pushLoaderState, pushNetworkInitError, pushPath, replacePath } from '$utils/history';
 import { editor } from '$modules/Editor';
@@ -307,7 +307,7 @@ function* clearSaga({ type }) {
 }
 
 function* sendSaveRequestSaga({
-  title, address, force, is_public
+  title, address, force, is_public, description,
 }: ReturnType<typeof ActionCreators.sendSaveRequest>) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
@@ -319,7 +319,7 @@ function* sendSaveRequestSaga({
 
   const { result, timeout, cancel } = yield race({
     result: postMap({
-      id, token, route, stickers, title, force, address, logo, distance, provider, is_public
+      id, token, route, stickers, title, force, address, logo, distance, provider, is_public, description,
     }),
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),
@@ -333,16 +333,14 @@ function* sendSaveRequestSaga({
   if (timeout || !result || !result.success || !result.address) return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
 
   return yield put(setSaveSuccess({
-    address: result.address, save_error: TIPS.SAVE_SUCCESS, title, is_public: result.is_public
+    address: result.address,
+    title: result.title,
+    is_public: result.is_public,
+    description: result.description,
+
+    save_error: TIPS.SAVE_SUCCESS,
   }));
 }
-
-// function* refreshUserData() {
-//   const user = yield select(getUser);
-//   const data = yield call(checkUserToken, user);
-//
-//   return yield put(setUser(data));
-// }
 
 function* getRenderData() {
   yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
@@ -570,7 +568,7 @@ function* searchSetTabSaga() {
 }
 
 function* setSaveSuccessSaga({
-  address, title, is_public
+  address, title, is_public, description,
 }: ReturnType<typeof ActionCreators.setSaveSuccess>) {
   const { id } = yield select(getUser);
   const { dialog_active } = yield select(getState);
@@ -580,6 +578,7 @@ function* setSaveSuccessSaga({
   yield put(setTitle(title));
   yield put(setAddress(address));
   yield put(setPublic(is_public));
+  yield put(setDescription(description));
   yield put(setChanged(false));
 
   yield editor.owner = { id };

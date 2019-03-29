@@ -641,27 +641,31 @@
 
 .title-dialog {
   z-index: 2;
-  opacity: 0;
   transition: opacity 500ms, transform 1s;
   transform: translate(0, 68px);
   user-select: none;
   pointer-events: all;
   touch-action: auto;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+
+  @media(max-width: @mobile_breakpoint) {
+    display: none;
+  }
 
   &.active {
-    opacity: 0.5;
+    opacity: 1;
     transform: translate(0, 0);
-    &:hover {
-      opacity: 1;
-    }
   }
 
   .title-dialog-pane {
     margin-bottom: 10px;
     padding: 10px;
-    background: #111111;
+    background: @dialog_background;
     color: fade(white, 50%);
     font-size: 13px;
+    box-sizing: border-box;
 
     h2 {
       margin: 0;
@@ -669,6 +673,40 @@
       font-weight: 400;
       font-size: 1.6em;
       color: white;
+    }
+  }
+
+  .title-dialog-text {
+    overflow: hidden;
+    transition: height 500ms;
+    line-height: 14px;
+    padding: 0;
+    position: relative;
+
+    > div {
+      margin: 10px;
+      white-space: pre-line;
+    }
+
+    &.has_shade {
+      ::after {
+        content: ' ';
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(fade(@dialog_background, 0), @dialog_background);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transition: opacity 250ms;
+        pointer-events: none;
+        touch-action: none;
+      }
+
+      &:hover {
+        ::after {
+          opacity: 0;
+        }
+      }
     }
   }
 }

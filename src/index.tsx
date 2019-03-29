@@ -7,7 +7,7 @@
   todo tower sticker
   todo route description
 
-  todo polyline editing only in manual mode (or by click)
+  skip polyline editing only in manual mode (or by click)
   todo selecting logo on crop
 
   todo network operations notify

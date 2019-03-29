@@ -21,6 +21,7 @@ interface IPostMap {
   distance: IRootState['distance'],
   provider: IRootState['provider'],
   is_public: IRootState['is_public'],
+  description: IRootState['description'],
 }
 
 interface IGetRouteList {
@@ -67,7 +68,7 @@ export const getStoredMap = (
   ));
 
 export const postMap = ({
-  title, address, route, stickers, id, token, force, logo, distance, provider, is_public,
+  title, address, route, stickers, id, token, force, logo, distance, provider, is_public, description,
 }: IPostMap) => axios.post(API.POST_MAP, {
   title,
   address,
@@ -80,6 +81,7 @@ export const postMap = ({
   distance,
   provider,
   is_public,
+  description,
 }).then(result => (result && result.data && result.data));
 
 export const checkIframeToken = (

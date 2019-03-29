@@ -46,7 +46,7 @@
 
   &.active {
     opacity: 1;
-    touch-action: all;
+    touch-action: auto;
     pointer-events: all;
 
     svg {
@@ -90,6 +90,7 @@
   border-radius: 2px;
   display: flex;
   margin-bottom: 5px;
+
   input {
     padding: 5px 5px 5px 2px;
     background: transparent;
@@ -150,14 +151,15 @@
 .save-description {
   textarea {
     background: rgba(0,0,0,0.3);
+    outline: none;
     border: none;
     border-radius: 3px;
     width: 100%;
     resize: none;
     color: inherit;
     font: inherit;
-    height: 5.5em;
-    padding: 0.25em;
+    padding: 5px 10px;
+    font-size: 14px;
   }
 }
 

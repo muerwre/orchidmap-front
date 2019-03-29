@@ -90,6 +90,7 @@
     "rc-slider": "8.5.0",
     "react": "16.8.1",
     "react-dom": "16.8.1",
+    "react-expandable-textarea": "github:muerwre/react-expandable-textarea",
     "react-hot-loader": "^4.1.1",
     "react-infinite-scroller": "^1.2.2",
     "react-rangeslider": "^2.2.0",

@@ -81,16 +81,6 @@ export class Stickers {
 
   dumpData = (): Array<IStickerDump> => this.stickers.map(sticker => sticker.dumpData());
 
-  // onSpiderify = (): void => {
-  //   console.log('spider?');
-  //   // todo: it has markers passed as argument. Update only them.
-  //   if (this.editor.getEditing()) {
-  //     this.startEditing();
-  //   } else {
-  //     this.stopEditing();
-  //   }
-  // };
-
   startEditing = (): void => {
     this.stickers.map(sticker => sticker.startEditing());
   };

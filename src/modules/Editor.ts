@@ -12,14 +12,14 @@ import {
   resetSaveDialog,
   setActiveSticker,
   setAddress,
-  setChanged,
+  setChanged, setDescription,
   setDistance,
   setIsEmpty, setIsRouting,
   setLogo,
   setMarkersShown,
   setMode,
   setPublic,
-  setRouterPoints,
+  setRouterPoints, setStarred,
   setTitle,
 } from '$redux/user/actions';
 import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '$constants/providers';
@@ -37,15 +37,17 @@ interface IEditor {
   owner: { id: string };
   initialData: {
     version: number,
-    title: string,
+    title: IRootState['title'],
     owner: { id: string },
-    address: string,
+    address: IRootState['address'],
     path: any,
     route: any,
     stickers: any,
-    provider: string,
-    is_public: boolean,
-    logo: string,
+    provider: IRootState['provider'],
+    is_public: IRootState['is_public'],
+    is_starred: IRootState['is_starred'],
+    description: IRootState['description'],
+    logo: IRootState['logo'],
   };
   activeSticker: IRootState['activeSticker'];
   mode: IRootState['mode'];
@@ -156,7 +158,9 @@ export class Editor {
     route: null,
     stickers: null,
     provider: null,
-    is_public: null,
+    is_public: false,
+    is_starred: false,
+    description: '',
     logo: null,
   };
   activeSticker: IEditor['activeSticker'];
@@ -183,8 +187,10 @@ export class Editor {
   setRouterPoints: typeof setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker: typeof setActiveSticker = value => store.dispatch(setActiveSticker(value));
   setTitle: typeof setTitle = value => store.dispatch(setTitle(value));
+  setDescription: typeof setDescription = value => store.dispatch(setDescription(value));
   setAddress: typeof setAddress = value => store.dispatch(setAddress(value));
   setPublic: typeof setPublic = value => store.dispatch(setPublic(value));
+  setStarred: typeof setStarred = value => store.dispatch(setStarred(value));
   setIsEmpty: typeof setIsEmpty = value => store.dispatch(setIsEmpty(value));
   setIsRouting: typeof setIsRouting = value => store.dispatch(setIsRouting(value));
 
@@ -305,7 +311,16 @@ export class Editor {
   };
 
   setData = ({
-    route = [], stickers = [], owner, title, address, provider = DEFAULT_PROVIDER, logo = DEFAULT_LOGO, is_public,
+    route = [],
+    stickers = [],
+    owner,
+    title,
+    address,
+    provider = DEFAULT_PROVIDER,
+    logo = DEFAULT_LOGO,
+    is_public,
+    is_starred,
+    description,
   }: IEditor['initialData']): void => {
     this.setTitle(title || '');
     const { id } = this.getUser();
@@ -332,6 +347,9 @@ export class Editor {
     }
 
     this.setPublic(is_public);
+    this.setStarred(is_starred);
+    this.setDescription(description);
+
     this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
     this.setProvider((provider && PROVIDERS[provider] && provider) || DEFAULT_PROVIDER);
 
@@ -348,7 +366,7 @@ export class Editor {
   setInitialData = (): void => {
     const { path } = getUrlData();
     const { id } = this.getUser();
-    const { is_public, logo } = this.getState();
+    const { is_public, logo, is_starred , description} = this.getState();
     const { route, stickers, provider } = this.dumpData();
 
     this.initialData = {
@@ -362,6 +380,8 @@ export class Editor {
       provider,
       is_public,
       logo,
+      is_starred,
+      description,
     };
   };
 
@@ -371,8 +391,6 @@ export class Editor {
     this.setInitialData();
     this.owner = { id };
 
-    // todo: implement
-    // if (this.poly.latlngs && this.poly.latlngs.length > 1) this.poly.poly.editor.enable();
     this.poly.enableEditor();
     this.stickers.startEditing();
   };
