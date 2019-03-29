@@ -18,6 +18,6 @@ export const DIALOGS: IDialogs = ({
 
 export const TABS: IMapTabs = ({
   mine: 'Мои',
-  all: 'Разное',
-  starred: 'Общие',
+  all: 'Заявки',
+  starred: 'Каталог',
 });
