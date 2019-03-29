@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IModes, MODES } from '$constants/modes';
+import { MODES } from '$constants/modes';
 
 import { RouterDialog } from '$components/dialogs/RouterDialog';
 import { StickersDialog } from '$components/dialogs/StickersDialog';

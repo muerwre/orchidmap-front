@@ -26,6 +26,7 @@ export interface IRootReducer {
   logo: keyof typeof LOGOS,
   routerPoints: number,
   distance: number,
+  description: string,
   estimated: number,
   speed: number,
   activeSticker: { set?: keyof IStickers, sticker?: string },
@@ -36,6 +37,7 @@ export interface IRootReducer {
   provider: keyof typeof PROVIDERS,
   markers_shown: boolean,
 
+  is_starred: boolean,
   is_public: boolean,
   is_empty: boolean,
   is_routing: boolean,
@@ -138,6 +140,11 @@ const setLogo: ActionHandler<typeof ActionCreators.setLogo> = (state, { logo }) 
 const setTitle: ActionHandler<typeof ActionCreators.setTitle> = (state, { title }) => ({
   ...state,
   title
+});
+
+const setDescription: ActionHandler<typeof ActionCreators.setDescription> = (state, { description }) => ({
+  ...state,
+  description
 });
 
 const setAddress: ActionHandler<typeof ActionCreators.setAddress> = (state, { address }) => ({
@@ -276,6 +283,8 @@ const searchSetLoading: ActionHandler<typeof ActionCreators.searchSetLoading> = 
 });
 
 const setPublic: ActionHandler<typeof ActionCreators.setPublic> = (state, { is_public = false }) => ({ ...state, is_public });
+const setStarred: ActionHandler<typeof ActionCreators.setStarred> = (state, { is_starred = false }) => ({ ...state, is_starred });
+
 const setSpeed: ActionHandler<typeof ActionCreators.setSpeed> = (state, { speed = 15 }) => ({
   ...state,
   speed,
@@ -330,6 +339,7 @@ const HANDLERS = ({
   [ACTIONS.SET_ACTIVE_STICKER]: setActiveSticker,
   [ACTIONS.SET_LOGO]: setLogo,
   [ACTIONS.SET_TITLE]: setTitle,
+  [ACTIONS.SET_DESCRIPTION]: setDescription,
   [ACTIONS.SET_ADDRESS]: setAddress,
   [ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
 
@@ -356,6 +366,7 @@ const HANDLERS = ({
   [ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
   [ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
   [ACTIONS.SET_PUBLIC]: setPublic,
+  [ACTIONS.SET_STARRED]: setStarred,
   [ACTIONS.SET_SPEED]: setSpeed,
 
   [ACTIONS.SET_MARKERS_SHOWN]: setMarkersShown,
@@ -376,6 +387,7 @@ export const INITIAL_STATE: IRootReducer = {
   logo: DEFAULT_LOGO,
   routerPoints: 0,
   distance: 0,
+  description: '',
   estimated: 0,
   speed: 15,
   activeSticker: { set: null, sticker: null },
@@ -387,6 +399,8 @@ export const INITIAL_STATE: IRootReducer = {
   markers_shown: true,
   changed: false,
   editing: false,
+
+  is_starred: false,
   is_public: false,
   is_empty: true,
   is_routing: false,

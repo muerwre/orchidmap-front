@@ -1,5 +1,6 @@
 import { ACTIONS } from '$redux/user/constants';
 import { IUser } from "$constants/auth";
+import { IRootState } from "$redux/user/reducer";
 
 export const setUser = (user: IUser) => ({ type: ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: ACTIONS.USER_LOGOUT });
@@ -12,9 +13,11 @@ export const setRouterPoints = routerPoints => ({ type: ACTIONS.SET_ROUTER_POINT
 export const setActiveSticker = activeSticker => ({ type: ACTIONS.SET_ACTIVE_STICKER, activeSticker });
 export const setLogo = logo => ({ type: ACTIONS.SET_LOGO, logo });
 export const setTitle = title => ({ type: ACTIONS.SET_TITLE, title });
+export const setDescription = description => ({ type: ACTIONS.SET_DESCRIPTION, description });
 export const setAddress = address => ({ type: ACTIONS.SET_ADDRESS, address });
 export const setAddressOrigin = address_origin => ({ type: ACTIONS.SET_ADDRESS_ORIGIN, address_origin });
 export const setPublic = is_public => ({ type: ACTIONS.SET_PUBLIC, is_public });
+export const setStarred = is_starred => ({ type: ACTIONS.SET_STARRED, is_starred });
 export const setSpeed = speed => ({ type: ACTIONS.SET_SPEED, speed });
 
 export const startEditing = () => ({ type: ACTIONS.START_EDITING });
@@ -28,7 +31,17 @@ export const clearStickers = () => ({ type: ACTIONS.CLEAR_STICKERS });
 export const clearAll = () => ({ type: ACTIONS.CLEAR_ALL });
 export const clearCancel = () => ({ type: ACTIONS.CLEAR_CANCEL });
 
-export const sendSaveRequest = payload => ({ type: ACTIONS.SEND_SAVE_REQUEST, ...payload });
+export const sendSaveRequest = (payload: {
+  title: IRootState['title'],
+  address: IRootState['address'],
+  is_public: IRootState['is_public'],
+  description: IRootState['description'],
+  force: boolean,
+}) => ({
+  type: ACTIONS.SEND_SAVE_REQUEST,
+  ...payload,
+});
+
 export const resetSaveDialog = () => ({ type: ACTIONS.RESET_SAVE_DIALOG });
 
 export const setSaveLoading = save_loading => ({ type: ACTIONS.SET_SAVE_LOADING, save_loading });

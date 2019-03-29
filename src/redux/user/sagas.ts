@@ -307,7 +307,7 @@ function* clearSaga({ type }) {
 }
 
 function* sendSaveRequestSaga({
-  title, address, force, is_public
+  title, address, force, is_public, description,
 }: ReturnType<typeof ActionCreators.sendSaveRequest>) {
   if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
 
@@ -319,7 +319,7 @@ function* sendSaveRequestSaga({
 
   const { result, timeout, cancel } = yield race({
     result: postMap({
-      id, token, route, stickers, title, force, address, logo, distance, provider, is_public
+      id, token, route, stickers, title, force, address, logo, distance, provider, is_public, description,
     }),
     timeout: delay(10000),
     cancel: take(ACTIONS.RESET_SAVE_DIALOG),
