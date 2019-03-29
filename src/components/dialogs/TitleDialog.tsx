@@ -5,10 +5,13 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { getStyle } from "$utils/dom";
 import { nearestInt } from "$utils/geom";
+import { IRootState } from "$redux/user/reducer";
+import { parseDesc } from "$utils/format";
 
 interface ITitleDialogProps {
-  editing: boolean,
-  title?: string,
+  editing: IRootState['editing'],
+  title?: IRootState['title'],
+  description?: IRootState['description'],
   minLines?: number,
   maxLines?: number,
 }
@@ -30,10 +33,14 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
   onLeave = () => this.setState({ raised: false });
 
   componentDidMount() {
-    this.getMaxHeight();
+    this.setMaxHeight();
   }
 
-  getMaxHeight = (): number => {
+  componentDidUpdate() {
+    this.setMaxHeight();
+  }
+
+  setMaxHeight = (): number => {
     if (!this.ref_sizer || !this.ref_title || !this.ref_text) return 0;
 
     const { height: sizer_height } = this.ref_sizer.getBoundingClientRect();
@@ -52,7 +59,7 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
 
     const container_height = sizer_height - title_height - title_margin - text_margins;
 
-    const min_height = (this.props.minLines || 3) * text_line;
+    const min_height = (this.props.minLines || 5) * text_line;
     const max_height = (this.props.maxLines || 20) * text_line;
 
     const height = nearestInt(Math.min(container_height, Math.min(text_height, min_height)), text_line) + text_margins;
@@ -62,7 +69,7 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
   };
 
   render() {
-    const { editing, title } = this.props;
+    const { editing, title, description } = this.props;
     const { raised, height, height_raised } = this.state;
 
     return (
@@ -73,31 +80,29 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
             onMouseOver={this.onHover}
             onMouseOut={this.onLeave}
           >
-            {
-              title &&
-                <div
-                  className="title-dialog-pane title-dialog-name"
-                  ref={el => { this.ref_title = el; }}
-                >
-                  <h2>{title}</h2>
-                </div>
-            }
-            {
-              <div
-                className="title-dialog-pane title-dialog-text"
-                style={{
-                  height: (raised ? height_raised : height),
-                  display: height === 0 ? 'none' : 'block'
-                }}
-                ref={el => { this.ref_overflow = el; }}
-              >
-                <div
-                  ref={el => { this.ref_text = el; }}
-                >
+            <div
+              className="title-dialog-pane title-dialog-name"
+              ref={el => { this.ref_title = el; }}
+            >
+              <h2>{title}</h2>
+            </div>
 
-                </div>
+            <div
+              className={classnames("title-dialog-pane title-dialog-text", { has_shade: height_raised > height })}
+              style={{
+                height: (raised ? height_raised : height),
+                marginBottom: height === 0 ? 0 : 15,
+              }}
+              ref={el => { this.ref_overflow = el; }}
+            >
+              <div
+                ref={el => { this.ref_text = el; }}
+              >
+                {
+                  parseDesc(description)
+                }
               </div>
-            }
+            </div>
           </div>
         </div>
       </div>
@@ -110,7 +115,7 @@ export class Component extends React.PureComponent<ITitleDialogProps, ITitleDial
   ref_overflow;
 }
 
-const mapStateToProps = ({ user: { editing, title } }) => ({ editing, title });
+const mapStateToProps = ({ user: { editing, title, description } }) => ({ editing, title, description });
 const mapDispatchToProps = dispatch => bindActionCreators({ }, dispatch);
 
 export const TitleDialog = connect(mapStateToProps, mapDispatchToProps)(Component);

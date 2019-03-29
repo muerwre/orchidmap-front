@@ -2,24 +2,22 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const RouteSchema = new Schema(
-  {
-    _id: { type: String, required: true },
-    title: { type: String, default: '' },
-    // address: { type: String, required: true },
-    version: { type: Number, default: 2 },
-    route: { type: Array, default: [] },
-    stickers: { type: Array, default: [] },
-    owner: { type: Schema.Types.ObjectId, ref: 'User' },
-    distance: { type: Number, default: 0 },
-    is_public: { type: Boolean, default: false },
-    is_starred: { type: Boolean, default: false },
-    is_deleted: { type: Boolean, default: false },
-    created_at: { type: Date, default: Date.now() },
-    updated_at: { type: Date, default: Date.now() },
-    logo: { type: String, default: 'DEFAULT' },
-    provider: { type: String, default: 'DEFAULT' },
-  },
-);
+const RouteSchema = new Schema({
+  _id: { type: String, required: true },
+  title: { type: String, default: '' },
+  version: { type: Number, default: 2 },
+  route: { type: Array, default: [] },
+  stickers: { type: Array, default: [] },
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  distance: { type: Number, default: 0 },
+  is_public: { type: Boolean, default: false },
+  is_starred: { type: Boolean, default: false },
+  is_deleted: { type: Boolean, default: false },
+  created_at: { type: Date, default: Date.now() },
+  updated_at: { type: Date, default: Date.now() },
+  logo: { type: String, default: 'DEFAULT' },
+  provider: { type: String, default: 'DEFAULT' },
+  description: { type: String, default: '' },
+});
 
 module.exports.RouteSchema = RouteSchema;

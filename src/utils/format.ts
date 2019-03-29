@@ -13,3 +13,5 @@ export const toHours = (info: number): string => {
 export const toTranslit = (string: string): string => (
   removeGarbage(ru.reduce((text, el, i) => (text.replace(new RegExp(ru[i], 'g'), en[i])), (String(string) || '')))
 );
+
+export const parseDesc = (text: string): string => text.replace(/(\n{2,})/ig, "\n\n");

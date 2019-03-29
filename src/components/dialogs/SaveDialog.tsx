@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { copyToClipboard, getUrlData } from '$utils/history';
-import { toTranslit } from '$utils/format';
+import { toTranslit, parseDesc } from '$utils/format';
 import { TIPS } from '$constants/tips';
 import { MODES } from '$constants/modes';
 import { Icon } from '$components/panels/Icon';
@@ -116,7 +116,7 @@ export class SaveDialog extends React.Component<Props, State> {
                 minRows={2}
                 maxRows={5}
                 placeholder="Описание маршрута"
-                value={description}
+                value={parseDesc(description)}
                 onChange={this.setDescription}
               />
             </div>

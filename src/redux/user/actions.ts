@@ -5,10 +5,10 @@ import { IRootState } from "$redux/user/reducer";
 export const setUser = (user: IUser) => ({ type: ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: ACTIONS.USER_LOGOUT });
 
-export const setEditing = editing => ({ type: ACTIONS.SET_EDITING, editing });
-export const setMode = mode => ({ type: ACTIONS.SET_MODE, mode });
-export const setDistance = distance => ({ type: ACTIONS.SET_DISTANCE, distance });
-export const setChanged = changed => ({ type: ACTIONS.SET_CHANGED, changed });
+export const setEditing = (editing: IRootState['editing']) => ({ type: ACTIONS.SET_EDITING, editing });
+export const setMode = (mode: IRootState['mode']) => ({ type: ACTIONS.SET_MODE, mode });
+export const setDistance = (distance: IRootState['distance']) => ({ type: ACTIONS.SET_DISTANCE, distance });
+export const setChanged = (changed: IRootState['changed']) => ({ type: ACTIONS.SET_CHANGED, changed });
 export const setRouterPoints = routerPoints => ({ type: ACTIONS.SET_ROUTER_POINTS, routerPoints });
 export const setActiveSticker = activeSticker => ({ type: ACTIONS.SET_ACTIVE_STICKER, activeSticker });
 export const setLogo = logo => ({ type: ACTIONS.SET_LOGO, logo });
@@ -44,9 +44,18 @@ export const sendSaveRequest = (payload: {
 
 export const resetSaveDialog = () => ({ type: ACTIONS.RESET_SAVE_DIALOG });
 
-export const setSaveLoading = save_loading => ({ type: ACTIONS.SET_SAVE_LOADING, save_loading });
-export const setSaveSuccess = payload => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...payload });
-export const setSaveError = save_error => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
+export const setSaveLoading = (save_loading: IRootState['save_loading']) => ({ type: ACTIONS.SET_SAVE_LOADING, save_loading });
+
+export const setSaveSuccess = (payload: {
+  address: IRootState['address'],
+  title: IRootState['address'],
+  is_public: IRootState['is_public'],
+  description: IRootState['description'],
+
+  save_error: string,
+}) => ({ type: ACTIONS.SET_SAVE_SUCCESS, ...payload });
+
+export const setSaveError = (save_error: IRootState['save_error']) => ({ type: ACTIONS.SET_SAVE_ERROR, save_error });
 export const setSaveOverwrite = () => ({ type: ACTIONS.SET_SAVE_OVERWRITE });
 
 export const hideRenderer = () => ({ type: ACTIONS.HIDE_RENDERER });

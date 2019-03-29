@@ -179,7 +179,11 @@ const setSaveOverwrite: ActionHandler<typeof ActionCreators.setSaveOverwrite> = 
 });
 
 const setSaveSuccess: ActionHandler<typeof ActionCreators.setSaveSuccess> = (state, { save_error }) => ({
-  ...state, save_overwriting: false, save_finished: true, save_processing: false, save_error
+  ...state,
+  save_overwriting: false,
+  save_finished: true,
+  save_processing: false,
+  save_error,
 });
 
 const resetSaveDialog: ActionHandler<typeof ActionCreators.resetSaveDialog> = (state) => ({
