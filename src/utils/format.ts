@@ -15,3 +15,5 @@ export const toTranslit = (string: string): string => (
 );
 
 export const parseDesc = (text: string): string => text.replace(/(\n{2,})/ig, "\n\n");
+
+// export const colorizeTitle = (text: string): string => text.replace(/(\[[^\]^]+\])/, ``)
