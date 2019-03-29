@@ -28,6 +28,6 @@
   "include": [
     "./src/**/*",
     "./backend/**/*",
-    "./custom.d.ts",
+    "./custom.d.ts"
   ]
 }

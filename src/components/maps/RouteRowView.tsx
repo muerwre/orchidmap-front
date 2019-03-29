@@ -37,8 +37,8 @@ export const RouteRowView = ({
       <div className="route-row-fav" onClick={toggleStarred.bind(null, _id)}>
         {
           is_starred
-            ? <Icon icon="icon-star-fill" size={24}/>
-            : <Icon icon="icon-star-blank" size={24}/>
+            ? <Icon icon="icon-star-fill" size={24} />
+            : <Icon icon="icon-star-blank" size={24} />
         }
       </div>
     }
@@ -47,6 +47,10 @@ export const RouteRowView = ({
       onClick={() => openRoute(_id)}
     >
       <div className="route-title">
+        {
+          (tab === 'all' || tab === 'starred') && is_starred && !is_admin &&
+          <Icon icon="icon-star-fill" size={18} />
+        }
         <span>{(title || _id)}</span>
       </div>
 

@@ -30,7 +30,7 @@
     "prefer-promise-reject-errors": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
     "camelcase": 0,
-    "no-trailing-spaces": 0,
+    "no-trailing-spaces": 0
   },
   "globals": {
     "document": false,
@@ -41,7 +41,7 @@
     "FormData": false,
     "WebSocket": true,
     "Element": true,
-    "localStorage": true,
+    "localStorage": true
   },
   "env": {},
   "settings": {
