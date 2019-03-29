@@ -48,7 +48,7 @@ export const RouteRowView = ({
     >
       <div className="route-title">
         {
-          (tab === 'all' || tab === 'starred') && is_starred && !is_admin &&
+          (tab === 'mine' || !is_admin) && is_starred &&
           <Icon icon="icon-star-fill" size={18} />
         }
         <span>
