@@ -14,6 +14,7 @@ export interface ITileMaps {
   YSAT: IProvider,
   YMAP: IProvider,
   SAT: IProvider,
+  ESAT: IProvider,
 }
 
 
@@ -64,9 +65,14 @@ const TILEMAPS: ITileMaps = {
     url: 'https://sat0{s}.maps.yandex.net/tiles?l=sat&v=3.330.0&x={x}&y={y}&z={z}&lang=ru_RU',
     range: [1, 2, 3, 4],
   },
+  ESAT: {
+    name: 'Sattelite',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    range: [1,2,3,4],
+  }
 };
 
-const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT'];
+const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT'];
 
 export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[0];
 export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
