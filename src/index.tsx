@@ -3,6 +3,7 @@
   ## BUGS
 
   ## FEATURES
+  todo screenshots with dot losing .png extension
   todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
   todo tower sticker
   todo route description
