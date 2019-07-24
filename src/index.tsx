@@ -17,8 +17,6 @@
     todo check canvas support at startup
     done check osrm is up
 
-  todo maybe: map preview on save (dont think so)
-
   ## DONE
 
   done arrows on screenshot
