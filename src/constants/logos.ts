@@ -10,6 +10,7 @@ export const LOGOS = {
   pedals: ['Усталые Педальки', require('../sprites/logos/pedals.png'), 'bottom-right'],
   rider: ['Райдер', require('../sprites/logos/rider.png'), 'bottom-right'],
   rider_evening: ['Вечерние городские', require('../sprites/logos/rider_evening.png'), 'top-right'],
+  prokatimsya: ['PRO_КАТИМСЯ?!', require('../sprites/logos/prokatimsya.png.png'), 'top-right'],
 };
 
 export const DEFAULT_LOGO = 'nvs';
