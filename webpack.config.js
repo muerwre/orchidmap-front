@@ -70,6 +70,7 @@ module.exports = () => {
       description: 'Велосипедные маршруты в новосибирске',
       background_color: '#01579b',
       theme_color: '#01579b',
+      display: 'fullscreen',
       'theme-color': '#01579b',
       start_url: '/',
       icons: [
