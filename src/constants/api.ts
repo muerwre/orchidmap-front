@@ -12,3 +12,5 @@ export const API: { [x: string]: string } = {
   MODIFY_ROUTE: `${CLIENT.API_ADDR}/route/modify`,
   SET_STARRED: `${CLIENT.API_ADDR}/route/star`,
 };
+
+export const API_RETRY_INTERVAL = 10;

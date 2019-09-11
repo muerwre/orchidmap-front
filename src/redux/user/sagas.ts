@@ -218,7 +218,7 @@ function* authCheckSaga() {
       if (user) {
         yield put(setUser(user));
 
-        pushLoaderState('   ...готово');
+        pushLoaderState(99);
 
         return yield call(mapInitSaga);
       }
@@ -231,7 +231,7 @@ function* authCheckSaga() {
     if (user) {
       yield put(setUser(user));
 
-      pushLoaderState('   ...готово');
+      pushLoaderState(99);
 
       return yield call(mapInitSaga);
     } else if (!ready) {
