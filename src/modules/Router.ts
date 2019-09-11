@@ -62,7 +62,7 @@ export class Router {
       useHints: false,
     })
       .on('routingstart', this.showSpinner)
-      .on('routesfound routingerror', this.hideSpinner)
+      .on('routesfound routingerror routeselected routingzoomend', this.hideSpinner)
       .on('waypointschanged', this.updateWaypointsCount);
 
     this.router.addTo(map);
