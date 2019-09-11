@@ -138,6 +138,7 @@ export class Editor {
     };
 
     map.addEventListener('mouseup', this.onClick);
+    // map.addEventListener('touchend', this.onClick);
     map.addEventListener('dragstart', () => lockMapClicks(true));
     map.addEventListener('dragstop', () => lockMapClicks(false));
   }
