@@ -51,6 +51,10 @@
       display: none;
     }
   }
+
+  @media(hover: none) {
+    transition: none;
+  }
 }
 
 .sticker-label {
@@ -193,7 +197,7 @@
   float: left;
   cursor: pointer;
   transform: scale(1);
-  // transition: transform 250ms;
+  transition: transform 250ms;
   width: 48px;
   height: 48px;
   background-size: cover;
