@@ -1,5 +1,6 @@
-// import webpack from 'webpack';
+// import { CLIENT } from './config/frontend';
 const webpack = require('webpack');
+
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 // const FlowWebpackPlugin = require('flow-webpack-plugin');
 // const { version } = require('./package.json');
@@ -9,10 +10,14 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+// import webpack from 'webpack';
+const PWA_CONFIG = require('./config/pwa');
 // const ManifestPlugin = require('webpack-manifest-plugin');
 /* Plugins */
 
 // const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
+
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './src/index.html',
   filename: './index.html',
@@ -64,23 +69,17 @@ module.exports = () => {
     new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/),
     miniCssExractPlugin,
     new webpack.HashedModuleIdsPlugin(),
-    new WebpackPwaManifest({
-      name: 'Редактор маршрутов',
-      short_name: 'Маршруты',
-      description: 'Велосипедные маршруты в новосибирске',
-      background_color: '#01579b',
-      theme_color: '#01579b',
-      display: 'fullscreen',
-      'theme-color': '#01579b',
-      start_url: '/',
-      icons: [
-        {
-          src: path.resolve('src/sprites/favicon.png'),
-          sizes: [96, 128, 192, 256, 384, 512],
-          destination: path.join('assets', 'icons')
-        }
-      ]
-    })
+    new WebpackPwaManifest(PWA_CONFIG.MANIFEST(path.resolve('./src/sprites/app.png'))),
+    new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'my-domain-cache-id',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        filename: 'service-worker.js',
+        minify: true,
+        navigateFallback: `${PWA_CONFIG.PUBLIC_PATH}index.html`,
+        staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/]
+      }
+    ),
   ];
 
   return {

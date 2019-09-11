@@ -1,6 +1,7 @@
 import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 import { LatLngLiteral } from 'leaflet';
 
+const PUBLIC_PATH = '';
 const API_ADDR = 'https://HOSTNAME.org:3000';
 const OSRM_URL = 'https://HOSTNAME.org:5001/route/v1';
 const OSRM_PROFILE = 'bike';
@@ -14,6 +15,7 @@ export const CLIENT = {
   OSRM_TEST_URL,
   OSRM_PROFILE,
   STROKE_WIDTH: 5,
+  PUBLIC_PATH,
 };
 
 export const COLORS = {

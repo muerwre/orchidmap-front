@@ -16,6 +16,7 @@ yarn-error.log
 
 /config/frontend.js
 /config/backend.js
+/config/pwa.js
 
 # Bundle
 *.js.map
