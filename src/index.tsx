@@ -6,6 +6,7 @@
   todo refactor reducer to use is_ prefix for editing and etc (mb move them to status object)
   todo tower sticker
   done route description
+  done setup deploy
 
   skip polyline editing only in manual mode (or by click)
   todo selecting logo on crop
