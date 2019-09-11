@@ -357,10 +357,25 @@ export class Editor {
   };
 
   fitDrawing = (): void => {
-    if (this.poly.isEmpty) return;
+    if (!this.poly.isEmpty) {
+      const poly_bounds = this.poly.poly.getBounds();
 
-    const bounds = this.poly.poly.getBounds();
-    if (bounds && Object.values(bounds)) this.map.map.fitBounds(bounds);
+      if (poly_bounds && Object.values(poly_bounds).length) {
+        this.map.map.fitBounds(poly_bounds);
+        return;
+      }
+    }
+
+    if (!this.stickers.isEmpty) {
+      const stickers_bounds = this.stickers.layer.getBounds();
+
+      if (stickers_bounds && Object.values(stickers_bounds).length) {
+        this.map.map.fitBounds(stickers_bounds);
+        return;
+      }
+    }
+
+    // no bounds to fit. better do something later
   };
 
   setInitialData = (): void => {

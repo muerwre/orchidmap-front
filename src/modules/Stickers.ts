@@ -1,4 +1,4 @@
-import { LayerGroup, layerGroup, Map } from 'leaflet';
+import {FeatureGroup, LayerGroup, layerGroup, Map} from 'leaflet';
 import { IStickerDump, Sticker } from '$modules/Sticker';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { clusterIcon } from '$utils/clusterIcon';
@@ -24,8 +24,7 @@ export class Stickers {
     this.triggerOnChange = triggerOnChange;
     this.editor = editor;
 
-    this.clusterLayer.addTo(map);
-
+    // this.clusterLayer.addTo(map);
     // this.clusterLayer.on('animationend', this.onSpiderify);
 
     this.lockMapClicks = lockMapClicks;
@@ -55,7 +54,7 @@ export class Stickers {
 
     this.stickers.push(marker);
 
-    marker.marker.addTo(this.clusterLayer);
+    marker.marker.addTo(this.layer);
 
     this.triggerOnChange();
   };
@@ -65,7 +64,8 @@ export class Stickers {
 
     if (index < 0) return;
 
-    this.clusterLayer.removeLayer(ref.marker);
+    // this.clusterLayer.removeLayer(ref.marker);
+    this.layer.removeLayer(ref.marker);
     this.stickers.splice(index, 1);
 
     this.triggerOnChange();
@@ -89,7 +89,10 @@ export class Stickers {
     this.stickers.map(sticker => sticker.stopEditing());
   };
 
-  clusterLayer: LayerGroup = new LayerGroup();
+  get isEmpty(): boolean {
+    return !this.stickers || this.stickers.length === 0
+  };
+  // clusterLayer: LayerGroup = new LayerGroup();
 
   // uncomment to enable clustering
 
@@ -106,9 +109,8 @@ export class Stickers {
   editor: Props['editor'];
   map: Props['map'];
 
-
   stickers: Array<Sticker> = [];
-  layer: LayerGroup = layerGroup();
+  layer: FeatureGroup = new FeatureGroup();
 
   triggerOnChange: Props['triggerOnChange'];
   lockMapClicks: Props['lockMapClicks'];
