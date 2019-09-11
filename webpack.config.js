@@ -4,11 +4,12 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 // const FlowWebpackPlugin = require('flow-webpack-plugin');
 // const { version } = require('./package.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 // const WebpackGitHash = require('webpack-git-hash');
-const { join } = require('path');
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
+const path = require('path');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+// const ManifestPlugin = require('webpack-manifest-plugin');
 /* Plugins */
 
 // const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
@@ -38,15 +39,15 @@ const devtool = isDevelopment ? 'cheap-module-eval-source-map' : 'source-map';
 
 const resolve = {
   alias: {
-    $components: join(__dirname, 'src/components'),
-    $containers: join(__dirname, 'src/containers'),
-    $constants: join(__dirname, 'src/constants'),
-    $sprites: join(__dirname, 'src/sprites'),
-    $config: join(__dirname, './config'),
-    $styles: join(__dirname, 'src/styles'),
-    $redux: join(__dirname, 'src/redux'),
-    $utils: join(__dirname, 'src/utils'),
-    $modules: join(__dirname, 'src/modules'),
+    $components: path.join(__dirname, 'src/components'),
+    $containers: path.join(__dirname, 'src/containers'),
+    $constants: path.join(__dirname, 'src/constants'),
+    $sprites: path.join(__dirname, 'src/sprites'),
+    $config: path.join(__dirname, './config'),
+    $styles: path.join(__dirname, 'src/styles'),
+    $redux: path.join(__dirname, 'src/redux'),
+    $utils: path.join(__dirname, 'src/utils'),
+    $modules: path.join(__dirname, 'src/modules'),
   },
   extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
 };
@@ -63,6 +64,22 @@ module.exports = () => {
     new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/),
     miniCssExractPlugin,
     new webpack.HashedModuleIdsPlugin(),
+    new WebpackPwaManifest({
+      name: 'My Applications Friendly Name',
+      short_name: 'Application',
+      description: 'Description!',
+      background_color: '#01579b',
+      theme_color: '#01579b',
+      'theme-color': '#01579b',
+      start_url: '/',
+      icons: [
+        {
+          src: path.resolve('src/sprites/favicon.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: path.join('assets', 'icons')
+        }
+      ]
+    })
   ];
 
   return {
