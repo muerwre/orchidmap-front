@@ -182,7 +182,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
             />
             <br />
             {
-              ready
+              ready && Object.keys(marks).length > 2
                 ?
                   <Range
                     min={min}
