@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
   list = list.filter(item => !author || (item.owner && item.owner._id === author));
 
   let limits = list.reduce(({ min, max }, { distance: dist }) => ({
-    min: Math.ceil(Math.min(dist, min) / 25) * 25,
+    min: Math.floor(Math.min(dist, min) / 25) * 25,
     max: Math.ceil(Math.max(dist, max) / 25) * 25,
   }), { min: 999999, max: 0 });
 
