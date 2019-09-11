@@ -401,6 +401,12 @@
                 <circle cx="16" cy="11" fill="white" r="4" />
             </g>
 
+            <g id="icon-chevron-down" stroke="none">
+                <g transform="scale(2) translate(-4 -3)">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                </g>
+            </g>
+
             <g id="icon-sad-1" stroke="none">
                 <path stroke="none" fill="black"/>
                 <g transform="translate(4 4)">
@@ -412,5 +418,5 @@
         </svg>
     </defs>
 
-    <use xlink:href="#icon-cluster-1" />
+    <use xlink:href="#icon-chevron-down" />
 </svg>

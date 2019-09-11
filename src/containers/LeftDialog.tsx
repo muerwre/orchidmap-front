@@ -25,8 +25,12 @@ export const LeftDialog = ({ dialog, dialog_active, setDialogActive }: Props) =>
       Object.keys(LEFT_DIALOGS).map(item => (
         <div className={classnames('dialog', { active: dialog_active && (dialog === item) })} key={item}>
           { dialog && LEFT_DIALOGS[item] && React.createElement(LEFT_DIALOGS[item]) }
-          <div className="dialog-close-button" onClick={() => setDialogActive(false)}>
+          <div className="dialog-close-button desktop-only" onClick={() => setDialogActive(false)}>
             <Icon icon="icon-cancel-1" />
+          </div>
+
+          <div className="dialog-close-button mobile-only" onClick={() => setDialogActive(false)}>
+            <Icon icon="icon-chevron-down" />
           </div>
         </div>
       ))
