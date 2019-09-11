@@ -91,6 +91,8 @@ const { store, persistor } = configureStore();
 
 pushLoaderState(10);
 
+console.log('is this a new build?');
+
 export const Index = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
