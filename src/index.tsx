@@ -1,5 +1,6 @@
 /*
   ## BUGS
+  todo catalogue minimum is 25km. Why?
 
   ## FEATURES
   todo screenshots with dot losing .png extension
