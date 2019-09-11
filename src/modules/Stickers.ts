@@ -89,15 +89,19 @@ export class Stickers {
     this.stickers.map(sticker => sticker.stopEditing());
   };
 
-  clusterLayer: MarkerClusterGroup = new MarkerClusterGroup({
-    spiderfyOnMaxZoom: false,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
-    animate: false,
-    maxClusterRadius: 80,
-    // disableClusteringAtZoom: 13,
-    iconCreateFunction: clusterIcon,
-  });
+  clusterLayer: LayerGroup = new LayerGroup();
+
+  // uncomment to enable clustering
+
+  // clusterLayer: MarkerClusterGroup = new MarkerClusterGroup({
+  //   spiderfyOnMaxZoom: false,
+  //   showCoverageOnHover: false,
+  //   zoomToBoundsOnClick: true,
+  //   animate: false,
+  //   maxClusterRadius: 8,
+  //   // disableClusteringAtZoom: 13,
+  //   iconCreateFunction: clusterIcon,
+  // });
 
   editor: Props['editor'];
   map: Props['map'];
