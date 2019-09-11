@@ -21,6 +21,7 @@ export class StickerDesc extends React.PureComponent<Props, State> {
   };
 
   blockMouse = e => {
+    console.log('BM');
     e.stopPropagation();
     this.input.focus();
   };
@@ -37,6 +38,7 @@ export class StickerDesc extends React.PureComponent<Props, State> {
         onMouseDown={this.blockMouse}
         onMouseUp={this.blockMouse}
         onDragStart={this.blockMouse}
+        onTouchStart={this.blockMouse}
       >
         <div className="sticker-desc-sizer">
           <span
