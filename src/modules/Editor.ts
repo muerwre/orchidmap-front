@@ -228,7 +228,7 @@ export class Editor {
     this.stickers.createSticker({ latlng, sticker: this.activeSticker.sticker, set: this.activeSticker.set });
     this.setActiveSticker(null);
     this.setChanged(true);
-    this.setMode(MODES.STICKERS_SELECT);
+    // this.setMode(MODES.STICKERS_SELECT);
   };
 
   changeMode = (mode: IRootState['mode']): void => {
