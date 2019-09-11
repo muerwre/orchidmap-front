@@ -16,7 +16,6 @@ export const TrashDialog = ({
   <div className="control-dialog" style={{ width }}>
     <div className="helper trash-helper">
       <div className="helper__text danger">
-        <Icon icon="icon-trash-4" />
         <div className="big upper desktop-only">Удалить:</div>
       </div>
     </div>

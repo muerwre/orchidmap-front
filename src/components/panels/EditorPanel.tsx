@@ -92,7 +92,7 @@ class Component extends React.PureComponent<Props, void> {
               onClick={this.startTrashMode}
             >
               <Tooltip>Удаление элементов</Tooltip>
-              <Icon icon="icon-trash-4" />
+              <Icon icon="icon-trash-6" />
             </button>
           </div>
 
