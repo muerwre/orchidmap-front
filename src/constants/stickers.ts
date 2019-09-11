@@ -19,6 +19,7 @@ export interface IStickers {
   base: IStickerPack,
   real: IStickerPack,
   pin: IStickerPack,
+  points: IStickerPack,
 }
 
 // export const stickers = ['green', 'basic', 'green-small'];
@@ -83,4 +84,17 @@ export const STICKERS: IStickers = {
       question: { off: 30, title: 'Вопрос', title_long: 'Что тут?' },
     }
   },
+  points: {
+    title: 'Точки',
+    url: require('$sprites/stickers/stickers-base.svg'),
+    size: 72,
+    layers: {
+      pt1: { off: 40, title: '1', title_long: 'Первая точка' },
+      pt2: { off: 41, title: '2', title_long: 'Вторая точка' },
+      pt3: { off: 42, title: '3', title_long: 'Третья точка' },
+      pt4: { off: 43, title: '4', title_long: 'Четвёртая точка' },
+      pt5: { off: 44, title: '5', title_long: 'Пятая точка' },
+      pt6: { off: 45, title: '7', title_long: 'Шестая точка' },
+    }
+  }
 };
