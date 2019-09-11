@@ -65,9 +65,9 @@ module.exports = () => {
     miniCssExractPlugin,
     new webpack.HashedModuleIdsPlugin(),
     new WebpackPwaManifest({
-      name: 'My Applications Friendly Name',
-      short_name: 'Application',
-      description: 'Description!',
+      name: 'Редактор маршрутов',
+      short_name: 'Маршруты',
+      description: 'Велосипедные маршруты в новосибирске',
       background_color: '#01579b',
       theme_color: '#01579b',
       'theme-color': '#01579b',
