@@ -483,6 +483,10 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof ActionCreators.keyPr
     if (dialog_active) return yield put(setDialogActive(false));
     if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
   } else if (key === 'Delete') {
+    const { user: { editing } } = yield select();
+
+    if (!editing) return;
+
     const { mode } = yield select(getState);
 
     if (mode === MODES.TRASH) {
