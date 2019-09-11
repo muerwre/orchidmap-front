@@ -65,7 +65,7 @@ export class Router {
       .on('routesfound routingerror routeselected routingzoomend', this.hideSpinner)
       .on('waypointschanged', this.updateWaypointsCount);
 
-    // deploy x 5
+    // deploy x 6
 
     this.router.addTo(map);
   }
