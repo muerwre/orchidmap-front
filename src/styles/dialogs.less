@@ -71,6 +71,7 @@
     right: 0;
     width: 100%;
     height: 68px;
+    background: transparent;
   }
 }
 
@@ -409,6 +410,14 @@
 
     &.active {
       background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  @media(max-width: @mobile_breakpoint) {
+    height: 48px;
+
+    .dialog-tab {
+      height: 48px;
     }
   }
 }
