@@ -41,7 +41,8 @@
     "FormData": false,
     "WebSocket": true,
     "Element": true,
-    "localStorage": true
+    "localStorage": true,
+    "navigator": true
   },
   "env": {},
   "settings": {
