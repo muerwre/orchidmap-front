@@ -415,7 +415,7 @@ function* cropAShotSaga(params) {
   yield call(getCropData, params);
   const canvas = document.getElementById('renderer') as HTMLCanvasElement;
 
-  downloadCanvas(canvas, (title || address).replace('.', ''));
+  downloadCanvas(canvas, (title || address).replace(/\./ig, ' '));
 
   return yield put(hideRenderer());
 }

@@ -47,6 +47,6 @@ export const getGPXString = ({ route, title, stickers }: IGetGPXString): string 
 export const downloadGPXTrack = ({ track, title }: { track: string, title?: string }): void => (
   saveAs(
     new Blob([track], { type: 'application/gpx+xml;charset=utf-8' }),
-    `${(title || 'track').replace('.', '')}.gpx`
+    `${(title || 'track').replace(/\./ig, ' ')}.gpx`
   )
 );
