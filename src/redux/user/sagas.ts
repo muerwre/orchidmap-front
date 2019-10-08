@@ -619,8 +619,6 @@ function* getGPXTrackSaga(): SagaIterator {
 
   const track = getGPXString({ route, stickers, title: (title || address) });
 
-  console.log({ route, stickers });
-
   return downloadGPXTrack({ track, title });
 }
 
