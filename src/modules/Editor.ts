@@ -34,11 +34,11 @@ interface IEditor {
   router: Router;
 
   logo: keyof ILogos;
-  owner: { id: string };
+  owner: number;
   initialData: {
     version: number,
     title: IRootState['title'],
-    owner: { id: string },
+    owner: number,
     address: IRootState['address'],
     path: any,
     route: any,
@@ -322,11 +322,11 @@ export class Editor {
     is_public,
     is_starred,
     description,
-  }: IEditor['initialData']): void => {
+  }: Partial<IEditor['initialData']>): void => {
     this.setTitle(title || '');
     const { id } = this.getUser();
 
-    if (address && id && owner && id === owner.id) {
+    if (address && id && owner && id === owner) {
       this.setAddress(address);
     }
 
@@ -389,7 +389,7 @@ export class Editor {
       version: 2,
       title: this.getTitle(),
       owner: this.owner,
-      address: (this.owner.id === id ? path : null),
+      address: (this.owner === id ? path : null),
       path,
       route,
       stickers,
@@ -405,7 +405,7 @@ export class Editor {
     const { id } = this.getUser();
 
     this.setInitialData();
-    this.owner = { id };
+    this.owner = id;
 
     this.poly.enableEditor();
     this.stickers.startEditing();

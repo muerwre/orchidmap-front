@@ -94,9 +94,9 @@ export const mapsSetShift = (shift: number) => ({ type: ACTIONS.MAPS_SET_SHIFT, 
 export const setFeature = (features: { [x: string]: boolean }) => ({ type: ACTIONS.SET_FEATURE, features });
 export const setIsRouting = (is_routing: boolean) => ({ type: ACTIONS.SET_IS_ROUTING, is_routing });
 
-export const dropRoute = (_id: string) => ({ type: ACTIONS.DROP_ROUTE, _id });
-export const modifyRoute = (_id: string, { title, is_public }: { title: string, is_public: boolean }) => ({
-  type: ACTIONS.MODIFY_ROUTE,  _id,  title,  is_public
+export const dropRoute = (address: string) => ({ type: ACTIONS.DROP_ROUTE, address });
+export const modifyRoute = (address: string, { title, is_public }: { title: string, is_public: boolean }) => ({
+  type: ACTIONS.MODIFY_ROUTE,  address,  title,  is_public
 });
-export const toggleRouteStarred = (_id: string) => ({ type: ACTIONS.TOGGLE_ROUTE_STARRED, _id });
-export const setRouteStarred = (_id: string, is_starred: boolean) => ({ type: ACTIONS.SET_ROUTE_STARRED, _id, is_starred });
+export const toggleRouteStarred = (address: string) => ({ type: ACTIONS.TOGGLE_ROUTE_STARRED, address });
+export const setRouteStarred = (address: string, is_starred: boolean) => ({ type: ACTIONS.SET_ROUTE_STARRED, address, is_starred });

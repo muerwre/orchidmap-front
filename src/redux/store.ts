@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
-import { userReducer } from '$redux/user/reducer';
+import { userReducer, IRootReducer } from '$redux/user/reducer';
 import { userSaga } from '$redux/user/sagas';
 import { createBrowserHistory } from 'history';
 import { locationChanged } from '$redux/user/actions';
@@ -16,6 +16,9 @@ const userPersistConfig: PersistConfig = {
   storage,
 };
 
+export interface IState {
+  user: IRootReducer
+}
 // create the saga middleware
 export const sagaMiddleware = createSagaMiddleware();
 

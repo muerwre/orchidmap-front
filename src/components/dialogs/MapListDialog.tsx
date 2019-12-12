@@ -40,8 +40,8 @@ export interface IMapListDialogProps extends IRootState {
 }
 
 export interface IMapListDialogState {
-  menu_target: IRouteListItem['_id'],
-  editor_target: IRouteListItem['_id'],
+  menu_target: IRouteListItem['address'],
+  editor_target: IRouteListItem['address'],
 
   is_editing: boolean,
   is_dropping: boolean,
@@ -56,14 +56,14 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     is_dropping: false,
   };
 
-  startEditing = (editor_target: IRouteListItem['_id']): void => this.setState({
+  startEditing = (editor_target: IRouteListItem['address']): void => this.setState({
     editor_target,
     menu_target: null,
     is_editing: true,
     is_dropping: false,
   });
 
-  showMenu = (menu_target: IRouteListItem['_id']): void => this.setState({
+  showMenu = (menu_target: IRouteListItem['address']): void => this.setState({
     menu_target,
   });
 
@@ -71,7 +71,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     menu_target: null,
   });
 
-  showDropCard = (editor_target: IRouteListItem['_id']): void => this.setState({
+  showDropCard = (editor_target: IRouteListItem['address']): void => this.setState({
     editor_target,
     menu_target: null,
     is_editing: false,
@@ -211,13 +211,13 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                 <RouteRowWrapper
                   title={route.title}
                   distance={route.distance}
-                  _id={route._id}
+                  _id={route.address}
                   is_public={route.is_public}
                   is_starred={route.is_starred}
                   tab={tab}
                   is_editing_mode={is_dropping ? 'drop' : 'edit'}
-                  is_editing_target={editor_target === route._id}
-                  is_menu_target={menu_target === route._id}
+                  is_editing_target={editor_target === route.address}
+                  is_menu_target={menu_target === route.address}
                   openRoute={this.openRoute}
                   startEditing={this.startEditing}
                   stopEditing={this.stopEditing}
@@ -227,7 +227,7 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                   dropRoute={this.dropRoute}
                   modifyRoute={this.modifyRoute}
                   toggleStarred={this.toggleStarred}
-                  key={route._id}
+                  key={route.address}
                   is_admin={role === ROLES.admin}
                 />
               ))

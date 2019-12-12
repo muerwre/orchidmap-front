@@ -8,7 +8,7 @@ const iframe_vk = require('./auth/iframe/vk');
 const router = express.Router();
 
 router.get('/', check);
-router.get('/list', list);
+// router.get('/list', list);
 router.get('/guest', guest);
 router.get('/social/vk', vk);
 router.get('/iframe/vk', iframe_vk);

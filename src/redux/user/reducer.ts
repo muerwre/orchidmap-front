@@ -7,10 +7,27 @@ import { TIPS } from '$constants/tips';
 import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 import { DIALOGS, IDialogs, TABS } from '$constants/dialogs';
 import * as ActionCreators from '$redux/user/actions';
-import { IStickers } from "$constants/stickers";
+import { IStickers, ISticker } from "$constants/stickers";
+import { IRoutePoint } from '$utils/gpx';
+import { IStickerDump } from '$modules/Sticker';
+
+export interface IRoute {
+  version: number,
+  title: IRootState['title'],
+  owner: number,
+  address: IRootState['address'],
+  route: IRoutePoint[],
+  stickers: IStickerDump[],
+  provider: IRootState['provider'],
+  is_public: IRootState['is_public'],
+  is_published: IRootState['is_starred'],
+  description: IRootState['description'],
+  logo: IRootState['logo'],
+  distance: IRootState['distance']
+}
 
 export interface IRouteListItem {
-  _id: string,
+  address: string,
   title: string,
   distance: number,
   is_public: boolean,
@@ -318,13 +335,13 @@ const setIsRouting: ActionHandler<typeof ActionCreators.setIsRouting> = (state, 
   is_routing,
 });
 
-const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (state, { _id, is_starred }) => ({
+const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (state, { address, is_starred }) => ({
   ...state,
   routes: {
     ...state.routes,
     list: (
       state.routes.list
-        .map(el => el._id === _id ? { ...el, is_starred } : el)
+        .map(el => el.address === address ? { ...el, is_starred } : el)
         .filter(el => (
           (state.routes.filter.tab === 'starred' && el.is_starred) ||
           (state.routes.filter.tab === 'all' && !el.is_starred)

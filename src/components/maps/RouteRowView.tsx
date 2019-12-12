@@ -30,7 +30,7 @@ export const RouteRowView = ({
   title, distance, _id, openRoute, tab, startEditing, showMenu, showDropCard, hideMenu, is_admin, is_starred, toggleStarred,
 }: Props): ReactElement<Props, null> => (
   <div
-    className={classnames('route-row-view', { has_menu: (tab === 'mine') })}
+    className={classnames('route-row-view', { has_menu: (tab === 'my') })}
   >
     {
       (tab === 'all' || tab === 'starred') && is_admin &&
@@ -48,7 +48,7 @@ export const RouteRowView = ({
     >
       <div className="route-title">
         {
-          (tab === 'mine' || !is_admin) && is_starred &&
+          (tab === 'my' || !is_admin) && is_starred &&
           <div className="route-row-corner"><Icon icon="icon-star-fill" size={18} /></div>
         }
         <span>
@@ -68,7 +68,7 @@ export const RouteRowView = ({
       </div>
     </div>
     {
-      tab === 'mine' &&
+      tab === 'my' &&
         <React.Fragment>
           <div
             className="route-row-edit-button pointer"

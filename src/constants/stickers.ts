@@ -15,6 +15,17 @@ export interface IStickerPack {
   }
 }
 
+export interface ISticker {
+  angle: number;
+  set: string;
+  sticker: string;
+  text: string;
+  latlngs: {
+    lat: number;
+    lng: number;
+  }
+}
+
 export interface IStickers {
   base: IStickerPack,
   real: IStickerPack,

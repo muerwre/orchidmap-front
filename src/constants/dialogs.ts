@@ -5,7 +5,7 @@ export interface IDialogs {
 }
 
 export interface IMapTabs {
-  mine: string,
+  my: string,
   all: string,
   starred: string,
 }
@@ -17,7 +17,7 @@ export const DIALOGS: IDialogs = ({
 });
 
 export const TABS: IMapTabs = ({
-  mine: 'Мои',
+  my: 'Мои',
   all: 'Заявки',
   starred: 'Каталог',
 });

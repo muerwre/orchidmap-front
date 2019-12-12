@@ -16,7 +16,7 @@ const fetchUserData = async (req, res) => {
         client_id: CONFIG.SOCIAL.VK.APP_ID,
         client_secret: CONFIG.SOCIAL.VK.SECRET,
         code,
-        redirect_uri: `${proto}://${host}/auth/social/vk`,
+        redirect_uri: `${proto}://${host}/api/auth/social/vk`,
       }
     }
   ).catch(() => {

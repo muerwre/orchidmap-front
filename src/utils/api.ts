@@ -1,126 +1,222 @@
-import axios, { AxiosPromise } from 'axios/index';
-import { API } from '$constants/api';
-import { IRootState } from "$redux/user/reducer";
+import axios, { AxiosPromise } from "axios/index";
+import { API } from "$constants/api";
+import { IRootState, IRouteListItem, IRoute } from "$redux/user/reducer";
 import { IUser } from "$constants/auth";
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";
-import { CLIENT } from '$config/frontend';
+import { CLIENT } from "$config/frontend";
 import { LatLngLiteral } from "leaflet";
+import {
+  resultMiddleware,
+  errorMiddleware,
+  IResultWithStatus,
+  configWithToken
+} from "./middleware";
 
-const arrayToObject = (array: any[], key: string): {} => array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
-
-interface IPostMap {
-  title: IRootState['title'],
-  address: IRootState['address'],
-  route: Array<ILatLng>,
-  stickers: Array<IStickerDump>,
-  id: IRootState['user']['id'],
-  token: IRootState['user']['token'],
-  force: boolean,
-  logo: IRootState['logo'],
-  distance: IRootState['distance'],
-  provider: IRootState['provider'],
-  is_public: IRootState['is_public'],
-  description: IRootState['description'],
-}
+const arrayToObject = (array: any[], key: string): {} =>
+  array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
 
 interface IGetRouteList {
-  title: IRootState['title'],
-  distance: IRootState['distance'],
-  author: IRootState['routes']['filter']['author'],
-  step: IRootState['routes']['step'],
-  shift: IRootState['routes']['step'],
-  starred: number,
-  id: IRootState['user']['id'],
-  token: IRootState['user']['token'],
+  min: number;
+  max: number;
+  tab: string;
+  search: string;
+  step: IRootState["routes"]["step"];
+  shift: IRootState["routes"]["step"];
+  token: IRootState["user"]["token"];
 }
 
 interface IGetRouteListResult {
-  min: IRootState['routes']['filter']['min'],
-  max: IRootState['routes']['filter']['max'],
-  limit: IRootState['routes']['limit'],
-  step: IRootState['routes']['step'],
-  shift: IRootState['routes']['shift'],
-  list: IRootState['routes']['list'],
+  min: IRootState["routes"]["filter"]["min"];
+  max: IRootState["routes"]["filter"]["max"];
+  limit: IRootState["routes"]["limit"];
+  step: IRootState["routes"]["step"];
+  shift: IRootState["routes"]["shift"];
+  list: IRootState["routes"]["list"];
 }
 
-export const checkUserToken = (
-  { id, token }:
-  { id: IRootState['user']['id'], token: IRootState['user']['token']}
-):AxiosPromise<IUser> => axios.get(API.CHECK_TOKEN, {
-  params: { id, token }
-}).then(result => (result && result.data && {
-  ...result.data,
+export const checkUserToken = ({
   id,
-  token,
-  routes: (result.data.routes && result.data.routes.length > 0 && arrayToObject(result.data.routes, '_id')) || {},
-})).catch(() => null);
+  token
+}: {
+  id: IRootState["user"]["id"];
+  token: IRootState["user"]["token"];
+}): Promise<IResultWithStatus<{
+  user: IUser;
+  random_url: string;
+  routes: IRouteListItem[];
+}>> =>
+  axios
+    .get(API.CHECK_TOKEN, {
+      params: { id, token }
+    })
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
-export const getGuestToken = ():AxiosPromise<IUser> => axios.get(API.GET_GUEST).then(result => (result && result.data));
+export const getGuestToken = (): Promise<IResultWithStatus<{
+  user: IUser;
+  random_url: string;
+}>> =>
+  axios
+    .get(API.GET_GUEST)
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
-export const getStoredMap = (
-  { name }: { name: IRootState['address'] }
-) => axios.get(API.GET_MAP, {
-  params: { name }
-})
-  .then(result => (
-    result && result.data && result.data.success && result.data
-  ));
+export const getStoredMap = ({
+  name
+}: {
+  name: IRootState["address"];
+}): Promise<IResultWithStatus<{
+  route: IRoute;
+  error?: string;
+  random_url: string;
+}>> =>
+  axios
+    .get(API.GET_MAP, {
+      params: { name }
+    })
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
 export const postMap = ({
-  title, address, route, stickers, id, token, force, logo, distance, provider, is_public, description,
-}: IPostMap) => axios.post(API.POST_MAP, {
   title,
   address,
   route,
   stickers,
-  id,
-  token,
   force,
   logo,
   distance,
   provider,
   is_public,
   description,
-}).then(result => (result && result.data && result.data));
+  token
+}: Partial<IRoute> & { force: boolean; token: string }) =>
+  axios
+    .post(
+      API.POST_MAP,
+      {
+        title,
+        address,
+        route,
+        stickers,
+        force,
+        logo,
+        distance,
+        provider,
+        is_public,
+        description
+      },
+      configWithToken(token)
+    )
+    .then(result => result && result.data && result.data);
 
-export const checkIframeToken = (
-  { viewer_id, auth_key }:
-  { viewer_id: string, auth_key: string }
-) => axios.get(API.IFRAME_LOGIN_VK, {
-  params: { viewer_id, auth_key }
-}).then(result => (result && result.data && result.data.success && result.data.user)).catch(() => (false));
+export const checkIframeToken = ({
+  viewer_id,
+  auth_key
+}: {
+  viewer_id: string;
+  auth_key: string;
+}) =>
+  axios
+    .get(API.IFRAME_LOGIN_VK, {
+      params: { viewer_id, auth_key }
+    })
+    .then(
+      result => result && result.data && result.data.success && result.data.user
+    )
+    .catch(() => false);
 
 export const getRouteList = ({
-  title, distance, author, starred, id, token, step, shift,
-}: IGetRouteList): AxiosPromise<IGetRouteListResult> => axios.get(API.GET_ROUTE_LIST, {
-  params: {
-    title, distance, author, starred, id, token, step, shift
-  }
-}).then(result => (result && result.data && result.data.success && result.data))
-  .catch(() => ({ list: [], min: 0, max: 0, limit: 0, step: 20, shift: 20 }));
+  search,
+  min,
+  max,
+  tab,
+  token,
+  step,
+  shift
+}: IGetRouteList): Promise<IResultWithStatus<{
+  routes: IRoute[];
+  limits: {
+    min: number;
+    max: number;
+    count: number;
+  };
+  filter: {
+    min: number;
+    max: number;
+    shift: number;
+    step: number;
+  };
+}>> =>
+  axios
+    .get(
+      API.GET_ROUTE_LIST,
+      configWithToken(token, {
+        params: {
+          search,
+          min,
+          max,
+          tab,
+          token,
+          step,
+          shift
+        }
+      })
+    )
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
-export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> => (
-  CLIENT && CLIENT.OSRM_URL && axios.get(CLIENT.OSRM_TEST_URL(bounds)).then(() => true).catch(() => false)
-);
-
-export const dropRoute = ({ address, id, token }: { address: string, id: string, token: string }): AxiosPromise<any> => (
-  axios.delete(API.DROP_ROUTE, { data: { address, id, token } })
-);
-
-export const modifyRoute = (
-  { address, id, token, title, is_public }:
-  { address: string, id: string, token: string, title: string, is_public: boolean }
-): AxiosPromise<any> => (
-  axios.patch(API.DROP_ROUTE, { address, id, token, title, is_public })
-);
-
-export const sendRouteStarred = (
-  { id, token, _id, is_starred }:
-  { id: string, token: string, _id: string, is_starred: boolean }
-): Promise<boolean> => (
-  axios.post(API.SET_STARRED, { id, token, address: _id, is_starred })
+export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> =>
+  CLIENT &&
+  CLIENT.OSRM_URL &&
+  axios
+    .get(CLIENT.OSRM_TEST_URL(bounds))
     .then(() => true)
-    .catch(() => true)
-);
+    .catch(() => false);
 
+export const dropRoute = ({
+  address,
+  token
+}: {
+  address: string;
+  token: string;
+}): Promise<any> =>
+  axios
+    .delete(API.DROP_ROUTE, configWithToken(token, { data: { address } }))
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
+
+export const modifyRoute = ({
+  address,
+  token,
+  title,
+  is_public
+}: {
+  address: string;
+  token: string;
+  title: string;
+  is_public: boolean;
+}): Promise<IResultWithStatus<{
+  route: IRoute;
+}>> =>
+  axios.patch(
+    API.MODIFY_ROUTE,
+    { address, token, is_public, title },
+    configWithToken(token)
+  );
+
+export const sendRouteStarred = ({
+  id,
+  token,
+  address,
+  is_starred
+}: {
+  id: string;
+  token: string;
+  address: string;
+  is_starred: boolean;
+}): Promise<IResultWithStatus<{ route: IRoute }>> =>
+  axios
+    .post(API.SET_STARRED, { id, token, address, is_starred })
+    .then(resultMiddleware)
+    .catch(errorMiddleware);

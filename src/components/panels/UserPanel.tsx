@@ -65,7 +65,7 @@ export class Component extends React.PureComponent<Props, State> {
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
   openMapsDialog = () => {
-    this.props.openMapDialog('mine');
+    this.props.openMapDialog('my');
   };
 
   openAppInfoDialog = () => {
@@ -81,7 +81,7 @@ export class Component extends React.PureComponent<Props, State> {
     const left = (width - 700) / 2;
 
     window.open(
-      `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${CLIENT.API_ADDR}/auth/social/vk`,
+      `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${CLIENT.API_ADDR}/api/auth/vk`,
       'socialPopupWindow',
       `location=no,width=700,height=370,scrollbars=no,top=${top},left=${left},resizable=no`
     );
