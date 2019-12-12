@@ -6,7 +6,7 @@ import { MapListDialog } from "$components/dialogs/MapListDialog";
 
 interface Props {
   title: string;
-  _id: string;
+  address: string;
   is_public: boolean,
   modifyRoute: typeof MapListDialog.modifyRoute,
 }
@@ -29,10 +29,10 @@ export class RouteRowEditor extends React.Component<Props, State> {
   stopEditing = () => {
     const {
       state: { title, is_public },
-      props: { _id }
+      props: { address }
     } = this;
 
-    this.props.modifyRoute({ _id, title, is_public })
+    this.props.modifyRoute({ address, title, is_public })
   };
 
   setPublic = () => this.setState({ is_public: !this.state.is_public });

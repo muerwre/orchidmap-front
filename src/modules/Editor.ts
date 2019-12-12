@@ -45,7 +45,7 @@ interface IEditor {
     stickers: any,
     provider: IRootState['provider'],
     is_public: IRootState['is_public'],
-    is_starred: IRootState['is_starred'],
+    is_published: IRootState['is_published'],
     description: IRootState['description'],
     logo: IRootState['logo'],
   };
@@ -160,7 +160,7 @@ export class Editor {
     stickers: null,
     provider: null,
     is_public: false,
-    is_starred: false,
+    is_published: false,
     description: '',
     logo: null,
   };
@@ -320,7 +320,7 @@ export class Editor {
     provider = DEFAULT_PROVIDER,
     logo = DEFAULT_LOGO,
     is_public,
-    is_starred,
+    is_published,
     description,
   }: Partial<IEditor['initialData']>): void => {
     this.setTitle(title || '');
@@ -348,7 +348,7 @@ export class Editor {
     }
 
     this.setPublic(is_public);
-    this.setStarred(is_starred);
+    this.setStarred(is_published);
     this.setDescription(description);
 
     this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
@@ -382,7 +382,7 @@ export class Editor {
   setInitialData = (): void => {
     const { path } = getUrlData();
     const { id } = this.getUser();
-    const { is_public, logo, is_starred , description} = this.getState();
+    const { is_public, logo, is_published , description} = this.getState();
     const { route, stickers, provider } = this.dumpData();
 
     this.initialData = {
@@ -396,7 +396,7 @@ export class Editor {
       provider,
       is_public,
       logo,
-      is_starred,
+      is_published,
       description,
     };
   };

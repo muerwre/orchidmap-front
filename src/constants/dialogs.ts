@@ -5,9 +5,9 @@ export interface IDialogs {
 }
 
 export interface IMapTabs {
-  my: string,
-  all: string,
-  starred: string,
+  MY: string,
+  PENDING: string,
+  STARRED: string,
 }
 
 export const DIALOGS: IDialogs = ({
@@ -16,8 +16,14 @@ export const DIALOGS: IDialogs = ({
   APP_INFO: 'APP_INFO',
 });
 
-export const TABS: IMapTabs = ({
-  my: 'Мои',
-  all: 'Заявки',
-  starred: 'Каталог',
+export const TABS: IMapTabs = {
+  MY: 'my',
+  PENDING: 'pending',
+  STARRED: 'starred',
+}
+
+export const TABS_TITLES = ({
+  [TABS.MY]: 'Мои',
+  [TABS.PENDING]: 'Заявки',
+  [TABS.STARRED]: 'Каталог',
 });

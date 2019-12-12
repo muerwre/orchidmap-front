@@ -20,7 +20,7 @@ export interface IRoute {
   stickers: IStickerDump[],
   provider: IRootState['provider'],
   is_public: IRootState['is_public'],
-  is_published: IRootState['is_starred'],
+  is_published: IRootState['is_published'],
   description: IRootState['description'],
   logo: IRootState['logo'],
   distance: IRootState['distance']
@@ -31,7 +31,7 @@ export interface IRouteListItem {
   title: string,
   distance: number,
   is_public: boolean,
-  is_starred: boolean,
+  is_published: boolean,
   updated_at: string,
 }
 
@@ -54,7 +54,7 @@ export interface IRootReducer {
   provider: keyof typeof PROVIDERS,
   markers_shown: boolean,
 
-  is_starred: boolean,
+  is_published: boolean,
   is_public: boolean,
   is_empty: boolean,
   is_routing: boolean,
@@ -271,7 +271,7 @@ const searchSetTab: ActionHandler<typeof ActionCreators.searchSetTab> = (state, 
     ...state.routes,
     filter: {
       ...state.routes.filter,
-      tab: Object.keys(TABS).indexOf(tab) >= 0 ? tab : TABS[Object.keys(TABS)[0]],
+      tab: Object.values(TABS).indexOf(tab) >= 0 ? tab : TABS[Object.values(TABS)[0]],
     }
   }
 });
@@ -304,7 +304,7 @@ const searchSetLoading: ActionHandler<typeof ActionCreators.searchSetLoading> = 
 });
 
 const setPublic: ActionHandler<typeof ActionCreators.setPublic> = (state, { is_public = false }) => ({ ...state, is_public });
-const setStarred: ActionHandler<typeof ActionCreators.setStarred> = (state, { is_starred = false }) => ({ ...state, is_starred });
+const setStarred: ActionHandler<typeof ActionCreators.setStarred> = (state, { is_published = false }) => ({ ...state, is_published });
 
 const setSpeed: ActionHandler<typeof ActionCreators.setSpeed> = (state, { speed = 15 }) => ({
   ...state,
@@ -335,16 +335,16 @@ const setIsRouting: ActionHandler<typeof ActionCreators.setIsRouting> = (state, 
   is_routing,
 });
 
-const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (state, { address, is_starred }) => ({
+const setRouteStarred: ActionHandler<typeof ActionCreators.setRouteStarred> = (state, { address, is_published }) => ({
   ...state,
   routes: {
     ...state.routes,
     list: (
       state.routes.list
-        .map(el => el.address === address ? { ...el, is_starred } : el)
+        .map(el => el.address === address ? { ...el, is_published } : el)
         .filter(el => (
-          (state.routes.filter.tab === 'starred' && el.is_starred) ||
-          (state.routes.filter.tab === 'all' && !el.is_starred)
+          (state.routes.filter.tab === TABS.STARRED && el.is_published) ||
+          (state.routes.filter.tab === TABS.PENDING && !el.is_published)
         ))
     )
   }
@@ -421,7 +421,7 @@ export const INITIAL_STATE: IRootReducer = {
   changed: false,
   editing: false,
 
-  is_starred: false,
+  is_published: false,
   is_public: false,
   is_empty: true,
   is_routing: false,

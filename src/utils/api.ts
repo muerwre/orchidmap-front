@@ -90,25 +90,35 @@ export const postMap = ({
   is_public,
   description,
   token
-}: Partial<IRoute> & { force: boolean; token: string }) =>
+}: Partial<IRoute> & {
+  force: boolean;
+  token: string;
+}): Promise<IResultWithStatus<{
+  route: IRoute;
+  error?: string;
+  code?: string;
+}>> =>
   axios
     .post(
       API.POST_MAP,
       {
-        title,
-        address,
-        route,
-        stickers,
-        force,
-        logo,
-        distance,
-        provider,
-        is_public,
-        description
+        route: {
+          title,
+          address,
+          route,
+          stickers,
+          logo,
+          distance,
+          provider,
+          is_public,
+          description
+        },
+        force
       },
       configWithToken(token)
     )
-    .then(result => result && result.data && result.data);
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
 export const checkIframeToken = ({
   viewer_id,
@@ -150,13 +160,12 @@ export const getRouteList = ({
 }>> =>
   axios
     .get(
-      API.GET_ROUTE_LIST,
+      API.GET_ROUTE_LIST(tab),
       configWithToken(token, {
         params: {
           search,
           min,
           max,
-          tab,
           token,
           step,
           shift
@@ -199,24 +208,25 @@ export const modifyRoute = ({
 }): Promise<IResultWithStatus<{
   route: IRoute;
 }>> =>
-  axios.patch(
-    API.MODIFY_ROUTE,
-    { address, token, is_public, title },
-    configWithToken(token)
-  );
+  axios
+    .patch(
+      API.MODIFY_ROUTE,
+      { address, token, is_public, title },
+      configWithToken(token)
+    )
+    .then(resultMiddleware)
+    .catch(errorMiddleware);
 
 export const sendRouteStarred = ({
-  id,
   token,
   address,
-  is_starred
+  is_published
 }: {
-  id: string;
   token: string;
   address: string;
-  is_starred: boolean;
+  is_published: boolean;
 }): Promise<IResultWithStatus<{ route: IRoute }>> =>
   axios
-    .post(API.SET_STARRED, { id, token, address, is_starred })
+    .post(API.SET_STARRED, { address, is_published }, configWithToken(token))
     .then(resultMiddleware)
     .catch(errorMiddleware);

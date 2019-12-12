@@ -82,7 +82,7 @@ import {
 } from "$utils/renderer";
 import { LOGOS } from "$constants/logos";
 import { DEFAULT_PROVIDER } from "$constants/providers";
-import { DIALOGS } from "$constants/dialogs";
+import { DIALOGS, TABS } from "$constants/dialogs";
 
 import * as ActionCreators from "$redux/user/actions";
 import { IRootState } from "$redux/user/reducer";
@@ -152,7 +152,9 @@ function* stopEditingSaga() {
 }
 
 function* loadMapSaga(path) {
-  const { data: { route, error, random_url } }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
+  const {
+    data: { route, error, random_url }
+  }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
 
   if (route && !error) {
     yield editor.clearAll();
@@ -161,11 +163,11 @@ function* loadMapSaga(path) {
     yield editor.setInitialData();
 
     yield put(setChanged(false));
-    
+
     return { route, random_url };
   }
 
-  return null
+  return null;
 }
 
 function* replaceAddressIfItsBusy(destination, original) {
@@ -189,7 +191,7 @@ function* setReadySaga() {
   hideLoader();
 
   yield call(checkOSRMServiceSaga);
-  yield put(searchSetTab("my"));
+  yield put(searchSetTab(TABS.MY));
 }
 
 function* mapInitSaga() {
@@ -218,7 +220,13 @@ function* mapInitSaga() {
 
     if (map && map.route) {
       if (mode && mode === "edit") {
-        if (map && map.route && map.route.owner && mode === "edit" && map.route.owner !== id) {
+        if (
+          map &&
+          map.route &&
+          map.route.owner &&
+          mode === "edit" &&
+          map.route.owner !== id
+        ) {
           yield call(setReadySaga);
           yield call(replaceAddressIfItsBusy, map.random_url, map.address);
         } else {
@@ -403,19 +411,20 @@ function* sendSaveRequestSaga({
   yield put(setSaveLoading(false));
 
   if (cancel) return yield put(setMode(MODES.NONE));
-  if (result && result.mode === "overwriting")
+
+  if (result && result.data.code === "already_exist")
     return yield put(setSaveOverwrite());
-  if (result && result.mode === "exists")
+  if (result && result.data.code === "conflict")
     return yield put(setSaveError(TIPS.SAVE_EXISTS));
-  if (timeout || !result || !result.success || !result.address)
+  if (timeout || !result || !result.data.route || !result.data.route.address)
     return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
 
   return yield put(
     setSaveSuccess({
-      address: result.address,
-      title: result.title,
-      is_public: result.is_public,
-      description: result.description,
+      address: result.data.route.address,
+      title: result.data.route.title,
+      is_public: result.data.route.is_public,
+      description: result.data.route.description,
 
       save_error: TIPS.SAVE_SUCCESS
     })
@@ -533,8 +542,7 @@ function* locationChangeSaga({
   const {
     address,
     ready,
-    user: { id, random_url },
-    is_public
+    user: { id, random_url }
   } = yield select(getState);
 
   if (!ready) return;
@@ -544,7 +552,14 @@ function* locationChangeSaga({
   if (address !== path) {
     const map = yield call(loadMapSaga, path);
 
-    if (map && map.route && map.route.owner && mode === "edit" && map.route.owner !== id) {
+    if (
+      map &&
+      map.route &&
+      map.route.owner &&
+      mode === "edit" &&
+      map.route.owner !== id
+    ) {
+      console.log("replace address if its busy");
       return yield call(replaceAddressIfItsBusy, map.random_url, map.address);
     }
   } else if (mode === "edit" && editor.owner !== id) {
@@ -608,7 +623,7 @@ function* keyPressedSaga({
 }
 
 function* searchGetRoutes() {
-  const { id, token } = yield select(getUser);
+  const { token } = yield select(getUser);
 
   const {
     routes: {
@@ -669,7 +684,7 @@ function* searchSetSagaWorker() {
 function* searchSetSaga() {
   yield put(searchSetLoading(true));
   yield put(mapsSetShift(0));
-  yield delay(500);
+  yield delay(300);
   yield call(searchSetSagaWorker);
 }
 
@@ -772,30 +787,45 @@ function* mapsLoadMoreSaga() {
 
   if (loading || list.length >= limit || limit === 0) return;
 
-  yield delay(100);
+  yield delay(50);
 
   yield put(searchSetLoading(true));
   yield put(mapsSetShift(shift + step));
 
-  const result = yield call(searchGetRoutes);
+  const {
+    data: {
+      limits: { min, max, count },
+      filter: { shift: resp_shift, step: resp_step },
+      routes
+    }
+  }: Unwrap<typeof getRouteList> = yield call(searchGetRoutes);
 
   if (
-    (filter.min > result.min && filter.distance[0] <= filter.min) ||
-    (filter.max < result.max && filter.distance[1] >= filter.max)
+    (filter.min > min && filter.distance[0] <= filter.min) ||
+    (filter.max < max && filter.distance[1] >= filter.max)
   ) {
     yield put(
       searchChangeDistance([
-        filter.min > result.min && filter.distance[0] <= filter.min
-          ? result.min
+        filter.min > min && filter.distance[0] <= filter.min
+          ? min
           : filter.distance[0],
-        filter.max < result.max && filter.distance[1] >= filter.max
-          ? result.max
+        filter.max < max && filter.distance[1] >= filter.max
+          ? max
           : filter.distance[1]
       ])
     );
   }
 
-  yield put(searchPutRoutes({ ...result, list: [...list, ...result.list] }));
+  yield put(
+    searchPutRoutes({
+      min,
+      max,
+      limit: count,
+      shift: resp_shift,
+      step: resp_step,
+      list: [...list, ...routes]
+    })
+  );
   yield put(searchSetLoading(false));
 }
 
@@ -875,17 +905,16 @@ function* toggleRouteStarredSaga({
   }: IState["user"] = yield select(getState);
 
   const route = list.find(el => el.address === address);
-  const { id, token } = yield select(getUser);
+  const { token } = yield select(getUser);
 
-  yield put(setRouteStarred(address, !route.is_starred));
+  yield put(setRouteStarred(address, !route.is_published));
   const result = yield sendRouteStarred({
-    id,
     token,
     address,
-    is_starred: !route.is_starred
+    is_published: !route.is_published
   });
 
-  if (!result) return yield put(setRouteStarred(address, route.is_starred));
+  if (!result) return yield put(setRouteStarred(address, route.is_published));
 }
 
 export function* userSaga() {

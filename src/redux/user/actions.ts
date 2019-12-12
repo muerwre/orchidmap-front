@@ -17,7 +17,7 @@ export const setDescription = description => ({ type: ACTIONS.SET_DESCRIPTION, d
 export const setAddress = address => ({ type: ACTIONS.SET_ADDRESS, address });
 export const setAddressOrigin = address_origin => ({ type: ACTIONS.SET_ADDRESS_ORIGIN, address_origin });
 export const setPublic = is_public => ({ type: ACTIONS.SET_PUBLIC, is_public });
-export const setStarred = is_starred => ({ type: ACTIONS.SET_STARRED, is_starred });
+export const setStarred = is_published => ({ type: ACTIONS.SET_STARRED, is_published });
 export const setSpeed = speed => ({ type: ACTIONS.SET_SPEED, speed });
 
 export const startEditing = () => ({ type: ACTIONS.START_EDITING });
@@ -99,4 +99,4 @@ export const modifyRoute = (address: string, { title, is_public }: { title: stri
   type: ACTIONS.MODIFY_ROUTE,  address,  title,  is_public
 });
 export const toggleRouteStarred = (address: string) => ({ type: ACTIONS.TOGGLE_ROUTE_STARRED, address });
-export const setRouteStarred = (address: string, is_starred: boolean) => ({ type: ACTIONS.SET_ROUTE_STARRED, address, is_starred });
+export const setRouteStarred = (address: string, is_published: boolean) => ({ type: ACTIONS.SET_ROUTE_STARRED, address, is_published });

@@ -11,7 +11,7 @@ import { Icon } from '$components/panels/Icon';
 
 import classnames from 'classnames';
 import { CLIENT } from '$config/frontend';
-import { DIALOGS } from '$constants/dialogs';
+import { DIALOGS, TABS } from '$constants/dialogs';
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
 import { TitleDialog } from "$components/dialogs/TitleDialog";
@@ -65,7 +65,7 @@ export class Component extends React.PureComponent<Props, State> {
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
   openMapsDialog = () => {
-    this.props.openMapDialog('my');
+    this.props.openMapDialog(TABS.MY);
   };
 
   openAppInfoDialog = () => {

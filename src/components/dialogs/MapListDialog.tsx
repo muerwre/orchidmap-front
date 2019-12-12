@@ -16,7 +16,7 @@ import { isMobile } from '$utils/window';
 import classnames from 'classnames';
 
 import * as Range from 'rc-slider/lib/Range';
-import { TABS } from '$constants/dialogs';
+import { TABS, TABS_TITLES } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';
 import { pushPath } from '$utils/history';
 import { IRootState, IRouteListItem } from '$redux/user/reducer';
@@ -110,12 +110,12 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
     }
   };
 
-  dropRoute = (_id: string): void => {
-    this.props.dropRoute(_id);
+  dropRoute = (address: string): void => {
+    this.props.dropRoute(address);
   };
 
-  modifyRoute = ({ _id, title, is_public }: { _id: string, title: string, is_public: boolean }): void => {
-    this.props.modifyRoute(_id, { title, is_public });
+  modifyRoute = ({ address, title, is_public }: { address: string, title: string, is_public: boolean }): void => {
+    this.props.modifyRoute(address, { title, is_public });
     this.stopEditing();
   };
 
@@ -161,13 +161,13 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
         }
         <div className="dialog-tabs">
           {
-            Object.keys(TABS).map(item => (role === ROLES.admin || item !== 'all') && (
+            Object.values(TABS).map(item => (role === ROLES.admin || item !== TABS.PENDING) && (
               <div
                 className={classnames('dialog-tab', { active: tab === item })}
                 onClick={() => this.props.searchSetTab(item)}
                 key={item}
               >
-                {TABS[item]}
+                {TABS_TITLES[item]}
               </div>
             ))
           }
@@ -211,9 +211,9 @@ class Component extends React.Component<IMapListDialogProps, IMapListDialogState
                 <RouteRowWrapper
                   title={route.title}
                   distance={route.distance}
-                  _id={route.address}
+                  address={route.address}
                   is_public={route.is_public}
-                  is_starred={route.is_starred}
+                  is_published={route.is_published}
                   tab={tab}
                   is_editing_mode={is_dropping ? 'drop' : 'edit'}
                   is_editing_target={editor_target === route.address}
