@@ -6,8 +6,6 @@
   "main": "./src/js/index.js",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --mode development --hot --open --inline --progress",
-    "serve": "node ./backend/bin/www",
-    "serve-dev": "nodemon ./backend/bin/www",
     "build": "NODE_ENV=production webpack --env production --config=webpack.config.js --progress -p",
     "profile": "webpack --json > stats.json"
   },
