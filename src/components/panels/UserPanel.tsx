@@ -1,48 +1,71 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { GuestButton } from '$components/user/GuestButton';
-import { DEFAULT_USER, IUser, ROLES } from '$constants/auth';
-import { UserButton } from '$components/user/UserButton';
-import { UserMenu } from '$components/user/UserMenu';
-import { setUser, userLogout, takeAShot, setDialog, gotVkUser, setDialogActive, openMapDialog, getGPXTrack } from '$redux/user/actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Icon } from '$components/panels/Icon';
+import { GuestButton } from "$components/user/GuestButton";
+import { DEFAULT_USER, IUser, ROLES } from "$constants/auth";
+import { UserButton } from "$components/user/UserButton";
+import { UserMenu } from "$components/user/UserMenu";
+import {
+  setUser,
+  userLogout,
+  takeAShot,
+  setDialog,
+  gotVkUser,
+  setDialogActive,
+  openMapDialog,
+  getGPXTrack
+} from "$redux/user/actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Icon } from "$components/panels/Icon";
 
-import classnames from 'classnames';
-import { CLIENT } from '$config/frontend';
-import { DIALOGS, TABS } from '$constants/dialogs';
+import classnames from "classnames";
+import { CLIENT } from "$config/frontend";
+import { DIALOGS, TABS } from "$constants/dialogs";
 import { IRootState } from "$redux/user/reducer";
 import { Tooltip } from "$components/panels/Tooltip";
 import { TitleDialog } from "$components/dialogs/TitleDialog";
 
 interface Props extends IRootState {
-  userLogout: typeof userLogout,
-  setDialog: typeof setDialog,
-  setDialogActive: typeof setDialogActive,
-  gotVkUser: typeof gotVkUser,
-  takeAShot: typeof takeAShot,
-  openMapDialog: typeof openMapDialog,
-  getGPXTrack: typeof getGPXTrack,
+  userLogout: typeof userLogout;
+  setDialog: typeof setDialog;
+  setDialogActive: typeof setDialogActive;
+  gotVkUser: typeof gotVkUser;
+  takeAShot: typeof takeAShot;
+  openMapDialog: typeof openMapDialog;
+  getGPXTrack: typeof getGPXTrack;
 }
 
 interface State {
-  menuOpened: boolean
+  menuOpened: boolean;
 }
 
 export class Component extends React.PureComponent<Props, State> {
   state = {
-    menuOpened: false,
+    menuOpened: false
   };
 
   componentDidMount() {
-    window.addEventListener('message', e => {
+    window.addEventListener("message", e => {
       const { data } = e;
 
-      if (!data || !data.type || data.type !== 'oauth_login' || !data.user || !data.user.id || !data.user.token) return;
+      if (
+        !data ||
+        !data.type ||
+        data.type !== "oauth_login" ||
+        !data.user ||
+        !data.user.id ||
+        !data.user.token
+      )
+        return;
 
       const {
-        id, token, role = 'vk', name = '', ip = '', photo = '', agent = '',
+        id,
+        token,
+        role = "vk",
+        name = "",
+        ip = "",
+        photo = "",
+        agent = ""
       } = data.user;
 
       const user = {
@@ -54,7 +77,7 @@ export class Component extends React.PureComponent<Props, State> {
           name,
           ip,
           agent,
-          photo,
+          photo
         }
       };
 
@@ -82,7 +105,7 @@ export class Component extends React.PureComponent<Props, State> {
 
     window.open(
       `https://oauth.vk.com/authorize?client_id=5987644&scope=&redirect_uri=${CLIENT.API_ADDR}/api/auth/vk`,
-      'socialPopupWindow',
+      "socialPopupWindow",
       `location=no,width=700,height=370,scrollbars=no,top=${top},left=${left},resizable=no`
     );
   };
@@ -90,25 +113,26 @@ export class Component extends React.PureComponent<Props, State> {
   render() {
     const {
       props: { user, dialog, dialog_active, is_empty },
-      state: { menuOpened },
+      state: { menuOpened }
     } = this;
 
     return (
       <div>
-        {
-          <TitleDialog />
-        }
+        <TitleDialog />
+        
         <div className="panel active panel-user">
           <div className="user-panel">
-            {
-              !user || user.role === ROLES.guest
-              ? <GuestButton onClick={this.openOauthFrame} />
-              : <UserButton user={user} setMenuOpened={this.setMenuOpened} />
-            }
-            {
-              (user && user.role && user.role !== 'guest' && menuOpened) &&
-                <UserMenu userLogout={this.props.userLogout} openAppInfoDialog={this.openAppInfoDialog} />
-            }
+            {!user || user.role === ROLES.guest ? (
+              <GuestButton onClick={this.openOauthFrame} />
+            ) : (
+              <UserButton user={user} setMenuOpened={this.setMenuOpened} />
+            )}
+            {user && user.role && user.role !== "guest" && menuOpened && (
+              <UserMenu
+                userLogout={this.props.userLogout}
+                openAppInfoDialog={this.openAppInfoDialog}
+              />
+            )}
           </div>
 
           <div className="control-sep" />
@@ -116,7 +140,7 @@ export class Component extends React.PureComponent<Props, State> {
           <div className="control-bar">
             <button
               className={classnames({
-                active: dialog_active && (dialog === DIALOGS.MAP_LIST)
+                active: dialog_active && dialog === DIALOGS.MAP_LIST
               })}
               onClick={this.openMapsDialog}
             >
@@ -136,39 +160,46 @@ export class Component extends React.PureComponent<Props, State> {
               <Icon icon="icon-shot-4" />
             </button>
           </div>
-          {
-            !is_empty &&
-              <React.Fragment>
-                <div className="control-sep" />
+          {!is_empty && (
+            <React.Fragment>
+              <div className="control-sep" />
 
-                <div className="control-bar">
-                  <button
-                    className={classnames({ active: false })}
-                    onClick={this.props.getGPXTrack}
-                  >
-                    <Tooltip>Экспорт GPX</Tooltip>
-                    <Icon icon="icon-gpx-1" />
-                  </button>
-                </div>
-              </React.Fragment>
-          }
+              <div className="control-bar">
+                <button
+                  className={classnames({ active: false })}
+                  onClick={this.props.getGPXTrack}
+                >
+                  <Tooltip>Экспорт GPX</Tooltip>
+                  <Icon icon="icon-gpx-1" />
+                </button>
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({
+  user: { dialog, dialog_active, user, is_empty }
+}) => ({ dialog, dialog_active, user, is_empty });
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setUser,
+      userLogout,
+      takeAShot,
+      setDialog,
+      gotVkUser,
+      setDialogActive,
+      openMapDialog,
+      getGPXTrack
+    },
+    dispatch
+  );
 
-const mapStateToProps = ({ user: { dialog, dialog_active, user, is_empty } }) => ({ dialog, dialog_active, user, is_empty });
-const mapDispatchToProps = dispatch => bindActionCreators({
-  setUser,
-  userLogout,
-  takeAShot,
-  setDialog,
-  gotVkUser,
-  setDialogActive,
-  openMapDialog,
-  getGPXTrack,
-}, dispatch);
-
-export const UserPanel = connect(mapStateToProps, mapDispatchToProps)(Component);
+export const UserPanel = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);
