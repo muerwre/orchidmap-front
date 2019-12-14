@@ -96,5 +96,5 @@ export const replaceProviderUrl = (provider, { x, y, zoom }: { x: number, y: num
     ? range[Math.round((Math.random() * (range.length - 1)))]
     : 1;
 
-  return url.replace('{x}', x).replace('{y}', y).replace('{z}', zoom).replace('{s}', String(random));
+  return url.replace('{x}', String(x)).replace('{y}', String(y)).replace('{z}', String(zoom)).replace('{s}', String(random));
 };
