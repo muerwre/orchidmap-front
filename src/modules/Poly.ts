@@ -1,6 +1,5 @@
 import { Map, LatLng } from 'leaflet';
 import { simplify } from '$utils/simplify';
-import { CLIENT } from '$config/frontend';
 import { editor, Editor } from "$modules/Editor";
 import { ILatLng } from "$modules/Stickers";
 import { InteractivePoly } from "$modules/InteractivePoly";

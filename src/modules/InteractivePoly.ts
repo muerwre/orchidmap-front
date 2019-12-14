@@ -33,8 +33,6 @@ export class Component extends Polyline {
 
     this.constraintsStyle = { ...this.constraintsStyle, ...options.constraintsStyle };
     this.maxMarkers = options.maxMarkers || this.maxMarkers;
-    // this.kmMarksEnabled = options.kmMarksEnabled || this.kmMarksEnabled;
-    // this.kmMarksStep = options.kmMarksStep || this.kmMarksStep;
 
     this.constrLine = new Polyline([], this.constraintsStyle);
 
