@@ -15,6 +15,7 @@ export interface ITileMaps {
   YMAP: IProvider,
   SAT: IProvider,
   ESAT: IProvider,
+  CACHE: IProvider,
 }
 
 
@@ -33,6 +34,11 @@ const TILEMAPS: ITileMaps = {
   DEFAULT: {
     name: 'OpenStreetMap',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    range: ['a', 'b', 'c'],
+  },
+  CACHE: {
+    name: 'Cache',
+    url: 'https://{s}.osm.tile.vault48.org/{z}/{x}/{y}.png',
     range: ['a', 'b', 'c'],
   },
   DARQ: {
@@ -72,7 +78,7 @@ const TILEMAPS: ITileMaps = {
   }
 };
 
-const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT'];
+const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT', 'CACHE'];
 
 export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[0];
 export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
