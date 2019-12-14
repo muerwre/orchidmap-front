@@ -15,8 +15,8 @@ export interface ITileMaps {
   YMAP: IProvider,
   SAT: IProvider,
   ESAT: IProvider,
-  CACHE_OSM: IProvider,
-  CACHE_CARTO: IProvider,
+  // CACHE_OSM: IProvider,
+  // CACHE_CARTO: IProvider,
 }
 
 
@@ -34,17 +34,8 @@ const TILEMAPS: ITileMaps = {
   },
   DEFAULT: {
     name: 'OpenStreetMap',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    range: ['a', 'b', 'c'],
-  },
-  CACHE_OSM: {
-    name: 'Cache Osm',
+    // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     url: 'https://{s}.osm.tile.vault48.org/{z}/{x}/{y}.png',
-    range: ['a', 'b', 'c'],
-  },
-  CACHE_CARTO: {
-    name: 'Cache Carto',
-    url: 'https://{s}.carto.tile.vault48.org/{z}/{x}/{y}.png',
     range: ['a', 'b', 'c'],
   },
   DARQ: {
@@ -54,7 +45,8 @@ const TILEMAPS: ITileMaps = {
   },
   BLANK: {
     name: 'Blanque',
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    // url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    url: 'https://{s}.carto.tile.vault48.org/light_all/{z}/{x}/{y}.png',
     range: [1, 2, 3, 4],
   },
   HOT: {
@@ -84,7 +76,7 @@ const TILEMAPS: ITileMaps = {
   }
 };
 
-const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT', 'CACHE_OSM', 'CACHE_CARTO'];
+const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT'];
 
 export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[0];
 export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
