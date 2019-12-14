@@ -30,8 +30,8 @@ const TILEMAPS: ITileMaps = {
   // },
   DGIS: {
     name: '2gis',
-    // url: 'https://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1',
-    url: 'https://{s}.dgis.tile.vault48.org/tiles?x={x}&y={y}&z={z}&v=1',
+    url: 'https://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1',
+    // url: 'https://{s}.dgis.tile.vault48.org/tiles?x={x}&y={y}&z={z}&v=1',
     range: ['a','b','c'],
   },
   DEFAULT: {
@@ -75,10 +75,10 @@ const TILEMAPS: ITileMaps = {
   // },
   ESAT: {
     name: 'Sattelite',
-    // url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    url: 'https://{s}.esat.tile.vault48.org/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    // range: [1,2,3,4],
-    range: ['a','b','c'],
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    // url: 'https://{s}.esat.tile.vault48.org/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    range: [1,2,3,4],
+    // range: ['a','b','c'],
   }
 };
 
