@@ -19,7 +19,8 @@ export const AppInfoDialog = () => (
       <div className="small app-info-list">
         <div>
           <div>Исходный код:</div>
-          <a href="//github.com/muerwre/orchidMap" target="_blank">github.com/muerwre/orchidMap</a>
+          <a href="//github.com/muerwre/orchid-front" target="_blank">github.com/muerwre/orchid-front</a>
+          <a href="//github.com/muerwre/orchid-backend" target="_blank">github.com/muerwre/orchid-backed</a>
         </div>
         <div>
           <div>Frontend:</div>
@@ -30,9 +31,8 @@ export const AppInfoDialog = () => (
         <div>
           <div>Backend:</div>
           <a href="//project-osrm.org/" target="_blank">OSRM</a>,{' '}
-          <a href="//nodejs.org/" target="_blank">NodeJS</a>,{' '}
-          <a href="//expressjs.com/" target="_blank">ExpressJS</a>,{' '}
-          <a href="//mongodb.com/" target="_blank">MongoDB</a>
+          <a href="//golang.org/" target="_blank">Golang</a>,{' '}
+          <a href="//nginx.org/" target="_blank">Nginx</a>,{' '}
         </div>
       </div>
     </div>
