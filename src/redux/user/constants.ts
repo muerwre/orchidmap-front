@@ -2,7 +2,7 @@ export interface IActions {
   [x: string]: string,
 }
 
-export const ACTIONS: IActions = {
+export const USER_ACTIONS: IActions = {
   SET_USER: 'SET_USER',
   USER_LOGOUT: 'USER_LOGOUT',
 

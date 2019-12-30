@@ -63,7 +63,7 @@ import {
   replacePath
 } from "$utils/history";
 import { editor } from "$modules/Editor";
-import { ACTIONS } from "$redux/user/constants";
+import { USER_ACTIONS } from "$redux/user/constants";
 import { MODES } from "$constants/modes";
 import { DEFAULT_USER, IUser } from "$constants/auth";
 import { TIPS } from "$constants/tips";
@@ -348,16 +348,16 @@ function* routerSubmitSaga() {
 
 function* clearSaga({ type }) {
   switch (type) {
-    case ACTIONS.CLEAR_POLY:
+    case USER_ACTIONS.CLEAR_POLY:
       yield editor.poly.clearAll();
       yield editor.router.clearAll();
       break;
 
-    case ACTIONS.CLEAR_STICKERS:
+    case USER_ACTIONS.CLEAR_STICKERS:
       yield editor.stickers.clearAll();
       break;
 
-    case ACTIONS.CLEAR_ALL:
+    case USER_ACTIONS.CLEAR_ALL:
       yield editor.clearAll();
       yield put(setChanged(false));
       break;
@@ -408,7 +408,7 @@ function* sendSaveRequestSaga({
       description
     }),
     timeout: delay(10000),
-    cancel: take(ACTIONS.RESET_SAVE_DIALOG)
+    cancel: take(USER_ACTIONS.RESET_SAVE_DIALOG)
   });
 
   yield put(setSaveLoading(false));
@@ -922,53 +922,53 @@ function* toggleRouteStarredSaga({
 
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
-  yield takeEvery(ACTIONS.SET_MODE, setModeSaga);
+  yield takeEvery(USER_ACTIONS.SET_MODE, setModeSaga);
 
-  yield takeEvery(ACTIONS.START_EDITING, startEditingSaga);
-  yield takeEvery(ACTIONS.STOP_EDITING, stopEditingSaga);
+  yield takeEvery(USER_ACTIONS.START_EDITING, startEditingSaga);
+  yield takeEvery(USER_ACTIONS.STOP_EDITING, stopEditingSaga);
 
-  yield takeEvery(ACTIONS.USER_LOGOUT, userLogoutSaga);
-  yield takeEvery(ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
-  yield takeEvery(ACTIONS.SET_LOGO, setLogoSaga);
+  yield takeEvery(USER_ACTIONS.USER_LOGOUT, userLogoutSaga);
+  yield takeEvery(USER_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
+  yield takeEvery(USER_ACTIONS.SET_LOGO, setLogoSaga);
 
-  yield takeEvery(ACTIONS.ROUTER_CANCEL, routerCancelSaga);
-  yield takeEvery(ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
+  yield takeEvery(USER_ACTIONS.ROUTER_CANCEL, routerCancelSaga);
+  yield takeEvery(USER_ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
   yield takeEvery(
     [
-      ACTIONS.CLEAR_POLY,
-      ACTIONS.CLEAR_STICKERS,
-      ACTIONS.CLEAR_ALL,
-      ACTIONS.CLEAR_CANCEL
+      USER_ACTIONS.CLEAR_POLY,
+      USER_ACTIONS.CLEAR_STICKERS,
+      USER_ACTIONS.CLEAR_ALL,
+      USER_ACTIONS.CLEAR_CANCEL
     ],
     clearSaga
   );
 
-  yield takeLatest(ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
-  yield takeLatest(ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
-  yield takeLatest(ACTIONS.TAKE_A_SHOT, takeAShotSaga);
-  yield takeLatest(ACTIONS.CROP_A_SHOT, cropAShotSaga);
+  yield takeLatest(USER_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
+  yield takeLatest(USER_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
+  yield takeLatest(USER_ACTIONS.TAKE_A_SHOT, takeAShotSaga);
+  yield takeLatest(USER_ACTIONS.CROP_A_SHOT, cropAShotSaga);
 
-  yield takeEvery(ACTIONS.CHANGE_PROVIDER, changeProviderSaga);
-  yield takeLatest(ACTIONS.LOCATION_CHANGED, locationChangeSaga);
+  yield takeEvery(USER_ACTIONS.CHANGE_PROVIDER, changeProviderSaga);
+  yield takeLatest(USER_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
-  yield takeLatest(ACTIONS.GOT_VK_USER, gotVkUserSaga);
-  yield takeLatest(ACTIONS.KEY_PRESSED, keyPressedSaga);
+  yield takeLatest(USER_ACTIONS.GOT_VK_USER, gotVkUserSaga);
+  yield takeLatest(USER_ACTIONS.KEY_PRESSED, keyPressedSaga);
 
-  yield takeLatest(ACTIONS.SET_TITLE, setTitleSaga);
+  yield takeLatest(USER_ACTIONS.SET_TITLE, setTitleSaga);
 
   yield takeLatest(
-    [ACTIONS.SEARCH_SET_TITLE, ACTIONS.SEARCH_SET_DISTANCE],
+    [USER_ACTIONS.SEARCH_SET_TITLE, USER_ACTIONS.SEARCH_SET_DISTANCE],
     searchSetSaga
   );
 
-  yield takeLatest(ACTIONS.OPEN_MAP_DIALOG, openMapDialogSaga);
-  yield takeLatest(ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
-  yield takeLatest(ACTIONS.SET_USER, setUserSaga);
+  yield takeLatest(USER_ACTIONS.OPEN_MAP_DIALOG, openMapDialogSaga);
+  yield takeLatest(USER_ACTIONS.SEARCH_SET_TAB, searchSetTabSaga);
+  yield takeLatest(USER_ACTIONS.SET_USER, setUserSaga);
 
-  yield takeLatest(ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
-  yield takeLatest(ACTIONS.MAPS_LOAD_MORE, mapsLoadMoreSaga);
+  yield takeLatest(USER_ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
+  yield takeLatest(USER_ACTIONS.MAPS_LOAD_MORE, mapsLoadMoreSaga);
 
-  yield takeLatest(ACTIONS.DROP_ROUTE, dropRouteSaga);
-  yield takeLatest(ACTIONS.MODIFY_ROUTE, modifyRouteSaga);
-  yield takeLatest(ACTIONS.TOGGLE_ROUTE_STARRED, toggleRouteStarredSaga);
+  yield takeLatest(USER_ACTIONS.DROP_ROUTE, dropRouteSaga);
+  yield takeLatest(USER_ACTIONS.MODIFY_ROUTE, modifyRouteSaga);
+  yield takeLatest(USER_ACTIONS.TOGGLE_ROUTE_STARRED, toggleRouteStarredSaga);
 }
