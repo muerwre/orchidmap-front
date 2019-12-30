@@ -148,6 +148,7 @@ const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDrop
 
     }
   }, [element, is_editing])
+
   return createPortal(
     <React.Fragment>
       <div className="sticker-arrow" ref={stickerArrow} />
