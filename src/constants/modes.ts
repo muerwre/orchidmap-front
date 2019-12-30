@@ -1,8 +1,5 @@
-export interface IModes {
-  [x: string]: string,
-}
 
-export const MODES: IModes = {
+export const MODES = {
   POLY: 'POLY',
   STICKERS: 'STICKERS',
   STICKERS_SELECT: 'STICKERS_SELECT',

@@ -37,7 +37,7 @@ export interface IRootReducer {
   ready: boolean,
   user: IUser,
   editing: boolean,
-  mode: keyof typeof MODES,
+  mode: typeof MODES[keyof typeof MODES],
   logo: keyof typeof LOGOS,
   routerPoints: number,
   distance: number,

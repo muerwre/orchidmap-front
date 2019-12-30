@@ -24,7 +24,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   mapSetRoute: MAP_ACTIONS.mapSetRoute,
   mapDropSticker: MAP_ACTIONS.mapDropSticker,
-  mapSetSticker: MAP_ACTIONS.mapSetSticker
+  mapSetSticker: MAP_ACTIONS.mapSetSticker,
+  mapClicked: MAP_ACTIONS.mapClicked
 };
 
 type IProps = React.HTMLAttributes<HTMLDivElement> &
@@ -37,26 +38,41 @@ const MapUnconnected: React.FC<IProps> = ({
   stickers,
   editing,
 
+  mapClicked,
   mapSetRoute,
   mapSetSticker,
   mapDropSticker
 }) => {
   const ref = React.useRef(null);
-  const [maps, setMaps] = React.useState<MapInterface>(null);
+  const [layer, setLayer] = React.useState<MapInterface>(null);
+
+  const onClick = React.useCallback(event => {
+    mapClicked(event.latlng);
+  }, [mapClicked]);
 
   React.useEffect(() => {
     if (!ref.current) return;
 
-    setMaps(map(ref.current).setView([55.0153275, 82.9071235], 13));
+    setLayer(map(ref.current).setView([55.0153275, 82.9071235], 13));
   }, [ref]);
+
+  React.useEffect(() => {
+    if (!layer) return;
+
+    layer.addEventListener("click", onClick)
+
+    return () => {
+      layer.removeEventListener("click", onClick)
+    }
+  }, [layer, onClick]);
 
   return createPortal(
     <div ref={ref}>
-      <TileLayer provider={provider} map={maps} />
-      <Route route={route} mapSetRoute={mapSetRoute} map={maps} is_editing={editing} />
+      <TileLayer provider={provider} map={layer} />
+      <Route route={route} mapSetRoute={mapSetRoute} map={layer} is_editing={editing} />
       <Stickers
         stickers={stickers}
-        map={maps}
+        map={layer}
         mapSetSticker={mapSetSticker}
         mapDropSticker={mapDropSticker}
         is_editing={editing}

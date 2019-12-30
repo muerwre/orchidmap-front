@@ -59,11 +59,9 @@ const Route: FC<IProps> = memo(({ route, is_editing, mapSetRoute, map }) => {
   useEffect(() => {
     if (!layer) return;
 
-    console.log('route use effect!')
-
     const points = (route && route.length > 0 && route) || [];
 
-    layer.setPoints(points as LatLng[]); // TODO: refactor this
+    layer.setPoints(points as LatLng[]);
   }, [route, layer]);
 
   useEffect(() => {

@@ -17,16 +17,15 @@ import { TopRightPanel } from '$components/panels/TopRightPanel';
 import { LogoPreview } from '$components/logo/LogoPreview';
 import { IStickerPack } from "$constants/stickers";
 import { IDialogs } from "$constants/dialogs";
-import { IModes } from "$constants/modes";
 
 import { Map } from "$containers/map/Map"
-import { TileLayer } from '$containers/map/TileLayer';
+import { IRootReducer } from '$redux/user';
 
 type Props = {
   sticker: string,
   renderer_active: boolean,
 
-  mode: keyof IModes,
+  mode: IRootReducer['mode'],
   dialog: keyof IDialogs,
   dialog_active: boolean,
   set: keyof IStickerPack,

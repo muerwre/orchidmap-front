@@ -1,6 +1,7 @@
 import { MAP_ACTIONS } from "./constants";
 import { IMapReducer } from "./";
 import { IStickerDump } from "$modules/Sticker";
+import { ILatLng } from "./types";
 
 export const mapSet = (map: Partial<IMapReducer>) => ({
   type: MAP_ACTIONS.SET_MAP,
@@ -26,4 +27,9 @@ export const mapSetSticker = (index: number, sticker: IStickerDump) => ({
 export const mapDropSticker = (index: number) => ({
   type: MAP_ACTIONS.DROP_STICKER,
   index,
+});
+
+export const mapClicked = (latlng: ILatLng) => ({
+  type: MAP_ACTIONS.MAP_CLICKED,
+  latlng,
 });

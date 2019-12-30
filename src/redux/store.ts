@@ -6,6 +6,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { userReducer, IRootReducer } from '$redux/user';
 import { userSaga } from '$redux/user/sagas';
+import { mapSaga } from '$redux/map/sagas';
 import { createBrowserHistory } from 'history';
 import { locationChanged } from '$redux/user/actions';
 import { PersistConfig, Persistor } from "redux-persist/es/types";
@@ -42,6 +43,7 @@ export const store = createStore(
 
 export function configureStore(): { store: Store<any>, persistor: Persistor } {
   sagaMiddleware.run(userSaga);
+  sagaMiddleware.run(mapSaga);
 
   const persistor = persistStore(store);
 

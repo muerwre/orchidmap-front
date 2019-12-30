@@ -7,4 +7,6 @@ export const MAP_ACTIONS = {
 
   SET_STICKER: `${P}-SET_STICKER`,
   DROP_STICKER: `${P}-DROP_STICKER`,
+
+  MAP_CLICKED: `${P}-MAP_CLICKED`
 }

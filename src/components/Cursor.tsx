@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Icon } from '$components/panels/Icon';
-import { IModes, MODES } from '$constants/modes';
+import { MODES } from '$constants/modes';
 import { IStickerPack, STICKERS } from '$constants/stickers';
 import { StickerIcon } from '$components/StickerIcon';
+import { IRootReducer } from '$redux/user';
 
 interface Props {
-  mode: keyof IModes,
+  mode: IRootReducer['mode'],
   sticker: string,
   set: keyof IStickerPack,
 }
