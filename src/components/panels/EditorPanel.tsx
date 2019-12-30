@@ -7,7 +7,7 @@ import { EditorDialog } from '$components/panels/EditorDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setMode, startEditing, stopEditing, setLogo, takeAShot, keyPressed } from '$redux/user/actions';
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { Tooltip } from "$components/panels/Tooltip";
 
 interface Props extends IRootState {

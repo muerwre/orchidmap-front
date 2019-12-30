@@ -1,6 +1,6 @@
 import { ACTIONS } from '$redux/user/constants';
 import { IUser } from "$constants/auth";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 export const setUser = (user: IUser) => ({ type: ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: ACTIONS.USER_LOGOUT });

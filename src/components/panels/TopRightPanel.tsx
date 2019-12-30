@@ -6,7 +6,7 @@ import { LOGOS } from '$constants/logos';
 import { setMode } from '$redux/user/actions';
 import { connect } from 'react-redux';
 import { MODES } from '$constants/modes';
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 import { Tooltip } from "$components/panels/Tooltip";
 

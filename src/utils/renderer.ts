@@ -5,7 +5,7 @@ import { replaceProviderUrl } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { angleBetweenPoints, angleBetweenPointsRad, findDistancePx, middleCoordPx } from "$utils/geom";
 import { Point } from "leaflet";
 

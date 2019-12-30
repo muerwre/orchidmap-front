@@ -7,7 +7,7 @@ import * as Croppr from 'croppr';
 import 'croppr/dist/croppr.css';
 import { LOGOS } from '$constants/logos';
 import { RendererPanel } from '$components/panels/RendererPanel';
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 type Props = {
   data: IRootState['renderer']['data'],

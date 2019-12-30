@@ -8,7 +8,7 @@ import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
 import { ILatLng } from "$modules/Stickers";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { Editor, editor } from "$modules/Editor";
 
 const getX = e => (

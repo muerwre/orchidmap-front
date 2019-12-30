@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { getStyle } from "$utils/dom";
 import { nearestInt } from "$utils/geom";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { parseDesc } from "$utils/format";
 
 interface ITitleDialogProps {

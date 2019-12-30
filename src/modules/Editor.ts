@@ -24,7 +24,7 @@ import {
 } from '$redux/user/actions';
 import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { DEFAULT_USER, IUser } from "$constants/auth";
 
 interface IEditor {

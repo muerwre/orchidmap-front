@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LOGOS } from "$constants/logos";
 import { connect } from "react-redux";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 interface Props extends IRootState {}
 

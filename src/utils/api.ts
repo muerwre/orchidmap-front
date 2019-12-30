@@ -1,6 +1,6 @@
 import axios, { AxiosPromise } from "axios/index";
 import { API } from "$constants/api";
-import { IRootState, IRouteListItem, IRoute } from "$redux/user/reducer";
+import { IRootState, IRouteListItem, IRoute } from "$redux/user";
 import { IUser } from "$constants/auth";
 import { ILatLng } from "$modules/Stickers";
 import { IStickerDump } from "$modules/Sticker";

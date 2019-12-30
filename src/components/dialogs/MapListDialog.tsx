@@ -19,7 +19,7 @@ import * as Range from 'rc-slider/lib/Range';
 import { TABS, TABS_TITLES } from '$constants/dialogs';
 import { Icon } from '$components/panels/Icon';
 import { pushPath } from '$utils/history';
-import { IRootState, IRouteListItem } from '$redux/user/reducer';
+import { IRootState, IRouteListItem } from '$redux/user';
 import { ROLES } from "$constants/auth";
 
 export interface IMapListDialogProps extends IRootState {

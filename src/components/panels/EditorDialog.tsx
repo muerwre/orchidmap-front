@@ -28,7 +28,7 @@ import {
 } from '$redux/user/actions';
 import { ProviderDialog } from '$components/dialogs/ProviderDialog';
 import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 interface Props extends IRootState {
   width: number,

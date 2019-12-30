@@ -3,7 +3,7 @@ import { LOGOS } from '$constants/logos';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
 import { setLogo as setLogoAction } from "$redux/user/actions";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 interface Props extends IRootState {
   setLogo: typeof setLogoAction,

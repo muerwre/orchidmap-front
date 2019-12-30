@@ -85,7 +85,7 @@ import { DEFAULT_PROVIDER } from "$constants/providers";
 import { DIALOGS, TABS } from "$constants/dialogs";
 
 import * as ActionCreators from "$redux/user/actions";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { downloadGPXTrack, getGPXString } from "$utils/gpx";
 import { Unwrap } from "$utils/middleware";
 import { IState } from "$redux/store";

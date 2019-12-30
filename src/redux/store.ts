@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
-import { userReducer, IRootReducer } from '$redux/user/reducer';
+import { userReducer, IRootReducer } from '$redux/user';
 import { userSaga } from '$redux/user/sagas';
 import { createBrowserHistory } from 'history';
 import { locationChanged } from '$redux/user/actions';

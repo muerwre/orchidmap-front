@@ -21,7 +21,7 @@ import { Icon } from "$components/panels/Icon";
 import classnames from "classnames";
 import { CLIENT } from "$config/frontend";
 import { DIALOGS, TABS } from "$constants/dialogs";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 import { Tooltip } from "$components/panels/Tooltip";
 import { TitleDialog } from "$components/dialogs/TitleDialog";
 

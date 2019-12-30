@@ -3,7 +3,7 @@ import { PROVIDERS, replaceProviderUrl } from '$constants/providers';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
 import { changeProvider as changeProviderAction } from "$redux/user/actions";
-import { IRootState } from "$redux/user/reducer";
+import { IRootState } from "$redux/user";
 
 interface Props extends IRootState {
   changeProvider: typeof changeProviderAction,
