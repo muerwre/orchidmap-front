@@ -28,6 +28,8 @@
   }
 
   &:active {
+    transition: transform 250ms;
+
     .sticker-delete {
       pointer-events: none;
     }
@@ -42,6 +44,7 @@
 
   &.inactive {
     pointer-events: none;
+    transition: transform 250ms;
 
     .sticker-delete {
       display: none;

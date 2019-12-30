@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MapContext, TileContext } from "../../../utils/context";
+import { TileContext } from "../../../utils/context";
 import { TileLayer as TileLayerInterface, tileLayer, Map } from "leaflet";
 import { DEFAULT_PROVIDER, PROVIDERS } from "$constants/providers";
 import { IMapReducer } from "$redux/map";
