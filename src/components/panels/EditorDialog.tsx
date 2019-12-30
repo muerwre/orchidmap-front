@@ -11,28 +11,33 @@ import { CancelDialog } from '$components/dialogs/CancelDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  setMode,
-  setLogo,
-  routerCancel,
-  routerSubmit,
-  setActiveSticker,
-  clearStickers,
-  clearPoly,
-  clearAll,
-  clearCancel,
-  stopEditing,
-  setEditing,
-  sendSaveRequest,
-  changeProvider,
-} from '$redux/user/actions';
+import * as USER_ACTIONS from '$redux/user/actions';
 import { ProviderDialog } from '$components/dialogs/ProviderDialog';
 import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
-import { IRootState } from "$redux/user";
+import * as MAP_ACTIONS from '$redux/map/actions';
+import { selectUserMode } from '$redux/user/selectors';
 
-interface Props extends IRootState {
-  width: number,
-}
+const mapStateToProps = state => ({ mode: selectUserMode(state) });
+
+// const mapDispatchToProps = dispatch => bindActionCreators({
+//   routerCancel: USER_ACTIONS.routerCancel,
+//   routerSubmit: USER_ACTIONS.routerSubmit,
+//   setActiveSticker: USER_ACTIONS.setActiveSticker,
+//   clearStickers: USER_ACTIONS.clearStickers,
+//   clearPoly: USER_ACTIONS.clearPoly,
+//   clearAll: USER_ACTIONS.clearAll,
+//   clearCancel: USER_ACTIONS.clearCancel,
+//   stopEditing: USER_ACTIONS.stopEditing,
+//   setEditing: USER_ACTIONS.setEditing,
+//   setMode: USER_ACTIONS.setMode,
+//   sendSaveRequest: USER_ACTIONS.sendSaveRequest,
+//   changeProvider: USER_ACTIONS.changeProvider,
+//   mapSetLogo: MAP_ACTIONS.mapSetLogo,
+// }, dispatch);
+
+type Props = ReturnType<typeof mapStateToProps> & {
+    width: number;
+  };
 
 const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.ROUTER]: RouterDialog,
@@ -45,32 +50,12 @@ const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.SHOT_PREFETCH]: ShotPrefetchDialog,
 };
 
-export const Component = (props: Props) => (
+export const Component = (props: Props) =>
   props.mode && DIALOG_CONTENTS[props.mode]
-    ? React.createElement(DIALOG_CONTENTS[props.mode], { ...props })
-    : null
-);
-
-const mapStateToProps = ({ user }) => ({ ...user });
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  routerCancel,
-  routerSubmit,
-  setLogo,
-  setActiveSticker,
-  clearStickers,
-  clearPoly,
-  clearAll,
-  clearCancel,
-  stopEditing,
-  setEditing,
-  setMode,
-  sendSaveRequest,
-  changeProvider,
-}, dispatch);
+    ? React.createElement(DIALOG_CONTENTS[props.mode])
+    : null;
 
 export const EditorDialog = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
+  // mapDispatchToProps
 )(Component);
-

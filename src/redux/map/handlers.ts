@@ -11,6 +11,7 @@ import {
   mapSetDescription,
   mapSetOwner,
   mapSetPublic,
+  mapSetLogo,
 } from './actions';
 
 const setMap = (state: IMapReducer, { map }: ReturnType<typeof mapSet>): IMapReducer => ({
@@ -80,6 +81,11 @@ const setPublic = (state: IMapReducer, { is_public }: ReturnType<typeof mapSetPu
   is_public,
 });
 
+const setLogo = (state: IMapReducer, { logo }: ReturnType<typeof mapSetLogo>): IMapReducer => ({
+  ...state,
+  logo,
+});
+
 export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_MAP]: setMap,
   [MAP_ACTIONS.SET_PROVIDER]: setProvider,
@@ -92,4 +98,5 @@ export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_DESCRIPTION]: setDescription,
   [MAP_ACTIONS.SET_OWNER]: setOwner,
   [MAP_ACTIONS.SET_PUBLIC]: setPublic,
+  [MAP_ACTIONS.SET_LOGO]: setLogo,
 };

@@ -6,7 +6,7 @@ import { Icon } from '$components/panels/Icon';
 import { EditorDialog } from '$components/panels/EditorDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, setLogo, takeAShot, keyPressed } from '$redux/user/actions';
+import { setMode, startEditing, stopEditing, takeAShot, keyPressed } from '$redux/user/actions';
 import { IRootState } from "$redux/user";
 import { Tooltip } from "$components/panels/Tooltip";
 
@@ -159,7 +159,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   setMode,
-  setLogo,
+  // setLogo,
   startEditing,
   stopEditing,
   takeAShot,

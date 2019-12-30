@@ -45,8 +45,12 @@ const Component = ({
 
 function mapStateToProps(state) {
   const {
+    map: {
+      provider,
+      logo,
+    },
     user: {
-      provider, logo, markers_shown, editing
+      markers_shown, editing
     },
   } = state;
 

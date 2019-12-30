@@ -3,12 +3,14 @@ import { MAP_HANDLERS } from './handlers';
 import { DEFAULT_PROVIDER } from '$constants/providers';
 import { IMapRoute } from './types';
 import { IStickerDump } from '$modules/Sticker';
+import { DEFAULT_LOGO } from '$constants/logos';
 
 export interface IMapReducer {
   provider: string;
   route: IMapRoute;
   stickers: IStickerDump[];
   title: string;
+  logo: string;
   address: string;
   description: string;
   owner: { id: string };
@@ -17,6 +19,7 @@ export interface IMapReducer {
 
 export const MAP_INITIAL_STATE: IMapReducer = {
   provider: DEFAULT_PROVIDER,
+  logo: DEFAULT_LOGO,
   route: [],
   stickers: [],
   title: '',

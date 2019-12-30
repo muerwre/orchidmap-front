@@ -53,25 +53,25 @@ const setActiveSticker: ActionHandler<typeof ActionCreators.setActiveSticker> = 
   activeSticker: activeSticker || { set: null, sticker: null }
 });
 
-const setLogo: ActionHandler<typeof ActionCreators.setLogo> = (state, { logo }) => ({
-  ...state,
-  logo
-});
+// const setLogo: ActionHandler<typeof ActionCreators.setLogo> = (state, { logo }) => ({
+//   ...state,
+//   logo
+// });
 
-const setTitle: ActionHandler<typeof ActionCreators.setTitle> = (state, { title }) => ({
-  ...state,
-  title
-});
+// const setTitle: ActionHandler<typeof ActionCreators.setTitle> = (state, { title }) => ({
+//   ...state,
+//   title
+// });
 
-const setDescription: ActionHandler<typeof ActionCreators.setDescription> = (state, { description }) => ({
-  ...state,
-  description
-});
+// const setDescription: ActionHandler<typeof ActionCreators.setDescription> = (state, { description }) => ({
+//   ...state,
+//   description
+// });
 
-const setAddress: ActionHandler<typeof ActionCreators.setAddress> = (state, { address }) => ({
-  ...state,
-  address
-});
+// const setAddress: ActionHandler<typeof ActionCreators.setAddress> = (state, { address }) => ({
+//   ...state,
+//   address
+// });
 
 const setAddressOrigin: ActionHandler<typeof ActionCreators.setAddressOrigin> = (state, { address_origin }) => ({
   ...state,
@@ -199,7 +199,7 @@ const searchSetLoading: ActionHandler<typeof ActionCreators.searchSetLoading> = 
   }
 });
 
-const setPublic: ActionHandler<typeof ActionCreators.setPublic> = (state, { is_public = false }) => ({ ...state, is_public });
+// const setPublic: ActionHandler<typeof ActionCreators.setPublic> = (state, { is_public = false }) => ({ ...state, is_public });
 const setStarred: ActionHandler<typeof ActionCreators.setStarred> = (state, { is_published = false }) => ({ ...state, is_published });
 
 const setSpeed: ActionHandler<typeof ActionCreators.setSpeed> = (state, { speed = 15 }) => ({
@@ -254,10 +254,10 @@ export const USER_HANDLERS = ({
   [USER_ACTIONS.SET_DISTANCE]: setDistance,
   [USER_ACTIONS.SET_ROUTER_POINTS]: setRouterPoints,
   [USER_ACTIONS.SET_ACTIVE_STICKER]: setActiveSticker,
-  [USER_ACTIONS.SET_LOGO]: setLogo,
-  [USER_ACTIONS.SET_TITLE]: setTitle,
-  [USER_ACTIONS.SET_DESCRIPTION]: setDescription,
-  [USER_ACTIONS.SET_ADDRESS]: setAddress,
+  // [USER_ACTIONS.SET_LOGO]: setLogo,
+  // [USER_ACTIONS.SET_TITLE]: setTitle,
+  // [USER_ACTIONS.SET_DESCRIPTION]: setDescription,
+  // [USER_ACTIONS.SET_ADDRESS]: setAddress,
   [USER_ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
 
   [USER_ACTIONS.SET_SAVE_ERROR]: setSaveError,
@@ -282,7 +282,7 @@ export const USER_HANDLERS = ({
   [USER_ACTIONS.SEARCH_SET_TAB]: searchSetTab,
   [USER_ACTIONS.SEARCH_PUT_ROUTES]: searchPutRoutes,
   [USER_ACTIONS.SEARCH_SET_LOADING]: searchSetLoading,
-  [USER_ACTIONS.SET_PUBLIC]: setPublic,
+  // [USER_ACTIONS.SET_PUBLIC]: setPublic,
   [USER_ACTIONS.SET_STARRED]: setStarred,
   [USER_ACTIONS.SET_SPEED]: setSpeed,
 

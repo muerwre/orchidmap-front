@@ -63,3 +63,8 @@ export const mapSetPublic = (is_public: IMapReducer['is_public']) => ({
   type: MAP_ACTIONS.SET_PUBLIC,
   is_public,
 });
+
+export const mapSetLogo = (logo: IMapReducer['logo']) => ({
+  type: MAP_ACTIONS.SET_LOGO, 
+  logo,
+});

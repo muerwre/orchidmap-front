@@ -52,15 +52,15 @@ function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {
 //   return put(setMode(MODES.NONE));
 // }
 
-function* setLogoSaga({ logo }: { type: string; logo: string }) {
-  const { mode } = yield select(selectUser);
+// function* setLogoSaga({ logo }: { type: string; logo: string }) {
+//   const { mode } = yield select(selectUser);
 
-  yield put(setChanged(true));
+//   yield put(setChanged(true));
 
-  if (mode === MODES.LOGO) {
-    yield put(setMode(MODES.NONE));
-  }
-}
+//   if (mode === MODES.LOGO) {
+//     yield put(setMode(MODES.NONE));
+//   }
+// }
 
 export function* replaceAddressIfItsBusy(destination, original) {
   if (original) {
@@ -303,10 +303,12 @@ function* setSaveSuccessSaga({
 }
 
 export function* mapSaga() {
+  // TODO: setChanged on set route, logo, provider, stickers
+  
   yield takeEvery(USER_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga); // TODO: move active sticker to maps
   yield takeEvery(MAP_ACTIONS.MAP_CLICKED, onMapClick);
   yield takeEvery(MAP_ACTIONS.SET_TITLE, setTitleSaga);
-  yield takeEvery(USER_ACTIONS.SET_LOGO, setLogoSaga);
+  // yield takeEvery(USER_ACTIONS.SET_LOGO, setLogoSaga);
   yield takeLatest(USER_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
   yield takeLatest(USER_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
 

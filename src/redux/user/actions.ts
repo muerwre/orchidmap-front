@@ -11,12 +11,12 @@ export const setDistance = (distance: IRootState['distance']) => ({ type: USER_A
 export const setChanged = (changed: IRootState['changed']) => ({ type: USER_ACTIONS.SET_CHANGED, changed });
 export const setRouterPoints = routerPoints => ({ type: USER_ACTIONS.SET_ROUTER_POINTS, routerPoints });
 export const setActiveSticker = activeSticker => ({ type: USER_ACTIONS.SET_ACTIVE_STICKER, activeSticker });
-export const setLogo = logo => ({ type: USER_ACTIONS.SET_LOGO, logo });
-export const setTitle = title => ({ type: USER_ACTIONS.SET_TITLE, title });
-export const setDescription = description => ({ type: USER_ACTIONS.SET_DESCRIPTION, description });
-export const setAddress = address => ({ type: USER_ACTIONS.SET_ADDRESS, address });
+// export const setLogo = logo => ({ type: USER_ACTIONS.SET_LOGO, logo });
+// export const setTitle = title => ({ type: USER_ACTIONS.SET_TITLE, title });
+// export const setDescription = description => ({ type: USER_ACTIONS.SET_DESCRIPTION, description });
+// export const setAddress = address => ({ type: USER_ACTIONS.SET_ADDRESS, address });
 export const setAddressOrigin = address_origin => ({ type: USER_ACTIONS.SET_ADDRESS_ORIGIN, address_origin });
-export const setPublic = is_public => ({ type: USER_ACTIONS.SET_PUBLIC, is_public });
+// export const setPublic = is_public => ({ type: USER_ACTIONS.SET_PUBLIC, is_public });
 export const setStarred = is_published => ({ type: USER_ACTIONS.SET_STARRED, is_published });
 export const setSpeed = speed => ({ type: USER_ACTIONS.SET_SPEED, speed });
 
