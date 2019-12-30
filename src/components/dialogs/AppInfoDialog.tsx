@@ -20,7 +20,8 @@ export const AppInfoDialog = () => (
         <div>
           <div>Исходный код:</div>
           <a href="//github.com/muerwre/orchid-front" target="_blank">github.com/muerwre/orchid-front</a>
-          <a href="//github.com/muerwre/orchid-backend" target="_blank">github.com/muerwre/orchid-backed</a>
+          <br />
+          <a href="//github.com/muerwre/orchid-backend" target="_blank">github.com/muerwre/orchid-backend</a>
         </div>
         <div>
           <div>Frontend:</div>

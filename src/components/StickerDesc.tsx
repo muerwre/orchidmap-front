@@ -16,12 +16,10 @@ export class StickerDesc extends React.PureComponent<Props, State> {
   };
 
   setText = e => {
-    this.setState({ text: e.target.value });
     this.props.onChange(e.target.value);
   };
 
   blockMouse = e => {
-    console.log('BM');
     e.stopPropagation();
     this.input.focus();
   };
@@ -30,7 +28,7 @@ export class StickerDesc extends React.PureComponent<Props, State> {
   // todo: pass here locker for moving markers from Sticker.js
 
   render() {
-    const { text } = this.state;
+    const { value: text } = this.props;
 
     return (
       <div

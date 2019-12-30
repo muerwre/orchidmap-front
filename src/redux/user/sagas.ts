@@ -167,11 +167,13 @@ function* loadMapSaga(path) {
 
     // TODO: REACTIVE BRANCH:
     // yield put(mapSetProvider(route.provider));
-    yield put(mapSet({
-      provider: route.provider,
-      route: route.route,
-      stickers: route.stickers,
-    }))
+    yield put(
+      mapSet({
+        provider: route.provider,
+        route: route.route,
+        stickers: route.stickers
+      })
+    );
 
     return { route, random_url };
   }
@@ -263,7 +265,7 @@ function* mapInitSaga() {
 }
 
 function* authCheckSaga({ key }: RehydrateAction) {
-  if (key !== 'user') return;
+  if (key !== "user") return;
 
   pushLoaderState(70);
 
@@ -360,15 +362,31 @@ function* clearSaga({ type }) {
     case USER_ACTIONS.CLEAR_POLY:
       yield editor.poly.clearAll();
       yield editor.router.clearAll();
+      yield put(
+        mapSet({
+          route: []
+        })
+      );
       break;
 
     case USER_ACTIONS.CLEAR_STICKERS:
       yield editor.stickers.clearAll();
+      yield put(
+        mapSet({
+          stickers: []
+        })
+      );
       break;
 
     case USER_ACTIONS.CLEAR_ALL:
       yield editor.clearAll();
       yield put(setChanged(false));
+      yield put(
+        mapSet({
+          route: [],
+          stickers: []
+        })
+      );
       break;
 
     default:
@@ -539,7 +557,7 @@ function* changeProviderSaga({
   yield put(setProvider(provider));
 
   // TODO: REACTIVE BRANCH
-  yield put(mapSetProvider(provider))
+  yield put(mapSetProvider(provider));
 
   if (current_provider === provider) return;
 
