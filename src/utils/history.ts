@@ -40,7 +40,6 @@ export const pushLoaderState = (state: number) => {
 };
 
 export const countDownToRefresh = (left: number = API_RETRY_INTERVAL): void => {
-  console.log('countdown');
   if (left <= 0) return document.location.reload();
 
   document.getElementById('loader-bar').style.width = `${(left / API_RETRY_INTERVAL) * 100}%`;

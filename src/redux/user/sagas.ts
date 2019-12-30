@@ -1,4 +1,4 @@
-import { REHYDRATE } from "redux-persist";
+import { REHYDRATE, RehydrateAction } from "redux-persist";
 import { delay, SagaIterator } from "redux-saga";
 import {
   takeLatest,
@@ -253,7 +253,9 @@ function* mapInitSaga() {
   return true;
 }
 
-function* authCheckSaga() {
+function* authCheckSaga({ key }: RehydrateAction) {
+  if (key !== 'user') return;
+
   pushLoaderState(70);
 
   const { id, token } = yield select(getUser);
@@ -291,6 +293,7 @@ function* authCheckSaga() {
       return yield call(mapInitSaga);
     } else if (!ready) {
       pushNetworkInitError();
+      return;
     }
   }
 
