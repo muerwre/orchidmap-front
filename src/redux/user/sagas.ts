@@ -157,8 +157,6 @@ function* loadMapSaga(path) {
     data: { route, error, random_url }
   }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
 
-  console.log({ route });
-
   if (route && !error) {
     yield editor.clearAll();
     yield editor.setData(route);
@@ -172,6 +170,7 @@ function* loadMapSaga(path) {
     yield put(mapSet({
       provider: route.provider,
       route: route.route,
+      stickers: route.stickers,
     }))
 
     return { route, random_url };

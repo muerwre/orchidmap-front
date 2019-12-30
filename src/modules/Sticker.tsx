@@ -56,6 +56,7 @@ export class Sticker {
     this.deleteSticker = deleteSticker;
     this.lockMapClicks = lockMapClicks;
     this.editor = editor;
+    this.element = document.createElement('div');
 
     ReactDOM.render(
       <React.Fragment>
@@ -178,6 +179,8 @@ export class Sticker {
   };
 
   setAngle = (angle: Props['angle']): void => {
+    if (!this.stickerImage) return;
+
     const direction = getLabelDirection(angle);
 
     if (direction !== this.direction) {

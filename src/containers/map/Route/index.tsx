@@ -10,21 +10,40 @@ import { IMapRoute, ILatLng } from "../../../redux/map/types";
 import { MapContext } from "$utils/context";
 import { InteractivePoly } from "$modules/InteractivePoly";
 import { isMobile } from "$utils/window";
-import { LatLng } from "leaflet";
+import { LatLng, Map } from "leaflet";
 
 interface IProps {
+  map: Map;
   route: IMapRoute;
   is_editing: boolean;
   mapSetRoute: (latlngs: ILatLng[]) => void;
 }
 
-const Route: FC<IProps> = memo(({ route, is_editing, mapSetRoute }) => {
+const Route: FC<IProps> = memo(({ route, is_editing, mapSetRoute, map }) => {
   const [layer, setLayer] = useState<InteractivePoly>(null);
-  const map = useContext(MapContext);
+
+  useEffect(() => {
+    if (!map) return;
+
+    setLayer(
+      new InteractivePoly([], {
+        color: "url(#activePathGradient)",
+        weight: 6,
+        maxMarkers: isMobile() ? 20 : 100,
+        smoothFactor: 3,
+      })
+        .addTo(map)
+        // .on("distancechange", console.log)
+        // .on("allvertexhide", console.log)
+        // .on("allvertexshow", console.log)
+    );
+  }, [map]);
+
 
   const onRouteChanged = useCallback(
     ({ latlngs }) => {
-      // mapSetRoute(latlngs)
+      // console.log('THIS!');
+      mapSetRoute(latlngs)
     },
     [mapSetRoute]
   );
@@ -38,26 +57,9 @@ const Route: FC<IProps> = memo(({ route, is_editing, mapSetRoute }) => {
   }, [layer, onRouteChanged]);
 
   useEffect(() => {
-    if (!map) return;
-
-    setLayer(
-      new InteractivePoly([], {
-        color: "url(#activePathGradient)",
-        weight: 6,
-        maxMarkers: isMobile() ? 20 : 100,
-        smoothFactor: 3,
-        updateself: false,
-      })
-        .addTo(map)
-        .on("distancechange", console.log)
-        .on("allvertexhide", console.log)
-        .on("allvertexshow", console.log)
-        // .on("latlngschange", console.log)
-    );
-  }, [map]);
-
-  useEffect(() => {
     if (!layer) return;
+
+    console.log('route use effect!')
 
     const points = (route && route.length > 0 && route) || [];
 
