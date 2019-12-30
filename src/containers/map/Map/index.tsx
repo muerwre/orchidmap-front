@@ -14,6 +14,8 @@ import { TileLayer } from "$containers/map/TileLayer";
 import { Stickers } from "$containers/map/Stickers";
 import { selectUserEditing } from '$redux/user/selectors'
 
+import 'leaflet/dist/leaflet.css';
+
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
   route: selectMapRoute(state),
@@ -31,6 +33,8 @@ const mapDispatchToProps = {
 type IProps = React.HTMLAttributes<HTMLDivElement> &
   ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {};
+
+export let MainMap = map(document.getElementById('canvas')).setView([55.0153275, 82.9071235], 13);
 
 const MapUnconnected: React.FC<IProps> = ({
   provider,
@@ -53,8 +57,8 @@ const MapUnconnected: React.FC<IProps> = ({
   React.useEffect(() => {
     if (!ref.current) return;
 
-    setLayer(map(ref.current).setView([55.0153275, 82.9071235], 13));
-  }, [ref]);
+    setLayer(MainMap);
+  }, []);
 
   React.useEffect(() => {
     if (!layer) return;

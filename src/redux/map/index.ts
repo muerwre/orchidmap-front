@@ -7,13 +7,23 @@ import { IStickerDump } from '$modules/Sticker';
 export interface IMapReducer {
   provider: string;
   route: IMapRoute;
-  stickers: IStickerDump[]
+  stickers: IStickerDump[];
+  title: string;
+  address: string;
+  description: string;
+  owner: { id: string };
+  is_public: boolean;
 }
 
-export const MAP_INITIAL_STATE = {
+export const MAP_INITIAL_STATE: IMapReducer = {
   provider: DEFAULT_PROVIDER,
   route: [],
   stickers: [],
+  title: '',
+  address: '',
+  description: '',
+  owner: { id: null },
+  is_public: false,
 }
 
 export const map = createReducer(MAP_INITIAL_STATE, MAP_HANDLERS)

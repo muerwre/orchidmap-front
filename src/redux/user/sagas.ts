@@ -1,5 +1,5 @@
-import { REHYDRATE, RehydrateAction } from "redux-persist";
-import { delay, SagaIterator } from "redux-saga";
+import { REHYDRATE, RehydrateAction } from 'redux-persist';
+import { delay, SagaIterator } from 'redux-saga';
 import {
   takeLatest,
   select,
@@ -7,9 +7,7 @@ import {
   put,
   takeEvery,
   race,
-  take,
-  TakeEffect
-} from "redux-saga/effects";
+} from 'redux-saga/effects';
 import {
   checkIframeToken,
   checkOSRMService,
@@ -17,56 +15,41 @@ import {
   dropRoute,
   getGuestToken,
   getRouteList,
-  getStoredMap,
   modifyRoute,
-  postMap,
-  sendRouteStarred
-} from "$utils/api";
+  sendRouteStarred,
+} from '$utils/api';
 import {
   hideRenderer,
   searchPutRoutes,
   searchSetLoading,
-  setActiveSticker,
-  setAddress,
   setChanged,
   setDialogActive,
   setEditing,
   setMode,
   setReady,
   setRenderer,
-  setSaveError,
-  setSaveOverwrite,
-  setSaveSuccess,
-  setTitle,
   searchSetTab,
   setUser,
   setDialog,
-  setPublic,
   setAddressOrigin,
-  setProvider,
-  changeProvider,
-  setSaveLoading,
   mapsSetShift,
   searchChangeDistance,
   clearAll,
   setFeature,
   searchSetTitle,
   setRouteStarred,
-  setDescription
-} from "$redux/user/actions";
+} from '$redux/user/actions';
+
 import {
   getUrlData,
   parseQuery,
   pushLoaderState,
   pushNetworkInitError,
   pushPath,
-  replacePath
-} from "$utils/history";
-import { editor } from "$modules/Editor";
-import { USER_ACTIONS } from "$redux/user/constants";
-import { MODES } from "$constants/modes";
-import { DEFAULT_USER, IUser } from "$constants/auth";
-import { TIPS } from "$constants/tips";
+} from '$utils/history';
+import { USER_ACTIONS } from '$redux/user/constants';
+import { MODES } from '$constants/modes';
+import { DEFAULT_USER } from '$constants/auth';
 import {
   composeArrows,
   composeDistMark,
@@ -78,55 +61,38 @@ import {
   getPolyPlacement,
   getStickersPlacement,
   getTilePlacement,
-  imageFetcher
-} from "$utils/renderer";
-import { LOGOS } from "$constants/logos";
-import { DEFAULT_PROVIDER } from "$constants/providers";
-import { DIALOGS, TABS } from "$constants/dialogs";
+  imageFetcher,
+} from '$utils/renderer';
+import { LOGOS } from '$constants/logos';
+import { DIALOGS, TABS } from '$constants/dialogs';
 
-import * as ActionCreators from "$redux/user/actions";
-import { IRootState } from "$redux/user";
-import { downloadGPXTrack, getGPXString } from "$utils/gpx";
-import { Unwrap } from "$utils/middleware";
-import { IState } from "$redux/store";
-import { mapSetProvider, mapSet } from "$redux/map/actions";
+import * as ActionCreators from '$redux/user/actions';
+import { downloadGPXTrack, getGPXString } from '$utils/gpx';
+import { Unwrap } from '$utils/middleware';
+import { IState } from '$redux/store';
+import { selectUser, selectUserUser } from './selectors';
+import { mapInitSaga, loadMapSaga, replaceAddressIfItsBusy } from '$redux/map/sagas';
+import { LatLng } from 'leaflet';
+import { selectMap } from '$redux/map/selectors';
 
-const getUser = (state: IState) => state.user.user;
-const getState = (state: IState) => state.user;
+// const getUser = (state: IState) => state.user.user;
+// const selectUser = (state: IState) => state.user;
 
 const hideLoader = () => {
-  document.getElementById("loader").style.opacity = String(0);
-  document.getElementById("loader").style.pointerEvents = "none";
+  document.getElementById('loader').style.opacity = String(0);
+  document.getElementById('loader').style.pointerEvents = 'none';
 
   return true;
 };
 
 function* generateGuestSaga() {
   const {
-    data: { user, random_url }
+    data: { user, random_url },
   }: Unwrap<typeof getGuestToken> = yield call(getGuestToken);
 
   yield put(setUser({ ...user, random_url }));
 
   return { ...user, random_url };
-}
-
-function* startEmptyEditorSaga() {
-  const {
-    user: { id, random_url },
-    provider = DEFAULT_PROVIDER
-  } = yield select(getState);
-
-  pushPath(`/${random_url}/edit`);
-
-  editor.owner = id;
-  editor.setProvider(provider);
-  editor.startEditing();
-
-  yield put(setChanged(false));
-  yield put(setEditing(true));
-
-  return yield call(setReadySaga);
 }
 
 function* startEditingSaga() {
@@ -135,7 +101,7 @@ function* startEditingSaga() {
 }
 
 function* stopEditingSaga() {
-  const { changed, editing, mode, address_origin } = yield select(getState);
+  const { changed, editing, mode, address_origin } = yield select(selectUser);
   const { path } = getUrlData();
 
   if (!editing) return;
@@ -144,60 +110,23 @@ function* stopEditingSaga() {
     return;
   }
 
-  yield editor.cancelEditing();
+  // TODO: cancel editing?
+  // yield editor.cancelEditing();
   yield put(setMode(MODES.NONE));
   yield put(setChanged(false));
-  yield put(setEditing(editor.hasEmptyHistory)); // don't close editor if no previous map
+  // TODO: dont close editor if theres no initial data
+  // yield put(setEditing(editor.hasEmptyHistory)); // don't close editor if no previous map
 
   yield pushPath(`/${address_origin || path}/`);
 }
 
-function* loadMapSaga(path) {
-  const {
-    data: { route, error, random_url }
-  }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
-
-  if (route && !error) {
-    yield editor.clearAll();
-    yield editor.setData(route);
-    yield editor.fitDrawing();
-    yield editor.setInitialData();
-
-    yield put(setChanged(false));
-
-    // TODO: REACTIVE BRANCH:
-    // yield put(mapSetProvider(route.provider));
-    yield put(
-      mapSet({
-        provider: route.provider,
-        route: route.route,
-        stickers: route.stickers
-      })
-    );
-
-    return { route, random_url };
-  }
-
-  return null;
-}
-
-function* replaceAddressIfItsBusy(destination, original) {
-  if (original) {
-    yield put(setAddressOrigin(original));
-  }
-
-  pushPath(`/${destination}/edit`);
-}
-
 function* checkOSRMServiceSaga() {
-  const north_east = editor.map.map.getBounds().getNorthEast();
-  const south_west = editor.map.map.getBounds().getSouthWest();
-  const routing = yield call(checkOSRMService, [north_east, south_west]);
+  const routing = yield call(checkOSRMService, [new LatLng(1,1), new LatLng(2,2)]);
 
   yield put(setFeature({ routing }));
 }
 
-function* setReadySaga() {
+export function* setReadySaga() {
   yield put(setReady(true));
   hideLoader();
 
@@ -205,72 +134,13 @@ function* setReadySaga() {
   yield put(searchSetTab(TABS.MY));
 }
 
-function* mapInitSaga() {
-  pushLoaderState(90);
-
-  const { path, mode, hash } = getUrlData();
-  const {
-    provider,
-    user: { id }
-  } = yield select(getState);
-
-  editor.map.setProvider(provider);
-  yield put(changeProvider(provider));
-
-  if (hash && /^#map/.test(hash)) {
-    const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
-
-    if (newUrl) {
-      yield pushPath(`/${newUrl}`);
-      return yield call(setReadySaga);
-    }
-  }
-
-  if (path) {
-    const map = yield call(loadMapSaga, path);
-
-    if (map && map.route) {
-      if (mode && mode === "edit") {
-        if (
-          map &&
-          map.route &&
-          map.route.owner &&
-          mode === "edit" &&
-          map.route.owner !== id
-        ) {
-          yield call(setReadySaga);
-          yield call(replaceAddressIfItsBusy, map.random_url, map.address);
-        } else {
-          yield put(setAddressOrigin(""));
-        }
-
-        yield put(setEditing(true));
-        editor.startEditing();
-      } else {
-        yield put(setEditing(false));
-        editor.stopEditing();
-      }
-
-      yield call(setReadySaga);
-      return true;
-    }
-  }
-
-  yield call(startEmptyEditorSaga);
-  yield put(setReady(true));
-
-  pushLoaderState(100);
-
-  return true;
-}
-
 function* authCheckSaga({ key }: RehydrateAction) {
-  if (key !== "user") return;
+  if (key !== 'user') return;
 
   pushLoaderState(70);
 
-  const { id, token } = yield select(getUser);
-  const { ready } = yield select(getState);
+  const { id, token } = yield select(selectUserUser);
+  const { ready } = yield select(selectUser);
 
   if (window.location.search || true) {
     const { viewer_id, auth_key } = yield parseQuery(window.location.search);
@@ -290,10 +160,10 @@ function* authCheckSaga({ key }: RehydrateAction) {
 
   if (id && token) {
     const {
-      data: { user, random_url }
+      data: { user, random_url },
     }: Unwrap<typeof checkUserToken> = yield call(checkUserToken, {
       id,
-      token
+      token,
     });
 
     if (user) {
@@ -315,180 +185,69 @@ function* authCheckSaga({ key }: RehydrateAction) {
   return yield call(mapInitSaga);
 }
 
-function* setModeSaga({ mode }: ReturnType<typeof ActionCreators.setMode>) {
-  return yield editor.changeMode(mode);
+// function* setModeSaga({ mode }: ReturnType<typeof ActionCreators.setMode>) {
+  // return yield editor.changeMode(mode);
   // console.log('change', mode);
-}
+// }
 
-function* setActiveStickerSaga({
-  activeSticker
-}: {
-  type: string;
-  activeSticker: IRootState["activeSticker"];
-}) {
-  yield (editor.activeSticker = activeSticker);
-  yield put(setMode(MODES.STICKERS));
+// function* setLogoSaga({ logo }: { type: string; logo: string }) {
+//   const { mode } = yield select(selectUser);
+//   editor.logo = logo;
 
-  return true;
-}
+//   yield put(setChanged(true));
 
-function* setLogoSaga({ logo }: { type: string; logo: string }) {
-  const { mode } = yield select(getState);
-  editor.logo = logo;
+//   if (mode === MODES.LOGO) {
+//     yield put(setMode(MODES.NONE));
+//   }
+// }
 
-  yield put(setChanged(true));
+// function* routerCancelSaga() {
+//   yield call(editor.router.cancelDrawing);
+//   yield put(setMode(MODES.NONE));
 
-  if (mode === MODES.LOGO) {
-    yield put(setMode(MODES.NONE));
-  }
-}
+//   return true;
+// }
 
-function* routerCancelSaga() {
-  yield call(editor.router.cancelDrawing);
-  yield put(setMode(MODES.NONE));
+// function* routerSubmitSaga() {
+//   yield call(editor.router.submitDrawing);
+//   yield put(setMode(MODES.NONE));
 
-  return true;
-}
+//   return true;
+// }
 
-function* routerSubmitSaga() {
-  yield call(editor.router.submitDrawing);
-  yield put(setMode(MODES.NONE));
-
-  return true;
-}
-
-function* clearSaga({ type }) {
-  switch (type) {
-    case USER_ACTIONS.CLEAR_POLY:
-      yield editor.poly.clearAll();
-      yield editor.router.clearAll();
-      yield put(
-        mapSet({
-          route: []
-        })
-      );
-      break;
-
-    case USER_ACTIONS.CLEAR_STICKERS:
-      yield editor.stickers.clearAll();
-      yield put(
-        mapSet({
-          stickers: []
-        })
-      );
-      break;
-
-    case USER_ACTIONS.CLEAR_ALL:
-      yield editor.clearAll();
-      yield put(setChanged(false));
-      yield put(
-        mapSet({
-          route: [],
-          stickers: []
-        })
-      );
-      break;
-
-    default:
-      break;
-  }
-
-  yield put(setActiveSticker(null));
-  yield put(setMode(MODES.NONE));
-}
-
-function* sendSaveRequestSaga({
-  title,
-  address,
-  force,
-  is_public,
-  description
-}: ReturnType<typeof ActionCreators.sendSaveRequest>) {
-  if (editor.isEmpty) return yield put(setSaveError(TIPS.SAVE_EMPTY));
-
-  const { route, stickers, provider } = editor.dumpData();
-  const { logo, distance } = yield select(getState);
-  const { token } = yield select(getUser);
-
-  yield put(setSaveLoading(true));
-
-  const {
-    result,
-    timeout,
-    cancel
-  }: {
-    result: Unwrap<typeof postMap>;
-    timeout: boolean;
-    cancel: TakeEffect;
-  } = yield race({
-    result: postMap({
-      token,
-      route,
-      stickers,
-      title,
-      force,
-      address,
-      logo,
-      distance,
-      provider,
-      is_public,
-      description
-    }),
-    timeout: delay(10000),
-    cancel: take(USER_ACTIONS.RESET_SAVE_DIALOG)
-  });
-
-  yield put(setSaveLoading(false));
-
-  if (cancel) return yield put(setMode(MODES.NONE));
-
-  if (result && result.data.code === "already_exist")
-    return yield put(setSaveOverwrite());
-  if (result && result.data.code === "conflict")
-    return yield put(setSaveError(TIPS.SAVE_EXISTS));
-  if (timeout || !result || !result.data.route || !result.data.route.address)
-    return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
-
-  return yield put(
-    setSaveSuccess({
-      address: result.data.route.address,
-      title: result.data.route.title,
-      is_public: result.data.route.is_public,
-      description: result.data.route.description,
-
-      save_error: TIPS.SAVE_SUCCESS
-    })
-  );
-}
 
 function* getRenderData() {
-  yield put(setRenderer({ info: "Загрузка тайлов", progress: 0.1 }));
+  yield put(setRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
 
-  const canvas = <HTMLCanvasElement>document.getElementById("renderer");
+  const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
+
+  const canvas = <HTMLCanvasElement>document.getElementById('renderer');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   const geometry = getTilePlacement();
-  const points = getPolyPlacement();
-  const stickers = getStickersPlacement();
-  const distance = editor.poly.poly.distance;
+  const points = getPolyPlacement(route);
+  const sticker_points = getStickersPlacement(stickers);
+  // TODO: get distance:
+  const distance = 0;
+  // const distance = editor.poly.poly.distance;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const images = yield fetchImages(ctx, geometry);
+  const images = yield fetchImages(ctx, geometry, provider);
 
-  yield put(setRenderer({ info: "Отрисовка", progress: 0.5 }));
+  yield put(setRenderer({ info: 'Отрисовка', progress: 0.5 }));
 
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
   yield composeArrows({ points, ctx });
   yield composeDistMark({ ctx, points, distance });
-  yield composeStickers({ stickers, ctx });
+  yield composeStickers({ stickers: sticker_points, ctx });
 
-  yield put(setRenderer({ info: "Готово", progress: 1 }));
+  yield put(setRenderer({ info: 'Готово', progress: 1 }));
 
-  return yield canvas.toDataURL("image/jpeg");
+  return yield canvas.toDataURL('image/jpeg');
 }
 
 function* takeAShotSaga() {
@@ -496,7 +255,7 @@ function* takeAShotSaga() {
 
   const { result, timeout } = yield race({
     result: worker,
-    timeout: delay(500)
+    timeout: delay(500),
   });
 
   if (timeout) yield put(setMode(MODES.SHOT_PREFETCH));
@@ -509,7 +268,7 @@ function* takeAShotSaga() {
       data,
       renderer_active: true,
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
     })
   );
 }
@@ -517,66 +276,42 @@ function* takeAShotSaga() {
 function* getCropData({ x, y, width, height }) {
   const {
     logo,
-    renderer: { data }
-  } = yield select(getState);
-  const canvas = <HTMLCanvasElement>document.getElementById("renderer");
+    renderer: { data },
+  } = yield select(selectUser);
+  const canvas = <HTMLCanvasElement>document.getElementById('renderer');
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
   const image = yield imageFetcher(data);
 
   ctx.drawImage(image, -x, -y);
 
   if (logo && LOGOS[logo][1]) {
     const logoImage = yield imageFetcher(LOGOS[logo][1]);
-    ctx.drawImage(
-      logoImage,
-      width - logoImage.width,
-      height - logoImage.height
-    );
+    ctx.drawImage(logoImage, width - logoImage.width, height - logoImage.height);
   }
 
-  return yield canvas.toDataURL("image/jpeg");
+  return yield canvas.toDataURL('image/jpeg');
 }
 
 function* cropAShotSaga(params) {
-  const { title, address } = yield select(getState);
+  const { title, address } = yield select(selectUser);
   yield call(getCropData, params);
-  const canvas = document.getElementById("renderer") as HTMLCanvasElement;
+  const canvas = document.getElementById('renderer') as HTMLCanvasElement;
 
-  downloadCanvas(canvas, (title || address).replace(/\./gi, " "));
+  downloadCanvas(canvas, (title || address).replace(/\./gi, ' '));
 
   return yield put(hideRenderer());
 }
 
-function* changeProviderSaga({
-  provider
-}: ReturnType<typeof ActionCreators.changeProvider>) {
-  const { provider: current_provider } = yield select(getState);
-
-  yield put(setProvider(provider));
-
-  // TODO: REACTIVE BRANCH
-  yield put(mapSetProvider(provider));
-
-  if (current_provider === provider) return;
-
-  yield put(setChanged(true));
-
-  editor.provider = provider;
-  editor.map.setProvider(provider);
-
-  return put(setMode(MODES.NONE));
-}
-
-function* locationChangeSaga({
-  location
-}: ReturnType<typeof ActionCreators.locationChanged>) {
+function* locationChangeSaga({ location }: ReturnType<typeof ActionCreators.locationChanged>) {
   const {
     address,
     ready,
-    user: { id, random_url }
-  } = yield select(getState);
+    user: { id, random_url },
+  } = yield select(selectUser);
+
+  const { owner }: ReturnType<typeof selectMap> = yield select(selectMap)
 
   if (!ready) return;
 
@@ -585,67 +320,55 @@ function* locationChangeSaga({
   if (address !== path) {
     const map = yield call(loadMapSaga, path);
 
-    if (
-      map &&
-      map.route &&
-      map.route.owner &&
-      mode === "edit" &&
-      map.route.owner !== id
-    ) {
-      console.log("replace address if its busy");
+    if (map && map.route && map.route.owner && mode === 'edit' && map.route.owner !== id) {
       return yield call(replaceAddressIfItsBusy, map.random_url, map.address);
     }
-  } else if (mode === "edit" && editor.owner !== id) {
+  } else if (mode === 'edit' && owner.id !== id) {
     return yield call(replaceAddressIfItsBusy, random_url, address);
   } else {
-    yield put(setAddressOrigin(""));
+    yield put(setAddressOrigin(''));
   }
 
-  if (mode !== "edit") {
+  if (mode !== 'edit') {
     yield put(setEditing(false));
-    editor.stopEditing();
+    // editor.stopEditing();
   } else {
     yield put(setEditing(true));
-    editor.startEditing();
+    // editor.startEditing();
   }
 }
 
-function* gotVkUserSaga({
-  user: u
-}: ReturnType<typeof ActionCreators.gotVkUser>) {
+function* gotVkUserSaga({ user: u }: ReturnType<typeof ActionCreators.gotVkUser>) {
   const {
-    data: { user, random_url }
+    data: { user, random_url },
   }: Unwrap<typeof checkUserToken> = yield call(checkUserToken, u);
 
   yield put(setUser({ ...user, random_url }));
 }
 
-function* keyPressedSaga({
-  key,
-  target
-}: ReturnType<typeof ActionCreators.keyPressed>): any {
-  if (target === "INPUT" || target === "TEXTAREA") {
+function* keyPressedSaga({ key, target }: ReturnType<typeof ActionCreators.keyPressed>): any {
+  if (target === 'INPUT' || target === 'TEXTAREA') {
     return;
   }
 
-  if (key === "Escape") {
+  if (key === 'Escape') {
     const {
       dialog_active,
       mode,
-      renderer: { renderer_active }
-    } = yield select(getState);
+      renderer: { renderer_active },
+    } = yield select(selectUser);
 
     if (renderer_active) return yield put(hideRenderer());
     if (dialog_active) return yield put(setDialogActive(false));
     if (mode !== MODES.NONE) return yield put(setMode(MODES.NONE));
-  } else if (key === "Delete") {
+  } else if (key === 'Delete') {
     const {
-      user: { editing }
+      user: { editing },
     } = yield select();
 
     if (!editing) return;
 
-    const { mode } = yield select(getState);
+    const { mode } = yield select(selectUser);
 
     if (mode === MODES.TRASH) {
       yield put(clearAll());
@@ -656,15 +379,15 @@ function* keyPressedSaga({
 }
 
 function* searchGetRoutes() {
-  const { token } = yield select(getUser);
+  const { token } = yield select(selectUserUser);
 
   const {
     routes: {
       step,
       shift,
-      filter: { title, distance, tab }
-    }
-  } = yield select(getState);
+      filter: { title, distance, tab },
+    },
+  } = yield select(selectUser);
 
   const result: Unwrap<typeof getRouteList> = yield getRouteList({
     token,
@@ -673,23 +396,23 @@ function* searchGetRoutes() {
     max: distance[1],
     step,
     shift,
-    tab
+    tab,
   });
 
   return result;
 }
 
-function* searchSetSagaWorker() {
+export function* searchSetSagaWorker() {
   const {
-    routes: { filter }
-  }: ReturnType<typeof getState> = yield select(getState);
+    routes: { filter },
+  }: ReturnType<typeof selectUser> = yield select(selectUser);
 
   const {
     data: {
       routes,
       limits: { min, max, count: limit },
-      filter: { shift, step }
-    }
+      filter: { shift, step },
+    },
   }: Unwrap<typeof getRouteList> = yield call(searchGetRoutes);
 
   yield put(searchPutRoutes({ list: routes, min, max, limit, shift, step }));
@@ -701,12 +424,8 @@ function* searchSetSagaWorker() {
   ) {
     yield put(
       searchChangeDistance([
-        filter.min > min && filter.distance[0] <= filter.min
-          ? min
-          : filter.distance[0],
-        filter.max < max && filter.distance[1] >= filter.max
-          ? max
-          : filter.distance[1]
+        filter.min > min && filter.distance[0] <= filter.min ? min : filter.distance[0],
+        filter.max < max && filter.distance[1] >= filter.max ? max : filter.distance[1],
       ])
     );
   }
@@ -721,15 +440,13 @@ function* searchSetSaga() {
   yield call(searchSetSagaWorker);
 }
 
-function* openMapDialogSaga({
-  tab
-}: ReturnType<typeof ActionCreators.openMapDialog>) {
+function* openMapDialogSaga({ tab }: ReturnType<typeof ActionCreators.openMapDialog>) {
   const {
     dialog_active,
     routes: {
-      filter: { tab: current }
-    }
-  } = yield select(getState);
+      filter: { tab: current },
+    },
+  } = yield select(selectUser);
 
   if (dialog_active && tab === current) {
     return yield put(setDialogActive(false));
@@ -748,37 +465,9 @@ function* openMapDialogSaga({
 
 function* searchSetTabSaga() {
   yield put(searchChangeDistance([0, 10000]));
-  yield put(
-    searchPutRoutes({ list: [], min: 0, max: 10000, step: 20, shift: 0 })
-  );
+  yield put(searchPutRoutes({ list: [], min: 0, max: 10000, step: 20, shift: 0 }));
 
-  yield put(searchSetTitle(""));
-}
-
-function* setSaveSuccessSaga({
-  address,
-  title,
-  is_public,
-  description
-}: ReturnType<typeof ActionCreators.setSaveSuccess>) {
-  const { id } = yield select(getUser);
-  const { dialog_active } = yield select(getState);
-
-  replacePath(`/${address}/edit`);
-
-  yield put(setTitle(title));
-  yield put(setAddress(address));
-  yield put(setPublic(is_public));
-  yield put(setDescription(description));
-  yield put(setChanged(false));
-
-  editor.owner = id;
-
-  if (dialog_active) {
-    yield call(searchSetSagaWorker);
-  }
-
-  return yield editor.setInitialData();
+  yield put(searchSetTitle(''));
 }
 
 function* userLogoutSaga(): SagaIterator {
@@ -787,24 +476,16 @@ function* userLogoutSaga(): SagaIterator {
 }
 
 function* setUserSaga() {
-  const { dialog_active } = yield select(getState);
+  const { dialog_active } = yield select(selectUser);
 
   if (dialog_active) yield call(searchSetSagaWorker);
 
   return true;
 }
 
-function* setTitleSaga({
-  title
-}: ReturnType<typeof ActionCreators.setTitle>): SagaIterator {
-  if (title) {
-    document.title = `${title} | Редактор маршрутов`;
-  }
-}
-
 function* getGPXTrackSaga(): SagaIterator {
-  const { route, stickers } = editor.dumpData();
-  const { title, address } = yield select(getState);
+  const { route, stickers }: ReturnType<typeof selectMap> = yield select(selectMap);
+  const { title, address } = yield select(selectUser);
 
   if (!route || route.length <= 0) return;
 
@@ -815,8 +496,8 @@ function* getGPXTrackSaga(): SagaIterator {
 
 function* mapsLoadMoreSaga() {
   const {
-    routes: { limit, list, shift, step, loading, filter }
-  } = yield select(getState);
+    routes: { limit, list, shift, step, loading, filter },
+  } = yield select(selectUser);
 
   if (loading || list.length >= limit || limit === 0) return;
 
@@ -829,8 +510,8 @@ function* mapsLoadMoreSaga() {
     data: {
       limits: { min, max, count },
       filter: { shift: resp_shift, step: resp_step },
-      routes
-    }
+      routes,
+    },
   }: Unwrap<typeof getRouteList> = yield call(searchGetRoutes);
 
   if (
@@ -839,12 +520,8 @@ function* mapsLoadMoreSaga() {
   ) {
     yield put(
       searchChangeDistance([
-        filter.min > min && filter.distance[0] <= filter.min
-          ? min
-          : filter.distance[0],
-        filter.max < max && filter.distance[1] >= filter.max
-          ? max
-          : filter.distance[1]
+        filter.min > min && filter.distance[0] <= filter.min ? min : filter.distance[0],
+        filter.max < max && filter.distance[1] >= filter.max ? max : filter.distance[1],
       ])
     );
   }
@@ -856,25 +533,23 @@ function* mapsLoadMoreSaga() {
       limit: count,
       shift: resp_shift,
       step: resp_step,
-      list: [...list, ...routes]
+      list: [...list, ...routes],
     })
   );
   yield put(searchSetLoading(false));
 }
 
-function* dropRouteSaga({
-  address
-}: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
-  const { token } = yield select(getUser);
+function* dropRouteSaga({ address }: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
+  const { token } = yield select(selectUserUser);
   const {
     routes: {
       list,
       step,
       shift,
       limit,
-      filter: { min, max }
-    }
-  } = yield select(getState);
+      filter: { min, max },
+    },
+  } = yield select(selectUser);
 
   const index = list.findIndex(el => el.address === address);
 
@@ -886,7 +561,7 @@ function* dropRouteSaga({
         max,
         step,
         shift: shift > 0 ? shift - 1 : 0,
-        limit: limit > 0 ? limit - 1 : limit
+        limit: limit > 0 ? limit - 1 : limit,
       })
     );
   }
@@ -897,32 +572,30 @@ function* dropRouteSaga({
 function* modifyRouteSaga({
   address,
   title,
-  is_public
+  is_public,
 }: ReturnType<typeof ActionCreators.modifyRoute>): SagaIterator {
-  const { token } = yield select(getUser);
+  const { token } = yield select(selectUserUser);
   const {
     routes: {
       list,
       step,
       shift,
       limit,
-      filter: { min, max }
-    }
-  }: ReturnType<typeof getState> = yield select(getState);
+      filter: { min, max },
+    },
+  }: ReturnType<typeof selectUser> = yield select(selectUser);
 
   const index = list.findIndex(el => el.address === address);
 
   if (index >= 0) {
     yield put(
       searchPutRoutes({
-        list: list.map(el =>
-          el.address !== address ? el : { ...el, title, is_public }
-        ),
+        list: list.map(el => (el.address !== address ? el : { ...el, title, is_public })),
         min,
         max,
         step,
         shift: shift > 0 ? shift - 1 : 0,
-        limit: limit > 0 ? limit - 1 : limit
+        limit: limit > 0 ? limit - 1 : limit,
       })
     );
   }
@@ -931,20 +604,20 @@ function* modifyRouteSaga({
 }
 
 function* toggleRouteStarredSaga({
-  address
+  address,
 }: ReturnType<typeof ActionCreators.toggleRouteStarred>) {
   const {
-    routes: { list }
-  }: IState["user"] = yield select(getState);
+    routes: { list },
+  }: IState['user'] = yield select(selectUser);
 
   const route = list.find(el => el.address === address);
-  const { token } = yield select(getUser);
+  const { token } = yield select(selectUserUser);
 
   yield put(setRouteStarred(address, !route.is_published));
   const result = yield sendRouteStarred({
     token,
     address,
-    is_published: !route.is_published
+    is_published: !route.is_published,
   });
 
   if (!result) return yield put(setRouteStarred(address, route.is_published));
@@ -952,39 +625,25 @@ function* toggleRouteStarredSaga({
 
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
-  yield takeEvery(USER_ACTIONS.SET_MODE, setModeSaga);
 
   yield takeEvery(USER_ACTIONS.START_EDITING, startEditingSaga);
   yield takeEvery(USER_ACTIONS.STOP_EDITING, stopEditingSaga);
 
   yield takeEvery(USER_ACTIONS.USER_LOGOUT, userLogoutSaga);
-  yield takeEvery(USER_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
-  yield takeEvery(USER_ACTIONS.SET_LOGO, setLogoSaga);
 
-  yield takeEvery(USER_ACTIONS.ROUTER_CANCEL, routerCancelSaga);
-  yield takeEvery(USER_ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
-  yield takeEvery(
-    [
-      USER_ACTIONS.CLEAR_POLY,
-      USER_ACTIONS.CLEAR_STICKERS,
-      USER_ACTIONS.CLEAR_ALL,
-      USER_ACTIONS.CLEAR_CANCEL
-    ],
-    clearSaga
-  );
+  // yield takeEvery(USER_ACTIONS.ROUTER_CANCEL, routerCancelSaga);
+  // yield takeEvery(USER_ACTIONS.ROUTER_SUBMIT, routerSubmitSaga);
 
-  yield takeLatest(USER_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
-  yield takeLatest(USER_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
   yield takeLatest(USER_ACTIONS.TAKE_A_SHOT, takeAShotSaga);
   yield takeLatest(USER_ACTIONS.CROP_A_SHOT, cropAShotSaga);
 
-  yield takeEvery(USER_ACTIONS.CHANGE_PROVIDER, changeProviderSaga);
+  // yield takeEvery(USER_ACTIONS.CHANGE_PROVIDER, changeProviderSaga);
   yield takeLatest(USER_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
   yield takeLatest(USER_ACTIONS.GOT_VK_USER, gotVkUserSaga);
   yield takeLatest(USER_ACTIONS.KEY_PRESSED, keyPressedSaga);
 
-  yield takeLatest(USER_ACTIONS.SET_TITLE, setTitleSaga);
+  // yield takeLatest(USER_ACTIONS.SET_TITLE, setTitleSaga);
 
   yield takeLatest(
     [USER_ACTIONS.SEARCH_SET_TITLE, USER_ACTIONS.SEARCH_SET_DISTANCE],
