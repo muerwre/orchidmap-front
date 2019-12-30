@@ -27,7 +27,14 @@ const getX = e =>
     ? { pageX: e.touches[0].pageX, pageY: e.touches[0].pageY }
     : { pageX: e.pageX, pageY: e.pageY };
 
-const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDropSticker, is_editing }) => {
+const Sticker: React.FC<IProps> = ({
+  map,
+  sticker,
+  index,
+  mapSetSticker,
+  mapDropSticker,
+  is_editing
+}) => {
   const [layer, setLayer] = React.useState<Marker>(null);
   const [dragging, setDragging] = React.useState(false);
   const [angle, setAngle] = React.useState(sticker.angle);
@@ -36,8 +43,14 @@ const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDrop
   const stickerArrow = React.useRef(null);
   const stickerImage = React.useRef(null);
 
-  const onChange = React.useCallback(state => mapSetSticker(index, state), [mapSetSticker, index]);
-  const onDelete = React.useCallback(state => mapDropSticker(index), [mapSetSticker, index]);
+  const onChange = React.useCallback(state => mapSetSticker(index, state), [
+    mapSetSticker,
+    index
+  ]);
+  const onDelete = React.useCallback(state => mapDropSticker(index), [
+    mapSetSticker,
+    index
+  ]);
 
   const onDragStart = React.useCallback(() => {
     layer.dragging.disable();
@@ -57,14 +70,17 @@ const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDrop
     });
   }, [setDragging, layer, map, sticker, angle]);
 
-  const onMoveFinished = React.useCallback(event => {
-    const target = event.target as Marker;
+  const onMoveFinished = React.useCallback(
+    event => {
+      const target = event.target as Marker;
 
-    onChange({
-      ...sticker,
-      latlng: target.getLatLng(),
-    });
-  }, [onChange, sticker]);
+      onChange({
+        ...sticker,
+        latlng: target.getLatLng()
+      });
+    },
+    [onChange, sticker]
+  );
 
   const onDrag = React.useCallback(
     event => {
@@ -78,10 +94,14 @@ const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDrop
     [element]
   );
 
-  const onTextChange = React.useCallback(text => onChange({
-    ...sticker, 
-    text,
-  }), [sticker, onChange])
+  const onTextChange = React.useCallback(
+    text =>
+      onChange({
+        ...sticker,
+        text
+      }),
+    [sticker, onChange]
+  );
 
   const direction = React.useMemo(() => getLabelDirection(angle), [angle]);
 
@@ -130,24 +150,20 @@ const Sticker: React.FC<IProps> = ({ map, sticker, index, mapSetSticker, mapDrop
     });
 
     const item = marker(sticker.latlng, { icon, draggable: true }).addTo(map);
-    
+
     setLayer(item);
 
     return () => {
       item.removeFrom(map);
       item.remove();
-    }
+    };
   }, [element, map, sticker]);
 
   React.useEffect(() => {
-    if (is_editing) {
-      element.className = 'sticker-container';
-
-    } else {
-      element.className = 'sticker-container inactive';
-
-    }
-  }, [element, is_editing])
+    element.className = is_editing
+      ? "sticker-container"
+      : "sticker-container inactive";
+  }, [element, is_editing]);
 
   return createPortal(
     <React.Fragment>
