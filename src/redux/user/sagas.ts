@@ -89,6 +89,7 @@ import { IRootState } from "$redux/user";
 import { downloadGPXTrack, getGPXString } from "$utils/gpx";
 import { Unwrap } from "$utils/middleware";
 import { IState } from "$redux/store";
+import { mapSetProvider, mapSet } from "$redux/map/actions";
 
 const getUser = (state: IState) => state.user.user;
 const getState = (state: IState) => state.user;
@@ -156,6 +157,8 @@ function* loadMapSaga(path) {
     data: { route, error, random_url }
   }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
 
+  console.log({ route });
+
   if (route && !error) {
     yield editor.clearAll();
     yield editor.setData(route);
@@ -163,6 +166,13 @@ function* loadMapSaga(path) {
     yield editor.setInitialData();
 
     yield put(setChanged(false));
+
+    // TODO: REACTIVE BRANCH:
+    // yield put(mapSetProvider(route.provider));
+    yield put(mapSet({
+      provider: route.provider,
+      route: route.route,
+    }))
 
     return { route, random_url };
   }
@@ -528,6 +538,9 @@ function* changeProviderSaga({
   const { provider: current_provider } = yield select(getState);
 
   yield put(setProvider(provider));
+
+  // TODO: REACTIVE BRANCH
+  yield put(mapSetProvider(provider))
 
   if (current_provider === provider) return;
 

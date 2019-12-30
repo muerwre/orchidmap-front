@@ -27,7 +27,7 @@ interface InteractivePolylineOptions extends PolylineOptions {
   kmMarksStep?: number,
 }
 
-export class Component extends Polyline {
+export class InteractivePoly extends Polyline {
   constructor(latlngs: LatLngExpression[] | LatLngExpression[][], options?: InteractivePolylineOptions) {
     super(latlngs, options);
 
@@ -47,7 +47,6 @@ export class Component extends Polyline {
     this.setLatLngs(latlngs);
     this.recreateMarkers();
     this.recalcDistance();
-    // this.recalcKmMarks();
     this.touchHinter.setLatLngs(latlngs);
     this.fire('latlngschange', { latlngs });
   };
@@ -101,7 +100,6 @@ export class Component extends Polyline {
 
     this._map.addLayer(this.markerLayer);
     this.fire('allvertexshow');
-    console.log();
   };
 
   hideAllMarkers = (): void => {
@@ -516,7 +514,7 @@ export class Component extends Polyline {
   distance: number = 0;
 }
 
-Component.addInitHook(function () {
+InteractivePoly.addInitHook(function () {
   this.once('add', (event) => {
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
@@ -550,7 +548,7 @@ Component.addInitHook(function () {
   });
 });
 
-export const InteractivePoly = Component;
+// export const InteractivePoly = Component;
 /*
   events:
   vertexdragstart,

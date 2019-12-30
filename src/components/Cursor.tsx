@@ -16,7 +16,7 @@ export class Cursor extends React.PureComponent<Props, {}> {
   }
 
   moveCursor = e => {
-    if (!e.clientX || !e.clientY) return;
+    if (!e.clientX || !e.clientY || !this.cursor || !this.cursor.style) return;
 
     const { clientX, clientY } = e;
 

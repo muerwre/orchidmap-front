@@ -19,6 +19,9 @@ import { IStickerPack } from "$constants/stickers";
 import { IDialogs } from "$constants/dialogs";
 import { IModes } from "$constants/modes";
 
+import { Map } from "$containers/map/Map"
+import { TileLayer } from '$containers/map/TileLayer';
+
 type Props = {
   sticker: string,
   renderer_active: boolean,
@@ -48,6 +51,8 @@ const Component = (props: Props) => (
       dialog_active={props.dialog_active}
       setDialogActive={props.setDialogActive}
     />
+
+    <Map />
 
     { props.renderer_active &&
       <Renderer onClick={props.hideRenderer} />

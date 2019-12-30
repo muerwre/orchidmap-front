@@ -9,6 +9,7 @@ import { userSaga } from '$redux/user/sagas';
 import { createBrowserHistory } from 'history';
 import { locationChanged } from '$redux/user/actions';
 import { PersistConfig, Persistor } from "redux-persist/es/types";
+import { map, IMapReducer } from '$redux/map';
 
 const userPersistConfig: PersistConfig = {
   key: 'user',
@@ -18,6 +19,7 @@ const userPersistConfig: PersistConfig = {
 
 export interface IState {
   user: IRootReducer
+  map: IMapReducer,
 }
 // create the saga middleware
 export const sagaMiddleware = createSagaMiddleware();
@@ -32,6 +34,7 @@ const composeEnhancers =
 export const store = createStore(
   combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
+    map,
     // routing: routerReducer
   }),
   composeEnhancers(applyMiddleware(/* routerMiddleware(history), */ sagaMiddleware))
