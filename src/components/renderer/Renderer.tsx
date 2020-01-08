@@ -8,10 +8,11 @@ import 'croppr/dist/croppr.css';
 import { LOGOS } from '$constants/logos';
 import { RendererPanel } from '$components/panels/RendererPanel';
 import { IRootState } from "$redux/user";
+import { IRoute } from '$redux/map/types';
 
 type Props = {
   data: IRootState['renderer']['data'],
-  logo: IRootState['logo'],
+  logo: IRoute['logo'],
   hideRenderer: typeof hideRenderer,
   cropAShot: typeof cropAShot,
 };

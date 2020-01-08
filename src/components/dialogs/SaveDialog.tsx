@@ -7,32 +7,32 @@ import { Icon } from '$components/panels/Icon';
 import { Switch } from '$components/Switch';
 
 import classnames from 'classnames';
-import { sendSaveRequest, setMode } from "$redux/user/actions";
 import ExpandableTextarea from 'react-expandable-textarea';
+import { connect } from 'react-redux';
+import { selectMap } from '$redux/map/selectors';
+import { selectUser } from '$redux/user/selectors';
+import * as USER_ACTIONS from '$redux/user/actions';
 
-interface Props {
-  address: string,
-  title: string,
-  is_public: boolean,
+const mapStateToProps = state => ({
+  map: selectMap(state),
+  user: selectUser(state),
+});
 
-  width: number,
-  setMode: typeof setMode,
-  sendSaveRequest: typeof sendSaveRequest,
-  save_error: string,
+const mapDispatchToProps = {
+  setMode: USER_ACTIONS.setMode,
+  sendSaveRequest: USER_ACTIONS.sendSaveRequest,
+};
 
-  save_loading: boolean,
-  save_finished: boolean,
-  save_overwriting: boolean,
-}
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width: number };
 
 interface State {
-  address: string,
-  title: string,
-  is_public: boolean,
-  description: string,
+  address: string;
+  title: string;
+  is_public: boolean;
+  description: string;
 }
 
-export class SaveDialog extends React.Component<Props, State> {
+class SaveDialogUnconnected extends React.Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -48,21 +48,30 @@ export class SaveDialog extends React.Component<Props, State> {
     const { path } = getUrlData();
     const { title, address } = this.state;
 
-    return toTranslit(address.trim()) || toTranslit(title.trim().toLowerCase()).substr(0, 32) || toTranslit(path.trim()).substr(0, 32);
+    return (
+      toTranslit(address.trim()) ||
+      toTranslit(title.trim().toLowerCase()).substr(0, 32) ||
+      toTranslit(path.trim()).substr(0, 32)
+    );
   };
 
-  setTitle = ({ target: { value } }) => this.setState({ title: ((value && value.substr(0, 64)) || '') });
-  setAddress = ({ target: { value } }) => this.setState({ address: (value && value.substr(0, 32) || '') });
-  setDescription = ({ target: { value } }) => this.setState({ description: (value && value.substr(0, 256) || '') });
-
-
+  setTitle = ({ target: { value } }) =>
+    this.setState({ title: (value && value.substr(0, 64)) || '' });
+  setAddress = ({ target: { value } }) =>
+    this.setState({ address: (value && value.substr(0, 32)) || '' });
+  setDescription = ({ target: { value } }) =>
+    this.setState({ description: (value && value.substr(0, 256)) || '' });
 
   sendSaveRequest = (e, force = false) => {
     const { title, is_public, description } = this.state;
     const address = this.getAddress();
 
     this.props.sendSaveRequest({
-      title, address, force, is_public, description,
+      title,
+      address,
+      force,
+      is_public,
+      description,
     });
   };
   forceSaveRequest = e => this.sendSaveRequest(e, true);
@@ -81,7 +90,10 @@ export class SaveDialog extends React.Component<Props, State> {
 
   render() {
     const { title, is_public, description } = this.state;
-    const { save_error, save_finished, save_overwriting, width, save_loading } = this.props;
+    const {
+      user: { save_error, save_finished, save_overwriting, save_loading },
+      width,
+    } = this.props;
     const { host, protocol } = getUrlData();
 
     return (
@@ -92,13 +104,21 @@ export class SaveDialog extends React.Component<Props, State> {
           <div className="save-title">
             <div className="save-title-input">
               <div className="save-title-label">Название</div>
-              <input type="text" value={title} onChange={this.setTitle} autoFocus readOnly={save_finished} />
+              <input
+                type="text"
+                value={title}
+                onChange={this.setTitle}
+                autoFocus
+                readOnly={save_finished}
+              />
             </div>
           </div>
 
           <div className="save-description">
             <div className="save-address-input">
-              <label className="save-address-label">{protocol}//{host}/</label>
+              <label className="save-address-label">
+                {protocol}//{host}/
+              </label>
               <input
                 type="text"
                 value={this.getAddress()}
@@ -120,37 +140,42 @@ export class SaveDialog extends React.Component<Props, State> {
                 onChange={this.setDescription}
               />
             </div>
-            <div className="save-text">
-              { save_error || TIPS.SAVE_INFO }
-            </div>
+            <div className="save-text">{save_error || TIPS.SAVE_INFO}</div>
 
             <div className="save-buttons">
-              <div className={classnames('save-buttons-text pointer', { gray: !is_public })} onClick={this.togglePublic}>
+              <div
+                className={classnames('save-buttons-text pointer', { gray: !is_public })}
+                onClick={this.togglePublic}
+              >
                 <Switch active={is_public} />
-                {
-                  is_public
-                    ? ' В каталоге карт'
-                    : ' Только по ссылке'
-                }
+                {is_public ? ' В каталоге карт' : ' Только по ссылке'}
               </div>
               <div>
-                { !save_finished &&
-                  <div className="button" onClick={this.cancelSaving}>Отмена</div>
-                }
-                {
-                  !save_finished && !save_overwriting &&
-                  <div className="button primary" onClick={this.sendSaveRequest}>Сохранить</div>
-                }
-                {
-                  save_overwriting &&
-                  <div className="button danger" onClick={this.forceSaveRequest}>Перезаписать</div>
-                }
-                { save_finished &&
-                  <div className="button" onClick={this.onCopy}>Скопировать</div>
-                }
-                { save_finished &&
-                  <div className="button success" onClick={this.cancelSaving}>Отлично!</div>
-                }
+                {!save_finished && (
+                  <div className="button" onClick={this.cancelSaving}>
+                    Отмена
+                  </div>
+                )}
+                {!save_finished && !save_overwriting && (
+                  <div className="button primary" onClick={this.sendSaveRequest}>
+                    Сохранить
+                  </div>
+                )}
+                {save_overwriting && (
+                  <div className="button danger" onClick={this.forceSaveRequest}>
+                    Перезаписать
+                  </div>
+                )}
+                {save_finished && (
+                  <div className="button" onClick={this.onCopy}>
+                    Скопировать
+                  </div>
+                )}
+                {save_finished && (
+                  <div className="button success" onClick={this.cancelSaving}>
+                    Отлично!
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -159,3 +184,7 @@ export class SaveDialog extends React.Component<Props, State> {
     );
   }
 }
+
+const SaveDialog = connect(mapStateToProps, mapDispatchToProps)(SaveDialogUnconnected);
+
+export { SaveDialog };

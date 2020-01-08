@@ -3,7 +3,7 @@ import { COLORS, CLIENT } from '$config/frontend';
 import saveAs from 'file-saver';
 import { replaceProviderUrl } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
-import { ILatLng } from '$redux/map/types';
+import { ILatLng, IRoute } from '$redux/map/types';
 import { IStickerDump } from '$redux/map/types';
 import { IRootState } from '$redux/user';
 import {
@@ -469,5 +469,5 @@ export const composeStickers = async ({
   );
 };
 
-export const downloadCanvas = (canvas: HTMLCanvasElement, title: IRootState['title']): void =>
+export const downloadCanvas = (canvas: HTMLCanvasElement, title: IRoute['title']): void =>
   canvas.toBlob(blob => saveAs(blob, title));

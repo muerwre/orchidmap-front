@@ -8,13 +8,10 @@ import { LogoDialog } from '$components/dialogs/LogoDialog';
 import { SaveDialog } from '$components/dialogs/SaveDialog';
 import { CancelDialog } from '$components/dialogs/CancelDialog';
 
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as USER_ACTIONS from '$redux/user/actions';
 import { ProviderDialog } from '$components/dialogs/ProviderDialog';
 import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
-import * as MAP_ACTIONS from '$redux/map/actions';
 import { selectUserMode } from '$redux/user/selectors';
 
 const mapStateToProps = state => ({ mode: selectUserMode(state) });

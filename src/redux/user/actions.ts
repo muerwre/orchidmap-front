@@ -1,6 +1,7 @@
 import { USER_ACTIONS } from '$redux/user/constants';
 import { IUser } from "$constants/auth";
 import { IRootState } from "$redux/user";
+import { IRoute } from '$redux/map/types';
 
 export const setUser = (user: IUser) => ({ type: USER_ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: USER_ACTIONS.USER_LOGOUT });
@@ -32,10 +33,10 @@ export const clearAll = () => ({ type: USER_ACTIONS.CLEAR_ALL });
 export const clearCancel = () => ({ type: USER_ACTIONS.CLEAR_CANCEL });
 
 export const sendSaveRequest = (payload: {
-  title: IRootState['title'],
-  address: IRootState['address'],
-  is_public: IRootState['is_public'],
-  description: IRootState['description'],
+  title: IRoute['title'],
+  address: IRoute['address'],
+  is_public: IRoute['is_public'],
+  description: IRoute['description'],
   force: boolean,
 }) => ({
   type: USER_ACTIONS.SEND_SAVE_REQUEST,
@@ -47,10 +48,10 @@ export const resetSaveDialog = () => ({ type: USER_ACTIONS.RESET_SAVE_DIALOG });
 export const setSaveLoading = (save_loading: IRootState['save_loading']) => ({ type: USER_ACTIONS.SET_SAVE_LOADING, save_loading });
 
 export const setSaveSuccess = (payload: {
-  address: IRootState['address'],
-  title: IRootState['address'],
-  is_public: IRootState['is_public'],
-  description: IRootState['description'],
+  address: IRoute['address'],
+  title: IRoute['address'],
+  is_public: IRoute['is_public'],
+  description: IRoute['description'],
 
   save_error: string,
 }) => ({ type: USER_ACTIONS.SET_SAVE_SUCCESS, ...payload });

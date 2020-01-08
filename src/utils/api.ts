@@ -1,6 +1,6 @@
 import axios from 'axios/index';
 import { API } from '$constants/api';
-import { IRootState, IRouteListItem, IRoute } from '$redux/user';
+import { IRootState, IRouteListItem } from '$redux/user';
 import { IUser } from '$constants/auth';
 import { CLIENT } from '$config/frontend';
 import { LatLngLiteral } from 'leaflet';
@@ -10,6 +10,7 @@ import {
   IResultWithStatus,
   configWithToken,
 } from './middleware';
+import { IRoute } from '$redux/map/types';
 
 const arrayToObject = (array: any[], key: string): {} =>
   array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
@@ -63,7 +64,7 @@ export const getGuestToken = (): Promise<IResultWithStatus<{
 export const getStoredMap = ({
   name,
 }: {
-  name: IRootState['address'];
+  name: IRoute['address'];
 }): Promise<IResultWithStatus<{
   route: IRoute;
   error?: string;

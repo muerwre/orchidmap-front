@@ -10,7 +10,7 @@ type State = {
   text: String;
 }
 
-export class StickerDesc extends React.PureComponent<Props, State> {
+class StickerDesc extends React.PureComponent<Props, State> {
   state = {
     text: this.props.value,
   };
@@ -56,3 +56,5 @@ export class StickerDesc extends React.PureComponent<Props, State> {
     )
   }
 }
+
+export { StickerDesc };
