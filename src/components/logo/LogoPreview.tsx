@@ -1,21 +1,21 @@
-import * as React from "react";
-import { LOGOS } from "$constants/logos";
-import { connect } from "react-redux";
-import { IRootState } from "$redux/user";
+import * as React from 'react';
+import { LOGOS } from '$constants/logos';
+import { connect } from 'react-redux';
+import { IRootState } from '$redux/user';
+import { selectMapLogo } from '$redux/map/selectors';
 
-interface Props extends IRootState {}
+const mapStateToProps = state => ({ logo: selectMapLogo(state) });
+type Props = ReturnType<typeof mapStateToProps>;
 
-const Component = ({ logo }: Props) => (
+const LogoPreviewUnconnected = React.memo(({ logo }: Props) => (
   <div
     className="logo-preview"
     style={{
-      backgroundImage: logo
-        ? `url(${LOGOS && LOGOS[logo] && LOGOS[logo][1]})`
-        : "none"
+      backgroundImage: logo ? `url(${LOGOS && LOGOS[logo] && LOGOS[logo][1]})` : 'none',
     }}
   />
-);
+));
 
-const mapStateToProps = ({ user: { logo } }) => ({ logo });
+const LogoPreview = connect(mapStateToProps)(LogoPreviewUnconnected);
 
-export const LogoPreview = connect(mapStateToProps)(Component);
+export { LogoPreview };

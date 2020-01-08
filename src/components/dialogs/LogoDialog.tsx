@@ -3,14 +3,20 @@ import { LOGOS } from '$constants/logos';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
 import * as MAP_ACTIONS from "$redux/map/actions"
-import { IMapReducer } from '$redux/map';
+import { selectMapLogo } from '$redux/map/selectors';
+import { connect } from 'react-redux';
 
-interface Props  {
-  logo: IMapReducer['logo'],
-  mapSetLogo: typeof MAP_ACTIONS.mapSetLogo,
-}
+const mapStateToProps = state => ({
+  logo: selectMapLogo(state),
+});
 
-export const LogoDialog = ({ logo, mapSetLogo }: Props) => (
+const mapDispatchToProps = {
+  mapSetLogo: MAP_ACTIONS.mapSetLogo,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
+
+const LogoDialogUnconnected = ({ logo, mapSetLogo }: Props) => (
   <div className="control-dialog top">
     <div className="helper logo-helper">
       <div className="helper-back">
@@ -30,3 +36,7 @@ export const LogoDialog = ({ logo, mapSetLogo }: Props) => (
     </div>
   </div>
 );
+
+const LogoDialog = connect(mapStateToProps, mapDispatchToProps)(LogoDialogUnconnected);
+
+export { LogoDialog };

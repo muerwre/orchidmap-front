@@ -3,7 +3,6 @@ import { PROVIDERS, replaceProviderUrl } from '$constants/providers';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
 import * as MAP_ACTIONS from "$redux/map/actions";
-import { IRootState } from "$redux/user";
 import { selectMapProvider } from '$redux/map/selectors';
 import { connect } from 'react-redux';
 
