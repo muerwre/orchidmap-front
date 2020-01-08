@@ -8,21 +8,23 @@ import { DEFAULT_LOGO, ILogos, LOGOS } from '$constants/logos';
 import { getUrlData } from '$utils/history';
 import { store } from '$redux/store';
 import {
-  changeProvider,
   resetSaveDialog,
   setActiveSticker,
-  setAddress,
   setChanged, 
-  setDescription,
   setDistance,
   setIsEmpty, setIsRouting,
-  setLogo,
   setMarkersShown,
   setMode,
-  setPublic,
   setRouterPoints, setStarred,
-  setTitle,
 } from '$redux/user/actions';
+import {
+  mapSetAddress,
+  mapSetDescription,
+  mapSetLogo,
+  mapSetPublic,
+  mapSetTitle,
+  mapSetProvider,
+} from '$redux/map/actions';
 import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
 import { IRootState } from "$redux/user";
@@ -184,14 +186,14 @@ export class Editor {
   getDistance = () => this.getState().distance;
   getIsEmpty = () => this.getState().is_empty;
 
-  setLogo: typeof setLogo = logo => store.dispatch(setLogo(logo));
+  mapSetLogo: typeof mapSetLogo = logo => store.dispatch(mapSetLogo(logo));
   setMode: typeof setMode = value => store.dispatch(setMode(value));
   setRouterPoints: typeof setRouterPoints = value => store.dispatch(setRouterPoints(value));
   setActiveSticker: typeof setActiveSticker = value => store.dispatch(setActiveSticker(value));
-  setTitle: typeof setTitle = value => store.dispatch(setTitle(value));
-  setDescription: typeof setDescription = value => store.dispatch(setDescription(value));
-  setAddress: typeof setAddress = value => store.dispatch(setAddress(value));
-  setPublic: typeof setPublic = value => store.dispatch(setPublic(value));
+  mapSetTitle: typeof mapSetTitle = value => store.dispatch(mapSetTitle(value));
+  mapSetDescription: typeof mapSetDescription = value => store.dispatch(mapSetDescription(value));
+  mapSetAddress: typeof mapSetAddress = value => store.dispatch(mapSetAddress(value));
+  mapSetPublic: typeof mapSetPublic = value => store.dispatch(mapSetPublic(value));
   setStarred: typeof setStarred = value => store.dispatch(setStarred(value));
   setIsEmpty: typeof setIsEmpty = value => store.dispatch(setIsEmpty(value));
   setIsRouting: typeof setIsRouting = value => store.dispatch(setIsRouting(value));
@@ -324,11 +326,11 @@ export class Editor {
     is_published,
     description,
   }: Partial<IEditor['initialData']>): void => {
-    this.setTitle(title || '');
+    this.mapSetTitle(title || '');
     const { id } = this.getUser();
 
     if (address && id && owner && id === owner) {
-      this.setAddress(address);
+      this.mapSetAddress(address);
     }
 
     if (route) this.poly.setPoints(route);
@@ -348,11 +350,11 @@ export class Editor {
       );
     }
 
-    this.setPublic(is_public);
+    this.mapSetPublic(is_public);
     this.setStarred(is_published);
-    this.setDescription(description);
+    this.mapSetDescription(description);
 
-    this.setLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
+    this.mapSetLogo((logo && LOGOS[DEFAULT_LOGO] && logo) || DEFAULT_LOGO);
     this.setProvider((provider && PROVIDERS[provider] && provider) || DEFAULT_PROVIDER);
 
     if (owner) this.owner = owner;
@@ -438,7 +440,7 @@ export class Editor {
     provider: this.getProvider(),
   });
 
-  setProvider: typeof changeProvider = provider => store.dispatch(changeProvider(provider));
+  setProvider: typeof mapSetProvider = provider => store.dispatch(mapSetProvider(provider));
 
   get isEmpty(): boolean {
     const { route, stickers } = this.dumpData();

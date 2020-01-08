@@ -121,7 +121,7 @@ const setRenderer: ActionHandler<typeof ActionCreators.setRenderer> = (state, { 
   renderer: { ...state.renderer, ...payload }
 });
 
-const setProvider: ActionHandler<typeof ActionCreators.setProvider> = (state, { provider }) => ({ ...state, provider });
+// const setProvider: ActionHandler<typeof ActionCreators.setProvider> = (state, { provider }) => ({ ...state, provider });
 
 const setDialog: ActionHandler<typeof ActionCreators.setDialog> = (state, { dialog }) => ({
   ...state,
@@ -270,7 +270,7 @@ export const USER_HANDLERS = ({
   [USER_ACTIONS.HIDE_RENDERER]: hideRenderer,
   [USER_ACTIONS.SET_RENDERER]: setRenderer,
 
-  [USER_ACTIONS.SET_PROVIDER]: setProvider,
+  // [USER_ACTIONS.SET_PROVIDER]: setProvider,
 
   [USER_ACTIONS.SET_DIALOG]: setDialog,
   [USER_ACTIONS.SET_DIALOG_ACTIVE]: setDialogActive,

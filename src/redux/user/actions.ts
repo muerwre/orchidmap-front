@@ -63,8 +63,8 @@ export const setRenderer = payload => ({ type: USER_ACTIONS.SET_RENDERER, payloa
 export const takeAShot = () => ({ type: USER_ACTIONS.TAKE_A_SHOT });
 export const cropAShot = payload => ({ type: USER_ACTIONS.CROP_A_SHOT, ...payload });
 
-export const setProvider = provider => ({ type: USER_ACTIONS.SET_PROVIDER, provider });
-export const changeProvider = provider => ({ type: USER_ACTIONS.CHANGE_PROVIDER, provider });
+// export const setProvider = provider => ({ type: USER_ACTIONS.SET_PROVIDER, provider });
+// export const changeProvider = provider => ({ type: USER_ACTIONS.CHANGE_PROVIDER, provider });
 
 export const setDialog = dialog => ({ type: USER_ACTIONS.SET_DIALOG, dialog });
 export const setDialogActive = dialog_active => ({ type: USER_ACTIONS.SET_DIALOG_ACTIVE, dialog_active });

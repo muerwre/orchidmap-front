@@ -2,14 +2,14 @@ import * as React from 'react';
 import { PROVIDERS, replaceProviderUrl } from '$constants/providers';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
-import { changeProvider as changeProviderAction } from "$redux/user/actions";
+import * as MAP_ACTIONS from "$redux/map/actions";
 import { IRootState } from "$redux/user";
 
 interface Props extends IRootState {
-  changeProvider: typeof changeProviderAction,
+  mapSetProvider: typeof MAP_ACTIONS.mapSetProvider,
 }
 
-export const ProviderDialog = ({ provider, changeProvider }: Props) => (
+export const ProviderDialog = ({ provider, mapSetProvider }: Props) => (
   <div className="control-dialog top right control-dialog-provider">
     <div className="helper provider-helper">
       {
@@ -19,7 +19,7 @@ export const ProviderDialog = ({ provider, changeProvider }: Props) => (
             style={{
               backgroundImage: `url(${replaceProviderUrl(item, { x: 5980, y: 2589, zoom: 13 })})`,
             }}
-            onMouseDown={() => changeProvider(item)}
+            onMouseDown={() => mapSetProvider(item)}
             key={PROVIDERS[item].name}
           >
             {
