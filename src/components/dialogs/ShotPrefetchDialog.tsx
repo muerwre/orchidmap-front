@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectUserRenderer } from '$redux/user/selectors';
+import { selectUserRenderer } from '~/redux/user/selectors';
 
 const mapStateToProps = state => ({
   renderer: selectUserRenderer(state),

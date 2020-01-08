@@ -1,8 +1,8 @@
 import { takeEvery, select, put, call, TakeEffect, race, take, takeLatest } from 'redux-saga/effects';
 import { MAP_ACTIONS } from './constants';
 import { mapClicked, mapAddSticker, mapSetProvider, mapSet, mapSetTitle, mapSetAddress, mapSetDescription, mapSetOwner, mapSetPublic } from './actions';
-import { selectUserMode, selectUserActiveSticker, selectUser, selectUserUser } from '$redux/user/selectors';
-import { MODES } from '$constants/modes';
+import { selectUserMode, selectUserActiveSticker, selectUser, selectUserUser } from '~/redux/user/selectors';
+import { MODES } from '~/constants/modes';
 import {
   setMode,
   setChanged,
@@ -15,15 +15,15 @@ import {
   sendSaveRequest,
   setSaveSuccess,
   setSaveOverwrite,
-} from '$redux/user/actions';
-import { pushLoaderState, getUrlData, pushPath, replacePath } from '$utils/history';
-import { setReadySaga, searchSetSagaWorker } from '$redux/user/sagas';
-import { getStoredMap, postMap } from '$utils/api';
-import { Unwrap } from '$utils/middleware';
-import { DEFAULT_PROVIDER } from '$constants/providers';
-import { USER_ACTIONS } from '$redux/user/constants';
+} from '~/redux/user/actions';
+import { pushLoaderState, getUrlData, pushPath, replacePath } from '~/utils/history';
+import { setReadySaga, searchSetSagaWorker } from '~/redux/user/sagas';
+import { getStoredMap, postMap } from '~/utils/api';
+import { Unwrap } from '~/utils/middleware';
+import { DEFAULT_PROVIDER } from '~/constants/providers';
+import { USER_ACTIONS } from '~/redux/user/constants';
 import { selectMap } from './selectors';
-import { TIPS } from '$constants/tips';
+import { TIPS } from '~/constants/tips';
 import { delay } from 'redux-saga';
 
 function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {

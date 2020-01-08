@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MODES } from '$constants/modes';
-import { Icon } from '$components/panels/Icon';
-import { setMode, stopEditing } from "$redux/user/actions";
+import { MODES } from '~/constants/modes';
+import { Icon } from '~/components/panels/Icon';
+import { setMode, stopEditing } from "~/redux/user/actions";
 
 type Props = {
   stopEditing: typeof stopEditing,

@@ -1,25 +1,25 @@
 // @flow
 import React from 'react';
 
-import { EditorPanel } from '$components/panels/EditorPanel';
-import { Fills } from '$components/Fills';
-import { UserPanel } from '$components/panels/UserPanel';
+import { EditorPanel } from '~/components/panels/EditorPanel';
+import { Fills } from '~/components/Fills';
+import { UserPanel } from '~/components/panels/UserPanel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { hot } from 'react-hot-loader';
-import { Renderer } from '$components/renderer/Renderer';
-import { hideRenderer, setDialogActive } from '$redux/user/actions';
-import { Cursor } from '$components/Cursor';
-import { LeftDialog } from '$containers/LeftDialog';
-import { TopLeftPanel } from '$components/panels/TopLeftPanel';
-import { TopRightPanel } from '$components/panels/TopRightPanel';
-import { LogoPreview } from '$components/logo/LogoPreview';
-import { IStickerPack } from '$constants/stickers';
-import { IDialogs } from '$constants/dialogs';
+import { Renderer } from '~/components/renderer/Renderer';
+import { hideRenderer, setDialogActive } from '~/redux/user/actions';
+import { Cursor } from '~/components/Cursor';
+import { LeftDialog } from '~/containers/LeftDialog';
+import { TopLeftPanel } from '~/components/panels/TopLeftPanel';
+import { TopRightPanel } from '~/components/panels/TopRightPanel';
+import { LogoPreview } from '~/components/logo/LogoPreview';
+import { IStickerPack } from '~/constants/stickers';
+import { IDialogs } from '~/constants/dialogs';
 
-import { Map } from '$containers/map/Map';
-import { IRootReducer } from '$redux/user';
+import { Map } from '~/containers/map/Map';
+import { IRootReducer } from '~/redux/user';
 
 type Props = {
   sticker: string;

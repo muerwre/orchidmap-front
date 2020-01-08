@@ -1,15 +1,15 @@
 import { Map, Marker, marker } from 'leaflet';
 import React from 'react';
-import { DomMarker } from '$utils/DomMarker';
+import { DomMarker } from '~/utils/DomMarker';
 
-import { STICKERS } from '$constants/stickers';
+import { STICKERS } from '~/constants/stickers';
 import ReactDOM from 'react-dom';
-import { StickerDesc } from '$components/StickerDesc';
+import { StickerDesc } from '~/components/StickerDesc';
 import classnames from 'classnames';
-import { getLabelDirection } from '$utils/geom';
-import { ILatLng } from "$modules/Stickers";
-import { IRootState } from "$redux/user";
-import { Editor, editor } from "$modules/Editor";
+import { getLabelDirection } from '~/utils/geom';
+import { ILatLng } from "~/modules/Stickers";
+import { IRootState } from "~/redux/user";
+import { Editor, editor } from "~/modules/Editor";
 
 const getX = e => (
   e.touches && e.touches.length > 0

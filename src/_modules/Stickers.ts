@@ -1,9 +1,9 @@
 import {FeatureGroup, LayerGroup, layerGroup, Map} from 'leaflet';
-import { IStickerDump, Sticker } from '$modules/Sticker';
+import { IStickerDump, Sticker } from '~/modules/Sticker';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { clusterIcon } from '$utils/clusterIcon';
-import { editor, Editor } from "$modules/Editor";
-import { STICKERS } from "$constants/stickers";
+import { clusterIcon } from '~/utils/clusterIcon';
+import { editor, Editor } from "~/modules/Editor";
+import { STICKERS } from "~/constants/stickers";
 
 export interface ILatLng {
   lat: number,

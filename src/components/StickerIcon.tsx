@@ -1,5 +1,5 @@
 import React from 'react';
-import { STICKERS } from '$constants/stickers';
+import { STICKERS } from '~/constants/stickers';
 
 type Props = {
   set: string,

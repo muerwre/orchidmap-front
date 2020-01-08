@@ -1,4 +1,4 @@
-import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
+import { DEFAULT_PROVIDER, PROVIDERS } from '~/constants/providers';
 import { LatLngLiteral } from 'leaflet';
 
 const PUBLIC_PATH = '';

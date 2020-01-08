@@ -1,6 +1,6 @@
 import React from 'react';
-import { APP_INFO } from '$constants/app_info';
-import { userLogout } from "$redux/user/actions";
+import { APP_INFO } from '~/constants/app_info';
+import { userLogout } from "~/redux/user/actions";
 
 interface Props {
   userLogout: typeof userLogout,

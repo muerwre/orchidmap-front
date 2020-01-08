@@ -1,5 +1,5 @@
-import { history } from '$redux/store';
-import {API_RETRY_INTERVAL} from "$constants/api";
+import { history } from '~/redux/store';
+import {API_RETRY_INTERVAL} from "~/constants/api";
 
 interface IUrlData {
   path: string,

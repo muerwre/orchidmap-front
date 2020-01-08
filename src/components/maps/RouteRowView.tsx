@@ -1,12 +1,12 @@
 // @flow
 import React from "react";
-import { Icon } from "$components/panels/Icon";
-import { MapListDialog } from "$components/dialogs/MapListDialog";
-import { Tooltip } from "$components/panels/Tooltip";
+import { Icon } from "~/components/panels/Icon";
+import { MapListDialog } from "~/components/dialogs/MapListDialog";
+import { Tooltip } from "~/components/panels/Tooltip";
 import { ReactElement } from "react";
 import classnames from "classnames";
-import { toggleRouteStarred } from "$redux/user/actions";
-import { TABS } from "$constants/dialogs";
+import { toggleRouteStarred } from "~/redux/user/actions";
+import { TABS } from "~/constants/dialogs";
 
 interface Props {
   tab: string;

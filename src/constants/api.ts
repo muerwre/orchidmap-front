@@ -1,4 +1,4 @@
-import { CLIENT } from '$config/frontend';
+import { CLIENT } from '~/config/frontend';
 
 export const API = {
   GET_GUEST: `${CLIENT.API_ADDR}/api/auth/`,

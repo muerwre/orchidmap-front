@@ -1,8 +1,8 @@
 import React from 'react';
-import { LOGOS } from '$constants/logos';
+import { LOGOS } from '~/constants/logos';
 import { connect } from 'react-redux';
-import { IRootState } from '$redux/user';
-import { selectMapLogo } from '$redux/map/selectors';
+import { IRootState } from '~/redux/user';
+import { selectMapLogo } from '~/redux/map/selectors';
 
 const mapStateToProps = state => ({ logo: selectMapLogo(state) });
 type Props = ReturnType<typeof mapStateToProps>;

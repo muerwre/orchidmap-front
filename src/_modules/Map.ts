@@ -6,8 +6,8 @@ import {
 } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import { PROVIDER } from '$config/frontend';
-import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
+import { PROVIDER } from '~/config/frontend';
+import { DEFAULT_PROVIDER, PROVIDERS } from '~/constants/providers';
 
 interface Props {
   container: string

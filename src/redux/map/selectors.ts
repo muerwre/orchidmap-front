@@ -1,4 +1,4 @@
-import { IState } from "$redux/store";
+import { IState } from "~/redux/store";
 
 export const selectMap = (state: IState) => state.map;
 export const selectMapProvider = (state: IState) => state.map.provider;

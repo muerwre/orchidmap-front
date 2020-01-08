@@ -13,15 +13,7 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "$components/*": [ "src/components/*" ],
-      "$containers/*": [ "src/containers/*" ],
-      "$constants/*": [ "src/constants/*" ],
-      "$sprites/*": [ "src/sprites/*" ],
-      "$config/*": [ "./config/*" ],
-      "$styles/*": [ "src/styles/*" ],
-      "$redux/*": [ "src/redux/*" ],
-      "$utils/*": [ "src/utils/*" ],
-      "$modules/*": [ "src/modules/*" ],
+      "~/*": [ "src/*" ],
       "custom_modules/*": [
         "src/custom_modules/*"
       ]

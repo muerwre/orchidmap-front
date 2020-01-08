@@ -1,5 +1,5 @@
 import { LatLng } from 'leaflet';
-import { IRoutePoint } from '$utils/gpx';
+import { IRoutePoint } from '~/utils/gpx';
 
 export type ILatLng = {
   lat: number;

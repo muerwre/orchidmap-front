@@ -1,19 +1,19 @@
-// import { editor } from '$modules/Editor';
-import { COLORS, CLIENT } from '$config/frontend';
+// import { editor } from '~/modules/Editor';
+import { COLORS, CLIENT } from '~/config/frontend';
 import saveAs from 'file-saver';
-import { replaceProviderUrl } from '$constants/providers';
-import { STICKERS } from '$constants/stickers';
-import { ILatLng, IRoute } from '$redux/map/types';
-import { IStickerDump } from '$redux/map/types';
-import { IRootState } from '$redux/user';
+import { replaceProviderUrl } from '~/constants/providers';
+import { STICKERS } from '~/constants/stickers';
+import { ILatLng, IRoute } from '~/redux/map/types';
+import { IStickerDump } from '~/redux/map/types';
+import { IRootState } from '~/redux/user';
 import {
   angleBetweenPoints,
   angleBetweenPointsRad,
   findDistancePx,
   middleCoordPx,
-} from '$utils/geom';
+} from '~/utils/geom';
 import { Point } from 'leaflet';
-import { MainMap } from '$containers/map/Map';
+import { MainMap } from '~/containers/map/Map';
 
 export interface ITilePlacement {
   minX: number;
@@ -215,7 +215,7 @@ export const composeArrows = async ({
   points: Point[];
   ctx: CanvasRenderingContext2D;
 }): Promise<boolean[]> => {
-  const image = await imageFetcher(require('$sprites/arrow.svg'));
+  const image = await imageFetcher(require('~/sprites/arrow.svg'));
 
   const distances = points.map(
     (point, i) => (points[i + 1] && findDistancePx(points[i], points[i + 1])) || 0

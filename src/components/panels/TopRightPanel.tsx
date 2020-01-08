@@ -1,16 +1,16 @@
 // flow
 import React, { useCallback } from 'react';
-import { Icon } from '$components/panels/Icon';
-import { PROVIDERS } from '$constants/providers';
-import { LOGOS } from '$constants/logos';
-import * as USER_ACTIONS from '$redux/user/actions';
+import { Icon } from '~/components/panels/Icon';
+import { PROVIDERS } from '~/constants/providers';
+import { LOGOS } from '~/constants/logos';
+import * as USER_ACTIONS from '~/redux/user/actions';
 import { connect } from 'react-redux';
-import { MODES } from '$constants/modes';
-import { IRootState } from '$redux/user';
+import { MODES } from '~/constants/modes';
+import { IRootState } from '~/redux/user';
 
-import { Tooltip } from '$components/panels/Tooltip';
-import { selectMap } from '$redux/map/selectors';
-import { selectUser } from '$redux/user/selectors';
+import { Tooltip } from '~/components/panels/Tooltip';
+import { selectMap } from '~/redux/map/selectors';
+import { selectUser } from '~/redux/user/selectors';
 
 const mapStateToProps = state => ({
   map: selectMap(state),

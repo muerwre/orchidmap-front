@@ -1,7 +1,7 @@
 import { IRootState } from ".";
 import * as ActionCreators from './actions'
-import { TIPS } from "$constants/tips";
-import { TABS } from "$constants/dialogs";
+import { TIPS } from "~/constants/tips";
+import { TABS } from "~/constants/dialogs";
 import { USER_ACTIONS } from "./constants";
 
 type UnsafeReturnType<T> = T extends (...args: any[]) => infer R ? R : any;

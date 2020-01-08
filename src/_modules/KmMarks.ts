@@ -1,7 +1,7 @@
 import { divIcon, LatLngLiteral, Layer, LayerGroup, Map, marker, Marker } from "leaflet";
-import { arrowClusterIcon, createArrow } from "$utils/arrow";
+import { arrowClusterIcon, createArrow } from "~/utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { allwaysPositiveAngleDeg, angleBetweenPoints, distKm } from "$utils/geom";
+import { allwaysPositiveAngleDeg, angleBetweenPoints, distKm } from "~/utils/geom";
 import classNames from 'classnames';
 
 interface KmMarksOptions {

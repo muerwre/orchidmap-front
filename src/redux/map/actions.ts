@@ -1,6 +1,6 @@
 import { MAP_ACTIONS } from './constants';
 import { IMapReducer } from './';
-import { IStickerDump } from '$redux/map/types';
+import { IStickerDump } from '~/redux/map/types';
 import { ILatLng } from './types';
 
 export const mapSet = (map: Partial<IMapReducer>) => ({

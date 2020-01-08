@@ -37,7 +37,7 @@ export interface IStickers {
 export const STICKERS: IStickers = {
   base: {
     title: 'Простые',
-    url: require('$sprites/stickers/stickers-base.svg'),
+    url: require('~/sprites/stickers/stickers-base.svg'),
     size: 72,
     layers: {
       men: { off: 5, title: 'Александр 3', title_long: 'Парк Городское Начало' },
@@ -66,7 +66,7 @@ export const STICKERS: IStickers = {
   },
   real: {
     title: 'Реалистичные',
-    url: require('$sprites/stickers/stickers-base.svg'),
+    url: require('~/sprites/stickers/stickers-base.svg'),
     size: 72,
     layers: {
       chicken: { off: 31, title: 'Курочка', title_long: 'Курочка' },
@@ -80,7 +80,7 @@ export const STICKERS: IStickers = {
   },
   pin: {
     title: 'ПИН-микс',
-    url: require('$sprites/stickers/stickers-base.svg'),
+    url: require('~/sprites/stickers/stickers-base.svg'),
     size: 72,
     layers: {
       start: { off: 21, title: '1', title_long: 'Первая точка' },
@@ -97,7 +97,7 @@ export const STICKERS: IStickers = {
   },
   points: {
     title: 'Точки',
-    url: require('$sprites/stickers/stickers-base.svg'),
+    url: require('~/sprites/stickers/stickers-base.svg'),
     size: 72,
     layers: {
       pt1: { off: 40, title: '1', title_long: 'Первая точка' },

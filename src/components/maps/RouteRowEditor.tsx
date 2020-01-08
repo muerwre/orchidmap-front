@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import { Icon } from '$components/panels/Icon';
-import { Switch } from '$components/Switch';
-import { MapListDialog } from "$components/dialogs/MapListDialog";
+import { Icon } from '~/components/panels/Icon';
+import { Switch } from '~/components/Switch';
+import { MapListDialog } from "~/components/dialogs/MapListDialog";
 
 interface Props {
   title: string;

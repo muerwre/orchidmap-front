@@ -1,10 +1,10 @@
 import React, { createElement } from 'react';
-import { DIALOGS, IDialogs } from '$constants/dialogs';
+import { DIALOGS, IDialogs } from '~/constants/dialogs';
 import classnames from 'classnames';
-import { AppInfoDialog } from '$components/dialogs/AppInfoDialog';
-import { Icon } from '$components/panels/Icon';
-import { MapListDialog } from '$components/dialogs/MapListDialog';
-import * as USER_ACTIONS from '$redux/user/actions';
+import { AppInfoDialog } from '~/components/dialogs/AppInfoDialog';
+import { Icon } from '~/components/panels/Icon';
+import { MapListDialog } from '~/components/dialogs/MapListDialog';
+import * as USER_ACTIONS from '~/redux/user/actions';
 
 interface Props {
   dialog: keyof IDialogs;

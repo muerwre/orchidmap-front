@@ -1,8 +1,8 @@
 import React from 'react';
 // import { marker } from 'leaflet';
-// import { DomMarker } from '$utils/DomMarker';
-// import { Icon } from '$components/panels/Icon';
-// import { editor } from '$modules/Editor';
+// import { DomMarker } from '~/utils/DomMarker';
+// import { Icon } from '~/components/panels/Icon';
+// import { editor } from '~/modules/Editor';
 
 interface Props {
 

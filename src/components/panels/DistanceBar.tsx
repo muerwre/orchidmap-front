@@ -1,15 +1,15 @@
 // flow
 import React from 'react';
-import { toHours } from '$utils/format';
-import { Icon } from '$components/panels/Icon';
+import { toHours } from '~/utils/format';
+import { Icon } from '~/components/panels/Icon';
 import { connect } from 'react-redux';
 // import Slider from 'rc-slider';
 import Slider from 'rc-slider/lib/Slider';
 import { bindActionCreators } from 'redux';
-import { setSpeed } from '$redux/user/actions';
-import { IRootState } from "$redux/user";
-import { Tooltip } from "$components/panels/Tooltip";
-import { isMobile } from "$utils/window";
+import { setSpeed } from '~/redux/user/actions';
+import { IRootState } from "~/redux/user";
+import { Tooltip } from "~/components/panels/Tooltip";
+import { isMobile } from "~/utils/window";
 
 interface Props extends IRootState {
   setSpeed: typeof setSpeed,

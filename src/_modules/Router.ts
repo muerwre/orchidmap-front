@@ -1,8 +1,8 @@
 import { Map, Marker } from 'leaflet';
 import * as Routing from 'leaflet-routing-machine/src/index';
-import { CLIENT } from '$config/frontend';
-import { DomMarker } from '$utils/DomMarker';
-import { editor } from "$modules/Editor";
+import { CLIENT } from '~/config/frontend';
+import { DomMarker } from '~/utils/DomMarker';
+import { editor } from "~/modules/Editor";
 
 interface ILatLng {
   lat: number, lng: number

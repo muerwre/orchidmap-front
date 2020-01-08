@@ -6,8 +6,8 @@ import React, {
   useCallback
 } from "react";
 import { IMapRoute, ILatLng } from "../../../redux/map/types";
-import { InteractivePoly } from "$modules/InteractivePoly"; 
-import { isMobile } from "$utils/window";
+import { InteractivePoly } from "~/modules/InteractivePoly"; 
+import { isMobile } from "~/utils/window";
 import { LatLng, Map } from "leaflet";
 
 interface IProps {

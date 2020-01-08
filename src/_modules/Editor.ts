@@ -1,12 +1,12 @@
-import { Map } from '$modules/Map';
-import { Poly } from '$modules/Poly';
-import { MODES } from '$constants/modes';
-import { ILatLng, Stickers } from '$modules/Stickers';
-import { Router } from '$modules/Router';
-import { DEFAULT_LOGO, ILogos, LOGOS } from '$constants/logos';
+import { Map } from '~/modules/Map';
+import { Poly } from '~/modules/Poly';
+import { MODES } from '~/constants/modes';
+import { ILatLng, Stickers } from '~/modules/Stickers';
+import { Router } from '~/modules/Router';
+import { DEFAULT_LOGO, ILogos, LOGOS } from '~/constants/logos';
 
-import { getUrlData } from '$utils/history';
-import { store } from '$redux/store';
+import { getUrlData } from '~/utils/history';
+import { store } from '~/redux/store';
 import {
   resetSaveDialog,
   setActiveSticker,
@@ -16,7 +16,7 @@ import {
   setMarkersShown,
   setMode,
   setRouterPoints, setStarred,
-} from '$redux/user/actions';
+} from '~/redux/user/actions';
 import {
   mapSetAddress,
   mapSetDescription,
@@ -24,11 +24,11 @@ import {
   mapSetPublic,
   mapSetTitle,
   mapSetProvider,
-} from '$redux/map/actions';
-import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '$constants/providers';
-import { STICKERS } from '$constants/stickers';
-import { IRootState } from "$redux/user";
-import { DEFAULT_USER, IUser } from "$constants/auth";
+} from '~/redux/map/actions';
+import { DEFAULT_PROVIDER, IProvider, PROVIDERS } from '~/constants/providers';
+import { STICKERS } from '~/constants/stickers';
+import { IRootState } from "~/redux/user";
+import { DEFAULT_USER, IUser } from "~/constants/auth";
 
 interface IEditor {
   map: Map;

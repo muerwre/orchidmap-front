@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import { Icon } from '$components/panels/Icon';
-import { MapListDialog } from "$components/dialogs/MapListDialog";
-import { Tooltip } from "$components/panels/Tooltip";
+import { Icon } from '~/components/panels/Icon';
+import { MapListDialog } from "~/components/dialogs/MapListDialog";
+import { Tooltip } from "~/components/panels/Tooltip";
 import { ReactElement } from "react";
 
 interface Props {

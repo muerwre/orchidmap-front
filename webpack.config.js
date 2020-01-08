@@ -1,22 +1,15 @@
-// import { CLIENT } from './config/frontend';
 const webpack = require('webpack');
 
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-// const FlowWebpackPlugin = require('flow-webpack-plugin');
-// const { version } = require('./package.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-// const WebpackGitHash = require('webpack-git-hash');
 const path = require('path');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-// import webpack from 'webpack';
-const PWA_CONFIG = require('./config/pwa');
-// const ManifestPlugin = require('webpack-manifest-plugin');
-/* Plugins */
+const PWA_CONFIG = require('./src/config/pwa');
 
-// const concatPlugin = new webpack.optimize.ModuleConcatenationPlugin();
+/* Plugins */
 
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './src/index.html',
@@ -35,24 +28,20 @@ const miniCssExractPlugin = new MiniCssExtractPlugin({
 
 const devtool = isDevelopment ? 'cheap-module-eval-source-map' : 'source-map';
 
-// const flowPlugin = new FlowWebpackPlugin();
-
-// const gitPlugin = new WebpackGitHash();
-
-
 /* Resolve */
 
 const resolve = {
   alias: {
-    $components: path.join(__dirname, 'src/components'),
-    $containers: path.join(__dirname, 'src/containers'),
-    $constants: path.join(__dirname, 'src/constants'),
-    $sprites: path.join(__dirname, 'src/sprites'),
-    $config: path.join(__dirname, './config'),
-    $styles: path.join(__dirname, 'src/styles'),
-    $redux: path.join(__dirname, 'src/redux'),
-    $utils: path.join(__dirname, 'src/utils'),
-    $modules: path.join(__dirname, 'src/modules'),
+    // $components: path.join(__dirname, 'src/components'),
+    // $containers: path.join(__dirname, 'src/containers'),
+    // $constants: path.join(__dirname, 'src/constants'),
+    // $sprites: path.join(__dirname, 'src/sprites'),
+    // $config: path.join(__dirname, './config'),
+    // $styles: path.join(__dirname, 'src/styles'),
+    // $redux: path.join(__dirname, 'src/redux'),
+    // $utils: path.join(__dirname, 'src/utils'),
+    // $modules: path.join(__dirname, 'src/modules'),
+    '~': path.join(__dirname, 'src'),
   },
   extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
 };

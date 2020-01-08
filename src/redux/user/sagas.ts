@@ -17,7 +17,7 @@ import {
   getRouteList,
   modifyRoute,
   sendRouteStarred,
-} from '$utils/api';
+} from '~/utils/api';
 import {
   hideRenderer,
   searchPutRoutes,
@@ -38,7 +38,7 @@ import {
   setFeature,
   searchSetTitle,
   setRouteStarred,
-} from '$redux/user/actions';
+} from '~/redux/user/actions';
 
 import {
   getUrlData,
@@ -46,10 +46,10 @@ import {
   pushLoaderState,
   pushNetworkInitError,
   pushPath,
-} from '$utils/history';
-import { USER_ACTIONS } from '$redux/user/constants';
-import { MODES } from '$constants/modes';
-import { DEFAULT_USER } from '$constants/auth';
+} from '~/utils/history';
+import { USER_ACTIONS } from '~/redux/user/constants';
+import { MODES } from '~/constants/modes';
+import { DEFAULT_USER } from '~/constants/auth';
 import {
   composeArrows,
   composeDistMark,
@@ -62,18 +62,18 @@ import {
   getStickersPlacement,
   getTilePlacement,
   imageFetcher,
-} from '$utils/renderer';
-import { LOGOS } from '$constants/logos';
-import { DIALOGS, TABS } from '$constants/dialogs';
+} from '~/utils/renderer';
+import { LOGOS } from '~/constants/logos';
+import { DIALOGS, TABS } from '~/constants/dialogs';
 
-import * as ActionCreators from '$redux/user/actions';
-import { downloadGPXTrack, getGPXString } from '$utils/gpx';
-import { Unwrap } from '$utils/middleware';
-import { IState } from '$redux/store';
+import * as ActionCreators from '~/redux/user/actions';
+import { downloadGPXTrack, getGPXString } from '~/utils/gpx';
+import { Unwrap } from '~/utils/middleware';
+import { IState } from '~/redux/store';
 import { selectUser, selectUserUser } from './selectors';
-import { mapInitSaga, loadMapSaga, replaceAddressIfItsBusy } from '$redux/map/sagas';
+import { mapInitSaga, loadMapSaga, replaceAddressIfItsBusy } from '~/redux/map/sagas';
 import { LatLng } from 'leaflet';
-import { selectMap } from '$redux/map/selectors';
+import { selectMap } from '~/redux/map/selectors';
 
 // const getUser = (state: IState) => state.user.user;
 // const selectUser = (state: IState) => state.user;

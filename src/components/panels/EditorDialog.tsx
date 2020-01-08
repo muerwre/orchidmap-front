@@ -1,18 +1,18 @@
 import React, { createElement } from 'react';
-import { MODES } from '$constants/modes';
+import { MODES } from '~/constants/modes';
 
-import { RouterDialog } from '$components/dialogs/RouterDialog';
-import { StickersDialog } from '$components/dialogs/StickersDialog';
-import { TrashDialog } from '$components/dialogs/TrashDialog';
-import { LogoDialog } from '$components/dialogs/LogoDialog';
-import { SaveDialog } from '$components/dialogs/SaveDialog';
-import { CancelDialog } from '$components/dialogs/CancelDialog';
+import { RouterDialog } from '~/components/dialogs/RouterDialog';
+import { StickersDialog } from '~/components/dialogs/StickersDialog';
+import { TrashDialog } from '~/components/dialogs/TrashDialog';
+import { LogoDialog } from '~/components/dialogs/LogoDialog';
+import { SaveDialog } from '~/components/dialogs/SaveDialog';
+import { CancelDialog } from '~/components/dialogs/CancelDialog';
 
 import { connect } from 'react-redux';
 
-import { ProviderDialog } from '$components/dialogs/ProviderDialog';
-import { ShotPrefetchDialog } from '$components/dialogs/ShotPrefetchDialog';
-import { selectUserMode } from '$redux/user/selectors';
+import { ProviderDialog } from '~/components/dialogs/ProviderDialog';
+import { ShotPrefetchDialog } from '~/components/dialogs/ShotPrefetchDialog';
+import { selectUserMode } from '~/redux/user/selectors';
 
 const mapStateToProps = state => ({ mode: selectUserMode(state) });
 

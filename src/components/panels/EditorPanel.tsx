@@ -1,14 +1,14 @@
 import React from 'react';
-import { MODES } from '$constants/modes';
+import { MODES } from '~/constants/modes';
 import classnames from 'classnames';
 
-import { Icon } from '$components/panels/Icon';
-import { EditorDialog } from '$components/panels/EditorDialog';
+import { Icon } from '~/components/panels/Icon';
+import { EditorDialog } from '~/components/panels/EditorDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, takeAShot, keyPressed } from '$redux/user/actions';
-import { IRootState } from "$redux/user";
-import { Tooltip } from "$components/panels/Tooltip";
+import { setMode, startEditing, stopEditing, takeAShot, keyPressed } from '~/redux/user/actions';
+import { IRootState } from "~/redux/user";
+import { Tooltip } from "~/components/panels/Tooltip";
 
 interface Props extends IRootState {
   routing: IRootState['features']['routing'],

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '$components/panels/Icon';
+import { Icon } from '~/components/panels/Icon';
 
 type Props = {
   clearPoly: () => void,

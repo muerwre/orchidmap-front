@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
-import { UserPicture } from "$components/user/UserPicture";
-import { IUser } from "$constants/auth";
+import { UserPicture } from "~/components/user/UserPicture";
+import { IUser } from "~/constants/auth";
 
 interface Props {
   user: IUser;

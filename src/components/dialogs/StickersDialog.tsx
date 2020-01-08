@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 
-import { STICKERS } from '$constants/stickers';
-import { setActiveSticker as setActiveStickerAction } from "$redux/user/actions";
+import { STICKERS } from '~/constants/stickers';
+import { setActiveSticker as setActiveStickerAction } from "~/redux/user/actions";
 
 interface Props {
   setActiveSticker: typeof setActiveStickerAction,

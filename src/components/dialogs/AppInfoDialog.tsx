@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
-import { Scroll } from '$components/Scroll';
-import { APP_INFO } from '$constants/app_info';
+import { Scroll } from '~/components/Scroll';
+import { APP_INFO } from '~/constants/app_info';
 
 export const AppInfoDialog = () => (
   <div className="dialog-content">

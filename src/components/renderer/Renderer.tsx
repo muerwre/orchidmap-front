@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { hideRenderer, cropAShot } from '$redux/user/actions';
+import { hideRenderer, cropAShot } from '~/redux/user/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Croppr from 'croppr';
 import 'croppr/dist/croppr.css';
-import { LOGOS } from '$constants/logos';
-import { RendererPanel } from '$components/panels/RendererPanel';
-import { IRootState } from "$redux/user";
-import { IRoute } from '$redux/map/types';
+import { LOGOS } from '~/constants/logos';
+import { RendererPanel } from '~/components/panels/RendererPanel';
+import { IRootState } from "~/redux/user";
+import { IRoute } from '~/redux/map/types';
 
 type Props = {
   data: IRootState['renderer']['data'],

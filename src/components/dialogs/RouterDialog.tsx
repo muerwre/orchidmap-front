@@ -1,9 +1,9 @@
 import React from 'react';
-import { Icon } from '$components/panels/Icon';
+import { Icon } from '~/components/panels/Icon';
 import {
   routerCancel as routerCancelAction,
   routerSubmit as routerSubmitAction,
-} from "$redux/user/actions";
+} from "~/redux/user/actions";
 import classnames from "classnames";
 
 type Props = {

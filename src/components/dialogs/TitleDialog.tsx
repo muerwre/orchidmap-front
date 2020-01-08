@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import classnames from 'classnames';
-import { getStyle } from '$utils/dom';
-import { nearestInt } from '$utils/geom';
-import { parseDesc } from '$utils/format';
-import { selectUser } from '$redux/user/selectors';
-import { selectMap } from '$redux/map/selectors';
+import { getStyle } from '~/utils/dom';
+import { nearestInt } from '~/utils/geom';
+import { parseDesc } from '~/utils/format';
+import { selectUser } from '~/redux/user/selectors';
+import { selectMap } from '~/redux/map/selectors';
 
 const mapStateToProps = state => ({
   user: selectUser(state),

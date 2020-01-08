@@ -1,7 +1,7 @@
 import { LatLngLiteral, LayerGroup, Map } from "leaflet";
-import { arrowClusterIcon, createArrow } from "$utils/arrow";
+import { arrowClusterIcon, createArrow } from "~/utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { angleBetweenPoints, dist2, middleCoord } from "$utils/geom";
+import { angleBetweenPoints, dist2, middleCoord } from "~/utils/geom";
 
 class Component extends LayerGroup {
   constructor(props){

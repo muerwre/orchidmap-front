@@ -1,17 +1,17 @@
 import React from 'react';
-import { copyToClipboard, getUrlData } from '$utils/history';
-import { toTranslit, parseDesc } from '$utils/format';
-import { TIPS } from '$constants/tips';
-import { MODES } from '$constants/modes';
-import { Icon } from '$components/panels/Icon';
-import { Switch } from '$components/Switch';
+import { copyToClipboard, getUrlData } from '~/utils/history';
+import { toTranslit, parseDesc } from '~/utils/format';
+import { TIPS } from '~/constants/tips';
+import { MODES } from '~/constants/modes';
+import { Icon } from '~/components/panels/Icon';
+import { Switch } from '~/components/Switch';
 
 import classnames from 'classnames';
 import ExpandableTextarea from 'react-expandable-textarea';
 import { connect } from 'react-redux';
-import { selectMap } from '$redux/map/selectors';
-import { selectUser } from '$redux/user/selectors';
-import * as USER_ACTIONS from '$redux/user/actions';
+import { selectMap } from '~/redux/map/selectors';
+import { selectUser } from '~/redux/user/selectors';
+import * as USER_ACTIONS from '~/redux/user/actions';
 
 const mapStateToProps = state => ({
   map: selectMap(state),

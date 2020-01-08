@@ -5,14 +5,14 @@ import {
   selectMapProvider,
   selectMapRoute,
   selectMapStickers
-} from "$redux/map/selectors";
+} from "~/redux/map/selectors";
 import { connect } from "react-redux";
-import * as MAP_ACTIONS from "$redux/map/actions";
+import * as MAP_ACTIONS from "~/redux/map/actions";
 
-import { Route } from "$containers/map/Route";
-import { TileLayer } from "$containers/map/TileLayer";
-import { Stickers } from "$containers/map/Stickers";
-import { selectUserEditing } from '$redux/user/selectors'
+import { Route } from "~/containers/map/Route";
+import { TileLayer } from "~/containers/map/TileLayer";
+import { Stickers } from "~/containers/map/Stickers";
+import { selectUserEditing } from '~/redux/user/selectors'
 
 import 'leaflet/dist/leaflet.css';
 

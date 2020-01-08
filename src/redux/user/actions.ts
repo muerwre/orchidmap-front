@@ -1,7 +1,7 @@
-import { USER_ACTIONS } from '$redux/user/constants';
-import { IUser } from "$constants/auth";
-import { IRootState } from "$redux/user";
-import { IRoute } from '$redux/map/types';
+import { USER_ACTIONS } from '~/redux/user/constants';
+import { IUser } from "~/constants/auth";
+import { IRootState } from "~/redux/user";
+import { IRoute } from '~/redux/map/types';
 
 export const setUser = (user: IUser) => ({ type: USER_ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: USER_ACTIONS.USER_LOGOUT });

@@ -1,11 +1,11 @@
 import { Map, LatLng } from 'leaflet';
-import { simplify } from '$utils/simplify';
-import { editor, Editor } from "$modules/Editor";
-import { ILatLng } from "$modules/Stickers";
-import { InteractivePoly } from "$modules/InteractivePoly";
-import { Arrows } from "$modules/Arrows";
-import { KmMarks } from "$modules/KmMarks";
-import { isMobile } from "$utils/window";
+import { simplify } from '~/utils/simplify';
+import { editor, Editor } from "~/modules/Editor";
+import { ILatLng } from "~/modules/Stickers";
+import { InteractivePoly } from "~/modules/InteractivePoly";
+import { Arrows } from "~/modules/Arrows";
+import { KmMarks } from "~/modules/KmMarks";
+import { isMobile } from "~/utils/window";
 
 interface Props {
   map: Map;

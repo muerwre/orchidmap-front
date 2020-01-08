@@ -1,8 +1,8 @@
 import { createReducer } from 'reduxsauce';
-import { DEFAULT_USER, IUser } from '$constants/auth';
-import { MODES } from '$constants/modes';
-import { DIALOGS, IDialogs } from '$constants/dialogs';
-import { IStickers } from "$constants/stickers";
+import { DEFAULT_USER, IUser } from '~/constants/auth';
+import { MODES } from '~/constants/modes';
+import { DIALOGS, IDialogs } from '~/constants/dialogs';
+import { IStickers } from "~/constants/stickers";
 import { USER_HANDLERS } from './handlers';
 
 export interface IRouteListItem {

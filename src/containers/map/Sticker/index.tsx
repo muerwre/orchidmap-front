@@ -1,10 +1,10 @@
 import React from "react";
 import { Map, marker, Marker } from "leaflet";
-import { IStickerDump } from "$redux/map/types";
-import { STICKERS } from "$constants/stickers";
-import { StickerDesc } from "$components/StickerDesc";
+import { IStickerDump } from "~/redux/map/types";
+import { STICKERS } from "~/constants/stickers";
+import { StickerDesc } from "~/components/StickerDesc";
 import classNames from "classnames";
-import { DomMarker } from "$utils/DomMarker";
+import { DomMarker } from "~/utils/DomMarker";
 import { createPortal } from "react-dom";
 
 interface IProps {

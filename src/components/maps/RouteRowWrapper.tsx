@@ -1,9 +1,9 @@
 import React from "react";
 import classnames from "classnames";
-import { MapListDialog } from "$components/dialogs/MapListDialog";
-import { RouteRowView } from "$components/maps/RouteRowView";
-import { RouteRowEditor } from "$components/maps/RouteRowEditor";
-import { RouteRowDrop } from "$components/maps/RouteRowDrop";
+import { MapListDialog } from "~/components/dialogs/MapListDialog";
+import { RouteRowView } from "~/components/maps/RouteRowView";
+import { RouteRowEditor } from "~/components/maps/RouteRowEditor";
+import { RouteRowDrop } from "~/components/maps/RouteRowDrop";
 import { ReactElement } from "react";
 
 interface Props {

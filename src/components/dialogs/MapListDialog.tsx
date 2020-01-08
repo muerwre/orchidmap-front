@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteRowWrapper } from '$components/maps/RouteRowWrapper';
-import { Scroll } from '$components/Scroll';
+import { RouteRowWrapper } from '~/components/maps/RouteRowWrapper';
+import { Scroll } from '~/components/Scroll';
 import {
   searchSetDistance,
   searchSetTitle,
@@ -11,17 +11,17 @@ import {
   dropRoute,
   modifyRoute,
   toggleRouteStarred,
-} from '$redux/user/actions';
-import { isMobile } from '$utils/window';
+} from '~/redux/user/actions';
+import { isMobile } from '~/utils/window';
 import classnames from 'classnames';
 
 import Range from 'rc-slider/lib/Range';
-import { TABS, TABS_TITLES } from '$constants/dialogs';
-import { Icon } from '$components/panels/Icon';
-import { pushPath } from '$utils/history';
-import { IRootState, IRouteListItem } from '$redux/user';
-import { ROLES } from '$constants/auth';
-import { IState } from '$redux/store';
+import { TABS, TABS_TITLES } from '~/constants/dialogs';
+import { Icon } from '~/components/panels/Icon';
+import { pushPath } from '~/utils/history';
+import { IRootState, IRouteListItem } from '~/redux/user';
+import { ROLES } from '~/constants/auth';
+import { IState } from '~/redux/store';
 
 export interface IMapListDialogProps extends IRootState {
   marks: { [x: number]: string };

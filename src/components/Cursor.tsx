@@ -1,9 +1,9 @@
 import React from 'react';
-import { Icon } from '$components/panels/Icon';
-import { MODES } from '$constants/modes';
-import { IStickerPack, STICKERS } from '$constants/stickers';
-import { StickerIcon } from '$components/StickerIcon';
-import { IRootReducer } from '$redux/user';
+import { Icon } from '~/components/panels/Icon';
+import { MODES } from '~/constants/modes';
+import { IStickerPack, STICKERS } from '~/constants/stickers';
+import { StickerIcon } from '~/components/StickerIcon';
+import { IRootReducer } from '~/redux/user';
 
 interface Props {
   mode: IRootReducer['mode'],

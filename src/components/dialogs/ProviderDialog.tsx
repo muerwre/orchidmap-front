@@ -1,9 +1,9 @@
 import React from 'react';
-import { PROVIDERS, replaceProviderUrl } from '$constants/providers';
-import { Icon } from '$components/panels/Icon';
+import { PROVIDERS, replaceProviderUrl } from '~/constants/providers';
+import { Icon } from '~/components/panels/Icon';
 import classnames from 'classnames';
-import * as MAP_ACTIONS from "$redux/map/actions";
-import { selectMapProvider } from '$redux/map/selectors';
+import * as MAP_ACTIONS from "~/redux/map/actions";
+import { selectMapProvider } from '~/redux/map/selectors';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({

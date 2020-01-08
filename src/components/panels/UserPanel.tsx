@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 
-import { GuestButton } from '$components/user/GuestButton';
-import { DEFAULT_USER, IUser, ROLES } from '$constants/auth';
-import { UserButton } from '$components/user/UserButton';
-import { UserMenu } from '$components/user/UserMenu';
+import { GuestButton } from '~/components/user/GuestButton';
+import { DEFAULT_USER, ROLES } from '~/constants/auth';
+import { UserButton } from '~/components/user/UserButton';
+import { UserMenu } from '~/components/user/UserMenu';
 import {
   setUser,
   userLogout,
@@ -13,16 +13,16 @@ import {
   setDialogActive,
   openMapDialog,
   getGPXTrack,
-} from '$redux/user/actions';
+} from '~/redux/user/actions';
 import { connect } from 'react-redux';
-import { Icon } from '$components/panels/Icon';
+import { Icon } from '~/components/panels/Icon';
 
 import classnames from 'classnames';
-import { CLIENT } from '$config/frontend';
-import { DIALOGS, TABS } from '$constants/dialogs';
-import { IRootState } from '$redux/user';
-import { Tooltip } from '$components/panels/Tooltip';
-import { TitleDialog } from '$components/dialogs/TitleDialog';
+import { CLIENT } from '~/config/frontend';
+import { DIALOGS, TABS } from '~/constants/dialogs';
+import { IRootState } from '~/redux/user';
+import { Tooltip } from '~/components/panels/Tooltip';
+import { TitleDialog } from '~/components/dialogs/TitleDialog';
 
 interface Props extends IRootState {
   userLogout: typeof userLogout;
