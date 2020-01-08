@@ -2,13 +2,11 @@ import React, {
   FC,
   useEffect,
   memo,
-  useContext,
   useState,
   useCallback
 } from "react";
 import { IMapRoute, ILatLng } from "../../../redux/map/types";
-import { MapContext } from "$utils/context";
-import { InteractivePoly } from "$modules/InteractivePoly";
+import { InteractivePoly } from "$modules/InteractivePoly"; 
 import { isMobile } from "$utils/window";
 import { LatLng, Map } from "leaflet";
 

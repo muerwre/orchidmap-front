@@ -16,7 +16,7 @@ import {
   LeafletMouseEvent,
   latLng,
   LatLngLiteral
-} from "leaflet"; 
+} from "leaflet";
 
 import { distKm, distToSegment, getPolyLength, pointInArea } from "$utils/geom";
 

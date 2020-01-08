@@ -1,16 +1,16 @@
-import { MAP_ACTIONS } from "./constants";
-import { IMapReducer } from "./";
-import { IStickerDump } from "$modules/Sticker";
-import { ILatLng } from "./types";
+import { MAP_ACTIONS } from './constants';
+import { IMapReducer } from './';
+import { IStickerDump } from '$redux/map/types';
+import { ILatLng } from './types';
 
 export const mapSet = (map: Partial<IMapReducer>) => ({
   type: MAP_ACTIONS.SET_MAP,
-  map
+  map,
 });
 
 export const mapSetProvider = (provider: IMapReducer['provider']) => ({
   type: MAP_ACTIONS.SET_PROVIDER,
-  provider
+  provider,
 });
 
 export const mapSetRoute = (route: IMapReducer['route']) => ({
@@ -65,6 +65,6 @@ export const mapSetPublic = (is_public: IMapReducer['is_public']) => ({
 });
 
 export const mapSetLogo = (logo: IMapReducer['logo']) => ({
-  type: MAP_ACTIONS.SET_LOGO, 
+  type: MAP_ACTIONS.SET_LOGO,
   logo,
 });

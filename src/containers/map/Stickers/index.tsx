@@ -1,8 +1,8 @@
-import * as React from "react";
-import { IStickerDump } from "$modules/Sticker";
-import { FeatureGroup, Map } from "leaflet";
-import { Sticker } from "$containers/map/Sticker";
-import { mapSetSticker, mapDropSticker } from "$redux/map/actions";
+import * as React from 'react';
+import { IStickerDump } from '$redux/map/types';
+import { FeatureGroup, Map } from 'leaflet';
+import { Sticker } from '$containers/map/Sticker';
+import { mapSetSticker, mapDropSticker } from '$redux/map/actions';
 
 interface IProps {
   stickers: IStickerDump[];

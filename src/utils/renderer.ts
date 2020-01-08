@@ -3,8 +3,8 @@ import { COLORS, CLIENT } from '$config/frontend';
 import * as saveAs from 'file-saver';
 import { replaceProviderUrl } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
-import { ILatLng } from '$modules/Stickers';
-import { IStickerDump } from '$modules/Sticker';
+import { ILatLng } from '$redux/map/types';
+import { IStickerDump } from '$redux/map/types';
 import { IRootState } from '$redux/user';
 import {
   angleBetweenPoints,
@@ -434,8 +434,8 @@ const composeStickerImage = async (
   x: number,
   y: number,
   angle: number,
-  set: IRootState['activeSticker']['set'],
-  sticker: IRootState['activeSticker']['sticker']
+  set: string,
+  sticker: string
 ): Promise<void> => {
   const rad = 56;
   const tX = Math.cos(angle + Math.PI) * rad - 30 + (x - 8);

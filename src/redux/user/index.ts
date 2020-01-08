@@ -6,7 +6,7 @@ import { DEFAULT_PROVIDER, PROVIDERS } from '$constants/providers';
 import { DIALOGS, IDialogs, TABS } from '$constants/dialogs';
 import { IStickers } from "$constants/stickers";
 import { IRoutePoint } from '$utils/gpx';
-import { IStickerDump } from '$modules/Sticker';
+import { IStickerDump } from '$redux/map/types';
 import { USER_HANDLERS } from './handlers';
 
 export interface IRoute {

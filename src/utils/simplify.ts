@@ -1,5 +1,5 @@
 import { Map, LineUtil } from 'leaflet';
-import { ILatLng } from "$modules/Stickers";
+import { ILatLng } from "$redux/map/types";
 
 export const simplify = ({ map, latlngs }: { map: Map, latlngs: ILatLng[] }): ILatLng[] => {
   const points = [];

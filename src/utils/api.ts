@@ -1,17 +1,15 @@
-import axios, { AxiosPromise } from "axios/index";
-import { API } from "$constants/api";
-import { IRootState, IRouteListItem, IRoute } from "$redux/user";
-import { IUser } from "$constants/auth";
-import { ILatLng } from "$modules/Stickers";
-import { IStickerDump } from "$modules/Sticker";
-import { CLIENT } from "$config/frontend";
-import { LatLngLiteral } from "leaflet";
+import axios from 'axios/index';
+import { API } from '$constants/api';
+import { IRootState, IRouteListItem, IRoute } from '$redux/user';
+import { IUser } from '$constants/auth';
+import { CLIENT } from '$config/frontend';
+import { LatLngLiteral } from 'leaflet';
 import {
   resultMiddleware,
   errorMiddleware,
   IResultWithStatus,
-  configWithToken
-} from "./middleware";
+  configWithToken,
+} from './middleware';
 
 const arrayToObject = (array: any[], key: string): {} =>
   array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
@@ -21,26 +19,26 @@ interface IGetRouteList {
   max: number;
   tab: string;
   search: string;
-  step: IRootState["routes"]["step"];
-  shift: IRootState["routes"]["step"];
-  token: IRootState["user"]["token"];
+  step: IRootState['routes']['step'];
+  shift: IRootState['routes']['step'];
+  token: IRootState['user']['token'];
 }
 
 interface IGetRouteListResult {
-  min: IRootState["routes"]["filter"]["min"];
-  max: IRootState["routes"]["filter"]["max"];
-  limit: IRootState["routes"]["limit"];
-  step: IRootState["routes"]["step"];
-  shift: IRootState["routes"]["shift"];
-  list: IRootState["routes"]["list"];
+  min: IRootState['routes']['filter']['min'];
+  max: IRootState['routes']['filter']['max'];
+  limit: IRootState['routes']['limit'];
+  step: IRootState['routes']['step'];
+  shift: IRootState['routes']['shift'];
+  list: IRootState['routes']['list'];
 }
 
 export const checkUserToken = ({
   id,
-  token
+  token,
 }: {
-  id: IRootState["user"]["id"];
-  token: IRootState["user"]["token"];
+  id: IRootState['user']['id'];
+  token: IRootState['user']['token'];
 }): Promise<IResultWithStatus<{
   user: IUser;
   random_url: string;
@@ -48,7 +46,7 @@ export const checkUserToken = ({
 }>> =>
   axios
     .get(API.CHECK_TOKEN, {
-      params: { id, token }
+      params: { id, token },
     })
     .then(resultMiddleware)
     .catch(errorMiddleware);
@@ -63,9 +61,9 @@ export const getGuestToken = (): Promise<IResultWithStatus<{
     .catch(errorMiddleware);
 
 export const getStoredMap = ({
-  name
+  name,
 }: {
-  name: IRootState["address"];
+  name: IRootState['address'];
 }): Promise<IResultWithStatus<{
   route: IRoute;
   error?: string;
@@ -73,7 +71,7 @@ export const getStoredMap = ({
 }>> =>
   axios
     .get(API.GET_MAP, {
-      params: { name }
+      params: { name },
     })
     .then(resultMiddleware)
     .catch(errorMiddleware);
@@ -89,7 +87,7 @@ export const postMap = ({
   provider,
   is_public,
   description,
-  token
+  token,
 }: Partial<IRoute> & {
   force: boolean;
   token: string;
@@ -111,9 +109,9 @@ export const postMap = ({
           distance,
           provider,
           is_public,
-          description
+          description,
         },
-        force
+        force,
       },
       configWithToken(token)
     )
@@ -122,21 +120,18 @@ export const postMap = ({
 
 export const checkIframeToken = ({
   viewer_id,
-  auth_key
+  auth_key,
 }: {
   viewer_id: string;
   auth_key: string;
 }) =>
   axios
     .get(API.IFRAME_LOGIN_VK, {
-      params: { viewer_id, auth_key }
+      params: { viewer_id, auth_key },
     })
-    .then(
-      result => result && result.data && result.data.success && result.data.user
-    )
+    .then(result => result && result.data && result.data.success && result.data.user)
     .catch(() => false);
 
-    
 export const getRouteList = ({
   search,
   min,
@@ -144,7 +139,7 @@ export const getRouteList = ({
   tab,
   token,
   step,
-  shift
+  shift,
 }: IGetRouteList): Promise<IResultWithStatus<{
   routes: IRoute[];
   limits: {
@@ -169,8 +164,8 @@ export const getRouteList = ({
           max,
           token,
           step,
-          shift
-        }
+          shift,
+        },
       })
     )
     .then(resultMiddleware)
@@ -184,13 +179,7 @@ export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> =>
     .then(() => true)
     .catch(() => false);
 
-export const dropRoute = ({
-  address,
-  token
-}: {
-  address: string;
-  token: string;
-}): Promise<any> =>
+export const dropRoute = ({ address, token }: { address: string; token: string }): Promise<any> =>
   axios
     .delete(API.DROP_ROUTE, configWithToken(token, { data: { address } }))
     .then(resultMiddleware)
@@ -200,7 +189,7 @@ export const modifyRoute = ({
   address,
   token,
   title,
-  is_public
+  is_public,
 }: {
   address: string;
   token: string;
@@ -210,18 +199,14 @@ export const modifyRoute = ({
   route: IRoute;
 }>> =>
   axios
-    .patch(
-      API.MODIFY_ROUTE,
-      { address, token, is_public, title },
-      configWithToken(token)
-    )
+    .patch(API.MODIFY_ROUTE, { address, token, is_public, title }, configWithToken(token))
     .then(resultMiddleware)
     .catch(errorMiddleware);
 
 export const sendRouteStarred = ({
   token,
   address,
-  is_published
+  is_published,
 }: {
   token: string;
   address: string;

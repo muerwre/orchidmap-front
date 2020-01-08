@@ -6,3 +6,12 @@ export type ILatLng = {
 }
 
 export type IMapRoute = ILatLng[];
+
+
+export interface IStickerDump {
+  latlng: ILatLng,
+  set: string,
+  sticker: string,
+  angle?: number,
+  text?: string,
+}

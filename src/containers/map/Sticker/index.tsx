@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Map, marker, Marker } from "leaflet";
-import { IStickerDump, Sticker as StickerComponent } from "$modules/Sticker";
+import { IStickerDump } from "$redux/map/types";
 import { STICKERS } from "$constants/stickers";
 import { StickerDesc } from "$components/StickerDesc";
 import classNames from "classnames";

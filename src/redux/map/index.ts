@@ -2,7 +2,7 @@ import { createReducer } from 'reduxsauce';
 import { MAP_HANDLERS } from './handlers';
 import { DEFAULT_PROVIDER } from '$constants/providers';
 import { IMapRoute } from './types';
-import { IStickerDump } from '$modules/Sticker';
+import { IStickerDump } from '$redux/map/types';
 import { DEFAULT_LOGO } from '$constants/logos';
 
 export interface IMapReducer {
