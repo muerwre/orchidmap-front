@@ -4,12 +4,20 @@ import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';
 import * as MAP_ACTIONS from "$redux/map/actions";
 import { IRootState } from "$redux/user";
+import { selectMapProvider } from '$redux/map/selectors';
+import { connect } from 'react-redux';
 
-interface Props extends IRootState {
-  mapSetProvider: typeof MAP_ACTIONS.mapSetProvider,
-}
+const mapStateToProps = state => ({
+  provider: selectMapProvider(state),
+});
 
-export const ProviderDialog = ({ provider, mapSetProvider }: Props) => (
+const mapDispatchToProps = {
+  mapSetProvider: MAP_ACTIONS.mapSetProvider,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
+
+const ProviderDialogUnconnected = ({ provider, mapSetProvider }: Props) => (
   <div className="control-dialog top right control-dialog-provider">
     <div className="helper provider-helper">
       {
@@ -34,3 +42,7 @@ export const ProviderDialog = ({ provider, mapSetProvider }: Props) => (
     </div>
   </div>
 );
+
+const ProviderDialog = connect(mapStateToProps, mapDispatchToProps)(ProviderDialogUnconnected)
+
+export { ProviderDialog }
