@@ -5,3 +5,4 @@ export const selectUserUser = (state: IState) => state.user.user;
 export const selectUserEditing = (state: IState) => state.user.editing;
 export const selectUserMode = (state: IState) => state.user.mode;
 export const selectUserActiveSticker = (state: IState) => state.user.activeSticker;
+export const selectUserRenderer = (state: IState) => state.user.renderer;

@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 
 import { EditorPanel } from '$components/panels/EditorPanel';
 import { Fills } from '$components/Fills';
@@ -15,23 +15,23 @@ import { LeftDialog } from '$containers/LeftDialog';
 import { TopLeftPanel } from '$components/panels/TopLeftPanel';
 import { TopRightPanel } from '$components/panels/TopRightPanel';
 import { LogoPreview } from '$components/logo/LogoPreview';
-import { IStickerPack } from "$constants/stickers";
-import { IDialogs } from "$constants/dialogs";
+import { IStickerPack } from '$constants/stickers';
+import { IDialogs } from '$constants/dialogs';
 
-import { Map } from "$containers/map/Map"
+import { Map } from '$containers/map/Map';
 import { IRootReducer } from '$redux/user';
 
 type Props = {
-  sticker: string,
-  renderer_active: boolean,
+  sticker: string;
+  renderer_active: boolean;
 
-  mode: IRootReducer['mode'],
-  dialog: keyof IDialogs,
-  dialog_active: boolean,
-  set: keyof IStickerPack,
-  hideRenderer: typeof hideRenderer,
-  setDialogActive: typeof setDialogActive,
-}
+  mode: IRootReducer['mode'];
+  dialog: keyof IDialogs;
+  dialog_active: boolean;
+  set: keyof IStickerPack;
+  hideRenderer: typeof hideRenderer;
+  setDialogActive: typeof setDialogActive;
+};
 
 const Component = (props: Props) => (
   <div>
@@ -41,9 +41,6 @@ const Component = (props: Props) => (
 
     <TopLeftPanel />
     <TopRightPanel />
-    <LogoPreview />
-
-    <Cursor mode={props.mode} sticker={props.sticker} set={props.set} />
 
     <LeftDialog
       dialog={props.dialog}
@@ -51,18 +48,22 @@ const Component = (props: Props) => (
       setDialogActive={props.setDialogActive}
     />
 
+    <LogoPreview />
+
     <Map />
 
-    { props.renderer_active &&
-      <Renderer onClick={props.hideRenderer} />
-    }
+    {props.renderer_active && <Renderer onClick={props.hideRenderer} />}
   </div>
 );
 
 const mapStateToProps = ({
   user: {
-    mode, dialog, dialog_active, renderer, activeSticker: { sticker = null, set = null }
-  }
+    mode,
+    dialog,
+    dialog_active,
+    renderer,
+    activeSticker: { sticker = null, set = null },
+  },
 }) => ({
   renderer_active: renderer.renderer_active,
   mode,
@@ -72,5 +73,6 @@ const mapStateToProps = ({
   set,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ hideRenderer, setDialogActive }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hideRenderer, setDialogActive }, dispatch);
 export const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(Component));

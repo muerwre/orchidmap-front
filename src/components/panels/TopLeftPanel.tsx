@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { UserLocation } from '$components/UserLocation';
 import { DistanceBar } from '$components/panels/DistanceBar';
 

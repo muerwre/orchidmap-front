@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { copyToClipboard, getUrlData } from '$utils/history';
 import { toTranslit, parseDesc } from '$utils/format';
 import { TIPS } from '$constants/tips';

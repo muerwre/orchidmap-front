@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const Icon = ({ icon, size = 32 }: { icon: string, size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 32 32">

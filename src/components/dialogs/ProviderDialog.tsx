@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { PROVIDERS, replaceProviderUrl } from '$constants/providers';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';

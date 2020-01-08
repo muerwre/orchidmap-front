@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { MODES } from '$constants/modes';
 import { Icon } from '$components/panels/Icon';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Map, TileLayer } from 'leaflet';
 
 export const MapContext = React.createContext<Map>(null);

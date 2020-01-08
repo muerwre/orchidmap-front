@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import { Icon } from '$components/panels/Icon';
 import { Switch } from '$components/Switch';
 import { MapListDialog } from "$components/dialogs/MapListDialog";

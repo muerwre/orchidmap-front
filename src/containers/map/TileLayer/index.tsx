@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { TileContext } from "../../../utils/context";
 import { TileLayer as TileLayerInterface, tileLayer, Map } from "leaflet";
 import { DEFAULT_PROVIDER, PROVIDERS } from "$constants/providers";

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 // import { marker } from 'leaflet';
 // import { DomMarker } from '$utils/DomMarker';
 // import { Icon } from '$components/panels/Icon';

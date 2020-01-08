@@ -1,5 +1,5 @@
 // @flow
-import * as React from "react";
+import React from "react";
 import { UserPicture } from "$components/user/UserPicture";
 import { IUser } from "$constants/auth";
 

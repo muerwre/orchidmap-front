@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import { Scroll } from '$components/Scroll';
 import { APP_INFO } from '$constants/app_info';
 

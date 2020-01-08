@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IStickerDump } from '$redux/map/types';
 import { FeatureGroup, Map } from 'leaflet';
 import { Sticker } from '$containers/map/Sticker';

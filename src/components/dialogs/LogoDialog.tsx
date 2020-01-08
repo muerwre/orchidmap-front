@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { LOGOS } from '$constants/logos';
 import { Icon } from '$components/panels/Icon';
 import classnames from 'classnames';

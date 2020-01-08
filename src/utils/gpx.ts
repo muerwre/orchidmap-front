@@ -1,4 +1,4 @@
-import * as saveAs from 'file-saver';
+import saveAs from 'file-saver';
 
 export interface IRoutePoint {
   lat: number,

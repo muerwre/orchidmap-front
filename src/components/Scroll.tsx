@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Scrollbars } from 'tt-react-custom-scrollbars';
 
 export const Scroll = props => (

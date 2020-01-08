@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 
 import { STICKERS } from '$constants/stickers';
 import { setActiveSticker as setActiveStickerAction } from "$redux/user/actions";

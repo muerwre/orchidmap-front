@@ -1,5 +1,5 @@
 // flow
-import * as React from 'react';
+import React from 'react';
 import { Icon } from '$components/panels/Icon';
 import { PROVIDERS } from '$constants/providers';
 import { LOGOS } from '$constants/logos';

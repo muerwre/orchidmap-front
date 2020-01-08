@@ -1,6 +1,6 @@
 // import { editor } from '$modules/Editor';
 import { COLORS, CLIENT } from '$config/frontend';
-import * as saveAs from 'file-saver';
+import saveAs from 'file-saver';
 import { replaceProviderUrl } from '$constants/providers';
 import { STICKERS } from '$constants/stickers';
 import { ILatLng } from '$redux/map/types';

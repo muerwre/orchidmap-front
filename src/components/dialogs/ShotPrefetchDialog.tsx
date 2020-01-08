@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { selectUserRenderer } from '$redux/user/selectors';
 
-interface Props {
-  renderer: {
-    info: string,
-    progress: number,
-  }
-}
+const mapStateToProps = state => ({
+  renderer: selectUserRenderer(state),
+});
 
-export const ShotPrefetchDialog = ({ renderer: { info, progress }}: Props) => (
+type Props = ReturnType<typeof mapStateToProps> & {};
+
+const ShotPrefetchDialogUnconnected = ({ renderer: { info, progress }}: Props) => (
   <div className="control-dialog control-dialog-small left">
     <div className="helper helper-prefetch">
       <div className="dialog-prefetch-stage">{info}</div>
@@ -19,3 +20,7 @@ export const ShotPrefetchDialog = ({ renderer: { info, progress }}: Props) => (
     </div>
   </div>
 );
+
+const ShotPrefetchDialog = connect(mapStateToProps)(ShotPrefetchDialogUnconnected);
+
+export { ShotPrefetchDialog }

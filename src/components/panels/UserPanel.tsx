@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { GuestButton } from "$components/user/GuestButton";
 import { DEFAULT_USER, IUser, ROLES } from "$constants/auth";

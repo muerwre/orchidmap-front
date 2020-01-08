@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { createElement } from 'react';
 import { MODES } from '$constants/modes';
 
 import { RouterDialog } from '$components/dialogs/RouterDialog';
@@ -52,7 +52,7 @@ const DIALOG_CONTENTS: { [x: string]: any } = {
 
 export const Component = (props: Props) =>
   props.mode && DIALOG_CONTENTS[props.mode]
-    ? React.createElement(DIALOG_CONTENTS[props.mode])
+    ? createElement(DIALOG_CONTENTS[props.mode])
     : null;
 
 export const EditorDialog = connect(

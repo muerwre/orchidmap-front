@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { STICKERS } from '$constants/stickers';
 
 type Props = {

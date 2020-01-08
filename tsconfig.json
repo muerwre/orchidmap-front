@@ -9,6 +9,8 @@
     "target": "es6",
     "jsx": "react",
     "lib": [ "es2015", "DOM", "es6" ],
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
       "$components/*": [ "src/components/*" ],

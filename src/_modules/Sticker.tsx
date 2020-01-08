@@ -1,9 +1,9 @@
 import { Map, Marker, marker } from 'leaflet';
-import * as React from 'react';
+import React from 'react';
 import { DomMarker } from '$utils/DomMarker';
 
 import { STICKERS } from '$constants/stickers';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import { StickerDesc } from '$components/StickerDesc';
 import classnames from 'classnames';
 import { getLabelDirection } from '$utils/geom';
