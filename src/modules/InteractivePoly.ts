@@ -239,6 +239,8 @@ export class InteractivePoly extends Polyline {
     this._map.on("mousemove", this.dragHintMove);
     this._map.on("mouseup", this.dragHintAddMarker);
     this._map.on("mouseout", this.stopDragHintMove);
+
+    this.fire('vertexaddstart');
   };
 
   stopDragHintMove = (): void => {
@@ -254,6 +256,7 @@ export class InteractivePoly extends Polyline {
 
     setTimeout(() => {
       this.is_dragging = false;
+      this.fire('vertexaddend');
     }, 0);
   };
 
@@ -598,6 +601,8 @@ InteractivePoly.addInitHook(function() {
   vertexdragstart,
   vertexdragend,
   vertexdrag,
+  vertexaddstart
+  vertexaddend
 
   allvertexhide
   allvertexshow

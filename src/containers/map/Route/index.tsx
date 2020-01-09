@@ -28,26 +28,33 @@ const RouteUnconnected: FC<Props> = memo(
   ({ map: { route }, editor: { editing, mode }, mapSetRoute, editorSetDistance }) => {
     const [layer, setLayer] = useState<InteractivePoly>(null);
 
-    const onDistanceChange = useCallback(
-      ({ distance }) => editorSetDistance(distance),
-      [editorSetDistance]
-    );
+    const onDistanceChange = useCallback(({ distance }) => editorSetDistance(distance), [
+      editorSetDistance,
+    ]);
 
     useEffect(() => {
       if (!MainMap) return;
 
-      setLayer(
-        new InteractivePoly([], {
-          color: 'url(#activePathGradient)',
-          weight: 6,
-          maxMarkers: isMobile() ? 20 : 100,
-          smoothFactor: 3,
-        })
-          .addTo(MainMap)
-          .on('distancechange', onDistanceChange)
-        // .on("allvertexhide", console.log)
-        // .on("allvertexshow", console.log)
-      );
+      const interactive = new InteractivePoly([], {
+        color: 'url(#activePathGradient)',
+        weight: 6,
+        maxMarkers: isMobile() ? 50 : 200,
+        smoothFactor: 3,
+      })
+        .addTo(MainMap)
+        .on('distancechange', onDistanceChange)
+        .on('vertexdragstart', MainMap.disableClicks)
+        .on('vertexdragend', MainMap.enableClicks)
+        .on('vertexaddstart', MainMap.disableClicks)
+        .on('vertexaddend', MainMap.enableClicks);
+      // .on("allvertexhide", console.log)
+      // .on("allvertexshow", console.log)
+
+      setLayer(interactive);
+
+      return () => {
+        interactive.removeFrom(MainMap);
+      };
     }, [MainMap, onDistanceChange]);
 
     const onRouteChanged = useCallback(

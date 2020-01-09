@@ -7,8 +7,8 @@ import { MainMap } from '~/constants/map';
 const createWaypointMarker = (): DomMarker => {
   const element = document.createElement('div');
 
-  // element.addEventListener('mousedown', this.lockPropagations);
-  // element.addEventListener('mouseup', this.unlockPropagations);
+  element.addEventListener('mousedown', event => event.stopPropagation());
+  element.addEventListener('mouseup', event => event.stopPropagation());
 
   return new DomMarker({
     element,
@@ -37,7 +37,7 @@ export const OsrmRouter = Routing.control({
   },
   show: false,
   plan: Routing.plan([], {
-    createMarker: (i, wp) => {
+    createMarker: (_, wp) => {
       const marker = new Marker(wp.latLng, {
         draggable: true,
         icon: createWaypointMarker(),
