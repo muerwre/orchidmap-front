@@ -2,7 +2,7 @@ import React, { FC, useEffect, memo, useState, useCallback } from 'react';
 import { IMapRoute } from '../../../redux/map/types';
 import { InteractivePoly } from '~/modules/InteractivePoly';
 import { isMobile } from '~/utils/window';
-import { LatLng, Map } from 'leaflet';
+import { LatLng, Map, LeafletEvent } from 'leaflet';
 import { selectEditor } from '~/redux/editor/selectors';
 import pick from 'ramda/es/pick';
 import * as MAP_ACTIONS from '~/redux/map/actions';
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
 import { MainMap } from '~/constants/map';
 import { MODES } from '~/constants/modes';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 
 const mapStateToProps = state => ({
   editor: pick(['mode', 'editing'], selectEditor(state)),
@@ -18,15 +19,19 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   mapSetRoute: MAP_ACTIONS.mapSetRoute,
+  editorSetDistance: EDITOR_ACTIONS.editorSetDistance,
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  typeof mapDispatchToProps & {
-  };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouteUnconnected: FC<Props> = memo(
-  ({ map: { route }, editor: { editing, mode }, mapSetRoute }) => {
+  ({ map: { route }, editor: { editing, mode }, mapSetRoute, editorSetDistance }) => {
     const [layer, setLayer] = useState<InteractivePoly>(null);
+
+    const onDistanceChange = useCallback(
+      ({ distance }) => editorSetDistance(distance),
+      [editorSetDistance]
+    );
 
     useEffect(() => {
       if (!MainMap) return;
@@ -37,12 +42,13 @@ const RouteUnconnected: FC<Props> = memo(
           weight: 6,
           maxMarkers: isMobile() ? 20 : 100,
           smoothFactor: 3,
-        }).addTo(MainMap)
-        // .on("distancechange", console.log)
+        })
+          .addTo(MainMap)
+          .on('distancechange', onDistanceChange)
         // .on("allvertexhide", console.log)
         // .on("allvertexshow", console.log)
       );
-    }, [MainMap]);
+    }, [MainMap, onDistanceChange]);
 
     const onRouteChanged = useCallback(
       ({ latlngs }) => {
@@ -80,7 +86,7 @@ const RouteUnconnected: FC<Props> = memo(
 
     useEffect(() => {
       if (!layer) return;
-      
+
       if (mode === MODES.POLY && !layer.is_drawing) {
         layer.editor.continue();
       }

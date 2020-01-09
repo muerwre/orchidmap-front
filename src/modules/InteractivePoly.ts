@@ -184,8 +184,6 @@ export class InteractivePoly extends Polyline {
       this.startDrawing();
     },
     stop: () => {
-      this.stopDragHinting();
-      this.is_drawing = false;
       this.stopDrawing();
     }
   };

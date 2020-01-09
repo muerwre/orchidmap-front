@@ -30,7 +30,7 @@ const setDistance = (
   { distance }: ReturnType<typeof ACTIONS.editorSetDistance>
 ): IEditorState => ({
   ...state,
-  distance,
+  distance: parseFloat(distance.toFixed(1)),
   estimated: getEstimated(distance, state.speed),
 });
 
