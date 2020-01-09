@@ -13,7 +13,7 @@ import {
   middleCoordPx,
 } from '~/utils/geom';
 import { Point } from 'leaflet';
-import { MainMap } from '~/containers/map/Map';
+import { MainMap } from '~/constants/map';
 
 export interface ITilePlacement {
   minX: number;

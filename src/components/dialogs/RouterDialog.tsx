@@ -1,25 +1,20 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Icon } from '~/components/panels/Icon';
-import * as EDITOR_ACTIONS from '~/redux/editor/actions'
-import classnames from "classnames";
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
+import classnames from 'classnames';
+import { connect } from 'react-redux';
+import { selectEditor } from '~/redux/editor/selectors';
 
-type Props = {
-  routerPoints: number,
-  width: number,
-  is_routing: boolean,
-
-  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel,
-  editorRouterSubmit: typeof EDITOR_ACTIONS.editorRouterSubmit,
-}
-
-const noPoints = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel }) => (
+const noPoints = ({
+  editorRouterCancel,
+}: {
+  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel;
+}) => (
   <React.Fragment>
     <div className="helper router-helper">
       <div className="helper__text">
         <Icon icon="icon-pin-1" />
-        <div className="big white upper">
-          Укажите первую точку на карте
-        </div>
+        <div className="big white upper">Укажите первую точку на карте</div>
       </div>
     </div>
     <div className="helper router-helper">
@@ -33,7 +28,11 @@ const noPoints = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_AC
   </React.Fragment>
 );
 
-const firstPoint = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel }) => (
+const firstPoint = ({
+  editorRouterCancel,
+}: {
+  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel;
+}) => (
   <React.Fragment>
     <div className="helper router-helper">
       <div className="helper__text">
@@ -53,10 +52,11 @@ const firstPoint = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_
 );
 
 const draggablePoints = ({
-  editorRouterCancel, editorRouterSubmit
+  editorRouterCancel,
+  editorRouterSubmit,
 }: {
-  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel,
-  editorRouterSubmit: typeof EDITOR_ACTIONS.editorRouterSubmit,
+  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel;
+  editorRouterSubmit: typeof EDITOR_ACTIONS.editorRouterSubmit;
 }) => (
   <React.Fragment>
     <div className="helper">
@@ -79,9 +79,23 @@ const draggablePoints = ({
   </React.Fragment>
 );
 
-export const RouterDialog = ({
-  routerPoints, editorRouterCancel, editorRouterSubmit, width, is_routing,
-}: Props) => (
+const mapStateToProps = state => ({
+  editor: selectEditor(state),
+});
+
+const mapDispatchToProps = {
+  editorRouterCancel: EDITOR_ACTIONS.editorRouterCancel,
+  editorRouterSubmit: EDITOR_ACTIONS.editorRouterSubmit,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width?: number };
+
+const RouterDialogUnconnected: FC<Props> = ({
+  editor: { routerPoints, is_routing },
+  editorRouterCancel,
+  editorRouterSubmit,
+  width,
+}) => (
   <div className="control-dialog" style={{ width }}>
     <div className={classnames('save-loader', { active: is_routing })} />
 
@@ -90,3 +104,7 @@ export const RouterDialog = ({
     {routerPoints >= 2 && draggablePoints({ editorRouterCancel, editorRouterSubmit })}
   </div>
 );
+
+const RouterDialog = connect(mapStateToProps, mapDispatchToProps)(RouterDialogUnconnected);
+
+export { RouterDialog };

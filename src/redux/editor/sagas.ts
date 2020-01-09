@@ -9,7 +9,6 @@ import {
   editorSetMode,
   editorSetReady,
   editorSetRenderer,
-  editorSetDialog,
   editorSetDialogActive,
   editorClearAll,
   editorSetFeature,
@@ -172,40 +171,25 @@ function* cropAShotSaga(params) {
 }
 
 function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChanged>) {
-  const {
-    user: { id, random_url },
-  }: ReturnType<typeof selectUser> = yield select(selectUser);
-
   const { ready }: ReturnType<typeof selectEditor> = yield select(selectEditor);
-
-  const { owner, address }: ReturnType<typeof selectMap> = yield select(selectMap);
+  const { address }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!ready) return;
 
   const { path, mode } = getUrlData(location);
 
   if (address !== path) {
-    const map = yield call(loadMapSaga, path);
-
-    if (map && map.route && map.route.owner && mode === 'edit' && map.route.owner !== id) {
-      return yield call(replaceAddressIfItsBusy, map.random_url, map.address);
-    }
-  } else if (mode === 'edit' && owner.id !== id) {
-    return yield call(replaceAddressIfItsBusy, random_url, address);
-  } else {
-    yield put(mapSetAddressOrigin(''));
+    yield call(loadMapSaga, path);
   }
 
   if (mode !== 'edit') {
     yield put(editorSetEditing(false));
-    // editor.stopEditing();
   } else {
     yield put(editorSetEditing(true));
-    // editor.startEditing();
   }
 }
 
-function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>): any {
+function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
   if (target === 'INPUT' || target === 'TEXTAREA') {
     return;
   }
@@ -237,13 +221,17 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>): 
 
 function* getGPXTrackSaga(): SagaIterator {
   const { route, stickers, title, address }: ReturnType<typeof selectMap> = yield select(selectMap);
-  // const { title, address }:  = yield select(selectUser);
 
   if (!route || route.length <= 0) return;
 
   const track = getGPXString({ route, stickers, title: title || address });
 
   return downloadGPXTrack({ track, title });
+}
+
+function* routerCancel() {
+  yield put(editorSetMode(MODES.NONE))
+  // TODO: clear router
 }
 
 export function* editorSaga() {
@@ -253,4 +241,5 @@ export function* editorSaga() {
   yield takeLatest(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
   yield takeLatest(EDITOR_ACTIONS.KEY_PRESSED, keyPressedSaga);
   yield takeLatest(EDITOR_ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
+  yield takeLatest(EDITOR_ACTIONS.ROUTER_CANCEL, routerCancel);
 }

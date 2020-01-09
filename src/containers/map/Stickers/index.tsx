@@ -3,16 +3,15 @@ import { IStickerDump } from '~/redux/map/types';
 import { FeatureGroup, Map } from 'leaflet';
 import { Sticker } from '~/containers/map/Sticker';
 import { mapSetSticker, mapDropSticker } from '~/redux/map/actions';
+import { MapContainer } from '~/constants/map';
 
 interface IProps {
   stickers: IStickerDump[];
   is_editing: boolean;
-  map: Map;
+  map: MapContainer;
   mapSetSticker: typeof mapSetSticker;
   mapDropSticker: typeof mapDropSticker;
 }
-
-// const { FC, useContext, useState, useEffect } = React;
 
 const Stickers: React.FC<IProps> = React.memo(
   ({ stickers, is_editing, map, mapSetSticker, mapDropSticker }) => {

@@ -1,14 +1,15 @@
-import React from "react";
-import { Map, marker, Marker } from "leaflet";
-import { IStickerDump } from "~/redux/map/types";
-import { STICKERS } from "~/constants/stickers";
-import { StickerDesc } from "~/components/StickerDesc";
-import classNames from "classnames";
-import { DomMarker } from "~/utils/DomMarker";
-import { createPortal } from "react-dom";
+import React from 'react';
+import { marker, Marker } from 'leaflet';
+import { IStickerDump } from '~/redux/map/types';
+import { STICKERS } from '~/constants/stickers';
+import { StickerDesc } from '~/components/StickerDesc';
+import classNames from 'classnames';
+import { DomMarker } from '~/utils/DomMarker';
+import { createPortal } from 'react-dom';
+import { MapContainer } from '~/constants/map';
 
 interface IProps {
-  map: Map;
+  map: MapContainer;
   sticker: IStickerDump;
   index: number;
   is_editing: boolean;
@@ -17,10 +18,8 @@ interface IProps {
   mapDropSticker: (index: number) => void;
 }
 
-export const getLabelDirection = (angle: number): "left" | "right" =>
-  angle % Math.PI >= -(Math.PI / 2) && angle % Math.PI <= Math.PI / 2
-    ? "left"
-    : "right";
+export const getLabelDirection = (angle: number): 'left' | 'right' =>
+  angle % Math.PI >= -(Math.PI / 2) && angle % Math.PI <= Math.PI / 2 ? 'left' : 'right';
 
 const getX = e =>
   e.touches && e.touches.length > 0
@@ -33,42 +32,43 @@ const Sticker: React.FC<IProps> = ({
   index,
   mapSetSticker,
   mapDropSticker,
-  is_editing
+  is_editing,
 }) => {
   const [layer, setLayer] = React.useState<Marker>(null);
   const [dragging, setDragging] = React.useState(false);
   const [angle, setAngle] = React.useState(sticker.angle);
 
-  const element = React.useMemo(() => document.createElement("div"), []);
+  const element = React.useMemo(() => document.createElement('div'), []);
   const stickerArrow = React.useRef(null);
   const stickerImage = React.useRef(null);
 
-  const onChange = React.useCallback(state => mapSetSticker(index, state), [
-    mapSetSticker,
-    index
-  ]);
-  const onDelete = React.useCallback(state => mapDropSticker(index), [
-    mapSetSticker,
-    index
-  ]);
+  const onChange = React.useCallback(state => mapSetSticker(index, state), [mapSetSticker, index]);
+  const onDelete = React.useCallback(state => mapDropSticker(index), [mapSetSticker, index]);
 
   const onDragStart = React.useCallback(() => {
     layer.dragging.disable();
     map.dragging.disable();
+    map.disableClicks();
 
     setDragging(true);
   }, [setDragging, layer, map]);
 
   const onDragStop = React.useCallback(() => {
-    layer.dragging.enable();
-    map.dragging.enable();
-
     setDragging(false);
     onChange({
       ...sticker,
-      angle
+      angle,
     });
+
+    layer.dragging.enable();
+    map.dragging.enable();
+    
+    setTimeout(map.enableClicks, 100);
   }, [setDragging, layer, map, sticker, angle]);
+
+  const onMoveStarted = React.useCallback(() => {
+    map.disableClicks();
+  }, [onChange, sticker, map]);
 
   const onMoveFinished = React.useCallback(
     event => {
@@ -76,10 +76,12 @@ const Sticker: React.FC<IProps> = ({
 
       onChange({
         ...sticker,
-        latlng: target.getLatLng()
+        latlng: target.getLatLng(),
       });
+
+      map.enableClicks();
     },
-    [onChange, sticker]
+    [onChange, sticker, map]
   );
 
   const onDrag = React.useCallback(
@@ -98,7 +100,7 @@ const Sticker: React.FC<IProps> = ({
     text =>
       onChange({
         ...sticker,
-        text
+        text,
       }),
     [sticker, onChange]
   );
@@ -122,21 +124,25 @@ const Sticker: React.FC<IProps> = ({
   React.useEffect(() => {
     if (!layer) return;
 
-    layer.addEventListener("dragend", onMoveFinished);
+    layer.addEventListener('dragstart', onMoveStarted);
+    layer.addEventListener('dragend', onMoveFinished);
 
-    return () => layer.removeEventListener("dragend", onMoveFinished);
-  }, [layer, onMoveFinished]);
+    return () => {
+      layer.removeEventListener('dragstart', onMoveStarted);
+      layer.removeEventListener('dragend', onMoveFinished);
+    };
+  }, [layer, onMoveFinished, onMoveStarted]);
 
   // Attaches and detaches handlers when user starts dragging
   React.useEffect(() => {
     if (dragging) {
-      document.addEventListener("mousemove", onDrag);
-      document.addEventListener("mouseup", onDragStop);
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', onDragStop);
     }
 
     return () => {
-      document.removeEventListener("mousemove", onDrag);
-      document.removeEventListener("mouseup", onDragStop);
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('mouseup', onDragStop);
     };
   }, [dragging, onDrag]);
 
@@ -146,7 +152,7 @@ const Sticker: React.FC<IProps> = ({
 
     const icon = new DomMarker({
       element,
-      className: "sticker-container"
+      className: 'sticker-container',
     });
 
     const item = marker(sticker.latlng, { icon, draggable: true }).addTo(map);
@@ -160,27 +166,20 @@ const Sticker: React.FC<IProps> = ({
   }, [element, map, sticker]);
 
   React.useEffect(() => {
-    element.className = is_editing
-      ? "sticker-container"
-      : "sticker-container inactive";
+    element.className = is_editing ? 'sticker-container' : 'sticker-container inactive';
   }, [element, is_editing]);
 
   return createPortal(
     <React.Fragment>
       <div className="sticker-arrow" ref={stickerArrow} />
-      <div
-        className={classNames(`sticker-label ${direction}`, {})}
-        ref={stickerImage}
-      >
+      <div className={classNames(`sticker-label ${direction}`)} ref={stickerImage}>
         <StickerDesc value={sticker.text} onChange={onTextChange} />
 
         <div
           className="sticker-image"
           style={{
             backgroundImage: `url('${STICKERS[sticker.set].url}`,
-            backgroundPosition: `${-STICKERS[sticker.set].layers[
-              sticker.sticker
-            ].off * 72} 50%`
+            backgroundPosition: `${-STICKERS[sticker.set].layers[sticker.sticker].off * 72} 50%`,
           }}
           onMouseDown={onDragStart}
           onMouseUp={onDragStop}
@@ -188,11 +187,7 @@ const Sticker: React.FC<IProps> = ({
           onTouchEnd={onDragStop}
         />
 
-        <div
-          className="sticker-delete"
-          onMouseDown={onDelete}
-          onTouchStart={onDelete}
-        />
+        <div className="sticker-delete" onMouseDown={onDelete} onTouchStart={onDelete} />
       </div>
     </React.Fragment>,
     element
