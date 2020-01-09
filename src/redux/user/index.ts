@@ -1,8 +1,5 @@
 import { createReducer } from 'reduxsauce';
 import { DEFAULT_USER, IUser } from '~/constants/auth';
-import { MODES } from '~/constants/modes';
-import { DIALOGS, IDialogs } from '~/constants/dialogs';
-import { IStickers } from "~/constants/stickers";
 import { USER_HANDLERS } from './handlers';
 
 export interface IRouteListItem {
@@ -15,50 +12,8 @@ export interface IRouteListItem {
 }
 
 export interface IRootReducer {
-  ready: boolean,
+  // ready: boolean,
   user: IUser,
-  editing: boolean,
-  mode: typeof MODES[keyof typeof MODES],
-  // logo: keyof typeof LOGOS,
-  routerPoints: number,
-  distance: number,
-  // description: string,
-  estimated: number,
-  speed: number,
-  activeSticker: { set?: keyof IStickers, sticker?: string },
-  // title: string,
-  // address: string,
-  // address_origin: string,
-  changed: boolean,
-  // provider: keyof typeof PROVIDERS,
-  markers_shown: boolean,
-
-  is_published: boolean,
-  // is_public: boolean,
-  is_empty: boolean,
-  is_routing: boolean,
-
-  save_error: string,
-  save_finished: boolean,
-  save_overwriting: boolean,
-  save_processing: boolean,
-  save_loading: boolean,
-
-  dialog: IDialogs[keyof IDialogs],
-  dialog_active: boolean,
-
-  features: {
-    routing: boolean,
-  },
-
-  renderer: {
-    data: string,
-    width: number,
-    height: number
-    renderer_active: boolean,
-    info: string,
-    progress: number,
-  },
 
   routes: {
     limit: 0,
@@ -81,52 +36,7 @@ export interface IRootReducer {
 export type IRootState = Readonly<IRootReducer>;
 
 export const INITIAL_STATE: IRootReducer = {
-  ready: false,
   user: { ...DEFAULT_USER },
-
-  mode: MODES.NONE,
-  // logo: DEFAULT_LOGO,
-  routerPoints: 0,
-  distance: 0,
-  // description: '',
-  estimated: 0,
-  speed: 15,
-  activeSticker: { set: null, sticker: null },
-  // title: '',
-  // address: '',
-  // address_origin: '',
-  // provider: DEFAULT_PROVIDER,
-
-  markers_shown: true,
-  changed: false,
-  editing: false,
-
-  is_published: false,
-  // is_public: false,
-  is_empty: true,
-  is_routing: false,
-
-  save_error: '',
-  save_finished: false,
-  save_overwriting: false,
-  save_processing: false,
-  save_loading: false,
-
-  dialog: DIALOGS.NONE,
-  dialog_active: false,
-
-  features: {
-    routing: false,
-  },
-
-  renderer: {
-    data: '',
-    width: 0,
-    height: 0,
-    renderer_active: false,
-    info: '',
-    progress: 0,
-  },
 
   routes: {
     limit: 0,

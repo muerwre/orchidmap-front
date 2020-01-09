@@ -4,13 +4,20 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
+
+import { createBrowserHistory } from 'history';
+import { editorLocationChanged } from '~/redux/editor/actions';
+import { PersistConfig, Persistor } from "redux-persist/es/types";
+
+
 import { userReducer, IRootReducer } from '~/redux/user';
 import { userSaga } from '~/redux/user/sagas';
-import { mapSaga } from '~/redux/map/sagas';
-import { createBrowserHistory } from 'history';
-import { locationChanged } from '~/redux/user/actions';
-import { PersistConfig, Persistor } from "redux-persist/es/types";
+
+import { editor, IEditorState } from '~/redux/editor';
+import { editorSaga } from '~/redux/editor/sagas';
+
 import { map, IMapReducer } from '~/redux/map';
+import { mapSaga } from '~/redux/map/sagas';
 
 const userPersistConfig: PersistConfig = {
   key: 'user',
@@ -21,6 +28,7 @@ const userPersistConfig: PersistConfig = {
 export interface IState {
   user: IRootReducer
   map: IMapReducer,
+  editor: IEditorState,
 }
 // create the saga middleware
 export const sagaMiddleware = createSagaMiddleware();
@@ -36,14 +44,15 @@ export const store = createStore(
   combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
     map,
-    // routing: routerReducer
+    editor,
   }),
-  composeEnhancers(applyMiddleware(/* routerMiddleware(history), */ sagaMiddleware))
+  composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
 export function configureStore(): { store: Store<any>, persistor: Persistor } {
   sagaMiddleware.run(userSaga);
   sagaMiddleware.run(mapSaga);
+  sagaMiddleware.run(editorSaga);
 
   const persistor = persistStore(store);
 
@@ -54,5 +63,5 @@ export const history = createBrowserHistory();
 
 history.listen((location, action) => {
   if (action === 'REPLACE') return;
-  store.dispatch(locationChanged(location.pathname));
+  store.dispatch(editorLocationChanged(location.pathname));
 });

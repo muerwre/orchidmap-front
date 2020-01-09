@@ -23,5 +23,8 @@
     "./src/index.tsx",
     "./backend/**/*",
     "./custom.d.ts"
+  ],
+  "exclude": [
+    "./src/_modules/**/*"
   ]
 }

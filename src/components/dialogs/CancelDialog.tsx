@@ -2,21 +2,23 @@ import React from 'react';
 
 import { MODES } from '~/constants/modes';
 import { Icon } from '~/components/panels/Icon';
-import { setMode, stopEditing } from "~/redux/user/actions";
+import { editorSetMode, editorStopEditing } from '~/redux/editor/actions';
 
-type Props = {
-  stopEditing: typeof stopEditing,
-  setMode: typeof setMode,
-  width: number,
+const mapStateToProps = () => ({});
+const mapDispatchToProps = {
+  editorSetMode,
+  editorStopEditing,
 };
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width?: number };
 
 export class CancelDialog extends React.Component<Props, void> {
   cancel = () => {
-    this.props.stopEditing();
+    this.props.editorStopEditing();
   };
 
   proceed = () => {
-    this.props.setMode(MODES.NONE);
+    this.props.editorSetMode(MODES.NONE);
   };
 
   render() {

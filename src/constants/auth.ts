@@ -11,7 +11,7 @@ export interface IUser {
   role: IRoles[keyof IRoles];
   routes: {};
   success: boolean;
-  id?: number;
+  id?: string;
   uid: string;
   token?: string;
   photo: string;

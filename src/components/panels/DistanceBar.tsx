@@ -1,19 +1,24 @@
-// flow
 import React from 'react';
 import { toHours } from '~/utils/format';
 import { Icon } from '~/components/panels/Icon';
 import { connect } from 'react-redux';
-// import Slider from 'rc-slider';
 import Slider from 'rc-slider/lib/Slider';
-import { bindActionCreators } from 'redux';
-import { setSpeed } from '~/redux/user/actions';
-import { IRootState } from "~/redux/user";
+import { editorSetSpeed } from '~/redux/editor/actions';
 import { Tooltip } from "~/components/panels/Tooltip";
 import { isMobile } from "~/utils/window";
+import { IState } from '~/redux/store';
 
-interface Props extends IRootState {
-  setSpeed: typeof setSpeed,
+function mapStateToProps(state) {
+  const {
+    editor: { distance, estimated, speed },
+  }: IState = state;
+
+  return { distance, estimated, speed };
 }
+
+const mapDispatchToProps = { editorSetSpeed };
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 interface State {
   dialogOpened: boolean,
@@ -68,7 +73,7 @@ class Component extends React.PureComponent<Props, State> {
                 min={min}
                 max={max}
                 step={step}
-                onChange={this.props.setSpeed}
+                onChange={this.props.editorSetSpeed}
                 defaultValue={15}
                 value={speed}
                 marks={marks}
@@ -80,18 +85,6 @@ class Component extends React.PureComponent<Props, State> {
     );
   }
 }
-
-function mapStateToProps(state) {
-  const {
-    user: { distance, estimated, speed },
-  } = state;
-
-  return { distance, estimated, speed };
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  setSpeed,
-}, dispatch);
 
 export const DistanceBar = connect(
   mapStateToProps,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { MODES } from '~/constants/modes';
 import classnames from 'classnames';
 
@@ -6,21 +6,34 @@ import { Icon } from '~/components/panels/Icon';
 import { EditorDialog } from '~/components/panels/EditorDialog';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setMode, startEditing, stopEditing, takeAShot, keyPressed } from '~/redux/user/actions';
-import { IRootState } from "~/redux/user";
-import { Tooltip } from "~/components/panels/Tooltip";
+import {
+  editorSetMode,
+  editorStartEditing,
+  editorStopEditing,
+  editorTakeAShot,
+  editorKeyPressed,
+} from '~/redux/editor/actions';
+import { Tooltip } from '~/components/panels/Tooltip';
+import { IState } from '~/redux/store';
+import { selectEditor } from '~/redux/editor/selectors';
 
-interface Props extends IRootState {
-  routing: IRootState['features']['routing'],
-  setMode: typeof setMode,
-  startEditing: typeof startEditing,
-  stopEditing: typeof stopEditing,
-  keyPressed: EventListenerOrEventListenerObject,
-}
+const mapStateToProps = (state: IState) => ({
+  editor: selectEditor(state),
+});
 
-class Component extends React.PureComponent<Props, void> {
+const mapDispatchToProps = {
+  editorSetMode,
+  editorStartEditing,
+  editorStopEditing,
+  editorTakeAShot,
+  editorKeyPressed,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
+
+class EditorPanelUnconnected extends PureComponent<Props, void> {
   componentDidMount() {
-    window.addEventListener('keydown', this.props.keyPressed);
+    window.addEventListener('keydown', this.props.editorKeyPressed as any);
 
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
@@ -33,29 +46,38 @@ class Component extends React.PureComponent<Props, void> {
   panel: HTMLElement = null;
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.props.keyPressed);
+    window.removeEventListener('keydown', this.props.editorKeyPressed as any);
   }
 
-  startPolyMode = () => this.props.setMode(MODES.POLY);
-  startStickerMode = () => this.props.setMode(MODES.STICKERS_SELECT);
-  startRouterMode = () => this.props.setMode(MODES.ROUTER);
-  startTrashMode = () => this.props.setMode(MODES.TRASH);
+  startPolyMode = () => this.props.editorSetMode(MODES.POLY);
+  startStickerMode = () => this.props.editorSetMode(MODES.STICKERS_SELECT);
+  startRouterMode = () => this.props.editorSetMode(MODES.ROUTER);
+  startTrashMode = () => this.props.editorSetMode(MODES.TRASH);
   startSaveMode = () => {
     // if (!this.props.changed) return;
-    this.props.setMode(MODES.SAVE);
+    this.props.editorSetMode(MODES.SAVE);
   };
 
   render() {
     const {
-      mode, changed, editing, routing,
+      editor: {
+        mode,
+        changed,
+        editing,
+        features: { routing },
+      },
     } = this.props;
 
     return (
       <div>
-        <div className={classnames('panel right', { active: editing })} ref={el => { this.panel = el; }}>
+        <div
+          className={classnames('panel right', { active: editing })}
+          ref={el => {
+            this.panel = el;
+          }}
+        >
           <div className="control-bar control-bar-padded">
-            {
-              routing &&
+            {routing && (
               <button
                 className={classnames({ active: mode === MODES.ROUTER })}
                 onClick={this.startRouterMode}
@@ -63,8 +85,7 @@ class Component extends React.PureComponent<Props, void> {
                 <Tooltip>Автоматический маршрут</Tooltip>
                 <Icon icon="icon-route-2" />
               </button>
-            }
-
+            )}
 
             <button
               className={classnames({ active: mode === MODES.POLY })}
@@ -75,13 +96,14 @@ class Component extends React.PureComponent<Props, void> {
             </button>
 
             <button
-              className={classnames({ active: (mode === MODES.STICKERS || mode === MODES.STICKERS_SELECT) })}
+              className={classnames({
+                active: mode === MODES.STICKERS || mode === MODES.STICKERS_SELECT,
+              })}
               onClick={this.startStickerMode}
             >
               <Tooltip>Точки маршрута</Tooltip>
               <Icon icon="icon-sticker-3" />
             </button>
-
           </div>
 
           <div className="control-sep" />
@@ -99,10 +121,7 @@ class Component extends React.PureComponent<Props, void> {
           <div className="control-sep" />
 
           <div className="control-bar">
-            <button
-              className="highlighted cancel"
-              onClick={this.props.stopEditing}
-            >
+            <button className="highlighted cancel" onClick={this.props.editorStopEditing}>
               <Icon icon="icon-cancel-1" />
             </button>
 
@@ -114,59 +133,21 @@ class Component extends React.PureComponent<Props, void> {
               <Icon icon="icon-check-1" />
             </button>
           </div>
-
         </div>
 
         <div className={classnames('panel right', { active: !editing })}>
           <div className="control-bar">
-            <button className="primary single" onClick={this.props.startEditing}>
+            <button className="primary single" onClick={this.props.editorStartEditing}>
               <Icon icon="icon-route-2" />
-              <span>
-                РЕДАКТИРОВАТЬ
-              </span>
+              <span>РЕДАКТИРОВАТЬ</span>
             </button>
           </div>
         </div>
 
-        <EditorDialog
-          width={((this.panel && this.panel.getBoundingClientRect().width) || 0)}
-        />
-
+        <EditorDialog width={(this.panel && this.panel.getBoundingClientRect().width) || 0} />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  const {
-    user: {
-      editing,
-      mode,
-      changed,
-      features: {
-        routing,
-      }
-    },
-  } = state;
-
-  return {
-    editing,
-    mode,
-    changed,
-    routing,
-  };
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  setMode,
-  // setLogo,
-  startEditing,
-  stopEditing,
-  takeAShot,
-  keyPressed,
-}, dispatch);
-
-export const EditorPanel = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Component);
+export const EditorPanel = connect(mapStateToProps, mapDispatchToProps)(EditorPanelUnconnected);

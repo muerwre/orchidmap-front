@@ -1,39 +1,58 @@
-import { takeEvery, select, put, call, TakeEffect, race, take, takeLatest } from 'redux-saga/effects';
+import {
+  takeEvery,
+  select,
+  put,
+  call,
+  TakeEffect,
+  race,
+  take,
+  takeLatest,
+} from 'redux-saga/effects';
 import { MAP_ACTIONS } from './constants';
-import { mapClicked, mapAddSticker, mapSetProvider, mapSet, mapSetTitle, mapSetAddress, mapSetDescription, mapSetOwner, mapSetPublic } from './actions';
-import { selectUserMode, selectUserActiveSticker, selectUser, selectUserUser } from '~/redux/user/selectors';
+import {
+  mapClicked,
+  mapAddSticker,
+  mapSetProvider,
+  mapSet,
+  mapSetTitle,
+  mapSetAddressOrigin,
+} from './actions';
+import { selectUser, selectUserUser } from '~/redux/user/selectors';
 import { MODES } from '~/constants/modes';
 import {
-  setMode,
-  setChanged,
-  setAddressOrigin,
-  setEditing,
-  setReady,
-  setActiveSticker,
-  setSaveError,
-  setSaveLoading,
-  sendSaveRequest,
-  setSaveSuccess,
-  setSaveOverwrite,
-} from '~/redux/user/actions';
+  editorSetMode,
+  editorSetChanged,
+  editorSetEditing,
+  editorSetReady,
+  editorSetActiveSticker,
+  editorSetSaveError,
+  editorSetSaveLoading,
+  editorSendSaveRequest,
+  editorSetSaveSuccess,
+  editorSetSaveOverwrite,
+} from '~/redux/editor/actions';
 import { pushLoaderState, getUrlData, pushPath, replacePath } from '~/utils/history';
-import { setReadySaga, searchSetSagaWorker } from '~/redux/user/sagas';
+import { searchSetSagaWorker } from '~/redux/user/sagas';
 import { getStoredMap, postMap } from '~/utils/api';
 import { Unwrap } from '~/utils/middleware';
-import { DEFAULT_PROVIDER } from '~/constants/providers';
 import { USER_ACTIONS } from '~/redux/user/constants';
-import { selectMap } from './selectors';
+import { selectMap, selectMapProvider } from './selectors';
 import { TIPS } from '~/constants/tips';
 import { delay } from 'redux-saga';
+import { setReadySaga } from '../editor/sagas';
+import { selectEditor } from '../editor/selectors';
+import { EDITOR_ACTIONS } from '../editor/constants';
 
 function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {
-  const mode = yield select(selectUserMode);
-  const { set, sticker } = yield select(selectUserActiveSticker);
+  const {
+    mode,
+    activeSticker: { set, sticker },
+  }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   switch (mode) {
     case MODES.STICKERS:
       yield put(mapAddSticker({ latlng, set, sticker, text: '', angle: 0 }));
-      yield put(setMode(MODES.NONE));
+      yield put(editorSetMode(MODES.NONE));
       break;
 
     default:
@@ -64,7 +83,7 @@ function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {
 
 export function* replaceAddressIfItsBusy(destination, original) {
   if (original) {
-    yield put(setAddressOrigin(original));
+    yield put(mapSetAddressOrigin(original));
   }
 
   pushPath(`/${destination}/edit`);
@@ -97,14 +116,15 @@ export function* loadMapSaga(path) {
 function* startEmptyEditorSaga() {
   const {
     user: { id, random_url },
-    provider = DEFAULT_PROVIDER,
-  } = yield select(selectUser);
+  }: ReturnType<typeof selectUser> = yield select(selectUser);
+
+  const provider: ReturnType<typeof selectMapProvider> = yield select(selectMapProvider);
 
   // TODO: set owner { id }
   pushPath(`/${random_url}/edit`);
 
-  yield put(setChanged(false));
-  yield put(setEditing(true));
+  yield put(editorSetChanged(false));
+  yield put(editorSetEditing(true));
 
   return yield call(setReadySaga);
 }
@@ -114,9 +134,9 @@ export function* mapInitSaga() {
 
   const { path, mode, hash } = getUrlData();
   const {
-    provider,
     user: { id },
-  } = yield select(selectUser);
+  }: ReturnType<typeof selectUser> = yield select(selectUser);
+  const provider: ReturnType<typeof selectMapProvider> = yield select(selectMapProvider);
 
   yield put(mapSetProvider(provider));
 
@@ -139,14 +159,12 @@ export function* mapInitSaga() {
           yield call(setReadySaga);
           yield call(replaceAddressIfItsBusy, map.random_url, map.address);
         } else {
-          yield put(setAddressOrigin(''));
+          yield put(mapSetAddressOrigin(''));
         }
 
-        yield put(setEditing(true));
-        // TODO: start editing
+        yield put(editorSetEditing(true));
       } else {
-        yield put(setEditing(false));
-        // TODO: stop editing
+        yield put(editorSetEditing(false));
       }
 
       yield call(setReadySaga);
@@ -155,7 +173,7 @@ export function* mapInitSaga() {
   }
 
   yield call(startEmptyEditorSaga);
-  yield put(setReady(true));
+  yield put(editorSetReady(true));
 
   pushLoaderState(100);
 
@@ -163,7 +181,7 @@ export function* mapInitSaga() {
 }
 
 function* setActiveStickerSaga() {
-  yield put(setMode(MODES.STICKERS));
+  yield put(editorSetMode(MODES.STICKERS));
 }
 
 function* setTitleSaga({ title }: ReturnType<typeof mapSetTitle>) {
@@ -172,10 +190,14 @@ function* setTitleSaga({ title }: ReturnType<typeof mapSetTitle>) {
   }
 }
 
+function* startEditingSaga() {
+  const { path } = getUrlData();
+  yield pushPath(`/${path}/edit`);
+}
+
 function* clearSaga({ type }) {
   switch (type) {
-    case USER_ACTIONS.CLEAR_POLY:
-      // TODO: clear router waypoints
+    case EDITOR_ACTIONS.CLEAR_POLY:
       yield put(
         mapSet({
           route: [],
@@ -183,7 +205,7 @@ function* clearSaga({ type }) {
       );
       break;
 
-    case USER_ACTIONS.CLEAR_STICKERS:
+    case EDITOR_ACTIONS.CLEAR_STICKERS:
       yield put(
         mapSet({
           stickers: [],
@@ -191,8 +213,8 @@ function* clearSaga({ type }) {
       );
       break;
 
-    case USER_ACTIONS.CLEAR_ALL:
-      yield put(setChanged(false));
+    case EDITOR_ACTIONS.CLEAR_ALL:
+      yield put(editorSetChanged(false));
       yield put(
         mapSet({
           route: [],
@@ -205,8 +227,8 @@ function* clearSaga({ type }) {
       break;
   }
 
-  yield put(setActiveSticker(null)); // TODO: move to maps
-  yield put(setMode(MODES.NONE));
+  yield put(editorSetActiveSticker(null));
+  yield put(editorSetMode(MODES.NONE));
 }
 
 function* sendSaveRequestSaga({
@@ -215,17 +237,18 @@ function* sendSaveRequestSaga({
   force,
   is_public,
   description,
-}: ReturnType<typeof sendSaveRequest>) {
-  const { route, stickers, provider } = yield select(selectMap);
+}: ReturnType<typeof editorSendSaveRequest>) {
+  const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!route.length && !stickers.length) {
-    return yield put(setSaveError(TIPS.SAVE_EMPTY)); // TODO: move setSaveError to editor
+    return yield put(editorSetSaveError(TIPS.SAVE_EMPTY));
   }
 
-  const { logo, distance } = yield select(selectUser);
-  const { token } = yield select(selectUserUser);
+  const { logo }: ReturnType<typeof selectMap> = yield select(selectMap);
+  const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+  const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
 
-  yield put(setSaveLoading(true)); // TODO: move setSaveLoading to maps
+  yield put(editorSetSaveLoading(true)); 
 
   const {
     result,
@@ -250,20 +273,21 @@ function* sendSaveRequestSaga({
       description,
     }),
     timeout: delay(10000),
-    cancel: take(USER_ACTIONS.RESET_SAVE_DIALOG),
+    cancel: take(EDITOR_ACTIONS.RESET_SAVE_DIALOG),
   });
 
-  yield put(setSaveLoading(false));
+  yield put(editorSetSaveLoading(false));
 
-  if (cancel) return yield put(setMode(MODES.NONE));
+  if (cancel) return yield put(editorSetMode(MODES.NONE));
 
-  if (result && result.data.code === 'already_exist') return yield put(setSaveOverwrite()); // TODO: move setSaveOverwrite to editor
-  if (result && result.data.code === 'conflict') return yield put(setSaveError(TIPS.SAVE_EXISTS));
+  if (result && result.data.code === 'already_exist') return yield put(editorSetSaveOverwrite());
+  if (result && result.data.code === 'conflict')
+    return yield put(editorSetSaveError(TIPS.SAVE_EXISTS));
   if (timeout || !result || !result.data.route || !result.data.route.address)
-    return yield put(setSaveError(TIPS.SAVE_TIMED_OUT));
+    return yield put(editorSetSaveError(TIPS.SAVE_TIMED_OUT));
 
-  return yield put( // TODO: move setSaveSuccess to editor
-    setSaveSuccess({
+  return yield put(
+    editorSetSaveSuccess({
       address: result.data.route.address,
       title: result.data.route.title,
       is_public: result.data.route.is_public,
@@ -279,18 +303,23 @@ function* setSaveSuccessSaga({
   title,
   is_public,
   description,
-}: ReturnType<typeof setSaveSuccess>) {
-  const { id } = yield select(selectUser);
-  const { dialog_active } = yield select(selectUser);
+}: ReturnType<typeof editorSetSaveSuccess>) {
+  const { id }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
+  const { dialog_active }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   replacePath(`/${address}/edit`);
 
-  yield put(mapSetTitle(title));
-  yield put(mapSetAddress(address));
-  yield put(mapSetPublic(is_public));
-  yield put(mapSetDescription(description));
-  yield put(setChanged(false));
-  yield put(mapSetOwner({ id }));
+  yield put(
+    mapSet({
+      title,
+      address,
+      is_public,
+      description,
+      owner: { id },
+    })
+  );
+
+  yield put(editorSetChanged(false));
 
   if (dialog_active) {
     yield call(searchSetSagaWorker);
@@ -298,27 +327,25 @@ function* setSaveSuccessSaga({
 
   // yield editor.setInitialData();
   // TODO: set initial data here
-  
-  return
+
+  return;
 }
 
 export function* mapSaga() {
   // TODO: setChanged on set route, logo, provider, stickers
-  
-  yield takeEvery(USER_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga); // TODO: move active sticker to maps
+  yield takeEvery(EDITOR_ACTIONS.START_EDITING, startEditingSaga);
+  yield takeEvery(EDITOR_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
   yield takeEvery(MAP_ACTIONS.MAP_CLICKED, onMapClick);
   yield takeEvery(MAP_ACTIONS.SET_TITLE, setTitleSaga);
-  // yield takeEvery(USER_ACTIONS.SET_LOGO, setLogoSaga);
-  yield takeLatest(USER_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
-  yield takeLatest(USER_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
+  yield takeLatest(EDITOR_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
+  yield takeLatest(EDITOR_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
 
   yield takeEvery(
-    // TODO: move all actions to MAP
     [
-      USER_ACTIONS.CLEAR_POLY,
-      USER_ACTIONS.CLEAR_STICKERS,
-      USER_ACTIONS.CLEAR_ALL,
-      USER_ACTIONS.CLEAR_CANCEL,
+      EDITOR_ACTIONS.CLEAR_POLY,
+      EDITOR_ACTIONS.CLEAR_STICKERS,
+      EDITOR_ACTIONS.CLEAR_ALL,
+      EDITOR_ACTIONS.CLEAR_CANCEL,
     ],
     clearSaga
   );

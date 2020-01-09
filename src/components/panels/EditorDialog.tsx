@@ -12,29 +12,13 @@ import { connect } from 'react-redux';
 
 import { ProviderDialog } from '~/components/dialogs/ProviderDialog';
 import { ShotPrefetchDialog } from '~/components/dialogs/ShotPrefetchDialog';
-import { selectUserMode } from '~/redux/user/selectors';
+import { selectEditorMode } from '~/redux/editor/selectors';
 
-const mapStateToProps = state => ({ mode: selectUserMode(state) });
-
-// const mapDispatchToProps = dispatch => bindActionCreators({
-//   routerCancel: USER_ACTIONS.routerCancel,
-//   routerSubmit: USER_ACTIONS.routerSubmit,
-//   setActiveSticker: USER_ACTIONS.setActiveSticker,
-//   clearStickers: USER_ACTIONS.clearStickers,
-//   clearPoly: USER_ACTIONS.clearPoly,
-//   clearAll: USER_ACTIONS.clearAll,
-//   clearCancel: USER_ACTIONS.clearCancel,
-//   stopEditing: USER_ACTIONS.stopEditing,
-//   setEditing: USER_ACTIONS.setEditing,
-//   setMode: USER_ACTIONS.setMode,
-//   sendSaveRequest: USER_ACTIONS.sendSaveRequest,
-//   changeProvider: USER_ACTIONS.changeProvider,
-//   mapSetLogo: MAP_ACTIONS.mapSetLogo,
-// }, dispatch);
+const mapStateToProps = state => ({ mode: selectEditorMode(state) });
 
 type Props = ReturnType<typeof mapStateToProps> & {
-    width: number;
-  };
+  width: number;
+};
 
 const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.ROUTER]: RouterDialog,
@@ -47,12 +31,9 @@ const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.SHOT_PREFETCH]: ShotPrefetchDialog,
 };
 
-export const Component = (props: Props) =>
-  props.mode && DIALOG_CONTENTS[props.mode]
-    ? createElement(DIALOG_CONTENTS[props.mode])
-    : null;
+const EditorDialogUnconnected = (props: Props) =>
+  props.mode && DIALOG_CONTENTS[props.mode] ? createElement(DIALOG_CONTENTS[props.mode]) : null;
 
-export const EditorDialog = connect(
-  mapStateToProps
-  // mapDispatchToProps
-)(Component);
+const EditorDialog = connect(mapStateToProps)(EditorDialogUnconnected);
+
+export { EditorDialog };

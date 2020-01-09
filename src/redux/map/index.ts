@@ -12,6 +12,7 @@ export interface IMapReducer {
   title: string;
   logo: string;
   address: string;
+  address_origin: string;
   description: string;
   owner: { id: string };
   is_public: boolean;
@@ -24,6 +25,7 @@ export const MAP_INITIAL_STATE: IMapReducer = {
   stickers: [],
   title: '',
   address: '',
+  address_origin: '',
   description: '',
   owner: { id: null },
   is_public: false,

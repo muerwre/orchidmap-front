@@ -6,12 +6,14 @@ import {
   searchSetDistance,
   searchSetTitle,
   searchSetTab,
-  setDialogActive,
   mapsLoadMore,
   dropRoute,
   modifyRoute,
   toggleRouteStarred,
 } from '~/redux/user/actions';
+
+import { editorSetDialogActive } from '~/redux/editor/actions';
+
 import { isMobile } from '~/utils/window';
 import classnames from 'classnames';
 
@@ -19,28 +21,60 @@ import Range from 'rc-slider/lib/Range';
 import { TABS, TABS_TITLES } from '~/constants/dialogs';
 import { Icon } from '~/components/panels/Icon';
 import { pushPath } from '~/utils/history';
-import { IRootState, IRouteListItem } from '~/redux/user';
+import { IRouteListItem } from '~/redux/user';
 import { ROLES } from '~/constants/auth';
 import { IState } from '~/redux/store';
 
-export interface IMapListDialogProps extends IRootState {
-  marks: { [x: number]: string };
-  routes_sorted: Array<IRouteListItem>;
-  routes: IRootState['routes'];
-  ready: IRootState['ready'];
-  role: IRootState['user']['role'];
 
-  mapsLoadMore: typeof mapsLoadMore;
-  searchSetDistance: typeof searchSetDistance;
-  searchSetTitle: typeof searchSetTitle;
-  searchSetTab: typeof searchSetTab;
-  setDialogActive: typeof setDialogActive;
-  dropRoute: typeof dropRoute;
-  modifyRoute: typeof modifyRoute;
-  toggleRouteStarred: typeof toggleRouteStarred;
-}
+const mapStateToProps = ({
+  editor: { editing },
+  user: {
+    routes,
+    user: { role },
+  },
+}: IState) => {
+  if (routes.filter.max >= 9999) {
+    return {
+      routes,
+      editing,
+      marks: {},
+      ready: false,
+      role,
+    };
+  }
 
-export interface IMapListDialogState {
+  return {
+    role,
+    routes,
+    editing,
+    ready: true,
+    marks: [...new Array(Math.floor((routes.filter.max - routes.filter.min) / 25) + 1)].reduce(
+      (obj, el, i) => ({
+        ...obj,
+        [routes.filter.min + i * 25]: ` ${routes.filter.min + i * 25}${
+          routes.filter.min + i * 25 >= 200 ? '+' : ''
+        }
+      `,
+      }),
+      {}
+    ),
+  };
+};
+
+const mapDispatchToProps = {
+  searchSetDistance,
+  searchSetTitle,
+  searchSetTab,
+  editorSetDialogActive,
+  mapsLoadMore,
+  dropRoute,
+  modifyRoute,
+  toggleRouteStarred,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
+
+export interface State {
   menu_target: IRouteListItem['address'];
   editor_target: IRouteListItem['address'];
 
@@ -48,7 +82,7 @@ export interface IMapListDialogState {
   is_dropping: boolean;
 }
 
-class MapListDialogUnconnected extends React.Component<IMapListDialogProps, IMapListDialogState> {
+class MapListDialogUnconnected extends React.Component<Props, State> {
   state = {
     menu_target: null,
     editor_target: null,
@@ -92,14 +126,11 @@ class MapListDialogUnconnected extends React.Component<IMapListDialogProps, IMap
   };
 
   openRoute = (_id: string): void => {
-    if (isMobile()) this.props.setDialogActive(false);
+    if (isMobile()) this.props.editorSetDialogActive(false);
 
-    // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
     this.stopEditing();
 
     pushPath(`/${_id}`);
-
-    // pushPath(`/${_id}/${this.props.editing ? 'edit' : ''}`);
   };
 
   onScroll = (e: {
@@ -148,7 +179,7 @@ class MapListDialogUnconnected extends React.Component<IMapListDialogProps, IMap
         filter: { min, max, title, distance, tab },
       },
       marks,
-    }: IMapListDialogProps = this.props;
+    }: Props = this.props;
 
     const { editor_target, menu_target, is_editing, is_dropping } = this.state;
 
@@ -245,51 +276,6 @@ class MapListDialogUnconnected extends React.Component<IMapListDialogProps, IMap
   }
 }
 
-const mapStateToProps = ({
-  user: {
-    editing,
-    routes,
-    user: { role },
-  },
-}: IState) => {
-  if (routes.filter.max >= 9999) {
-    return {
-      routes,
-      editing,
-      marks: {},
-      ready: false,
-      role,
-    };
-  }
-
-  return {
-    role,
-    routes,
-    editing,
-    ready: true,
-    marks: [...new Array(Math.floor((routes.filter.max - routes.filter.min) / 25) + 1)].reduce(
-      (obj, el, i) => ({
-        ...obj,
-        [routes.filter.min + i * 25]: ` ${routes.filter.min + i * 25}${
-          routes.filter.min + i * 25 >= 200 ? '+' : ''
-        }
-      `,
-      }),
-      {}
-    ),
-  };
-};
-
-const mapDispatchToProps = {
-  searchSetDistance,
-  searchSetTitle,
-  searchSetTab,
-  setDialogActive,
-  mapsLoadMore,
-  dropRoute,
-  modifyRoute,
-  toggleRouteStarred,
-};
 
 const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(MapListDialogUnconnected);
 

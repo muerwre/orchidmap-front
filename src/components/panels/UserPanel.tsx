@@ -4,35 +4,41 @@ import { GuestButton } from '~/components/user/GuestButton';
 import { DEFAULT_USER, ROLES } from '~/constants/auth';
 import { UserButton } from '~/components/user/UserButton';
 import { UserMenu } from '~/components/user/UserMenu';
+import { setUser, userLogout, gotVkUser, openMapDialog } from '~/redux/user/actions';
 import {
-  setUser,
-  userLogout,
-  takeAShot,
-  setDialog,
-  gotVkUser,
-  setDialogActive,
-  openMapDialog,
-  getGPXTrack,
-} from '~/redux/user/actions';
+  editorTakeAShot,
+  editorSetDialog,
+  editorSetDialogActive,
+  editorGetGPXTrack,
+} from '~/redux/editor/actions';
 import { connect } from 'react-redux';
 import { Icon } from '~/components/panels/Icon';
 
 import classnames from 'classnames';
 import { CLIENT } from '~/config/frontend';
 import { DIALOGS, TABS } from '~/constants/dialogs';
-import { IRootState } from '~/redux/user';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { TitleDialog } from '~/components/dialogs/TitleDialog';
 
-interface Props extends IRootState {
-  userLogout: typeof userLogout;
-  setDialog: typeof setDialog;
-  setDialogActive: typeof setDialogActive;
-  gotVkUser: typeof gotVkUser;
-  takeAShot: typeof takeAShot;
-  openMapDialog: typeof openMapDialog;
-  getGPXTrack: typeof getGPXTrack;
-}
+const mapStateToProps = ({ user: { user }, editor: { dialog, dialog_active, is_empty } }) => ({
+  dialog,
+  dialog_active,
+  user,
+  is_empty,
+});
+
+const mapDispatchToProps = {
+  setUser,
+  userLogout,
+  editorTakeAShot,
+  editorSetDialog,
+  gotVkUser,
+  editorSetDialogActive,
+  openMapDialog,
+  editorGetGPXTrack,
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 interface State {
   menuOpened: boolean;
@@ -84,8 +90,8 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
   openAppInfoDialog = () => {
     this.setMenuOpened();
-    this.props.setDialog(DIALOGS.APP_INFO);
-    this.props.setDialogActive(this.props.dialog !== DIALOGS.APP_INFO);
+    this.props.editorSetDialog(DIALOGS.APP_INFO);
+    this.props.editorSetDialogActive(this.props.dialog !== DIALOGS.APP_INFO);
   };
 
   openOauthFrame = () => {
@@ -143,7 +149,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
           <div className="control-sep" />
 
           <div className="control-bar">
-            <button className={classnames({ active: false })} onClick={this.props.takeAShot}>
+            <button className={classnames({ active: false })} onClick={this.props.editorTakeAShot}>
               <Tooltip>Снимок карты</Tooltip>
               <Icon icon="icon-shot-4" />
             </button>
@@ -153,7 +159,10 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
               <div className="control-sep" />
 
               <div className="control-bar">
-                <button className={classnames({ active: false })} onClick={this.props.getGPXTrack}>
+                <button
+                  className={classnames({ active: false })}
+                  onClick={this.props.editorGetGPXTrack}
+                >
                   <Tooltip>Экспорт GPX</Tooltip>
                   <Icon icon="icon-gpx-1" />
                 </button>
@@ -165,24 +174,6 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
     );
   }
 }
-
-const mapStateToProps = ({ user: { dialog, dialog_active, user, is_empty } }) => ({
-  dialog,
-  dialog_active,
-  user,
-  is_empty,
-});
-
-const mapDispatchToProps = {
-  setUser,
-  userLogout,
-  takeAShot,
-  setDialog,
-  gotVkUser,
-  setDialogActive,
-  openMapDialog,
-  getGPXTrack,
-};
 
 const UserPanel = connect(mapStateToProps, mapDispatchToProps)(UserPanelUnconnected);
 

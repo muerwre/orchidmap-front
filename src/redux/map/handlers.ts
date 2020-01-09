@@ -12,6 +12,7 @@ import {
   mapSetOwner,
   mapSetPublic,
   mapSetLogo,
+  mapSetAddressOrigin,
 } from './actions';
 
 const setMap = (state: IMapReducer, { map }: ReturnType<typeof mapSet>): IMapReducer => ({
@@ -86,6 +87,11 @@ const setLogo = (state: IMapReducer, { logo }: ReturnType<typeof mapSetLogo>): I
   logo,
 });
 
+const setAddressOrigin = (state, { address_origin }: ReturnType<typeof mapSetAddressOrigin>): IMapReducer => ({
+  ...state,
+  address_origin
+});
+
 export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_MAP]: setMap,
   [MAP_ACTIONS.SET_PROVIDER]: setProvider,
@@ -99,4 +105,5 @@ export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_OWNER]: setOwner,
   [MAP_ACTIONS.SET_PUBLIC]: setPublic,
   [MAP_ACTIONS.SET_LOGO]: setLogo,
+  [MAP_ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
 };

@@ -5,11 +5,11 @@ import classnames from 'classnames';
 import { getStyle } from '~/utils/dom';
 import { nearestInt } from '~/utils/geom';
 import { parseDesc } from '~/utils/format';
-import { selectUser } from '~/redux/user/selectors';
 import { selectMap } from '~/redux/map/selectors';
+import { selectEditor } from '~/redux/editor/selectors';
 
 const mapStateToProps = state => ({
-  user: selectUser(state),
+  editor: selectEditor(state),
   map: selectMap(state),
 });
 
@@ -80,7 +80,7 @@ export class TitleDialogUnconnected extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      user: { editing },
+      editor: { editing },
       map: { title, description },
     } = this.props;
     const { raised, height, height_raised } = this.state;

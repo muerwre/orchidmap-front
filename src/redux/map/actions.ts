@@ -68,3 +68,8 @@ export const mapSetLogo = (logo: IMapReducer['logo']) => ({
   type: MAP_ACTIONS.SET_LOGO,
   logo,
 });
+
+export const mapSetAddressOrigin = (address_origin: IMapReducer['address_origin']) => ({
+  type: MAP_ACTIONS.SET_ADDRESS_ORIGIN,
+  address_origin,
+});

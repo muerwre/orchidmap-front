@@ -164,4 +164,7 @@ export const toTranslit = (string: string = ''): string =>
 
 export const parseDesc = (text: string = ''): string => text.replace(/(\n{2,})/gi, '\n\n');
 
-// export const colorizeTitle = (text: string): string => text.replace(/(\[[^\]^]+\])/, ``)
+export const getEstimated = (distance: number, speed: number = 15): number => {
+  const time = (distance && (distance / speed)) || 0;
+  return (time && parseFloat(time.toFixed(1)));
+};

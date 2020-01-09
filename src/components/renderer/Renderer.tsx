@@ -1,21 +1,25 @@
 import React from 'react';
 
-import { hideRenderer, cropAShot } from '~/redux/user/actions';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Croppr from 'croppr';
 import 'croppr/dist/croppr.css';
 import { LOGOS } from '~/constants/logos';
 import { RendererPanel } from '~/components/panels/RendererPanel';
-import { IRootState } from "~/redux/user";
-import { IRoute } from '~/redux/map/types';
+import { selectEditor } from '~/redux/editor/selectors';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
+import { selectMap } from '~/redux/map/selectors';
 
-type Props = {
-  data: IRootState['renderer']['data'],
-  logo: IRoute['logo'],
-  hideRenderer: typeof hideRenderer,
-  cropAShot: typeof cropAShot,
+const mapStateToProps = state => ({
+  editor: selectEditor(state),
+  map: selectMap(state),
+});
+
+const mapDispatchToProps = {
+  editorHideRenderer: EDITOR_ACTIONS.editorHideRenderer,
+  editorCropAShot: EDITOR_ACTIONS.editorCropAShot,
 };
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 type State = {
   opacity: number,
@@ -47,7 +51,7 @@ class Component extends React.Component<Props, State> {
     this.logo.style.transform = `scale(${scale})`;
 
     this.logoImg = document.createElement('img');
-    if (this.props.logo && LOGOS[this.props.logo][1]) this.logoImg.src = LOGOS[this.props.logo][1];
+    if (this.props.map.logo && LOGOS[this.props.map.logo][1]) this.logoImg.src = LOGOS[this.props.map.logo][1];
 
     this.logo.append(this.logoImg);
     regionEl.append(this.logo);
@@ -58,10 +62,10 @@ class Component extends React.Component<Props, State> {
   image: HTMLImageElement;
   logoImg: HTMLImageElement;
 
-  getImage = () => this.props.cropAShot(this.croppr.getValue());
+  getImage = () => this.props.editorCropAShot(this.croppr.getValue());
 
   render() {
-    const { data } = this.props;
+    const { data } = this.props.editor.renderer;
     const { opacity } = this.state;
     const { innerWidth, innerHeight } = window;
     const padding = 30;
@@ -95,20 +99,12 @@ class Component extends React.Component<Props, State> {
         </div>
 
         <RendererPanel
-          onCancel={this.props.hideRenderer}
+          onCancel={this.props.editorHideRenderer}
           onSubmit={this.getImage}
         />
       </div>
     );
   }
 }
-
-
-const mapStateToProps = state => ({ ...state.user.renderer, logo: state.user.logo });
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  hideRenderer,
-  cropAShot,
-}, dispatch);
 
 export const Renderer = connect(mapStateToProps, mapDispatchToProps)(Component);

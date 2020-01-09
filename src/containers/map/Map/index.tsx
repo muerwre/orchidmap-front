@@ -12,15 +12,15 @@ import * as MAP_ACTIONS from "~/redux/map/actions";
 import { Route } from "~/containers/map/Route";
 import { TileLayer } from "~/containers/map/TileLayer";
 import { Stickers } from "~/containers/map/Stickers";
-import { selectUserEditing } from '~/redux/user/selectors'
 
 import 'leaflet/dist/leaflet.css';
+import { selectEditorEditing } from "~/redux/editor/selectors";
 
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
   route: selectMapRoute(state),
   stickers: selectMapStickers(state),
-  editing: selectUserEditing(state),
+  editing: selectEditorEditing(state),
 });
 
 const mapDispatchToProps = {

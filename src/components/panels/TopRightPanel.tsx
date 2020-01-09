@@ -1,36 +1,34 @@
-// flow
 import React, { useCallback } from 'react';
 import { Icon } from '~/components/panels/Icon';
 import { PROVIDERS } from '~/constants/providers';
 import { LOGOS } from '~/constants/logos';
-import * as USER_ACTIONS from '~/redux/user/actions';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { connect } from 'react-redux';
 import { MODES } from '~/constants/modes';
-import { IRootState } from '~/redux/user';
 
 import { Tooltip } from '~/components/panels/Tooltip';
 import { selectMap } from '~/redux/map/selectors';
-import { selectUser } from '~/redux/user/selectors';
+import { selectEditor } from '~/redux/editor/selectors';
 
 const mapStateToProps = state => ({
   map: selectMap(state),
-  user: selectUser(state),
+  editor: selectEditor(state),
 });
 
 const mapDispatchToProps = {
-  setMode: USER_ACTIONS.setMode,
+  editorSetMode: EDITOR_ACTIONS.editorSetMode,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const TopRightPanelUnconnected = ({
   map: { provider, logo },
-  user: { markers_shown, editing },
-  setMode,
+  editor: { markers_shown, editing },
+  editorSetMode,
 }: Props) => {
-  const startProviderMode = useCallback(() => setMode(MODES.PROVIDER), [setMode]);
-  const startLogoMode = useCallback(() => setMode(MODES.LOGO), [setMode]);
-  const clearMode = useCallback(() => setMode(MODES.NONE), [setMode]);
+  const startProviderMode = useCallback(() => editorSetMode(MODES.PROVIDER), [editorSetMode]);
+  const startLogoMode = useCallback(() => editorSetMode(MODES.LOGO), [editorSetMode]);
+  const clearMode = useCallback(() => editorSetMode(MODES.NONE), [editorSetMode]);
 
   return (
     <div className="status-panel top right">

@@ -10,17 +10,17 @@ import classnames from 'classnames';
 import ExpandableTextarea from 'react-expandable-textarea';
 import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
-import { selectUser } from '~/redux/user/selectors';
-import * as USER_ACTIONS from '~/redux/user/actions';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
+import { selectEditor } from '~/redux/editor/selectors';
 
 const mapStateToProps = state => ({
   map: selectMap(state),
-  user: selectUser(state),
+  editor: selectEditor(state),
 });
 
 const mapDispatchToProps = {
-  setMode: USER_ACTIONS.setMode,
-  sendSaveRequest: USER_ACTIONS.sendSaveRequest,
+  editorSetMode: EDITOR_ACTIONS.editorSetMode,
+  editorSendSaveRequest: EDITOR_ACTIONS.editorSendSaveRequest,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width: number };
@@ -33,14 +33,14 @@ interface State {
 }
 
 class SaveDialogUnconnected extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      address: props.address || '',
-      title: props.title || '',
-      is_public: props.is_public || false,
-      description: props.description || '',
+      address: props.map.address || '',
+      title: props.map.title || '',
+      is_public: props.map.is_public || false,
+      description: props.map.description || '',
     };
   }
 
@@ -57,16 +57,18 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
 
   setTitle = ({ target: { value } }) =>
     this.setState({ title: (value && value.substr(0, 64)) || '' });
+
   setAddress = ({ target: { value } }) =>
     this.setState({ address: (value && value.substr(0, 32)) || '' });
+
   setDescription = ({ target: { value } }) =>
     this.setState({ description: (value && value.substr(0, 256)) || '' });
 
-  sendSaveRequest = (e, force = false) => {
+  editorSendSaveRequest = (e, force = false) => {
     const { title, is_public, description } = this.state;
     const address = this.getAddress();
 
-    this.props.sendSaveRequest({
+    this.props.editorSendSaveRequest({
       title,
       address,
       force,
@@ -74,9 +76,10 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
       description,
     });
   };
-  forceSaveRequest = e => this.sendSaveRequest(e, true);
 
-  cancelSaving = () => this.props.setMode(MODES.NONE);
+  forceSaveRequest = e => this.editorSendSaveRequest(e, true);
+
+  cancelSaving = () => this.props.editorSetMode(MODES.NONE);
 
   onCopy = e => {
     e.preventDefault();
@@ -91,7 +94,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
   render() {
     const { title, is_public, description } = this.state;
     const {
-      user: { save_error, save_finished, save_overwriting, save_loading },
+      editor: { save_error, save_finished, save_overwriting, save_loading },
       width,
     } = this.props;
     const { host, protocol } = getUrlData();
@@ -157,7 +160,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
                   </div>
                 )}
                 {!save_finished && !save_overwriting && (
-                  <div className="button primary" onClick={this.sendSaveRequest}>
+                  <div className="button primary" onClick={this.editorSendSaveRequest}>
                     Сохранить
                   </div>
                 )}

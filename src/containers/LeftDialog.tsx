@@ -4,12 +4,12 @@ import classnames from 'classnames';
 import { AppInfoDialog } from '~/components/dialogs/AppInfoDialog';
 import { Icon } from '~/components/panels/Icon';
 import { MapListDialog } from '~/components/dialogs/MapListDialog';
-import * as USER_ACTIONS from '~/redux/user/actions';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 
 interface Props {
   dialog: keyof IDialogs;
   dialog_active: Boolean;
-  setDialogActive: typeof USER_ACTIONS.setDialogActive;
+  editorSetDialogActive: typeof EDITOR_ACTIONS.editorSetDialogActive;
 }
 
 const LEFT_DIALOGS = {
@@ -17,7 +17,7 @@ const LEFT_DIALOGS = {
   [DIALOGS.APP_INFO]: AppInfoDialog,
 };
 
-const LeftDialog = ({ dialog, dialog_active, setDialogActive }: Props) => (
+const LeftDialog = ({ dialog, dialog_active, editorSetDialogActive }: Props) => (
   <React.Fragment>
     {Object.keys(LEFT_DIALOGS).map(item => (
       <div
@@ -26,11 +26,11 @@ const LeftDialog = ({ dialog, dialog_active, setDialogActive }: Props) => (
       >
         {dialog && LEFT_DIALOGS[item] && createElement(LEFT_DIALOGS[item], {})}
 
-        <div className="dialog-close-button desktop-only" onClick={() => setDialogActive(false)}>
+        <div className="dialog-close-button desktop-only" onClick={() => editorSetDialogActive(false)}>
           <Icon icon="icon-cancel-1" />
         </div>
 
-        <div className="dialog-close-button mobile-only" onClick={() => setDialogActive(false)}>
+        <div className="dialog-close-button mobile-only" onClick={() => editorSetDialogActive(false)}>
           <Icon icon="icon-chevron-down" />
         </div>
       </div>

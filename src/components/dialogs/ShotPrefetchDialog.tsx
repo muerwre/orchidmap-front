@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectUserRenderer } from '~/redux/user/selectors';
+import { selectEditorRenderer } from '~/redux/editor/selectors';
 
 const mapStateToProps = state => ({
-  renderer: selectUserRenderer(state),
+  renderer: selectEditorRenderer(state),
 });
 
 type Props = ReturnType<typeof mapStateToProps> & {};

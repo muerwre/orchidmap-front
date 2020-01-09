@@ -1,9 +1,6 @@
 import React from 'react';
 import { Icon } from '~/components/panels/Icon';
-import {
-  routerCancel as routerCancelAction,
-  routerSubmit as routerSubmitAction,
-} from "~/redux/user/actions";
+import * as EDITOR_ACTIONS from '~/redux/editor/actions'
 import classnames from "classnames";
 
 type Props = {
@@ -11,11 +8,11 @@ type Props = {
   width: number,
   is_routing: boolean,
 
-  routerCancel: typeof routerCancelAction,
-  routerSubmit: typeof routerSubmitAction,
+  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel,
+  editorRouterSubmit: typeof EDITOR_ACTIONS.editorRouterSubmit,
 }
 
-const noPoints = ({ routerCancel }: { routerCancel: typeof routerCancelAction }) => (
+const noPoints = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel }) => (
   <React.Fragment>
     <div className="helper router-helper">
       <div className="helper__text">
@@ -28,7 +25,7 @@ const noPoints = ({ routerCancel }: { routerCancel: typeof routerCancelAction })
     <div className="helper router-helper">
       <div className="helper__buttons flex_1">
         <div className="flex_1" />
-        <div className="button router-helper__button" onClick={routerCancel}>
+        <div className="button router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
       </div>
@@ -36,7 +33,7 @@ const noPoints = ({ routerCancel }: { routerCancel: typeof routerCancelAction })
   </React.Fragment>
 );
 
-const firstPoint = ({ routerCancel }: { routerCancel: typeof routerCancelAction }) => (
+const firstPoint = ({ editorRouterCancel }: { editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel }) => (
   <React.Fragment>
     <div className="helper router-helper">
       <div className="helper__text">
@@ -47,7 +44,7 @@ const firstPoint = ({ routerCancel }: { routerCancel: typeof routerCancelAction 
     <div className="helper router-helper">
       <div className="helper__buttons flex_1">
         <div className="flex_1" />
-        <div className="button router-helper__button" onClick={routerCancel}>
+        <div className="button router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
       </div>
@@ -56,10 +53,10 @@ const firstPoint = ({ routerCancel }: { routerCancel: typeof routerCancelAction 
 );
 
 const draggablePoints = ({
-  routerCancel, routerSubmit
+  editorRouterCancel, editorRouterSubmit
 }: {
-  routerCancel: typeof routerCancelAction,
-  routerSubmit: typeof routerSubmitAction,
+  editorRouterCancel: typeof EDITOR_ACTIONS.editorRouterCancel,
+  editorRouterSubmit: typeof EDITOR_ACTIONS.editorRouterSubmit,
 }) => (
   <React.Fragment>
     <div className="helper">
@@ -71,10 +68,10 @@ const draggablePoints = ({
     <div className="helper router-helper">
       <div className="helper__buttons button-group flex_1">
         <div className="flex_1" />
-        <div className="button button_red router-helper__button" onClick={routerCancel}>
+        <div className="button button_red router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
-        <div className="button primary router-helper__button" onClick={routerSubmit}>
+        <div className="button primary router-helper__button" onClick={editorRouterSubmit}>
           Применить
         </div>
       </div>
@@ -83,13 +80,13 @@ const draggablePoints = ({
 );
 
 export const RouterDialog = ({
-  routerPoints, routerCancel, routerSubmit, width, is_routing,
+  routerPoints, editorRouterCancel, editorRouterSubmit, width, is_routing,
 }: Props) => (
   <div className="control-dialog" style={{ width }}>
     <div className={classnames('save-loader', { active: is_routing })} />
 
-    {!routerPoints && noPoints({ routerCancel })}
-    {routerPoints === 1 && firstPoint({ routerCancel })}
-    {routerPoints >= 2 && draggablePoints({ routerCancel, routerSubmit })}
+    {!routerPoints && noPoints({ editorRouterCancel })}
+    {routerPoints === 1 && firstPoint({ editorRouterCancel })}
+    {routerPoints >= 2 && draggablePoints({ editorRouterCancel, editorRouterSubmit })}
   </div>
 );
