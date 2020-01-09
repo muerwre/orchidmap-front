@@ -80,6 +80,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "pt-sans-cyrillic": "0.0.4",
     "raleway-cyrillic": "^4.0.2",
+    "ramda": "^0.26.1",
     "rc-slider": "8.5.0",
     "react": "16.8.1",
     "react-dom": "16.8.1",

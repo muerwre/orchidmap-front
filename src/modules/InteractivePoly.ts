@@ -182,6 +182,11 @@ export class InteractivePoly extends Polyline {
       this.is_drawing = true;
       this.drawing_direction = "backward";
       this.startDrawing();
+    },
+    stop: () => {
+      this.stopDragHinting();
+      this.is_drawing = false;
+      this.stopDrawing();
     }
   };
 

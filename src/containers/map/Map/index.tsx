@@ -63,7 +63,7 @@ const MapUnconnected: React.FC<IProps> = ({
   return createPortal(
     <div>
       <TileLayer provider={provider} map={MainMap} />
-      <Route route={route} mapSetRoute={mapSetRoute} map={MainMap} is_editing={editing} />
+      <Route />
       <Stickers
         stickers={stickers}
         map={MainMap}

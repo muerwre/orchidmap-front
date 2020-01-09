@@ -1,78 +1,99 @@
-import React, {
-  FC,
-  useEffect,
-  memo,
-  useState,
-  useCallback
-} from "react";
-import { IMapRoute, ILatLng } from "../../../redux/map/types";
-import { InteractivePoly } from "~/modules/InteractivePoly"; 
-import { isMobile } from "~/utils/window";
-import { LatLng, Map } from "leaflet";
+import React, { FC, useEffect, memo, useState, useCallback } from 'react';
+import { IMapRoute } from '../../../redux/map/types';
+import { InteractivePoly } from '~/modules/InteractivePoly';
+import { isMobile } from '~/utils/window';
+import { LatLng, Map } from 'leaflet';
+import { selectEditor } from '~/redux/editor/selectors';
+import pick from 'ramda/es/pick';
+import * as MAP_ACTIONS from '~/redux/map/actions';
+import { connect } from 'react-redux';
+import { selectMap } from '~/redux/map/selectors';
+import { MainMap } from '~/constants/map';
+import { MODES } from '~/constants/modes';
 
-interface IProps {
-  map: Map;
-  route: IMapRoute;
-  is_editing: boolean;
-  mapSetRoute: (latlngs: ILatLng[]) => void;
-}
+const mapStateToProps = state => ({
+  editor: pick(['mode', 'editing'], selectEditor(state)),
+  map: pick(['route'], selectMap(state)),
+});
 
-const Route: FC<IProps> = memo(({ route, is_editing, mapSetRoute, map }) => {
-  const [layer, setLayer] = useState<InteractivePoly>(null);
+const mapDispatchToProps = {
+  mapSetRoute: MAP_ACTIONS.mapSetRoute,
+};
 
-  useEffect(() => {
-    if (!map) return;
+type Props = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps & {
+  };
 
-    setLayer(
-      new InteractivePoly([], {
-        color: "url(#activePathGradient)",
-        weight: 6,
-        maxMarkers: isMobile() ? 20 : 100,
-        smoothFactor: 3,
-      })
-        .addTo(map)
+const RouteUnconnected: FC<Props> = memo(
+  ({ map: { route }, editor: { editing, mode }, mapSetRoute }) => {
+    const [layer, setLayer] = useState<InteractivePoly>(null);
+
+    useEffect(() => {
+      if (!MainMap) return;
+
+      setLayer(
+        new InteractivePoly([], {
+          color: 'url(#activePathGradient)',
+          weight: 6,
+          maxMarkers: isMobile() ? 20 : 100,
+          smoothFactor: 3,
+        }).addTo(MainMap)
         // .on("distancechange", console.log)
         // .on("allvertexhide", console.log)
         // .on("allvertexshow", console.log)
+      );
+    }, [MainMap]);
+
+    const onRouteChanged = useCallback(
+      ({ latlngs }) => {
+        // console.log('THIS!');
+        mapSetRoute(latlngs);
+      },
+      [mapSetRoute]
     );
-  }, [map]);
 
+    useEffect(() => {
+      if (!layer) return;
 
-  const onRouteChanged = useCallback(
-    ({ latlngs }) => {
-      // console.log('THIS!');
-      mapSetRoute(latlngs)
-    },
-    [mapSetRoute]
-  );
+      layer.on('latlngschange', onRouteChanged);
 
-  useEffect(() => {
-    if (!layer) return;
+      return () => layer.off('latlngschange', onRouteChanged);
+    }, [layer, onRouteChanged]);
 
-    layer.on("latlngschange", onRouteChanged);
+    useEffect(() => {
+      if (!layer) return;
 
-    return () => layer.off("latlngschange", onRouteChanged);
-  }, [layer, onRouteChanged]);
+      const points = (route && route.length > 0 && route) || [];
 
-  useEffect(() => {
-    if (!layer) return;
+      layer.setPoints(points as LatLng[]);
+    }, [route, layer]);
 
-    const points = (route && route.length > 0 && route) || [];
+    useEffect(() => {
+      if (!layer) return;
 
-    layer.setPoints(points as LatLng[]);
-  }, [route, layer]);
+      if (editing) {
+        layer.editor.enable();
+      } else {
+        layer.editor.disable();
+      }
+    }, [editing, layer]);
 
-  useEffect(() => {
-    if (!layer) return;
+    useEffect(() => {
+      if (!layer) return;
+      
+      if (mode === MODES.POLY && !layer.is_drawing) {
+        layer.editor.continue();
+      }
 
-    if (is_editing) {
-      layer.editor.enable();
-    } else {
-      layer.editor.disable();
-    }
-  }, [is_editing, layer]);
+      if (mode !== MODES.POLY && layer.is_drawing) {
+        layer.editor.stop();
+      }
+    }, [mode, layer]);
 
-  return null;
-});
+    return null;
+  }
+);
+
+const Route = connect(mapStateToProps, mapDispatchToProps)(RouteUnconnected);
 
 export { Route };
