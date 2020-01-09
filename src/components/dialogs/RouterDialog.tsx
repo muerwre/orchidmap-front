@@ -4,6 +4,7 @@ import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { selectEditor } from '~/redux/editor/selectors';
+import pick from 'ramda/es/pick';
 
 const noPoints = ({
   editorRouterCancel,
@@ -80,7 +81,7 @@ const draggablePoints = ({
 );
 
 const mapStateToProps = state => ({
-  editor: selectEditor(state),
+  editor: pick(['router'], selectEditor(state)),
 });
 
 const mapDispatchToProps = {
@@ -91,7 +92,10 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width?: number };
 
 const RouterDialogUnconnected: FC<Props> = ({
-  editor: { routerPoints, is_routing },
+  editor: {
+    router: { waypoints },
+    is_routing,
+  },
   editorRouterCancel,
   editorRouterSubmit,
   width,
@@ -99,9 +103,9 @@ const RouterDialogUnconnected: FC<Props> = ({
   <div className="control-dialog" style={{ width }}>
     <div className={classnames('save-loader', { active: is_routing })} />
 
-    {!routerPoints && noPoints({ editorRouterCancel })}
-    {routerPoints === 1 && firstPoint({ editorRouterCancel })}
-    {routerPoints >= 2 && draggablePoints({ editorRouterCancel, editorRouterSubmit })}
+    {!waypoints.length && noPoints({ editorRouterCancel })}
+    {waypoints.length === 1 && firstPoint({ editorRouterCancel })}
+    {waypoints.length >= 2 && draggablePoints({ editorRouterCancel, editorRouterSubmit })}
   </div>
 );
 

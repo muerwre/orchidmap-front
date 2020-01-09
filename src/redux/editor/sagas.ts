@@ -1,7 +1,7 @@
 import { call, put, takeEvery, takeLatest, select, race } from 'redux-saga/effects';
 import { delay, SagaIterator } from 'redux-saga';
 import { selectEditor } from '~/redux/editor/selectors';
-
+import { simplify } from '~/utils/simplify';
 import {
   editorHideRenderer,
   editorSetChanged,
@@ -36,11 +36,15 @@ import {
   imageFetcher,
   downloadCanvas,
 } from '~/utils/renderer';
-import { selectMap } from '../map/selectors';
+import { selectMap, selectMapRoute } from '../map/selectors';
 import { selectUser } from '../user/selectors';
 import { LOGOS } from '~/constants/logos';
-import { loadMapSaga, replaceAddressIfItsBusy } from '../map/sagas';
-import { mapSetAddressOrigin } from '../map/actions';
+import { loadMapSaga } from '../map/sagas';
+import { mapClicked, mapSetRoute } from '../map/actions';
+import { MAP_ACTIONS } from '../map/constants';
+import { OsrmRouter } from '~/utils/osrm';
+import path from 'ramda/es/path';
+import { MainMap } from '~/constants/map';
 
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = String(0);
@@ -230,8 +234,28 @@ function* getGPXTrackSaga(): SagaIterator {
 }
 
 function* routerCancel() {
-  yield put(editorSetMode(MODES.NONE))
+  yield put(editorSetMode(MODES.NONE));
   // TODO: clear router
+}
+
+function* mapClick({ latlng }: ReturnType<typeof mapClicked>) {
+  const { mode }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+  if (mode === MODES.ROUTER) {
+    const wp = OsrmRouter.getWaypoints().filter(point => !!point.latLng);
+    OsrmRouter.setWaypoints([...wp, latlng]);
+  }
+}
+
+function* routerSubmit() {
+  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
+  const latlngs = path(['_routes', 0, 'coordinates'], OsrmRouter);
+
+  const coordinates = simplify({ map: MainMap, latlngs });
+
+  yield put(mapSetRoute([...route, ...coordinates]));
+  OsrmRouter.setWaypoints([]);
+  yield put(editorSetMode(MODES.NONE));
 }
 
 export function* editorSaga() {
@@ -242,4 +266,6 @@ export function* editorSaga() {
   yield takeLatest(EDITOR_ACTIONS.KEY_PRESSED, keyPressedSaga);
   yield takeLatest(EDITOR_ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
   yield takeLatest(EDITOR_ACTIONS.ROUTER_CANCEL, routerCancel);
+  yield takeLatest(MAP_ACTIONS.MAP_CLICKED, mapClick);
+  yield takeLatest(EDITOR_ACTIONS.ROUTER_SUBMIT, routerSubmit);
 }

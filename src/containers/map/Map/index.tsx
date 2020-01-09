@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { MainMap } from '~/constants/map';
-import { Map as MapInterface } from 'leaflet';
 import { createPortal } from 'react-dom';
 import { selectMapProvider, selectMapRoute, selectMapStickers } from '~/redux/map/selectors';
 import { connect } from 'react-redux';
 import * as MAP_ACTIONS from '~/redux/map/actions';
 
 import { Route } from '~/containers/map/Route';
+import { Router } from '~/containers/map/Router';
 import { TileLayer } from '~/containers/map/TileLayer';
 import { Stickers } from '~/containers/map/Stickers';
 
@@ -71,6 +71,7 @@ const MapUnconnected: React.FC<IProps> = ({
         mapDropSticker={mapDropSticker}
         is_editing={editing}
       />
+      <Router />
     </div>,
     document.getElementById('canvas')
   );

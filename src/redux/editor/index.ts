@@ -2,44 +2,51 @@ import { IDialogs } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
 import { createReducer } from 'reduxsauce';
 import { EDITOR_HANDLERS } from './handlers';
+import { ILatLng } from '../map/types';
 
 export interface IEditorState {
-  changed: boolean,
-  editing: boolean,
-  ready: boolean,
+  changed: boolean;
+  editing: boolean;
+  ready: boolean;
   markers_shown: boolean;
-  
-  mode: typeof MODES[keyof typeof MODES],
 
-  dialog: IDialogs[keyof IDialogs],
-  dialog_active: boolean,
+  router: {
+    points: ILatLng[];
+    waypoints: ILatLng[];
+  };
 
-  routerPoints: number,
-  distance: number,
-  estimated: number,
-  speed: number,
-  activeSticker: { set?: string, sticker?: string },
-  is_empty: boolean,
-  is_published: boolean,
-  is_routing: boolean,
-  save_error: string,
-  save_finished: boolean,
-  save_overwriting: boolean,
-  save_processing: boolean,
-  save_loading: boolean,  
+  mode: typeof MODES[keyof typeof MODES];
+
+  dialog: IDialogs[keyof IDialogs];
+  dialog_active: boolean;
+
+  routerPoints: number;
+  distance: number;
+  estimated: number;
+  speed: number;
+  activeSticker: { set?: string; sticker?: string };
+  is_empty: boolean;
+  is_published: boolean;
+  is_routing: boolean;
+
+  save_error: string;
+  save_finished: boolean;
+  save_overwriting: boolean;
+  save_processing: boolean;
+  save_loading: boolean;
 
   features: {
-    routing: boolean,
-  },
+    routing: boolean;
+  };
 
   renderer: {
-    data: string,
-    width: number,
-    height: number
-    renderer_active: boolean,
-    info: string,
-    progress: number,
-  },
+    data: string;
+    width: number;
+    height: number;
+    renderer_active: boolean;
+    info: string;
+    progress: number;
+  };
 }
 
 const EDITOR_INITIAL_STATE = {
@@ -57,7 +64,10 @@ const EDITOR_INITIAL_STATE = {
   estimated: 0,
   speed: 15,
   activeSticker: { set: null, sticker: null },
-
+  router: {
+    waypoints: [],
+    points: [],
+  },
   is_published: false,
   is_empty: true,
   is_routing: false,
@@ -67,7 +77,7 @@ const EDITOR_INITIAL_STATE = {
   save_overwriting: false,
   save_processing: false,
   save_loading: false,
-  
+
   features: {
     routing: false,
   },
@@ -80,6 +90,6 @@ const EDITOR_INITIAL_STATE = {
     info: '',
     progress: 0,
   },
-}
+};
 
 export const editor = createReducer(EDITOR_INITIAL_STATE, EDITOR_HANDLERS);

@@ -113,7 +113,10 @@ const resetSaveDialog = (state): IEditorState => ({
   save_error: '',
 });
 
-const setDialog = (state, { dialog }: ReturnType<typeof ACTIONS.editorSetDialog>): IEditorState => ({
+const setDialog = (
+  state,
+  { dialog }: ReturnType<typeof ACTIONS.editorSetDialog>
+): IEditorState => ({
   ...state,
   dialog,
 });
@@ -126,7 +129,10 @@ const setDialogActive = (
   dialog_active: dialog_active || !state.dialog_active,
 });
 
-const setReady = (state, { ready = true }: ReturnType<typeof ACTIONS.editorSetReady>): IEditorState => ({
+const setReady = (
+  state,
+  { ready = true }: ReturnType<typeof ACTIONS.editorSetReady>
+): IEditorState => ({
   ...state,
   ready,
 });
@@ -169,6 +175,17 @@ const setIsRouting = (
   is_routing,
 });
 
+const setRouter = (
+  state,
+  { router }: ReturnType<typeof ACTIONS.editorSetRouter>
+): IEditorState => ({
+  ...state,
+  router: {
+    ...state.router,
+    ...router,
+  },
+});
+
 export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_EDITING]: setEditing,
   [EDITOR_ACTIONS.SET_CHANGED]: setChanged,
@@ -197,4 +214,5 @@ export const EDITOR_HANDLERS = {
 
   [EDITOR_ACTIONS.SET_FEATURE]: setFeature,
   [EDITOR_ACTIONS.SET_IS_ROUTING]: setIsRouting,
+  [EDITOR_ACTIONS.SET_ROUTER]: setRouter,
 };

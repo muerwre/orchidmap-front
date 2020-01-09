@@ -118,3 +118,8 @@ export const editorKeyPressed = ({
   key,
   target: tagName,
 });
+
+export const editorSetRouter = (router: Partial<IEditorState['router']>) => ({
+  type: EDITOR_ACTIONS.SET_ROUTER,
+  router,
+});
