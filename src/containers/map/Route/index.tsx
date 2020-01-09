@@ -20,12 +20,19 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   mapSetRoute: MAP_ACTIONS.mapSetRoute,
   editorSetDistance: EDITOR_ACTIONS.editorSetDistance,
+  editorSetMarkersShown: EDITOR_ACTIONS.editorSetMarkersShown,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouteUnconnected: FC<Props> = memo(
-  ({ map: { route }, editor: { editing, mode }, mapSetRoute, editorSetDistance }) => {
+  ({
+    map: { route },
+    editor: { editing, mode },
+    mapSetRoute,
+    editorSetDistance,
+    editorSetMarkersShown,
+  }) => {
     const [layer, setLayer] = useState<InteractivePoly>(null);
 
     const onDistanceChange = useCallback(({ distance }) => editorSetDistance(distance), [
@@ -46,9 +53,9 @@ const RouteUnconnected: FC<Props> = memo(
         .on('vertexdragstart', MainMap.disableClicks)
         .on('vertexdragend', MainMap.enableClicks)
         .on('vertexaddstart', MainMap.disableClicks)
-        .on('vertexaddend', MainMap.enableClicks);
-      // .on("allvertexhide", console.log)
-      // .on("allvertexshow", console.log)
+        .on('vertexaddend', MainMap.enableClicks)
+        .on('allvertexhide', () => editorSetMarkersShown(false))
+        .on('allvertexshow', () => editorSetMarkersShown(true));
 
       setLayer(interactive);
 
@@ -59,7 +66,6 @@ const RouteUnconnected: FC<Props> = memo(
 
     const onRouteChanged = useCallback(
       ({ latlngs }) => {
-        // console.log('THIS!');
         mapSetRoute(latlngs);
       },
       [mapSetRoute]

@@ -7,9 +7,6 @@ import { MainMap } from '~/constants/map';
 const createWaypointMarker = (): DomMarker => {
   const element = document.createElement('div');
 
-  element.addEventListener('mousedown', event => event.stopPropagation());
-  element.addEventListener('mouseup', event => event.stopPropagation());
-
   return new DomMarker({
     element,
     className: 'router-waypoint',
