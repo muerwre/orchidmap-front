@@ -118,16 +118,14 @@ export function* loadMapFromPath() {
     const map = yield call(loadMapSaga, path);
 
     if (!map) {
-      yield call(setReadySaga);
-      return yield call(startEmptyEditorSaga);
+      yield call(startEmptyEditorSaga);
+      return
     }
 
     yield put(editorSetEditing(mode && mode === 'edit'));
-    yield call(setReadySaga);
     return;
   }
 
-  yield call(setReadySaga);
   yield call(startEmptyEditorSaga);
 }
 
@@ -153,6 +151,7 @@ export function* mapInitSaga() {
   }
 
   yield call(loadMapFromPath);
+  yield call(setReadySaga);
   pushLoaderState(100);
 }
 
