@@ -68,41 +68,12 @@ const sendSaveRequest = (state): IEditorState => ({
   save_processing: true,
 });
 
-const setSaveError = (
-  state,
-  { save_error }: ReturnType<typeof ACTIONS.editorSetSaveError>
-): IEditorState => ({
+const setSave = (state, { save }: ReturnType<typeof ACTIONS.editorSetSave>): IEditorState => ({
   ...state,
-  save_error,
-  save_finished: false,
-  save_processing: false,
-});
-
-const setSaveLoading = (
-  state,
-  { save_loading }: ReturnType<typeof ACTIONS.editorSetSaveLoading>
-): IEditorState => ({
-  ...state,
-  save_loading,
-});
-
-const setSaveOverwrite = (state): IEditorState => ({
-  ...state,
-  save_overwriting: true,
-  save_finished: false,
-  save_processing: false,
-  save_error: TIPS.SAVE_OVERWRITE,
-});
-
-const setSaveSuccess = (
-  state,
-  { save_error }: ReturnType<typeof ACTIONS.editorSetSaveSuccess>
-): IEditorState => ({
-  ...state,
-  save_overwriting: false,
-  save_finished: true,
-  save_processing: false,
-  save_error,
+  save: {
+    ...state.save,
+    ...save,
+  },
 });
 
 const resetSaveDialog = (state): IEditorState => ({
@@ -194,10 +165,8 @@ export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_ROUTER_POINTS]: setRouterPoints,
   [EDITOR_ACTIONS.SET_ACTIVE_STICKER]: setActiveSticker,
 
-  [EDITOR_ACTIONS.SET_SAVE_ERROR]: setSaveError,
-  [EDITOR_ACTIONS.SET_SAVE_LOADING]: setSaveLoading,
-  [EDITOR_ACTIONS.SET_SAVE_OVERWRITE]: setSaveOverwrite,
-  [EDITOR_ACTIONS.SET_SAVE_SUCCESS]: setSaveSuccess,
+  [EDITOR_ACTIONS.SET_SAVE]: setSave,
+
   [EDITOR_ACTIONS.SEND_SAVE_REQUEST]: sendSaveRequest,
   [EDITOR_ACTIONS.RESET_SAVE_DIALOG]: resetSaveDialog,
 

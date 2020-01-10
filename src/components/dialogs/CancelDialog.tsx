@@ -25,7 +25,7 @@ export class CancelDialog extends React.Component<Props, void> {
     const { width } = this.props;
 
     return (
-      <div className="control-dialog" style={{ width }}>
+      <div className="control-dialog bottom right" style={{ width }}>
         <div className="helper cancel-helper">
           <div className="helper__text danger">
             <Icon icon="icon-cancel-1" />

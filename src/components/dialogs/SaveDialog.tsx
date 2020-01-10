@@ -11,11 +11,11 @@ import ExpandableTextarea from 'react-expandable-textarea';
 import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
-import { selectEditor } from '~/redux/editor/selectors';
+import { selectEditorSave } from '~/redux/editor/selectors';
 
 const mapStateToProps = state => ({
   map: selectMap(state),
-  editor: selectEditor(state),
+  save: selectEditorSave(state),
 });
 
 const mapDispatchToProps = {
@@ -94,7 +94,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
   render() {
     const { title, is_public, description } = this.state;
     const {
-      editor: { save_error, save_finished, save_overwriting, save_loading },
+      save: { error, finished, overwriting, loading },
       width,
     } = this.props;
     const { host, protocol } = getUrlData();
@@ -102,7 +102,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
     return (
       <div className="control-dialog control-dialog-medium" style={{ width }}>
         <div className="helper save-helper">
-          <div className={classnames('save-loader', { active: save_loading })} />
+          <div className={classnames('save-loader', { active: loading })} />
 
           <div className="save-title">
             <div className="save-title-input">
@@ -112,7 +112,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
                 value={title}
                 onChange={this.setTitle}
                 autoFocus
-                readOnly={save_finished}
+                readOnly={finished}
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
                 type="text"
                 value={this.getAddress()}
                 onChange={this.setAddress}
-                readOnly={save_finished}
+                readOnly={finished}
                 onCopy={this.onCopy}
               />
               <div className="save-address-copy" onClick={this.onCopy}>
@@ -143,7 +143,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
                 onChange={this.setDescription}
               />
             </div>
-            <div className="save-text">{save_error || TIPS.SAVE_INFO}</div>
+            <div className="save-text">{error || TIPS.SAVE_INFO}</div>
 
             <div className="save-buttons">
               <div
@@ -154,27 +154,27 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
                 {is_public ? ' В каталоге карт' : ' Только по ссылке'}
               </div>
               <div>
-                {!save_finished && (
+                {!finished && (
                   <div className="button" onClick={this.cancelSaving}>
                     Отмена
                   </div>
                 )}
-                {!save_finished && !save_overwriting && (
+                {!finished && !overwriting && (
                   <div className="button primary" onClick={this.editorSendSaveRequest}>
                     Сохранить
                   </div>
                 )}
-                {save_overwriting && (
+                {overwriting && (
                   <div className="button danger" onClick={this.forceSaveRequest}>
                     Перезаписать
                   </div>
                 )}
-                {save_finished && (
+                {finished && (
                   <div className="button" onClick={this.onCopy}>
                     Скопировать
                   </div>
                 )}
-                {save_finished && (
+                {finished && (
                   <div className="button success" onClick={this.cancelSaving}>
                     Отлично!
                   </div>

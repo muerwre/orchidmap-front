@@ -29,12 +29,6 @@ export interface IEditorState {
   is_published: boolean;
   is_routing: boolean;
 
-  save_error: string;
-  save_finished: boolean;
-  save_overwriting: boolean;
-  save_processing: boolean;
-  save_loading: boolean;
-
   features: {
     routing: boolean;
   };
@@ -46,6 +40,14 @@ export interface IEditorState {
     renderer_active: boolean;
     info: string;
     progress: number;
+  };
+
+  save: {
+    error: string;
+    finished: boolean;
+    overwriting: boolean;
+    processing: boolean;
+    loading: boolean;
   };
 }
 
@@ -72,12 +74,6 @@ const EDITOR_INITIAL_STATE = {
   is_empty: true,
   is_routing: false,
 
-  save_error: '',
-  save_finished: false,
-  save_overwriting: false,
-  save_processing: false,
-  save_loading: false,
-
   features: {
     routing: false,
   },
@@ -89,6 +85,14 @@ const EDITOR_INITIAL_STATE = {
     renderer_active: false,
     info: '',
     progress: 0,
+  },
+
+  save: {
+    error: null,
+    finished: false,
+    overwriting: false,
+    processing: false,
+    loading: false,
   },
 };
 

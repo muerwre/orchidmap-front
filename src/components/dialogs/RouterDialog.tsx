@@ -100,7 +100,7 @@ const RouterDialogUnconnected: FC<Props> = ({
   editorRouterSubmit,
   width,
 }) => (
-  <div className="control-dialog" style={{ width }}>
+  <div className="control-dialog bottom right" style={{ width }}>
     <div className={classnames('save-loader', { active: is_routing })} />
 
     {!waypoints.length && noPoints({ editorRouterCancel })}

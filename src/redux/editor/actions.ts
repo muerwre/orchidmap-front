@@ -45,25 +45,10 @@ export const editorSendSaveRequest = (payload: {
 
 export const editorResetSaveDialog = () => ({ type: EDITOR_ACTIONS.RESET_SAVE_DIALOG });
 
-export const editorSetSaveLoading = (save_loading: IEditorState['save_loading']) => ({
-  type: EDITOR_ACTIONS.SET_SAVE_LOADING,
-  save_loading,
-});
-
-export const editorSetSaveSuccess = (payload: {
-  address: IRoute['address'];
-  title: IRoute['address'];
-  is_public: IRoute['is_public'];
-  description: IRoute['description'];
-
-  save_error: string;
-}) => ({ type: EDITOR_ACTIONS.SET_SAVE_SUCCESS, ...payload });
-
-export const editorSetSaveError = (save_error: IEditorState['save_error']) => ({
-  type: EDITOR_ACTIONS.SET_SAVE_ERROR,
-  save_error,
-});
-export const editorSetSaveOverwrite = () => ({ type: EDITOR_ACTIONS.SET_SAVE_OVERWRITE });
+export const editorSetSave = (save: Partial<IEditorState['save']>) => ({
+  type: EDITOR_ACTIONS.SET_SAVE,
+  save,
+})
 
 export const editorHideRenderer = () => ({ type: EDITOR_ACTIONS.HIDE_RENDERER });
 export const editorSetRenderer = payload => ({ type: EDITOR_ACTIONS.SET_RENDERER, payload });

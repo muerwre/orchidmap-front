@@ -25,11 +25,8 @@ import {
   editorSetEditing,
   editorSetReady,
   editorSetActiveSticker,
-  editorSetSaveError,
-  editorSetSaveLoading,
   editorSendSaveRequest,
-  editorSetSaveSuccess,
-  editorSetSaveOverwrite,
+  editorSetSave,
   editorClearAll,
 } from '~/redux/editor/actions';
 import { pushLoaderState, getUrlData, pushPath, replacePath } from '~/utils/history';
@@ -51,7 +48,7 @@ function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {
 
   switch (mode) {
     case MODES.STICKERS:
-      yield put(mapAddSticker({ latlng, set, sticker, text: '', angle: 0 }));
+      yield put(mapAddSticker({ latlng, set, sticker, text: '', angle: 2.11 }));
       yield put(editorSetMode(MODES.NONE));
       break;
 
@@ -119,7 +116,7 @@ export function* loadMapFromPath() {
 
     if (!map) {
       yield call(startEmptyEditorSaga);
-      return
+      return;
     }
 
     yield put(editorSetEditing(mode && mode === 'edit'));
@@ -228,14 +225,16 @@ function* sendSaveRequestSaga({
   const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!route.length && !stickers.length) {
-    return yield put(editorSetSaveError(TIPS.SAVE_EMPTY));
+    return yield put(
+      editorSetSave({ error: TIPS.SAVE_EMPTY, loading: false, overwriting: false, finished: false })
+    );
   }
 
   const { logo }: ReturnType<typeof selectMap> = yield select(selectMap);
   const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
   const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
 
-  yield put(editorSetSaveLoading(true));
+  yield put(editorSetSave({ loading: true }));
 
   const {
     result,
@@ -263,57 +262,79 @@ function* sendSaveRequestSaga({
     cancel: take(EDITOR_ACTIONS.RESET_SAVE_DIALOG),
   });
 
-  yield put(editorSetSaveLoading(false));
+  yield put(editorSetSave({ loading: false }));
 
   if (cancel) return yield put(editorSetMode(MODES.NONE));
 
-  if (result && result.data.code === 'already_exist') return yield put(editorSetSaveOverwrite());
+  if (result && result.data.code === 'already_exist')
+    return yield put(editorSetSave({ overwriting: true }));
   if (result && result.data.code === 'conflict')
-    return yield put(editorSetSaveError(TIPS.SAVE_EXISTS));
+    return yield put(
+      editorSetSave({
+        error: TIPS.SAVE_EXISTS,
+        loading: false,
+        overwriting: false,
+        finished: false,
+      })
+    );
   if (timeout || !result || !result.data.route || !result.data.route.address)
-    return yield put(editorSetSaveError(TIPS.SAVE_TIMED_OUT));
+    return yield put(
+      editorSetSave({
+        error: TIPS.SAVE_TIMED_OUT,
+        loading: false,
+        overwriting: false,
+        finished: false,
+      })
+    );
 
-  return yield put(
-    editorSetSaveSuccess({
+  yield put(
+    mapSet({
       address: result.data.route.address,
       title: result.data.route.title,
       is_public: result.data.route.is_public,
       description: result.data.route.description,
-
-      save_error: TIPS.SAVE_SUCCESS,
     })
   );
-}
-
-function* setSaveSuccessSaga({
-  address,
-  title,
-  is_public,
-  description,
-}: ReturnType<typeof editorSetSaveSuccess>) {
-  const { id }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
-  const { dialog_active }: ReturnType<typeof selectEditor> = yield select(selectEditor);
-
-  replacePath(`/${address}/edit`);
 
   yield put(
-    mapSet({
-      title,
-      address,
-      is_public,
-      description,
-      owner: { id },
+    editorSetSave({
+      error: TIPS.SAVE_SUCCESS,
+      loading: false,
+      overwriting: false,
+      finished: true,
     })
   );
-
-  yield put(editorSetChanged(false));
-
-  if (dialog_active) {
-    yield call(searchSetSagaWorker);
-  }
-
-  return;
 }
+
+// function* setSaveSuccessSaga({
+//   address,
+//   title,
+//   is_public,
+//   description,
+// }: ReturnType<typeof editorSetSaveSuccess>) {
+//   const { id }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
+//   const { dialog_active }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+//   replacePath(`/${address}/edit`);
+
+//   yield put(
+//     mapSet({
+//       title,
+//       address,
+//       is_public,
+//       description,
+//       owner: { id },
+//     })
+//   );
+
+//   yield put(editorSetChanged(false));
+
+//   if (dialog_active) {
+//     yield call(searchSetSagaWorker);
+//   }
+
+//   return;
+// }
 
 export function* mapSaga() {
   // TODO: setChanged on set route, logo, provider, stickers
@@ -322,7 +343,7 @@ export function* mapSaga() {
   yield takeEvery(MAP_ACTIONS.MAP_CLICKED, onMapClick);
   yield takeEvery(MAP_ACTIONS.SET_TITLE, setTitleSaga);
   yield takeLatest(EDITOR_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
-  yield takeLatest(EDITOR_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
+  // yield takeLatest(EDITOR_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
 
   yield takeEvery(
     [

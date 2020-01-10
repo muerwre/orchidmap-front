@@ -22,7 +22,7 @@ const TrashDialogUnconnected: FC<Props> = ({
   editorClearCancel,
   width,
 }) => (
-  <div className="control-dialog" style={{ width }}>
+  <div className="control-dialog bottom right" style={{ width }}>
     <div className="helper trash-helper desktop-only">
       <div className="helper__text danger">
         <div className="big upper desktop-only">Удалить:</div>

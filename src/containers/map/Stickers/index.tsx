@@ -30,7 +30,7 @@ const Stickers: React.FC<IProps> = React.memo(
             <Sticker
               map={map}
               sticker={sticker}
-              key={`${sticker.set}.${sticker.sticker}.${index}`}
+              key={`${index}`}
               index={index}
               is_editing={is_editing}
               mapSetSticker={mapSetSticker}
