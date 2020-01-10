@@ -560,8 +560,6 @@ InteractivePoly.addInitHook(function() {
     if (event.target instanceof InteractivePoly) {
       this.map = event.target._map;
 
-      this.map.on("touch", console.log);
-
       this.markerLayer.addTo(event.target._map);
       this.hintMarker.addTo(event.target._map);
       this.constrLine.addTo(event.target._map);

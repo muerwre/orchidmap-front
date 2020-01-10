@@ -11,6 +11,7 @@ import { MapContainer } from '~/constants/map';
 interface IProps {
   map: MapContainer;
   sticker: IStickerDump;
+  onDragStart?: () => void;
   index: number;
   is_editing: boolean;
 
@@ -53,7 +54,12 @@ const Sticker: React.FC<IProps> = ({
     setDragging(true);
   }, [setDragging, layer, map]);
 
-  const onDragStop = React.useCallback(() => {
+  const onDragStop = React.useCallback(event => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!layer) return;
+
     setDragging(false);
     onChange({
       ...sticker,

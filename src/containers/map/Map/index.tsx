@@ -34,12 +34,10 @@ type IProps = React.HTMLAttributes<HTMLDivElement> &
 
 const MapUnconnected: React.FC<IProps> = ({
   provider,
-  route,
   stickers,
   editing,
 
   mapClicked,
-  mapSetRoute,
   mapSetSticker,
   mapDropSticker,
 }) => {
@@ -63,7 +61,7 @@ const MapUnconnected: React.FC<IProps> = ({
   return createPortal(
     <div>
       <TileLayer provider={provider} map={MainMap} />
-      <Route />
+
       <Stickers
         stickers={stickers}
         map={MainMap}
@@ -71,6 +69,9 @@ const MapUnconnected: React.FC<IProps> = ({
         mapDropSticker={mapDropSticker}
         is_editing={editing}
       />
+
+      <Route />
+
       <Router />
     </div>,
     document.getElementById('canvas')

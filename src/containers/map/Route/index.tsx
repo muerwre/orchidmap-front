@@ -1,6 +1,6 @@
 import React, { FC, useEffect, memo, useState, useCallback } from 'react';
 import { IMapRoute } from '../../../redux/map/types';
-import { InteractivePoly } from '~/modules/InteractivePoly';
+import { InteractivePoly } from '~/utils/polyline';
 import { isMobile } from '~/utils/window';
 import { LatLng, Map, LeafletEvent } from 'leaflet';
 import { selectEditor } from '~/redux/editor/selectors';
@@ -45,7 +45,7 @@ const RouteUnconnected: FC<Props> = memo(
       const interactive = new InteractivePoly([], {
         color: 'url(#activePathGradient)',
         weight: 6,
-        maxMarkers: isMobile() ? 50 : 200,
+        maxMarkers: isMobile() ? 50 : 150,
         smoothFactor: 3,
       })
         .addTo(MainMap)
