@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { marker, Marker } from 'leaflet';
 import { IStickerDump } from '~/redux/map/types';
 import { STICKERS } from '~/constants/stickers';
@@ -6,7 +6,7 @@ import { StickerDesc } from '~/components/StickerDesc';
 import classNames from 'classnames';
 import { DomMarker } from '~/utils/DomMarker';
 import { createPortal } from 'react-dom';
-import { MapContainer } from '~/constants/map';
+import { MapContainer, MainMap } from '~/constants/map';
 
 interface IProps {
   map: MapContainer;
@@ -154,22 +154,27 @@ const Sticker: React.FC<IProps> = ({
 
   // Initial leaflet marker creation, when element (dom element div) is ready
   React.useEffect(() => {
-    if (!map) return;
-
     const icon = new DomMarker({
       element,
       className: 'sticker-container',
     });
 
-    const item = marker(sticker.latlng, { icon, draggable: true }).addTo(map);
-
+    const item = marker(sticker.latlng, { icon, draggable: true })
+    
     setLayer(item);
 
     return () => {
-      item.removeFrom(map);
       item.remove();
     };
-  }, [element, map, sticker]);
+  }, [element]);
+
+  useEffect(() => {
+    if (!layer) return;
+    
+    layer.addTo(MainMap);
+
+    return () => layer.removeFrom(MainMap)
+  }, [layer]);
 
   React.useEffect(() => {
     element.className = is_editing ? 'sticker-container' : 'sticker-container inactive';
