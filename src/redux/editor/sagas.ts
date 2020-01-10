@@ -39,7 +39,7 @@ import {
 import { selectMap, selectMapRoute } from '../map/selectors';
 import { selectUser } from '../user/selectors';
 import { LOGOS } from '~/constants/logos';
-import { loadMapSaga } from '../map/sagas';
+import { loadMapSaga, startEmptyEditorSaga, loadMapFromPath } from '../map/sagas';
 import { mapClicked, mapSetRoute } from '../map/actions';
 import { MAP_ACTIONS } from '../map/constants';
 import { OsrmRouter } from '~/utils/osrm';
@@ -58,7 +58,8 @@ function* stopEditingSaga() {
   const { address_origin }: ReturnType<typeof selectMap> = yield select(selectMap);
   const { path } = getUrlData();
 
-  if (!editing) return;
+  // if (!editing) return;
+
   if (changed && mode !== MODES.CONFIRM_CANCEL) {
     yield put(editorSetMode(MODES.CONFIRM_CANCEL));
     return;
@@ -176,21 +177,10 @@ function* cropAShotSaga(params) {
 
 function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChanged>) {
   const { ready }: ReturnType<typeof selectEditor> = yield select(selectEditor);
-  const { address }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!ready) return;
 
-  const { path, mode } = getUrlData(location);
-
-  if (address !== path) {
-    yield call(loadMapSaga, path);
-  }
-
-  if (mode !== 'edit') {
-    yield put(editorSetEditing(false));
-  } else {
-    yield put(editorSetEditing(true));
-  }
+  yield call(loadMapFromPath);
 }
 
 function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
@@ -259,10 +249,11 @@ function* routerSubmit() {
 }
 
 export function* editorSaga() {
+  yield takeEvery(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
+
   yield takeEvery(EDITOR_ACTIONS.STOP_EDITING, stopEditingSaga);
   yield takeLatest(EDITOR_ACTIONS.TAKE_A_SHOT, takeAShotSaga);
   yield takeLatest(EDITOR_ACTIONS.CROP_A_SHOT, cropAShotSaga);
-  yield takeLatest(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
   yield takeLatest(EDITOR_ACTIONS.KEY_PRESSED, keyPressedSaga);
   yield takeLatest(EDITOR_ACTIONS.GET_GPX_TRACK, getGPXTrackSaga);
   yield takeLatest(EDITOR_ACTIONS.ROUTER_CANCEL, routerCancel);
