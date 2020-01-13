@@ -26,7 +26,7 @@ const KmMarksUnconnected: FC<Props> = ({
 
   useEffect(() => {
     if (!layer) return;
-    
+
     layer.setLatLngs(route);
   }, [layer, route]);
   return null;

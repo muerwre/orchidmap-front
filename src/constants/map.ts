@@ -33,5 +33,3 @@ export const MainMap = new MapContainer(document.getElementById('canvas')).setVi
   [55.0153275, 82.9071235],
   13
 );
-
-console.log('MAP', MainMap);
