@@ -51,7 +51,7 @@ export interface IEditorState {
   };
 }
 
-const EDITOR_INITIAL_STATE = {
+export const EDITOR_INITIAL_STATE = {
   changed: false,
   editing: false,
   ready: false,

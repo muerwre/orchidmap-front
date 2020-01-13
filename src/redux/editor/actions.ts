@@ -48,7 +48,11 @@ export const editorResetSaveDialog = () => ({ type: EDITOR_ACTIONS.RESET_SAVE_DI
 export const editorSetSave = (save: Partial<IEditorState['save']>) => ({
   type: EDITOR_ACTIONS.SET_SAVE,
   save,
-})
+});
+
+export const editorCancelSave = () => ({
+  type: EDITOR_ACTIONS.CANCEL_SAVE,
+});
 
 export const editorHideRenderer = () => ({ type: EDITOR_ACTIONS.HIDE_RENDERER });
 export const editorSetRenderer = payload => ({ type: EDITOR_ACTIONS.SET_RENDERER, payload });

@@ -54,23 +54,26 @@ const Sticker: React.FC<IProps> = ({
     setDragging(true);
   }, [setDragging, layer, map]);
 
-  const onDragStop = React.useCallback(event => {
-    event.stopPropagation();
-    event.preventDefault();
+  const onDragStop = React.useCallback(
+    event => {
+      event.stopPropagation();
+      event.preventDefault();
 
-    if (!layer) return;
+      if (!layer) return;
 
-    setDragging(false);
-    onChange({
-      ...sticker,
-      angle,
-    });
+      setDragging(false);
+      onChange({
+        ...sticker,
+        angle,
+      });
 
-    layer.dragging.enable();
-    map.dragging.enable();
-    
-    setTimeout(map.enableClicks, 100);
-  }, [setDragging, layer, map, sticker, angle]);
+      layer.dragging.enable();
+      map.dragging.enable();
+
+      setTimeout(map.enableClicks, 100);
+    },
+    [setDragging, layer, map, sticker, angle]
+  );
 
   const onMoveStarted = React.useCallback(() => {
     map.disableClicks();
@@ -159,8 +162,8 @@ const Sticker: React.FC<IProps> = ({
       className: 'sticker-container',
     });
 
-    const item = marker(sticker.latlng, { icon, draggable: true })
-    
+    const item = marker(sticker.latlng, { icon, draggable: true });
+
     setLayer(item);
 
     return () => {
@@ -170,10 +173,10 @@ const Sticker: React.FC<IProps> = ({
 
   useEffect(() => {
     if (!layer) return;
-    
-    layer.addTo(MainMap);
 
-    return () => layer.removeFrom(MainMap)
+    layer.addTo(MainMap.stickerLayer);
+
+    return () => MainMap.stickerLayer.removeLayer(layer);
   }, [layer]);
 
   React.useEffect(() => {

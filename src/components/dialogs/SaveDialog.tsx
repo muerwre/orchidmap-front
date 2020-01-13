@@ -2,7 +2,6 @@ import React from 'react';
 import { copyToClipboard, getUrlData } from '~/utils/history';
 import { toTranslit, parseDesc } from '~/utils/format';
 import { TIPS } from '~/constants/tips';
-import { MODES } from '~/constants/modes';
 import { Icon } from '~/components/panels/Icon';
 import { Switch } from '~/components/Switch';
 
@@ -12,6 +11,7 @@ import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { selectEditorSave } from '~/redux/editor/selectors';
+import { MODES } from '~/constants/modes';
 
 const mapStateToProps = state => ({
   map: selectMap(state),
@@ -19,11 +19,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  editorCancelSave: EDITOR_ACTIONS.editorCancelSave,
   editorSetMode: EDITOR_ACTIONS.editorSetMode,
   editorSendSaveRequest: EDITOR_ACTIONS.editorSendSaveRequest,
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width: number };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { };
 
 interface State {
   address: string;
@@ -91,16 +92,19 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
     this.setState({ is_public: !this.state.is_public });
   };
 
+  componentWillUnmount = () => {
+    this.props.editorCancelSave()
+  };
+  
   render() {
     const { title, is_public, description } = this.state;
     const {
       save: { error, finished, overwriting, loading },
-      width,
     } = this.props;
     const { host, protocol } = getUrlData();
 
     return (
-      <div className="control-dialog control-dialog-medium" style={{ width }}>
+      <div className="control-dialog bottom right">
         <div className="helper save-helper">
           <div className={classnames('save-loader', { active: loading })} />
 

@@ -10,7 +10,7 @@ const mapDispatchToProps = {
   editorStopEditing,
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width?: number };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { };
 
 export class CancelDialog extends React.Component<Props, void> {
   cancel = () => {
@@ -22,10 +22,8 @@ export class CancelDialog extends React.Component<Props, void> {
   };
 
   render() {
-    const { width } = this.props;
-
     return (
-      <div className="control-dialog bottom right" style={{ width }}>
+      <div className="control-dialog bottom right">
         <div className="helper cancel-helper">
           <div className="helper__text danger">
             <Icon icon="icon-cancel-1" />

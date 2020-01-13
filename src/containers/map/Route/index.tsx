@@ -48,7 +48,7 @@ const RouteUnconnected: FC<Props> = memo(
         maxMarkers: isMobile() ? 50 : 150,
         smoothFactor: 3,
       })
-        .addTo(MainMap)
+        .addTo(MainMap.routeLayer)
         .on('distancechange', onDistanceChange)
         .on('vertexdragstart', MainMap.disableClicks)
         .on('vertexdragend', MainMap.enableClicks)
@@ -60,7 +60,7 @@ const RouteUnconnected: FC<Props> = memo(
       setLayer(interactive);
 
       return () => {
-        interactive.removeFrom(MainMap);
+        MainMap.routeLayer.removeLayer(interactive);
       };
     }, [MainMap, onDistanceChange]);
 

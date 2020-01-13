@@ -14,6 +14,7 @@ import {
   editorSetFeature,
   editorLocationChanged,
   editorKeyPressed,
+  editorSetSave,
 } from '~/redux/editor/actions';
 import { getUrlData, pushPath } from '~/utils/history';
 import { MODES } from '~/constants/modes';
@@ -45,6 +46,7 @@ import { MAP_ACTIONS } from '../map/constants';
 import { OsrmRouter } from '~/utils/osrm';
 import path from 'ramda/es/path';
 import { MainMap } from '~/constants/map';
+import { EDITOR_INITIAL_STATE } from '.';
 
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = String(0);
@@ -181,6 +183,7 @@ function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChang
   if (!ready) return;
 
   yield call(loadMapFromPath);
+  MainMap.fitBounds(MainMap.getVisibleBounds(), { animate: true });
 }
 
 function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
@@ -248,6 +251,14 @@ function* routerSubmit() {
   yield put(editorSetMode(MODES.NONE));
 }
 
+function* cancelSave() {
+  yield put(
+    editorSetSave({
+      ...EDITOR_INITIAL_STATE.save,
+    })
+  );
+}
+
 export function* editorSaga() {
   yield takeEvery(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
@@ -259,4 +270,5 @@ export function* editorSaga() {
   yield takeLatest(EDITOR_ACTIONS.ROUTER_CANCEL, routerCancel);
   yield takeLatest(MAP_ACTIONS.MAP_CLICKED, mapClick);
   yield takeLatest(EDITOR_ACTIONS.ROUTER_SUBMIT, routerSubmit);
+  yield takeLatest(EDITOR_ACTIONS.CANCEL_SAVE, cancelSave);
 }

@@ -89,7 +89,7 @@ const mapDispatchToProps = {
   editorRouterSubmit: EDITOR_ACTIONS.editorRouterSubmit,
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { width?: number };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { };
 
 const RouterDialogUnconnected: FC<Props> = ({
   editor: {
@@ -98,9 +98,8 @@ const RouterDialogUnconnected: FC<Props> = ({
   },
   editorRouterCancel,
   editorRouterSubmit,
-  width,
 }) => (
-  <div className="control-dialog bottom right" style={{ width }}>
+  <div className="control-dialog bottom right">
     <div className={classnames('save-loader', { active: is_routing })} />
 
     {!waypoints.length && noPoints({ editorRouterCancel })}
