@@ -10,6 +10,7 @@ import { Route } from '~/containers/map/Route';
 import { Router } from '~/containers/map/Router';
 import { TileLayer } from '~/containers/map/TileLayer';
 import { Stickers } from '~/containers/map/Stickers';
+import { KmMarks } from '~/containers/map/KmMarks';
 
 import 'leaflet/dist/leaflet.css';
 import { selectEditorEditing } from '~/redux/editor/selectors';
@@ -73,6 +74,7 @@ const MapUnconnected: React.FC<IProps> = ({
       <Route />
 
       <Router />
+      <KmMarks />
     </div>,
     document.getElementById('canvas')
   );
