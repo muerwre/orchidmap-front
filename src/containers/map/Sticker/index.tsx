@@ -9,7 +9,6 @@ import { createPortal } from 'react-dom';
 import { MapContainer, MainMap } from '~/constants/map';
 
 interface IProps {
-  map: MapContainer;
   sticker: IStickerDump;
   onDragStart?: () => void;
   index: number;
@@ -28,7 +27,6 @@ const getX = e =>
     : { pageX: e.pageX, pageY: e.pageY };
 
 const Sticker: React.FC<IProps> = ({
-  map,
   sticker,
   index,
   mapSetSticker,
@@ -60,11 +58,11 @@ const Sticker: React.FC<IProps> = ({
 
   const onDragStart = React.useCallback(() => {
     layer.dragging.disable();
-    map.dragging.disable();
-    map.disableClicks();
+    MainMap.dragging.disable();
+    MainMap.disableClicks();
 
     setDragging(true);
-  }, [setDragging, layer, map]);
+  }, [setDragging, layer, MainMap]);
 
   const onDragStop = React.useCallback(
     event => {
@@ -80,16 +78,16 @@ const Sticker: React.FC<IProps> = ({
       });
 
       layer.dragging.enable();
-      map.dragging.enable();
+      MainMap.dragging.enable();
 
-      setTimeout(map.enableClicks, 100);
+      setTimeout(MainMap.enableClicks, 100);
     },
-    [setDragging, layer, map, sticker, angle]
+    [setDragging, layer, MainMap, sticker, angle]
   );
 
   const onMoveStarted = React.useCallback(() => {
-    map.disableClicks();
-  }, [onChange, sticker, map]);
+    MainMap.disableClicks();
+  }, [onChange, sticker, MainMap]);
 
   const onMoveFinished = React.useCallback(
     event => {
@@ -100,9 +98,9 @@ const Sticker: React.FC<IProps> = ({
         latlng: target.getLatLng(),
       });
 
-      map.enableClicks();
+      MainMap.enableClicks();
     },
-    [onChange, sticker, map]
+    [onChange, sticker, MainMap]
   );
 
   const onDrag = React.useCallback(
@@ -132,18 +130,6 @@ const Sticker: React.FC<IProps> = ({
     updateAngle(sticker.angle);
     angle.current = sticker.angle;
   }, [sticker.angle])
-  // Updates html element accroding to current angle
-  // React.useEffect(() => {
-    // if (!stickerImage.current || !stickerArrow.current) return;
-
-    // const x = Math.cos(angle + Math.PI) * 56 - 30;
-    // const y = Math.sin(angle + Math.PI) * 56 - 30;
-
-    // stickerImage.current.style.left = String(6 + x);
-    // stickerImage.current.style.top = String(6 + y);
-
-    // stickerArrow.current.style.transform = `rotate(${angle + Math.PI}rad)`;
-  // }, [stickerArrow, stickerImage, angle]);
 
   // Attaches onMoveFinished event to item
   React.useEffect(() => {

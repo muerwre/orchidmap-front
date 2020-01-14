@@ -3,32 +3,33 @@ import { IStickerDump } from '~/redux/map/types';
 import { FeatureGroup, Map } from 'leaflet';
 import { Sticker } from '~/containers/map/Sticker';
 import { mapSetSticker, mapDropSticker } from '~/redux/map/actions';
-import { MapContainer } from '~/constants/map';
+import { MapContainer, MainMap } from '~/constants/map';
 
 interface IProps {
   stickers: IStickerDump[];
   is_editing: boolean;
-  map: MapContainer;
   mapSetSticker: typeof mapSetSticker;
   mapDropSticker: typeof mapDropSticker;
 }
 
 const Stickers: React.FC<IProps> = React.memo(
-  ({ stickers, is_editing, map, mapSetSticker, mapDropSticker }) => {
+  ({ stickers, is_editing, mapSetSticker, mapDropSticker }) => {
     const [layer, setLayer] = React.useState<FeatureGroup>(null);
 
     React.useEffect(() => {
-      if (!map) return;
+      if (!MainMap) return;
 
-      setLayer(new FeatureGroup().addTo(map));
-    }, [map]);
+      const item = new FeatureGroup().addTo(MainMap.stickerLayer);
+      setLayer(item);
+
+      return () => MainMap.stickerLayer.removeLayer(item);
+    }, [MainMap]);
 
     return (
       <div>
         {layer &&
           stickers.map((sticker, index) => (
             <Sticker
-              map={map}
               sticker={sticker}
               key={`${sticker.set}.${sticker.sticker}.${index}`}
               index={index}

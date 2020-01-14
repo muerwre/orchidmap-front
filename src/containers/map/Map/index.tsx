@@ -68,7 +68,6 @@ const MapUnconnected: React.FC<IProps> = ({
 
       <Stickers
         stickers={stickers}
-        map={MainMap}
         mapSetSticker={mapSetSticker}
         mapDropSticker={mapDropSticker}
         is_editing={editing}
