@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { marker, Marker } from 'leaflet';
 import { IStickerDump } from '~/redux/map/types';
 import { STICKERS } from '~/constants/stickers';
@@ -37,7 +37,7 @@ const Sticker: React.FC<IProps> = ({
 }) => {
   const [layer, setLayer] = React.useState<Marker>(null);
   const [dragging, setDragging] = React.useState(false);
-  const [angle, setAngle] = React.useState(sticker.angle);
+  let angle = useRef(sticker.angle);
 
   const element = React.useMemo(() => document.createElement('div'), []);
   const stickerArrow = React.useRef(null);
@@ -45,6 +45,18 @@ const Sticker: React.FC<IProps> = ({
 
   const onChange = React.useCallback(state => mapSetSticker(index, state), [mapSetSticker, index]);
   const onDelete = React.useCallback(state => mapDropSticker(index), [mapSetSticker, index]);
+
+  const updateAngle = useCallback(ang => {
+    if (!stickerImage.current || !stickerArrow.current) return;
+
+    const x = Math.cos(ang + Math.PI) * 56 - 30;
+    const y = Math.sin(ang + Math.PI) * 56 - 30;
+
+    stickerImage.current.style.left = String(6 + x);
+    stickerImage.current.style.top = String(6 + y);
+
+    stickerArrow.current.style.transform = `rotate(${ang + Math.PI}rad)`;
+  }, [stickerArrow, stickerImage, angle]);
 
   const onDragStart = React.useCallback(() => {
     layer.dragging.disable();
@@ -64,7 +76,7 @@ const Sticker: React.FC<IProps> = ({
       setDragging(false);
       onChange({
         ...sticker,
-        angle,
+        angle: angle.current,
       });
 
       layer.dragging.enable();
@@ -99,10 +111,10 @@ const Sticker: React.FC<IProps> = ({
 
       const { x, y } = element.getBoundingClientRect() as DOMRect;
       const { pageX, pageY } = getX(event);
-
-      setAngle(parseFloat(Math.atan2(y - pageY, x - pageX).toFixed(2)));
+      angle.current = parseFloat(Math.atan2(y - pageY, x - pageX).toFixed(2));
+      updateAngle(angle.current);
     },
-    [element]
+    [element, updateAngle, angle]
   );
 
   const onTextChange = React.useCallback(
@@ -113,21 +125,25 @@ const Sticker: React.FC<IProps> = ({
       }),
     [sticker, onChange]
   );
+    
+  const direction = React.useMemo(() => getLabelDirection(sticker.angle), [sticker.angle]);
 
-  const direction = React.useMemo(() => getLabelDirection(angle), [angle]);
-
+  useEffect(() => {
+    updateAngle(sticker.angle);
+    angle.current = sticker.angle;
+  }, [sticker.angle])
   // Updates html element accroding to current angle
-  React.useEffect(() => {
-    if (!stickerImage.current || !stickerArrow.current) return;
+  // React.useEffect(() => {
+    // if (!stickerImage.current || !stickerArrow.current) return;
 
-    const x = Math.cos(angle + Math.PI) * 56 - 30;
-    const y = Math.sin(angle + Math.PI) * 56 - 30;
+    // const x = Math.cos(angle + Math.PI) * 56 - 30;
+    // const y = Math.sin(angle + Math.PI) * 56 - 30;
 
-    stickerImage.current.style.left = String(6 + x);
-    stickerImage.current.style.top = String(6 + y);
+    // stickerImage.current.style.left = String(6 + x);
+    // stickerImage.current.style.top = String(6 + y);
 
-    stickerArrow.current.style.transform = `rotate(${angle + Math.PI}rad)`;
-  }, [stickerArrow, stickerImage, angle]);
+    // stickerArrow.current.style.transform = `rotate(${angle + Math.PI}rad)`;
+  // }, [stickerArrow, stickerImage, angle]);
 
   // Attaches onMoveFinished event to item
   React.useEffect(() => {
