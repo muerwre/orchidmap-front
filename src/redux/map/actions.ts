@@ -18,6 +18,11 @@ export const mapSetRoute = (route: IMapReducer['route']) => ({
   route,
 });
 
+export const mapSetStickers = (stickers: IStickerDump[]) => ({
+  type: MAP_ACTIONS.SET_STICKERS,
+  stickers,
+});
+
 export const mapSetSticker = (index: number, sticker: IStickerDump) => ({
   type: MAP_ACTIONS.SET_STICKER,
   index,

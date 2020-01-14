@@ -16,6 +16,8 @@ import {
   mapSet,
   mapSetTitle,
   mapSetAddressOrigin,
+  mapSetRoute,
+  mapSetStickers,
 } from './actions';
 import { selectUser, selectUserUser } from '~/redux/user/selectors';
 import { MODES } from '~/constants/modes';
@@ -32,7 +34,7 @@ import {
 import { pushLoaderState, getUrlData, pushPath } from '~/utils/history';
 import { getStoredMap, postMap } from '~/utils/api';
 import { Unwrap } from '~/utils/middleware';
-import { selectMap, selectMapProvider } from './selectors';
+import { selectMap, selectMapProvider, selectMapRoute, selectMapStickers } from './selectors';
 import { TIPS } from '~/constants/tips';
 import { delay } from 'redux-saga';
 import { setReadySaga } from '../editor/sagas';
@@ -169,29 +171,26 @@ function* startEditingSaga() {
 }
 
 function* clearPolySaga() {
-  yield put(
-    mapSet({
-      route: [],
-    })
-  );
+  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute)
+  if (!route.length) return;
+  yield put(mapSetRoute([]));
 }
 
 function* clearStickersSaga() {
-  yield put(
-    mapSet({
-      stickers: [],
-    })
-  );
+  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers)
+  if (!stickers.length) return;
+  yield put(mapSetStickers([]));
 }
 
 function* clearAllSaga() {
+  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute)
+  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers)
+
+  if (!stickers.length && !route.length) return;
+
   yield put(editorSetChanged(false));
-  yield put(
-    mapSet({
-      route: [],
-      stickers: [],
-    })
-  );
+  yield put(mapSetRoute([]));
+  yield put(mapSetStickers([]));
 }
 
 function* clearSaga({ type }) {
@@ -321,15 +320,16 @@ function* setChanged() {
 }
 
 export function* mapSaga() {
-  yield takeEvery([MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER], setChanged);
+  yield takeEvery(
+    [MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER, MAP_ACTIONS.SET_STICKERS],
+    setChanged
+  );
 
-  // TODO: setChanged on set route, logo, provider, stickers
   yield takeEvery(EDITOR_ACTIONS.START_EDITING, startEditingSaga);
   yield takeEvery(EDITOR_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);
   yield takeEvery(MAP_ACTIONS.MAP_CLICKED, onMapClick);
   yield takeEvery(MAP_ACTIONS.SET_TITLE, setTitleSaga);
   yield takeLatest(EDITOR_ACTIONS.SEND_SAVE_REQUEST, sendSaveRequestSaga);
-  // yield takeLatest(EDITOR_ACTIONS.SET_SAVE_SUCCESS, setSaveSuccessSaga);
 
   yield takeEvery(
     [

@@ -13,6 +13,7 @@ import {
   mapSetPublic,
   mapSetLogo,
   mapSetAddressOrigin,
+  mapSetStickers,
 } from './actions';
 
 const setMap = (state: IMapReducer, { map }: ReturnType<typeof mapSet>): IMapReducer => ({
@@ -31,6 +32,14 @@ const setProvider = (
 const setRoute = (state: IMapReducer, { route }: ReturnType<typeof mapSetRoute>): IMapReducer => ({
   ...state,
   route,
+});
+
+const setStickers = (
+  state: IMapReducer,
+  { stickers }: ReturnType<typeof mapSetStickers>
+): IMapReducer => ({
+  ...state,
+  stickers,
 });
 
 const setSticker = (
@@ -97,6 +106,7 @@ export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_PROVIDER]: setProvider,
   [MAP_ACTIONS.SET_ROUTE]: setRoute,
   [MAP_ACTIONS.SET_STICKER]: setSticker,
+  [MAP_ACTIONS.SET_STICKERS]: setStickers,
   [MAP_ACTIONS.DROP_STICKER]: dropSticker,
   [MAP_ACTIONS.ADD_STICKER]: addSticker,
   [MAP_ACTIONS.SET_TITLE]: setTitle,
