@@ -3,6 +3,7 @@ import React from 'react';
 import { MODES } from '~/constants/modes';
 import { Icon } from '~/components/panels/Icon';
 import { editorSetMode, editorStopEditing } from '~/redux/editor/actions';
+import { connect } from 'react-redux';
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = {
@@ -12,7 +13,7 @@ const mapDispatchToProps = {
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { };
 
-export class CancelDialog extends React.Component<Props, void> {
+class CancelDialogUnconnected extends React.Component<Props, void> {
   cancel = () => {
     this.props.editorStopEditing();
   };
@@ -46,3 +47,5 @@ export class CancelDialog extends React.Component<Props, void> {
     );
   }
 }
+
+export const CancelDialog = connect(mapStateToProps, mapDispatchToProps)(CancelDialogUnconnected)

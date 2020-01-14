@@ -56,7 +56,6 @@ const hideLoader = () => {
 
 function* stopEditingSaga() {
   const { changed, mode }: ReturnType<typeof selectEditor> = yield select(selectEditor);
-  const { address_origin }: ReturnType<typeof selectMap> = yield select(selectMap);
   const { path } = getUrlData();
 
   if (changed && mode !== MODES.CONFIRM_CANCEL) {
@@ -66,8 +65,9 @@ function* stopEditingSaga() {
 
   yield put(editorSetMode(MODES.NONE));
   yield put(editorSetChanged(false));
+  yield put(editorSetReady(true));
 
-  yield pushPath(`/${address_origin || path}/`);
+  yield pushPath(`/${path}/`);
 }
 
 function* checkOSRMServiceSaga() {
