@@ -1,6 +1,6 @@
+import createReducer from 'reduxsauce/lib/createReducer';
 import { IDialogs } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
-import createReducer from 'reduxsauce/lib/createReducer';
 import { EDITOR_HANDLERS } from './handlers';
 import { ILatLng } from '../map/types';
 
@@ -11,7 +11,7 @@ export interface IEditorState {
   markers_shown: boolean;
 
   router: {
-    points: ILatLng[];
+    points: ILatLng[]; 
     waypoints: ILatLng[];
   };
 
