@@ -131,6 +131,11 @@ const Sticker: React.FC<IProps> = ({
     angle.current = sticker.angle;
   }, [sticker.angle])
 
+  useEffect(() => {
+    if (!layer) return;
+    layer.setLatLng(sticker.latlng)
+  }, [layer, sticker.latlng])
+
   // Attaches onMoveFinished event to item
   React.useEffect(() => {
     if (!layer) return;
