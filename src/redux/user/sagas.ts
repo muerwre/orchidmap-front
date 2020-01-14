@@ -1,16 +1,8 @@
 import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { delay, SagaIterator } from 'redux-saga';
-import {
-  takeLatest,
-  select,
-  call,
-  put,
-  takeEvery,
-  race,
-} from 'redux-saga/effects';
+import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
 import {
   checkIframeToken,
-  checkOSRMService,
   checkUserToken,
   dropRoute,
   getGuestToken,
@@ -19,17 +11,6 @@ import {
   sendRouteStarred,
 } from '~/utils/api';
 import {
-  // hideRenderer,
-  // setChanged,
-  // setDialogActive,
-  // setEditing,
-  // setMode,
-  // setReady,
-  // setRenderer,
-  // setDialog,
-  // setAddressOrigin,
-  // clearAll,
-  // setFeature,
   searchSetTab,
   setUser,
   mapsSetShift,
@@ -38,19 +19,14 @@ import {
   searchSetLoading,
   searchSetTitle,
   setRouteStarred,
+  userLogin,
 } from '~/redux/user/actions';
 
-import {
-  getUrlData,
-  parseQuery,
-  pushLoaderState,
-  pushNetworkInitError,
-  pushPath,
-} from '~/utils/history';
+import { parseQuery, pushLoaderState, pushNetworkInitError } from '~/utils/history';
 import { USER_ACTIONS } from '~/redux/user/constants';
 import { DEFAULT_USER } from '~/constants/auth';
 
-import { DIALOGS } from '~/constants/dialogs';
+import { DIALOGS, TABS } from '~/constants/dialogs';
 
 import * as ActionCreators from '~/redux/user/actions';
 import { Unwrap } from '~/utils/middleware';
@@ -126,6 +102,7 @@ function* gotVkUserSaga({ user: u }: ReturnType<typeof ActionCreators.gotVkUser>
   }: Unwrap<typeof checkUserToken> = yield call(checkUserToken, u);
 
   yield put(setUser({ ...user, random_url }));
+  yield put(userLogin());
 }
 
 function* searchGetRoutes() {
@@ -197,9 +174,7 @@ function* openMapDialogSaga({ tab }: ReturnType<typeof ActionCreators.openMapDia
     },
   }: ReturnType<typeof selectUser> = yield select(selectUser);
 
-  const {
-    dialog_active,
-  }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+  const { dialog_active }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   if (dialog_active && tab === current) {
     return yield put(editorSetDialogActive(false));
@@ -281,7 +256,7 @@ function* mapsLoadMoreSaga() {
 }
 
 function* dropRouteSaga({ address }: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
-  const { token }: ReturnType<typeof selectUserUser>  = yield select(selectUserUser);
+  const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
   const {
     routes: {
       list,
@@ -290,7 +265,7 @@ function* dropRouteSaga({ address }: ReturnType<typeof ActionCreators.dropRoute>
       limit,
       filter: { min, max },
     },
-  }: ReturnType<typeof selectUser>  = yield select(selectUser);
+  }: ReturnType<typeof selectUser> = yield select(selectUser);
 
   const index = list.findIndex(el => el.address === address);
 
@@ -315,7 +290,7 @@ function* modifyRouteSaga({
   title,
   is_public,
 }: ReturnType<typeof ActionCreators.modifyRoute>): SagaIterator {
-  const { token }: ReturnType<typeof selectUserUser>  = yield select(selectUserUser);
+  const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
   const {
     routes: {
       list,
@@ -347,7 +322,7 @@ function* modifyRouteSaga({
 function* toggleRouteStarredSaga({
   address,
 }: ReturnType<typeof ActionCreators.toggleRouteStarred>) {
-  const { token }: ReturnType<typeof selectUserUser>  = yield select(selectUserUser);
+  const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
   const {
     routes: { list },
   }: ReturnType<typeof selectUser> = yield select(selectUser);
@@ -362,6 +337,10 @@ function* toggleRouteStarredSaga({
   });
 
   if (!result) return yield put(setRouteStarred(address, route.is_published));
+}
+
+export function* updateUserRoutes() {
+  yield put(searchSetTab(TABS.MY));
 }
 
 export function* userSaga() {
@@ -384,4 +363,6 @@ export function* userSaga() {
   yield takeLatest(USER_ACTIONS.DROP_ROUTE, dropRouteSaga);
   yield takeLatest(USER_ACTIONS.MODIFY_ROUTE, modifyRouteSaga);
   yield takeLatest(USER_ACTIONS.TOGGLE_ROUTE_STARRED, toggleRouteStarredSaga);
+
+  yield takeLatest([USER_ACTIONS.USER_LOGIN, USER_ACTIONS.USER_LOGOUT], updateUserRoutes);
 }
