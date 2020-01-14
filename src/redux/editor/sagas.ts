@@ -183,7 +183,7 @@ function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChang
   if (!ready) return;
 
   yield call(loadMapFromPath);
-  MainMap.fitBounds(MainMap.getVisibleBounds(), { animate: true });
+  MainMap.fitVisibleBounds({ animate: true });
 }
 
 function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {

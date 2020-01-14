@@ -1,7 +1,7 @@
 import { divIcon, LatLngLiteral, Layer, LayerGroup, Map, marker, Marker } from "leaflet";
 import { arrowClusterIcon, createArrow } from "~/utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
-import { allwaysPositiveAngleDeg, angleBetweenPoints, distKm } from "~/utils/geom";
+import { allwaysPositiveAngleDeg, angleBetweenPoints, distKmHaversine } from "~/utils/geom";
 import classNames from 'classnames';
 
 interface KmMarksOptions {
@@ -43,7 +43,7 @@ class KmMarksLayer extends LayerGroup {
       if (index >= latlngs.length - 1) return dist;
 
       const next = latlngs[index + 1];
-      const diff = distKm(current, next);
+      const diff = distKmHaversine(current, next);
       const sum = dist + diff;
       const rounded = Math.floor(sum / this.options.kmMarksStep) * this.options.kmMarksStep;
       const count = Math.floor((rounded - last_km_mark) / this.options.kmMarksStep);
@@ -72,7 +72,6 @@ class KmMarksLayer extends LayerGroup {
 
       return sum;
     }, 0);
-
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker => marker(latlng, {

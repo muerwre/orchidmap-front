@@ -18,7 +18,7 @@ import {
   LatLngLiteral
 } from "leaflet";
 
-import { distKm, distToSegment, getPolyLength, pointInArea } from "~/utils/geom";
+import { distKmHaversine, distToSegment, getPolyLength, pointInArea } from "~/utils/geom";
 
 interface InteractivePolylineOptions extends PolylineOptions {
   maxMarkers?: number;
@@ -271,11 +271,11 @@ export class InteractivePoly extends Polyline {
     const prev = this.markers[index];
     const next = this.markers[index + 1];
 
-    const initial_distance = distKm(prev.getLatLng(), next.getLatLng());
+    const initial_distance = distKmHaversine(prev.getLatLng(), next.getLatLng());
 
     const current_distance =
-      ((prev && distKm(prev.getLatLng(), current)) || 0) +
-      ((next && distKm(next.getLatLng(), current)) || 0);
+      ((prev && distKmHaversine(prev.getLatLng(), current)) || 0) +
+      ((next && distKmHaversine(next.getLatLng(), current)) || 0);
 
     this.distance += current_distance - initial_distance;
 
@@ -377,12 +377,12 @@ export class InteractivePoly extends Polyline {
       index <= this.markers.length + 1 ? this.markers[index + 1] : null;
 
     const initial_distance =
-      ((prev && distKm(prev.getLatLng(), initial)) || 0) +
-      ((next && distKm(next.getLatLng(), initial)) || 0);
+      ((prev && distKmHaversine(prev.getLatLng(), initial)) || 0) +
+      ((next && distKmHaversine(next.getLatLng(), initial)) || 0);
 
     const current_distance =
-      ((prev && distKm(prev.getLatLng(), current)) || 0) +
-      ((next && distKm(next.getLatLng(), current)) || 0);
+      ((prev && distKmHaversine(prev.getLatLng(), current)) || 0) +
+      ((next && distKmHaversine(next.getLatLng(), current)) || 0);
 
     this.distance += current_distance - initial_distance;
 
@@ -460,7 +460,7 @@ export class InteractivePoly extends Polyline {
         ? latlngs[latlngs.length - 1]
         : latlngs[0];
 
-    this.distance += distKm(point, latlng);
+    this.distance += distKmHaversine(point, latlng);
     this.fire("distancechange", { distance: this.distance });
   };
 
@@ -505,10 +505,10 @@ export class InteractivePoly extends Polyline {
     const next = index <= latlngs.length + 1 ? latlngs[index + 1] : null;
 
     const initial_distance =
-      ((prev && distKm(prev, current)) || 0) +
-      ((next && distKm(next, current)) || 0);
+      ((prev && distKmHaversine(prev, current)) || 0) +
+      ((next && distKmHaversine(next, current)) || 0);
 
-    const current_distance = (prev && next && distKm(prev, next)) || 0;
+    const current_distance = (prev && next && distKmHaversine(prev, next)) || 0;
 
     this.distance += current_distance - initial_distance;
 

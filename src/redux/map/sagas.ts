@@ -29,8 +29,7 @@ import {
   editorSetSave,
   editorClearAll,
 } from '~/redux/editor/actions';
-import { pushLoaderState, getUrlData, pushPath, replacePath } from '~/utils/history';
-import { searchSetSagaWorker } from '~/redux/user/sagas';
+import { pushLoaderState, getUrlData, pushPath } from '~/utils/history';
 import { getStoredMap, postMap } from '~/utils/api';
 import { Unwrap } from '~/utils/middleware';
 import { selectMap, selectMapProvider } from './selectors';
@@ -150,7 +149,7 @@ export function* mapInitSaga() {
 
   yield call(loadMapFromPath);
   yield call(setReadySaga);
-  MainMap.fitBounds(MainMap.getVisibleBounds(), { animate: false });
+  MainMap.fitVisibleBounds({ animate: false });
   pushLoaderState(100);
 }
 

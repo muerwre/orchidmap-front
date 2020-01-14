@@ -1,4 +1,4 @@
-import { Map, LayerGroup, Layer, FeatureGroup } from 'leaflet';
+import { Map, FeatureGroup, FitBoundsOptions } from 'leaflet';
 
 export class MapContainer extends Map {
   constructor(props) {
@@ -21,7 +21,15 @@ export class MapContainer extends Map {
       const bounds = layers[i].getBounds();
       if (Object.keys(bounds).length == 2) return bounds;
     }
+    return null;
   };
+
+  fitVisibleBounds = (options: FitBoundsOptions) => {
+    const bounds = this.getVisibleBounds();
+    
+    if (!bounds) return;
+    this.fitBounds(bounds, options)
+  }
 
   public clickable = true;
 
