@@ -1,6 +1,6 @@
 import { IDialogs } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
-import { createReducer } from 'reduxsauce';
+import createReducer from 'reduxsauce/lib/createReducer';
 import { EDITOR_HANDLERS } from './handlers';
 import { ILatLng } from '../map/types';
 

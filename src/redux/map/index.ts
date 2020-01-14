@@ -1,4 +1,4 @@
-import { createReducer } from 'reduxsauce';
+import createReducer from 'reduxsauce/lib/createReducer';
 import { MAP_HANDLERS } from './handlers';
 import { DEFAULT_PROVIDER } from '~/constants/providers';
 import { IMapRoute } from './types';
