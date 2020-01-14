@@ -17,7 +17,7 @@ class KmMarksLayer extends LayerGroup {
     this.options = {
       showMiddleMarkers: true,
       showEndMarker: true,
-      kmMarksStep: 20,
+      kmMarksStep: 10,
       ...(options || {}),
     } as KmMarksOptions;
   }
