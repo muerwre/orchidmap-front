@@ -313,7 +313,16 @@ function* sendSaveRequestSaga({
   );
 }
 
+function* setChanged() {
+  const { changed } = yield select(selectEditor);
+  if (changed) return;
+
+  yield put(editorSetChanged(true));
+}
+
 export function* mapSaga() {
+  yield takeEvery([MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER], setChanged);
+
   // TODO: setChanged on set route, logo, provider, stickers
   yield takeEvery(EDITOR_ACTIONS.START_EDITING, startEditingSaga);
   yield takeEvery(EDITOR_ACTIONS.SET_ACTIVE_STICKER, setActiveStickerSaga);

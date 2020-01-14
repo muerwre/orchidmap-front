@@ -13,13 +13,15 @@ import { Stickers } from '~/containers/map/Stickers';
 import { KmMarks } from '~/containers/map/KmMarks';
 
 import 'leaflet/dist/leaflet.css';
-import { selectEditorEditing } from '~/redux/editor/selectors';
+import { selectEditorEditing, selectEditorMode } from '~/redux/editor/selectors';
+import { MODES } from '~/constants/modes';
 
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
   route: selectMapRoute(state),
   stickers: selectMapStickers(state),
   editing: selectEditorEditing(state),
+  mode: selectEditorMode(state),
 });
 
 const mapDispatchToProps = {
@@ -37,6 +39,7 @@ const MapUnconnected: React.FC<IProps> = ({
   provider,
   stickers,
   editing,
+  mode,
 
   mapClicked,
   mapSetSticker,
@@ -44,11 +47,11 @@ const MapUnconnected: React.FC<IProps> = ({
 }) => {
   const onClick = React.useCallback(
     event => {
-      if (!MainMap.clickable) return;
+      if (!MainMap.clickable || mode === MODES.NONE) return;
 
       mapClicked(event.latlng);
     },
-    [mapClicked]
+    [mapClicked, mode]
   );
 
   React.useEffect(() => {

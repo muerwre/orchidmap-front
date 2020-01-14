@@ -5,7 +5,6 @@ import { simplify } from '~/utils/simplify';
 import {
   editorHideRenderer,
   editorSetChanged,
-  editorSetEditing,
   editorSetMode,
   editorSetReady,
   editorSetRenderer,
@@ -40,7 +39,7 @@ import {
 import { selectMap, selectMapRoute } from '../map/selectors';
 import { selectUser } from '../user/selectors';
 import { LOGOS } from '~/constants/logos';
-import { loadMapSaga, startEmptyEditorSaga, loadMapFromPath } from '../map/sagas';
+import { loadMapFromPath } from '../map/sagas';
 import { mapClicked, mapSetRoute } from '../map/actions';
 import { MAP_ACTIONS } from '../map/constants';
 import { OsrmRouter } from '~/utils/osrm';
@@ -56,11 +55,9 @@ const hideLoader = () => {
 };
 
 function* stopEditingSaga() {
-  const { changed, editing, mode }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+  const { changed, mode }: ReturnType<typeof selectEditor> = yield select(selectEditor);
   const { address_origin }: ReturnType<typeof selectMap> = yield select(selectMap);
   const { path } = getUrlData();
-
-  // if (!editing) return;
 
   if (changed && mode !== MODES.CONFIRM_CANCEL) {
     yield put(editorSetMode(MODES.CONFIRM_CANCEL));
