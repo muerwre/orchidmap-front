@@ -16,7 +16,7 @@ import { LogoPreview } from '~/components/logo/LogoPreview';
 import { IStickerPack } from '~/constants/stickers';
 import { IDialogs } from '~/constants/dialogs';
 
-import { Map } from '~/containers/map/Map';
+import { Map } from '~/map/Map';
 import { IEditorState } from '~/redux/editor';
 import { IState } from '~/redux/store';
 

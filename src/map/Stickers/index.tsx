@@ -1,7 +1,7 @@
 import React from 'react';
 import { IStickerDump } from '~/redux/map/types';
 import { FeatureGroup, Map } from 'leaflet';
-import { Sticker } from '~/containers/map/Sticker';
+import { Sticker } from '~/map/Sticker';
 import { mapSetSticker, mapDropSticker } from '~/redux/map/actions';
 import { MapContainer, MainMap } from '~/constants/map';
 

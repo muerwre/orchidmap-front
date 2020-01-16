@@ -1,8 +1,7 @@
 import React, { FC, useEffect, memo, useState, useCallback } from 'react';
-import { IMapRoute } from '../../../redux/map/types';
 import { InteractivePoly } from '~/utils/map/InteractivePoly';
 import { isMobile } from '~/utils/window';
-import { LatLng, Map, LeafletEvent } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { selectEditor } from '~/redux/editor/selectors';
 import pick from 'ramda/es/pick';
 import * as MAP_ACTIONS from '~/redux/map/actions';

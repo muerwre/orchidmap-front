@@ -1,20 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, memo } from 'react';
 import { KmMarksLayer } from '~/utils/marks';
 import { MainMap } from '~/constants/map';
 import { selectMap } from '~/redux/map/selectors';
 import pick from 'ramda/es/pick';
 import { connect } from 'react-redux';
+import { IState } from '~/redux/store';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IState) => ({
   map: pick(['route'], selectMap(state)),
 });
 
 const mapDispatchToProps = {};
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
-const KmMarksUnconnected: FC<Props> = ({
-  map: { route },
-}) => {
+const KmMarksUnconnected: FC<Props> = memo(({ map: { route } }) => {
   const [layer, setLayer] = useState(null);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const KmMarksUnconnected: FC<Props> = ({
     layer.setLatLngs(route);
   }, [layer, route]);
   return null;
-};
+});
 
 const KmMarks = connect(mapStateToProps, mapDispatchToProps)(KmMarksUnconnected);
 

@@ -6,11 +6,12 @@ import { selectMapProvider, selectMapRoute, selectMapStickers } from '~/redux/ma
 import { connect } from 'react-redux';
 import * as MAP_ACTIONS from '~/redux/map/actions';
 
-import { Route } from '~/containers/map/Route';
-import { Router } from '~/containers/map/Router';
-import { TileLayer } from '~/containers/map/TileLayer';
-import { Stickers } from '~/containers/map/Stickers';
-import { KmMarks } from '~/containers/map/KmMarks';
+import { Route } from '~/map/Route';
+import { Router } from '~/map/Router';
+import { TileLayer } from '~/map/TileLayer';
+import { Stickers } from '~/map/Stickers';
+import { KmMarks } from '~/map/KmMarks';
+import { Arrows } from '~/map/Arrows';
 
 import 'leaflet/dist/leaflet.css';
 import { selectEditorEditing, selectEditorMode } from '~/redux/editor/selectors';
@@ -74,9 +75,10 @@ const MapUnconnected: React.FC<IProps> = ({
       />
 
       <Route />
-
       <Router />
+      
       <KmMarks />
+      <Arrows />
     </div>,
     document.getElementById('canvas')
   );

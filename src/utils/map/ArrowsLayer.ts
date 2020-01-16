@@ -3,7 +3,7 @@ import { arrowClusterIcon, createArrow } from "~/utils/arrow";
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { angleBetweenPoints, dist2, middleCoord } from "~/utils/geom";
 
-class Component extends LayerGroup {
+class ArrowsLayer extends LayerGroup {
   constructor(props){
     super(props);
   }
@@ -47,19 +47,19 @@ class Component extends LayerGroup {
 }
 
 
-Component.addInitHook(function () {
+ArrowsLayer.addInitHook(function () {
   this.once('add', (event) => {
-    if (event.target instanceof Arrows) {
+    if (event.target instanceof ArrowsLayer) {
       this.map = event.target._map;
       this.arrowLayer.addTo(this.map);
     }
   });
 
   this.once('remove', (event) => {
-    if (event.target instanceof Arrows) {
+    if (event.target instanceof ArrowsLayer) {
       this.arrowLayer.removeFrom(this.map);
     }
   });
 });
 
-export const Arrows = Component;
+export { ArrowsLayer };
