@@ -20,11 +20,20 @@ import { DIALOGS, TABS } from '~/constants/dialogs';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { TitleDialog } from '~/components/dialogs/TitleDialog';
 
-const mapStateToProps = ({ user: { user }, editor: { dialog, dialog_active, is_empty } }) => ({
-  dialog,
-  dialog_active,
-  user,
-  is_empty,
+const mapStateToProps = ({
+  user: { user },
+  editor: { dialog, dialog_active },
+  map: { route, stickers },
+}) => ({
+  editor: {
+    dialog,
+    dialog_active,
+  },
+  user: { user },
+  map: {
+    route,
+    stickers,
+  }
 });
 
 const mapDispatchToProps = {
@@ -91,7 +100,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
   openAppInfoDialog = () => {
     this.setMenuOpened();
     this.props.editorSetDialog(DIALOGS.APP_INFO);
-    this.props.editorSetDialogActive(this.props.dialog !== DIALOGS.APP_INFO);
+    this.props.editorSetDialogActive(this.props.editor.dialog !== DIALOGS.APP_INFO);
   };
 
   openOauthFrame = () => {
@@ -109,9 +118,11 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
   render() {
     const {
-      props: { user, dialog, dialog_active, is_empty },
+      props: { user: { user }, editor: { dialog, dialog_active }, map: { route, stickers } },
       state: { menuOpened },
     } = this;
+
+    const is_empty = !route.length && !stickers.length;
 
     return (
       <div>
@@ -154,6 +165,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
               <Icon icon="icon-shot-4" />
             </button>
           </div>
+
           {!is_empty && (
             <React.Fragment>
               <div className="control-sep" />

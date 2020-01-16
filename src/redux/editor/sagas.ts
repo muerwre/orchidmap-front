@@ -214,7 +214,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
 function* getGPXTrackSaga(): SagaIterator {
   const { route, stickers, title, address }: ReturnType<typeof selectMap> = yield select(selectMap);
 
-  if (!route || route.length <= 0) return;
+  if (!route.length && !stickers.length) return;
 
   const track = getGPXString({ route, stickers, title: title || address });
 
