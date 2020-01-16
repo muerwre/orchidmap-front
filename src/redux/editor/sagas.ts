@@ -88,6 +88,7 @@ function* getRenderData() {
   yield put(editorSetRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
 
   const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
+  const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   const canvas = <HTMLCanvasElement>document.getElementById('renderer');
   canvas.width = window.innerWidth;
@@ -97,9 +98,6 @@ function* getRenderData() {
   const geometry = getTilePlacement();
   const points = getPolyPlacement(route);
   const sticker_points = getStickersPlacement(stickers);
-  // TODO: get distance:
-  const distance = 0;
-  // const distance = editor.poly.poly.distance;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -225,7 +223,6 @@ function* getGPXTrackSaga(): SagaIterator {
 
 function* routerCancel() {
   yield put(editorSetMode(MODES.NONE));
-  // TODO: clear router
 }
 
 function* mapClick({ latlng }: ReturnType<typeof mapClicked>) {
