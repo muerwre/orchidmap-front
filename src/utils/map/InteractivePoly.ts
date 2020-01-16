@@ -27,7 +27,7 @@ interface InteractivePolylineOptions extends PolylineOptions {
   kmMarksStep?: number;
 }
 
-export class InteractivePoly extends Polyline {
+class InteractivePoly extends Polyline {
   constructor(
     latlngs: LatLngExpression[] | LatLngExpression[][],
     options?: InteractivePolylineOptions
@@ -493,7 +493,8 @@ export class InteractivePoly extends Polyline {
     const next = index <= latlngs.length + 1 ? latlngs[index + 1] : null;
 
     const initial_distance =
-      ((prev && distKmHaversine(prev, current)) || 0) + ((next && distKmHaversine(next, current)) || 0);
+      ((prev && distKmHaversine(prev, current)) || 0) +
+      ((next && distKmHaversine(next, current)) || 0);
 
     const current_distance = (prev && next && distKmHaversine(prev, next)) || 0;
 
@@ -558,8 +559,10 @@ InteractivePoly.addInitHook(function() {
 
       this.on('latlngschange', this.updateTouchHinter);
 
-      if (window.innerWidth < 768) {
-        this.touchHinter.setStyle({ weight: 32 });
+      if (this.touchHinter && window.innerWidth < 768) {
+        try {
+          this.touchHinter.setStyle({ weight: 32 });
+        } catch (e) {}
       }
     }
   });
@@ -576,6 +579,7 @@ InteractivePoly.addInitHook(function() {
   });
 });
 
+export { InteractivePoly };
 /*
   events:
   vertexdragstart,
