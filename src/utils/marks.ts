@@ -7,6 +7,7 @@ import classNames from 'classnames';
 interface KmMarksOptions {
   showMiddleMarkers: boolean;
   showEndMarker: boolean;
+  showArrows: boolean;
   kmMarksStep: number;
 }
 
@@ -17,6 +18,7 @@ class KmMarksLayer extends LayerGroup {
     this.options = {
       showMiddleMarkers: true,
       showEndMarker: true,
+      showArrows: true,
       kmMarksStep: 10,
       ...(options || {}),
     } as KmMarksOptions;
@@ -27,6 +29,7 @@ class KmMarksLayer extends LayerGroup {
 
     this.marksLayer.clearLayers();
     this.endMarker.clearLayers();
+    this.arrowsLayer.clearLayers();
 
     this.distance = 0;
 
@@ -38,6 +41,7 @@ class KmMarksLayer extends LayerGroup {
 
   drawMiddleMarkers = (latlngs: LatLngLiteral[]) => {
     const marks = [];
+    const arrows = [];
     let last_km_mark = 0;
 
     this.distance = latlngs.reduce((dist, current, index) => {
@@ -66,6 +70,7 @@ class KmMarksLayer extends LayerGroup {
           };
 
           marks.push(this.createMiddleMarker(coords, angle, step));
+          arrows.push(createArrow(coords, angle));
         }
 
         last_km_mark = rounded;
@@ -75,6 +80,7 @@ class KmMarksLayer extends LayerGroup {
     }, 0);
 
     this.marksLayer.addLayers(marks);
+    this.arrowsLayer.addLayers(arrows);
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker =>
@@ -136,6 +142,14 @@ class KmMarksLayer extends LayerGroup {
     maxClusterRadius: 120,
     iconCreateFunction: arrowClusterIcon,
   });
+  arrowsLayer: MarkerClusterGroup = new MarkerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: false,
+    animate: false,
+    maxClusterRadius: 120,
+    iconCreateFunction: arrowClusterIcon,
+  });
   endMarker: LayerGroup = new LayerGroup();
   distance: number = 0;
 }
@@ -146,6 +160,7 @@ KmMarksLayer.addInitHook(function() {
       this.map = event.target._map;
       this.marksLayer.addTo(this.map);
       this.endMarker.addTo(this.map);
+      this.arrowsLayer.addTo(this.map);
     }
   });
 
@@ -153,6 +168,7 @@ KmMarksLayer.addInitHook(function() {
     if (event.target instanceof KmMarksLayer) {
       this.marksLayer.removeFrom(this.map);
       this.endMarker.removeFrom(this.map);
+      this.arrowsLayer.removeFrom(this.map);
     }
   });
 });

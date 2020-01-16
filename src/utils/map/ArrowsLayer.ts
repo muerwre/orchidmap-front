@@ -1,3 +1,10 @@
+/*
+
+  TODO: increase step between arrows, but detect if arrows' count less than i.e. 5, so when draw additional ones
+  TODO: or, maybe, combine arrows with km marks
+
+*/
+
 import { LatLngLiteral, LayerGroup, Map, LatLng, Marker, marker } from 'leaflet';
 import { arrowClusterIcon, createArrow, createArrowIcon } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';

@@ -78,7 +78,6 @@ const MapUnconnected: React.FC<IProps> = ({
       <Router />
 
       <KmMarks />
-      <Arrows />
     </div>,
     document.getElementById('canvas')
   );
