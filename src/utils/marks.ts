@@ -1,8 +1,9 @@
 import { divIcon, LatLngLiteral, Layer, LayerGroup, Map, marker, Marker } from 'leaflet';
-import { arrowClusterIcon, createArrow } from '~/utils/arrow';
+import { arrowClusterIcon } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { allwaysPositiveAngleDeg, angleBetweenPoints, distKmHaversine } from '~/utils/geom';
 import classNames from 'classnames';
+const arrow_image = require('~/sprites/arrow.svg');
 
 interface KmMarksOptions {
   showMiddleMarkers: boolean;
@@ -29,7 +30,6 @@ class KmMarksLayer extends LayerGroup {
 
     this.marksLayer.clearLayers();
     this.endMarker.clearLayers();
-    this.arrowsLayer.clearLayers();
 
     this.distance = 0;
 
@@ -70,7 +70,6 @@ class KmMarksLayer extends LayerGroup {
           };
 
           marks.push(this.createMiddleMarker(coords, angle, step));
-          arrows.push(createArrow(coords, angle));
         }
 
         last_km_mark = rounded;
@@ -80,7 +79,6 @@ class KmMarksLayer extends LayerGroup {
     }, 0);
 
     this.marksLayer.addLayers(marks);
-    this.arrowsLayer.addLayers(arrows);
   };
 
   createMiddleMarker = (latlng: LatLngLiteral, angle: number, distance: number): Marker =>
@@ -93,6 +91,10 @@ class KmMarksLayer extends LayerGroup {
           angle
         )}deg);">
           ${distance}
+
+          <svg width="48" height="48" preserveAspectRatio="xMidYMid">        
+            <image xlink:href="${arrow_image}" x="0" y="0" width="48" height="48"/>
+          </svg> 
         </div>
       `,
         className: 'leaflet-km-marker',
@@ -142,14 +144,6 @@ class KmMarksLayer extends LayerGroup {
     maxClusterRadius: 120,
     iconCreateFunction: arrowClusterIcon,
   });
-  arrowsLayer: MarkerClusterGroup = new MarkerClusterGroup({
-    spiderfyOnMaxZoom: false,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: false,
-    animate: false,
-    maxClusterRadius: 120,
-    iconCreateFunction: arrowClusterIcon,
-  });
   endMarker: LayerGroup = new LayerGroup();
   distance: number = 0;
 }
@@ -160,7 +154,7 @@ KmMarksLayer.addInitHook(function() {
       this.map = event.target._map;
       this.marksLayer.addTo(this.map);
       this.endMarker.addTo(this.map);
-      this.arrowsLayer.addTo(this.map);
+      // this.arrowsLayer.addTo(this.map);
     }
   });
 
@@ -168,7 +162,7 @@ KmMarksLayer.addInitHook(function() {
     if (event.target instanceof KmMarksLayer) {
       this.marksLayer.removeFrom(this.map);
       this.endMarker.removeFrom(this.map);
-      this.arrowsLayer.removeFrom(this.map);
+      // this.arrowsLayer.removeFrom(this.map);
     }
   });
 });
