@@ -76,7 +76,7 @@ const MapUnconnected: React.FC<IProps> = ({
 
       <Route />
       <Router />
-      
+
       <KmMarks />
       <Arrows />
     </div>,
