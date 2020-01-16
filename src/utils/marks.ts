@@ -154,7 +154,6 @@ KmMarksLayer.addInitHook(function() {
       this.map = event.target._map;
       this.marksLayer.addTo(this.map);
       this.endMarker.addTo(this.map);
-      // this.arrowsLayer.addTo(this.map);
     }
   });
 
@@ -162,7 +161,6 @@ KmMarksLayer.addInitHook(function() {
     if (event.target instanceof KmMarksLayer) {
       this.marksLayer.removeFrom(this.map);
       this.endMarker.removeFrom(this.map);
-      // this.arrowsLayer.removeFrom(this.map);
     }
   });
 });
