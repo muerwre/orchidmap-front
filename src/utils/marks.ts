@@ -87,12 +87,12 @@ class KmMarksLayer extends LayerGroup {
       interactive: false,
       icon: divIcon({
         html: `
-        <div class="leaflet-km-dist" style="transform: translate(-50%, -50%) rotate(${allwaysPositiveAngleDeg(
-          angle
-        )}deg);">
+        <div 
+          class="leaflet-km-dist ${allwaysPositiveAngleDeg(angle) !== angle ? 'reverse' : ''}" 
+          style="transform: translate(-50%, -50%) rotate(${allwaysPositiveAngleDeg(angle)}deg);"
+        >
           ${distance}
-
-          <svg width="48" height="48" preserveAspectRatio="xMidYMid">        
+          <svg width="48" height="48" preserveAspectRatio="xMidYMid" transform="rotate(0deg)">        
             <image xlink:href="${arrow_image}" x="0" y="0" width="48" height="48"/>
           </svg> 
         </div>

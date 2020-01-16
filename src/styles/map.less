@@ -14,12 +14,16 @@
 }
 
 .leaflet-touch .leaflet-bar a {
- border-radius: @panel_radius !important;
+  border-radius: @panel_radius !important;
 }
 
 @keyframes vertex_spin {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.2); }
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
 }
 
 .leaflet-vertex-drag-helper {
@@ -43,16 +47,16 @@
 .vertex-icon-mixin(@left, @right) {
   &::after {
     content: ' ';
-    position:absolute;
-    top:4px;
+    position: absolute;
+    top: 4px;
     left: @left;
     right: @right;
-    width:8px;
-    height:8px;
+    width: 8px;
+    height: 8px;
     background: white;
     border-radius: 8px;
-    transform:scale(1);
-    transition:transform 150ms;
+    transform: scale(1);
+    transition: transform 150ms;
   }
 }
 
@@ -63,8 +67,8 @@
   border: none;
   width: 16px !important;
   height: 16px !important;
-  margin-left:-8px !important;
-  margin-top:-8px !important;
+  margin-left: -8px !important;
+  margin-top: -8px !important;
   background: transparent;
   position: absolute;
   cursor: grab;
@@ -110,7 +114,8 @@
   pointer-events: none !important;
 }
 
-.leaflet-km-marker, .leaflet-km-marker-2 {
+.leaflet-km-marker,
+.leaflet-km-marker-2 {
   position: absolute;
   z-index: 0 !important;
 
@@ -136,6 +141,12 @@
       top: -16px;
       left: 50%;
       transform: translate(-50%, 0);
+    }
+
+    &.reverse {
+      svg {
+        transform: translate(-50%, 0) rotate(180deg);
+      }
     }
   }
 }
@@ -191,7 +202,7 @@
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {
-    display: none;
+  display: none;
 }
 
 .leaflet-bar {
@@ -294,7 +305,7 @@
 #canvas {
   background: #eeeeee;
   z-index: 0;
-  
+
   > div {
     width: 100%;
     height: 100%;
