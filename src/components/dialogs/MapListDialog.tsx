@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { RouteRowWrapper } from '~/components/maps/RouteRowWrapper';
 import { Scroll } from '~/components/Scroll';
@@ -17,14 +17,13 @@ import { editorSetDialogActive } from '~/redux/editor/actions';
 import { isMobile } from '~/utils/window';
 import classnames from 'classnames';
 
-import Range from 'rc-slider/lib/Range';
 import { TABS, TABS_TITLES } from '~/constants/dialogs';
 import { Icon } from '~/components/panels/Icon';
 import { pushPath } from '~/utils/history';
 import { IRouteListItem } from '~/redux/user';
 import { ROLES } from '~/constants/auth';
 import { IState } from '~/redux/store';
-
+import { MapListDialogHead } from '~/components/search/MapListDialogHead';
 
 const mapStateToProps = ({
   editor: { editing },
@@ -37,7 +36,6 @@ const mapStateToProps = ({
     return {
       routes,
       editing,
-      marks: {},
       ready: false,
       role,
     };
@@ -48,16 +46,6 @@ const mapStateToProps = ({
     routes,
     editing,
     ready: true,
-    marks: [...new Array(Math.floor((routes.filter.max - routes.filter.min) / 25) + 1)].reduce(
-      (obj, el, i) => ({
-        ...obj,
-        [routes.filter.min + i * 25]: ` ${routes.filter.min + i * 25}${
-          routes.filter.min + i * 25 >= 200 ? '+' : ''
-        }
-      `,
-      }),
-      {}
-    ),
   };
 };
 
@@ -72,7 +60,7 @@ const mapDispatchToProps = {
   toggleRouteStarred,
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 export interface State {
   menu_target: IRouteListItem['address'];
@@ -82,7 +70,7 @@ export interface State {
   is_dropping: boolean;
 }
 
-class MapListDialogUnconnected extends React.Component<Props, State> {
+class MapListDialogUnconnected extends PureComponent<Props, State> {
   state = {
     menu_target: null,
     editor_target: null,
@@ -178,8 +166,8 @@ class MapListDialogUnconnected extends React.Component<Props, State> {
         loading,
         filter: { min, max, title, distance, tab },
       },
-      marks,
-    }: Props = this.props;
+    }: // marks,
+    Props = this.props;
 
     const { editor_target, menu_target, is_editing, is_dropping } = this.state;
 
@@ -192,6 +180,7 @@ class MapListDialogUnconnected extends React.Component<Props, State> {
             </div>
           </div>
         )}
+
         {ready && !loading && list.length === 0 && (
           <div className="dialog-maplist-loader">
             <div className="dialog-maplist-icon">
@@ -200,6 +189,7 @@ class MapListDialogUnconnected extends React.Component<Props, State> {
             ТУТ ПУСТО <br />И ОДИНОКО
           </div>
         )}
+
         <div className="dialog-tabs">
           {Object.values(TABS).map(
             item =>
@@ -214,32 +204,16 @@ class MapListDialogUnconnected extends React.Component<Props, State> {
               )
           )}
         </div>
-        <div className="dialog-head">
-          <div>
-            <input
-              type="text"
-              placeholder="Поиск по названию"
-              value={title}
-              onChange={this.setTitle}
-            />
-            <br />
-            {ready && Object.keys(marks).length > 2 ? (
-              <Range
-                min={min}
-                max={max}
-                marks={marks}
-                step={25}
-                onChange={this.props.searchSetDistance}
-                defaultValue={[0, 10000]}
-                value={distance}
-                pushable={25}
-                disabled={min >= max}
-              />
-            ) : (
-              <div className="range-placeholder" />
-            )}
-          </div>
-        </div>
+
+        <MapListDialogHead
+          min={min}
+          max={max}
+          distance={distance}
+          onDistanceChange={this.props.searchSetDistance}
+          ready={ready}
+          search={title}
+          onSearchChange={this.setTitle}
+        />
 
         <Scroll className="dialog-shader" onScroll={this.onScroll}>
           <div className="dialog-maplist">
@@ -275,7 +249,6 @@ class MapListDialogUnconnected extends React.Component<Props, State> {
     );
   }
 }
-
 
 const MapListDialog = connect(mapStateToProps, mapDispatchToProps)(MapListDialogUnconnected);
 
