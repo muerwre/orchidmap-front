@@ -4,27 +4,24 @@ import { Icon } from '~/components/panels/Icon';
 import { connect } from 'react-redux';
 import Slider from 'rc-slider/lib/Slider';
 import { editorSetSpeed } from '~/redux/editor/actions';
-import { Tooltip } from "~/components/panels/Tooltip";
-import { isMobile } from "~/utils/window";
+import { Tooltip } from '~/components/panels/Tooltip';
+import { isMobile } from '~/utils/window';
 import { IState } from '~/redux/store';
+import pick from 'ramda/es/pick';
+import { selectEditor } from '~/redux/editor/selectors';
 
-function mapStateToProps(state) {
-  const {
-    editor: { distance, estimated, speed },
-  }: IState = state;
-
-  return { distance, estimated, speed };
-}
+const mapStateToProps = (state: IState) =>
+  pick(['distance', 'estimated', 'speed'], selectEditor(state));
 
 const mapDispatchToProps = { editorSetSpeed };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 interface State {
-  dialogOpened: boolean,
+  dialogOpened: boolean;
 }
 
-class Component extends React.PureComponent<Props, State> {
+class DistanceBarUnconnected extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,10 +33,15 @@ class Component extends React.PureComponent<Props, State> {
   min: number = 5;
   max: number = 30;
 
-  marks: { [x: number]: string } = [...Array((Math.floor(this.max - this.min) / this.step) + 1)].reduce((obj, el, index) => ({
-    ...obj,
-    [this.min + (index * this.step)]: String(this.min + (index * this.step)),
-  }), { });
+  marks: { [x: number]: string } = [
+    ...Array(Math.floor(this.max - this.min) / this.step + 1),
+  ].reduce(
+    (obj, el, index) => ({
+      ...obj,
+      [this.min + index * this.step]: String(this.min + index * this.step),
+    }),
+    {}
+  );
 
   toggleDialog = () => {
     if (isMobile()) return;
@@ -51,9 +53,11 @@ class Component extends React.PureComponent<Props, State> {
     const {
       props: { distance, estimated, speed },
       state: { dialogOpened },
-      min, max, step, marks,
+      min,
+      max,
+      step,
+      marks,
     } = this;
-
 
     return (
       <React.Fragment>
@@ -65,8 +69,7 @@ class Component extends React.PureComponent<Props, State> {
           </span>
           <div className="desktop-only">{toHours(estimated)}</div>
         </div>
-        {
-          dialogOpened &&
+        {dialogOpened && (
           <div className="control-dialog top left" style={{ left: 0, top: 42 }}>
             <div className="helper speed-helper">
               <Slider
@@ -80,13 +83,10 @@ class Component extends React.PureComponent<Props, State> {
               />
             </div>
           </div>
-        }
+        )}
       </React.Fragment>
     );
   }
 }
 
-export const DistanceBar = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Component);
+export const DistanceBar = connect(mapStateToProps, mapDispatchToProps)(DistanceBarUnconnected);

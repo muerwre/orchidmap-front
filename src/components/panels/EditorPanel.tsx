@@ -4,7 +4,6 @@ import classnames from 'classnames';
 
 import { Icon } from '~/components/panels/Icon';
 import { EditorDialog } from '~/components/panels/EditorDialog';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   editorSetMode,
@@ -16,10 +15,10 @@ import {
 import { Tooltip } from '~/components/panels/Tooltip';
 import { IState } from '~/redux/store';
 import { selectEditor } from '~/redux/editor/selectors';
+import pick from 'ramda/es/pick';
 
-const mapStateToProps = (state: IState) => ({
-  editor: selectEditor(state),
-});
+const mapStateToProps = (state: IState) =>
+  pick(['mode', 'changed', 'editing', 'features'], selectEditor(state));
 
 const mapDispatchToProps = {
   editorSetMode,
@@ -54,18 +53,15 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
   startRouterMode = () => this.props.editorSetMode(MODES.ROUTER);
   startTrashMode = () => this.props.editorSetMode(MODES.TRASH);
   startSaveMode = () => {
-    // if (!this.props.changed) return;
     this.props.editorSetMode(MODES.SAVE);
   };
 
   render() {
     const {
-      editor: {
-        mode,
-        changed,
-        editing,
-        features: { routing },
-      },
+      mode,
+      changed,
+      editing,
+      features: { routing },
     } = this.props;
 
     return (

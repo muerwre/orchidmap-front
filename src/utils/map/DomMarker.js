@@ -15,7 +15,7 @@ export const DomMarker = DivIcon.extend({
 
     this._setIconStyles(element, 'icon');
 
-    return element;
+    return element; 
   }
 });
 

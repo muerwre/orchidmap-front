@@ -42,7 +42,7 @@ import { LOGOS } from '~/constants/logos';
 import { loadMapFromPath } from '../map/sagas';
 import { mapClicked, mapSetRoute } from '../map/actions';
 import { MAP_ACTIONS } from '../map/constants';
-import { OsrmRouter } from '~/utils/osrm';
+import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import path from 'ramda/es/path';
 import { MainMap } from '~/constants/map';
 import { EDITOR_INITIAL_STATE } from '.';
@@ -236,7 +236,7 @@ function* mapClick({ latlng }: ReturnType<typeof mapClicked>) {
 
 function* routerSubmit() {
   const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
-  const latlngs = path(['_routes', 0, 'coordinates'], OsrmRouter);
+  const latlngs: LatLng[] = path(['_routes', 0, 'coordinates'], OsrmRouter);
 
   const coordinates = simplify({ map: MainMap, latlngs });
 

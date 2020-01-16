@@ -32,20 +32,11 @@ const mapStateToProps = ({
     user: { role },
   },
 }: IState) => {
-  if (routes.filter.max >= 9999) {
-    return {
-      routes,
-      editing,
-      ready: false,
-      role,
-    };
-  }
-
   return {
     role,
     routes,
     editing,
-    ready: true,
+    ready: routes.filter.max < 9999,
   };
 };
 

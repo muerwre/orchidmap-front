@@ -1,7 +1,7 @@
 import { Marker } from 'leaflet';
 import * as Routing from 'leaflet-routing-machine/src/index';
 import { CLIENT } from '~/config/frontend';
-import { DomMarker } from '~/utils/DomMarker';
+import { DomMarker } from '~/utils/map/DomMarker';
 import { MainMap } from '~/constants/map';
 
 const createWaypointMarker = (): DomMarker => {

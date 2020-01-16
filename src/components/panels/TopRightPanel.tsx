@@ -9,11 +9,14 @@ import { MODES } from '~/constants/modes';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { selectMap } from '~/redux/map/selectors';
 import { selectEditor } from '~/redux/editor/selectors';
+import { IState } from '~/redux/store';
 
-const mapStateToProps = state => ({
-  map: selectMap(state),
-  editor: selectEditor(state),
-});
+const mapStateToProps = (state: IState) => {
+  const { provider, logo } = selectMap(state);
+  const { markers_shown, editing } = selectEditor(state);
+
+  return { provider, logo, markers_shown, editing };
+};
 
 const mapDispatchToProps = {
   editorSetMode: EDITOR_ACTIONS.editorSetMode,
@@ -22,8 +25,10 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const TopRightPanelUnconnected = ({
-  map: { provider, logo },
-  editor: { markers_shown, editing },
+  provider,
+  logo,
+  markers_shown,
+  editing,
   editorSetMode,
 }: Props) => {
   const startProviderMode = useCallback(() => editorSetMode(MODES.PROVIDER), [editorSetMode]);

@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, { createElement, FC, memo } from 'react';
 import { DIALOGS, IDialogs } from '~/constants/dialogs';
 import classnames from 'classnames';
 import { AppInfoDialog } from '~/components/dialogs/AppInfoDialog';
@@ -17,7 +17,7 @@ const LEFT_DIALOGS = {
   [DIALOGS.APP_INFO]: AppInfoDialog,
 };
 
-const LeftDialog = ({ dialog, dialog_active, editorSetDialogActive }: Props) => (
+const LeftDialog: FC<Props> = memo(({ dialog, dialog_active, editorSetDialogActive }) => (
   <React.Fragment>
     {Object.keys(LEFT_DIALOGS).map(item => (
       <div
@@ -26,16 +26,22 @@ const LeftDialog = ({ dialog, dialog_active, editorSetDialogActive }: Props) => 
       >
         {dialog && LEFT_DIALOGS[item] && createElement(LEFT_DIALOGS[item], {})}
 
-        <div className="dialog-close-button desktop-only" onClick={() => editorSetDialogActive(false)}>
+        <div
+          className="dialog-close-button desktop-only"
+          onClick={() => editorSetDialogActive(false)}
+        >
           <Icon icon="icon-cancel-1" />
         </div>
 
-        <div className="dialog-close-button mobile-only" onClick={() => editorSetDialogActive(false)}>
+        <div
+          className="dialog-close-button mobile-only"
+          onClick={() => editorSetDialogActive(false)}
+        >
           <Icon icon="icon-chevron-down" />
         </div>
       </div>
     ))}
   </React.Fragment>
-);
+));
 
 export { LeftDialog };

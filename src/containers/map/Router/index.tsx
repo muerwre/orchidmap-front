@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useMemo, useCallback, memo } from 'react';
+import { FC, useEffect, useCallback, memo } from 'react';
 import pick from 'ramda/es/pick';
-import { OsrmRouter } from '~/utils/osrm';
+import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
 import { selectEditorRouter, selectEditorMode } from '~/redux/editor/selectors';

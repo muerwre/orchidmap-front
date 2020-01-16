@@ -19,21 +19,18 @@ import { CLIENT } from '~/config/frontend';
 import { DIALOGS, TABS } from '~/constants/dialogs';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { TitleDialog } from '~/components/dialogs/TitleDialog';
+import { IState } from '~/redux/store';
 
 const mapStateToProps = ({
   user: { user },
   editor: { dialog, dialog_active },
   map: { route, stickers },
-}) => ({
-  editor: {
-    dialog,
-    dialog_active,
-  },
-  user: { user },
-  map: {
-    route,
-    stickers,
-  }
+}: IState) => ({
+  dialog,
+  dialog_active,
+  user,
+  route,
+  stickers,
 });
 
 const mapDispatchToProps = {
@@ -100,7 +97,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
   openAppInfoDialog = () => {
     this.setMenuOpened();
     this.props.editorSetDialog(DIALOGS.APP_INFO);
-    this.props.editorSetDialogActive(this.props.editor.dialog !== DIALOGS.APP_INFO);
+    this.props.editorSetDialogActive(this.props.dialog !== DIALOGS.APP_INFO);
   };
 
   openOauthFrame = () => {
@@ -118,7 +115,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
   render() {
     const {
-      props: { user: { user }, editor: { dialog, dialog_active }, map: { route, stickers } },
+      props: { user, dialog, dialog_active, route, stickers },
       state: { menuOpened },
     } = this;
 

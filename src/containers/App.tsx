@@ -32,7 +32,7 @@ type Props = {
   editorSetDialogActive: typeof editorSetDialogActive;
 };
 
-const Component = (props: Props) => (
+const AppUnconnected = (props: Props) => (
   <div>
     <Fills />
     <UserPanel />
@@ -72,6 +72,8 @@ const mapStateToProps = ({
   set,
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ editorHideRenderer, editorSetDialogActive }, dispatch);
-export const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(Component));
+const mapDispatchToProps = { editorHideRenderer, editorSetDialogActive };
+
+const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(AppUnconnected));
+
+export { App };

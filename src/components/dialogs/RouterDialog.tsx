@@ -89,18 +89,17 @@ const mapDispatchToProps = {
   editorRouterSubmit: EDITOR_ACTIONS.editorRouterSubmit,
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & { };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouterDialogUnconnected: FC<Props> = ({
   editor: {
     router: { waypoints },
-    is_routing,
   },
   editorRouterCancel,
   editorRouterSubmit,
 }) => (
   <div className="control-dialog bottom right">
-    <div className={classnames('save-loader', { active: is_routing })} />
+    <div className={classnames('save-loader')} />
 
     {!waypoints.length && noPoints({ editorRouterCancel })}
     {waypoints.length === 1 && firstPoint({ editorRouterCancel })}

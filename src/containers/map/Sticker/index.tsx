@@ -4,7 +4,7 @@ import { IStickerDump } from '~/redux/map/types';
 import { STICKERS } from '~/constants/stickers';
 import { StickerDesc } from '~/components/StickerDesc';
 import classNames from 'classnames';
-import { DomMarker } from '~/utils/DomMarker';
+import { DomMarker } from '~/utils/map/DomMarker';
 import { createPortal } from 'react-dom';
 import { MapContainer, MainMap } from '~/constants/map';
 

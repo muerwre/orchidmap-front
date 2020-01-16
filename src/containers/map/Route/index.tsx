@@ -1,6 +1,6 @@
 import React, { FC, useEffect, memo, useState, useCallback } from 'react';
 import { IMapRoute } from '../../../redux/map/types';
-import { InteractivePoly } from '~/utils/polyline';
+import { InteractivePoly } from '~/utils/map/InteractivePoly';
 import { isMobile } from '~/utils/window';
 import { LatLng, Map, LeafletEvent } from 'leaflet';
 import { selectEditor } from '~/redux/editor/selectors';
