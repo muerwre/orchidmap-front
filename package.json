@@ -69,7 +69,7 @@
     "history": "^4.7.2",
     "http-errors": "~1.6.2",
     "js-md5": "^0.7.3",
-    "leaflet": "^1.4.0",
+    "leaflet": "^1.6.0",
     "leaflet-editable": "^1.1.0",
     "leaflet-editable-polyline": "muerwre/leaflet-editable-polyline#master",
     "leaflet-geometryutil": "^0.9.0",

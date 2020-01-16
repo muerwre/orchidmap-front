@@ -1,4 +1,4 @@
-import createReducer from 'reduxsauce/lib/createReducer';
+import { createReducer } from '~/utils/reducer';
 import { IDialogs } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
 import { EDITOR_HANDLERS } from './handlers';

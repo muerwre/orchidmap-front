@@ -1,4 +1,4 @@
-import createReducer from 'reduxsauce/lib/createReducer';
+import { createReducer } from '~/utils/reducer';
 import { DEFAULT_USER, IUser } from '~/constants/auth';
 import { USER_HANDLERS } from './handlers';
 
