@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest, select, race } from 'redux-saga/effects';
 import { delay, SagaIterator } from 'redux-saga';
-import { selectEditor } from '~/redux/editor/selectors';
+import { selectEditor, selectEditorMode } from '~/redux/editor/selectors';
 import { simplify } from '~/utils/simplify';
 import {
   editorHideRenderer,
@@ -176,6 +176,12 @@ function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChang
   const { ready }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   if (!ready) return;
+
+  const mode: ReturnType<typeof selectEditorMode> = yield select(selectEditorMode);
+
+  if (mode !== MODES.NONE) {
+    yield put(editorSetMode(MODES.NONE));
+  }
 
   yield call(loadMapFromPath);
   MainMap.fitVisibleBounds({ animate: true });
