@@ -110,7 +110,7 @@ const RouterUnconnected: FC<Props> = memo(
       item.addTo(MainMap);
 
       return () => {
-        item.removeFrom(MainMap);
+        item.removeFrom(MainMap).remove();
       };
     }, [dist, end, direction, distance]);
 
