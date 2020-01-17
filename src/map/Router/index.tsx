@@ -59,12 +59,14 @@ const RouterUnconnected: FC<Props> = memo(
         }
 
         const totalDistance = parseFloat((summary.totalDistance / 1000).toFixed(1)) || 0;
-        const latlng = (coordinates.length && coordinates[coordinates.length - 1]) || null;
+        const latlng = waypoints[waypoints.length - 1] && (waypoints[waypoints.length - 1].latLng) || null;
 
         const angle = angleBetweenPoints(
-          MainMap.latLngToContainerPoint(coordinates[coordinates.length - 2]),
-          MainMap.latLngToContainerPoint(coordinates[coordinates.length - 3])
+          MainMap.latLngToContainerPoint(waypoints[waypoints.length - 1].latLng),
+          MainMap.latLngToContainerPoint(coordinates[coordinates.length - 1]),
         );
+
+        console.log(angle);
 
         setDist(totalDistance);
         setEnd(latlng);
@@ -74,8 +76,10 @@ const RouterUnconnected: FC<Props> = memo(
     );
 
     useEffect(() => {
-      OsrmRouter.on('waypointschanged', updateWaypoints)
+      OsrmRouter
+        .on('waypointschanged', updateWaypoints)
         .on('routesfound', updateDistance)
+        .on('routesfound', console.log)
         .addTo(MainMap);
 
       return () => {
