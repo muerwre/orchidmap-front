@@ -2,18 +2,19 @@ import React, { FC, useEffect, memo, useState, useCallback } from 'react';
 import { InteractivePoly } from '~/utils/map/InteractivePoly';
 import { isMobile } from '~/utils/window';
 import { LatLng } from 'leaflet';
-import { selectEditor } from '~/redux/editor/selectors';
+import { selectEditor, selectEditorMode, selectEditorEditing } from '~/redux/editor/selectors';
 import pick from 'ramda/es/pick';
 import * as MAP_ACTIONS from '~/redux/map/actions';
 import { connect } from 'react-redux';
-import { selectMap } from '~/redux/map/selectors';
+import { selectMap, selectMapRoute } from '~/redux/map/selectors';
 import { MainMap } from '~/constants/map';
 import { MODES } from '~/constants/modes';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 
 const mapStateToProps = state => ({
-  editor: pick(['mode', 'editing'], selectEditor(state)),
-  map: pick(['route'], selectMap(state)),
+  mode: selectEditorMode(state),
+  editing: selectEditorEditing(state),
+  route: selectMapRoute(state),
 });
 
 const mapDispatchToProps = {
@@ -25,13 +26,7 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouteUnconnected: FC<Props> = memo(
-  ({
-    map: { route },
-    editor: { editing, mode },
-    mapSetRoute,
-    editorSetDistance,
-    editorSetMarkersShown,
-  }) => {
+  ({ route, editing, mode, mapSetRoute, editorSetDistance, editorSetMarkersShown }) => {
     const [layer, setLayer] = useState<InteractivePoly>(null);
 
     const onDistanceChange = useCallback(({ distance }) => editorSetDistance(distance), [

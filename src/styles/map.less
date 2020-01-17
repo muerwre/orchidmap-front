@@ -186,6 +186,43 @@
   }
 }
 
+
+.router-end-marker {
+  .leaflet-km-dist {
+    background: @router_line;
+    left: auto;
+    right: -3px;
+    top: -3px;
+    position: absolute;
+    z-index: -10;
+    padding: 2px 16px 2px 4px;
+
+    &::after {
+      content: ' ';
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: white;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+
+  &.right {
+    .leaflet-km-dist {
+      padding: 2px 4px 2px 16px;
+      left: -3px;
+      right: auto;
+
+      &::after {
+        left: 5px;
+        right: auto;
+      }
+    }
+  }
+}
+
 .leaflet-km-marker-2 {
   .leaflet-km-dist {
     background: green;
