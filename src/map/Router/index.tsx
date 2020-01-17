@@ -2,7 +2,11 @@ import { FC, useEffect, useCallback, memo, useState } from 'react';
 import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import { connect } from 'react-redux';
 import { selectMapRoute } from '~/redux/map/selectors';
-import { selectEditorRouter, selectEditorMode, selectEditorDistance } from '~/redux/editor/selectors';
+import {
+  selectEditorRouter,
+  selectEditorMode,
+  selectEditorDistance,
+} from '~/redux/editor/selectors';
 import { MainMap } from '~/constants/map';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { MODES } from '~/constants/modes';
@@ -32,7 +36,6 @@ const RouterUnconnected: FC<Props> = memo(
     const updateWaypoints = useCallback(
       ({ waypoints }) => {
         const filtered = waypoints.filter(wp => !!wp.latLng);
-        console.log('waypoints updated: ', filtered.length);
 
         if (filtered.length < 2) {
           setDist(0);
@@ -45,7 +48,6 @@ const RouterUnconnected: FC<Props> = memo(
 
     const updateDistance = useCallback(
       ({ routes, waypoints }) => {
-        console.log(routes.length, waypoints.length);
         if (!routes || !routes.length || waypoints.length < 2) {
           setDist(0);
           return;
@@ -59,14 +61,13 @@ const RouterUnconnected: FC<Props> = memo(
         }
 
         const totalDistance = parseFloat((summary.totalDistance / 1000).toFixed(1)) || 0;
-        const latlng = waypoints[waypoints.length - 1] && (waypoints[waypoints.length - 1].latLng) || null;
+        const latlng =
+          (waypoints[waypoints.length - 1] && waypoints[waypoints.length - 1].latLng) || null;
 
         const angle = angleBetweenPoints(
           MainMap.latLngToContainerPoint(waypoints[waypoints.length - 1].latLng),
-          MainMap.latLngToContainerPoint(coordinates[coordinates.length - 1]),
+          MainMap.latLngToContainerPoint(coordinates[coordinates.length - 1])
         );
-
-        console.log(angle);
 
         setDist(totalDistance);
         setEnd(latlng);
@@ -76,10 +77,8 @@ const RouterUnconnected: FC<Props> = memo(
     );
 
     useEffect(() => {
-      OsrmRouter
-        .on('waypointschanged', updateWaypoints)
+      OsrmRouter.on('waypointschanged', updateWaypoints)
         .on('routesfound', updateDistance)
-        .on('routesfound', console.log)
         .addTo(MainMap);
 
       return () => {
