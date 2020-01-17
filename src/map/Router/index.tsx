@@ -75,7 +75,6 @@ const RouterUnconnected: FC<Props> = memo(
 
     useEffect(() => {
       OsrmRouter.on('waypointschanged', updateWaypoints)
-        .on('waypointschanged', console.log)
         .on('routesfound', updateDistance)
         .addTo(MainMap);
 
@@ -94,11 +93,11 @@ const RouterUnconnected: FC<Props> = memo(
         interactive: false,
         icon: divIcon({
           html: `
-          <div class="leaflet-km-dist">
+          <div>
             ${parseFloat((distance + dist).toFixed(1))}
           </div>
         `,
-          className: classNames('leaflet-km-marker router-end-marker', { right: !direction }),
+          className: classNames('router-marker', { right: !direction }),
           iconSize: [11, 11],
           iconAnchor: [6, 6],
         }),

@@ -187,30 +187,22 @@
 }
 
 
-.router-end-marker {
-  .leaflet-km-dist {
+.router-marker {
+  div {
     background: @router_line;
     left: auto;
-    right: -3px;
-    top: -3px;
+    right: 50%;
+    transform: translate(50%, 0);
+    top: -20px;
     position: absolute;
     z-index: -10;
-    padding: 2px 16px 2px 4px;
-
-    &::after {
-      content: ' ';
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-      background: white;
-      position: absolute;
-      right: 5px;
-      top: 5px;
-    }
+    padding: 2px 2px 2px 4px;
+    color: white;
+    border-radius: 100%;
   }
 
   &.right {
-    .leaflet-km-dist {
+    div {
       padding: 2px 4px 2px 16px;
       left: -3px;
       right: auto;
