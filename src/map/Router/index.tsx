@@ -2,7 +2,7 @@ import { FC, useEffect, useCallback, memo, useState } from 'react';
 import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import { connect } from 'react-redux';
 import { selectMapRoute } from '~/redux/map/selectors';
-import { selectEditorRouter, selectEditorMode } from '~/redux/editor/selectors';
+import { selectEditorRouter, selectEditorMode, selectEditorDistance } from '~/redux/editor/selectors';
 import { MainMap } from '~/constants/map';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { MODES } from '~/constants/modes';
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
   route: selectMapRoute(state),
   router: selectEditorRouter(state),
   mode: selectEditorMode(state),
+  distance: selectEditorDistance(state),
 });
 
 const mapDispatchToProps = {
@@ -23,38 +24,37 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouterUnconnected: FC<Props> = memo(
-  ({ route, mode, router: { waypoints }, editorSetRouter }) => {
-    const [distance, setDistance] = useState(0);
+  ({ route, mode, router: { waypoints }, editorSetRouter, distance }) => {
+    const [dist, setDist] = useState(0);
     const [end, setEnd] = useState<LatLngLiteral>(null);
     const [direction, setDirection] = useState<boolean>(false);
 
     const updateWaypoints = useCallback(
       ({ waypoints }) => {
         const filtered = waypoints.filter(wp => !!wp.latLng);
+        console.log('waypoints updated: ', filtered.length);
 
         if (filtered.length < 2) {
-          setDistance(0);
+          setDist(0);
         }
 
         editorSetRouter({ waypoints: filtered });
       },
-      [editorSetRouter, setDistance]
+      [editorSetRouter, setDist]
     );
 
     const updateDistance = useCallback(
       ({ routes, waypoints }) => {
         console.log(routes.length, waypoints.length);
         if (!routes || !routes.length || waypoints.length < 2) {
-          console.log('hm 1');
-          setDistance(0);
+          setDist(0);
           return;
         }
 
         const { summary, coordinates } = routes[0];
 
         if (coordinates.length <= 1) {
-          console.log('hm 2');
-          setDistance(0);
+          setDist(0);
           return;
         }
 
@@ -66,15 +66,16 @@ const RouterUnconnected: FC<Props> = memo(
           MainMap.latLngToContainerPoint(coordinates[coordinates.length - 3])
         );
 
-        setDistance(totalDistance);
+        setDist(totalDistance);
         setEnd(latlng);
         setDirection(angle > -90 && angle < 90);
       },
-      [setDistance, setEnd]
+      [setDist, setEnd]
     );
 
     useEffect(() => {
       OsrmRouter.on('waypointschanged', updateWaypoints)
+        .on('waypointschanged', console.log)
         .on('routesfound', updateDistance)
         .addTo(MainMap);
 
@@ -84,7 +85,7 @@ const RouterUnconnected: FC<Props> = memo(
     }, [MainMap, updateWaypoints, mode]);
 
     useEffect(() => {
-      if (!distance || !end) {
+      if (!dist || !end) {
         return;
       }
 
@@ -94,7 +95,7 @@ const RouterUnconnected: FC<Props> = memo(
         icon: divIcon({
           html: `
           <div class="leaflet-km-dist">
-            ${parseFloat(distance.toFixed(1))}
+            ${parseFloat((distance + dist).toFixed(1))}
           </div>
         `,
           className: classNames('leaflet-km-marker router-end-marker', { right: !direction }),
@@ -109,10 +110,13 @@ const RouterUnconnected: FC<Props> = memo(
       return () => {
         item.removeFrom(MainMap);
       };
-    }, [distance, end, direction]);
+    }, [dist, end, direction, distance]);
 
     useEffect(() => {
-      if (mode !== MODES.ROUTER) return;
+      if (mode !== MODES.ROUTER) {
+        setDist(0);
+        return;
+      }
 
       const wp = OsrmRouter.getWaypoints()
         .filter(point => point.latLng)
