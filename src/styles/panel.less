@@ -3,6 +3,8 @@
   border-radius: @panel_radius;
   display: flex;
   box-shadow: @bar_shadow;
+  align-items: center;
+  justify-content: center;
 
   @media (max-width: @mobile_breakpoint) {
     box-shadow: none;
@@ -723,4 +725,16 @@
 
 .location-bar {
   width: 32px;
+}
+
+.nominatim-panel {
+  position: fixed;
+  bottom: 53px;
+  left: 10px;
+  width: 272px
+}
+
+.nominatim-search-input {
+  padding-left: 10px;
+  flex: 1;
 }

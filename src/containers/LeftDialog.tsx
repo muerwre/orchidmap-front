@@ -1,13 +1,14 @@
 import React, { createElement, FC, memo } from 'react';
-import { DIALOGS, IDialogs } from '~/constants/dialogs';
+import { DIALOGS } from '~/constants/dialogs';
 import classnames from 'classnames';
 import { AppInfoDialog } from '~/components/dialogs/AppInfoDialog';
 import { Icon } from '~/components/panels/Icon';
 import { MapListDialog } from '~/components/dialogs/MapListDialog';
+import { NominatimDialog } from '~/components/dialogs/NominatimDialog';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 
 interface Props {
-  dialog: keyof IDialogs;
+  dialog: keyof typeof DIALOGS;
   dialog_active: Boolean;
   editorSetDialogActive: typeof EDITOR_ACTIONS.editorSetDialogActive;
 }
@@ -15,6 +16,7 @@ interface Props {
 const LEFT_DIALOGS = {
   [DIALOGS.MAP_LIST]: MapListDialog,
   [DIALOGS.APP_INFO]: AppInfoDialog,
+  [DIALOGS.NOMINATIM]: NominatimDialog,
 };
 
 const LeftDialog: FC<Props> = memo(({ dialog, dialog_active, editorSetDialogActive }) => (

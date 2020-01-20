@@ -32,7 +32,7 @@ type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
 
 class EditorPanelUnconnected extends PureComponent<Props, void> {
   componentDidMount() {
-    window.addEventListener('keydown', this.props.editorKeyPressed as any);
+    window.addEventListener('keydown', this.onKeyPress as any);
 
     const obj = document.getElementById('control-dialog');
     const { width } = this.panel.getBoundingClientRect();
@@ -45,8 +45,14 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
   panel: HTMLElement = null;
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.props.editorKeyPressed as any);
+    window.removeEventListener('keydown', this.onKeyPress as any);
   }
+
+  onKeyPress = event => {
+    if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'INPUT') return;
+
+    this.props.editorKeyPressed(event);
+  };
 
   startPolyMode = () => this.props.editorSetMode(MODES.POLY);
   startStickerMode = () => this.props.editorSetMode(MODES.STICKERS_SELECT);

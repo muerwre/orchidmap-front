@@ -1,5 +1,13 @@
-import { call, put, takeEvery, takeLatest, select, race } from 'redux-saga/effects';
-import { delay, SagaIterator } from 'redux-saga';
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  select,
+  race,
+  takeLeading,
+  delay,
+} from 'redux-saga/effects';
 import { selectEditor, selectEditorMode } from '~/redux/editor/selectors';
 import { simplify } from '~/utils/simplify';
 import {
@@ -14,13 +22,16 @@ import {
   editorLocationChanged,
   editorKeyPressed,
   editorSetSave,
+  editorSearchNominatim,
+  editorSetDialog,
+  editorSetNominatim,
 } from '~/redux/editor/actions';
 import { getUrlData, pushPath } from '~/utils/history';
 import { MODES } from '~/constants/modes';
-import { checkOSRMService } from '~/utils/api';
+import { checkOSRMService, checkNominatimService, searchNominatim } from '~/utils/api';
 import { LatLng } from 'leaflet';
 import { searchSetTab } from '../user/actions';
-import { TABS } from '~/constants/dialogs';
+import { TABS, DIALOGS } from '~/constants/dialogs';
 import { EDITOR_ACTIONS } from './constants';
 import { getGPXString, downloadGPXTrack } from '~/utils/gpx';
 import {
@@ -76,11 +87,17 @@ function* checkOSRMServiceSaga() {
   yield put(editorSetFeature({ routing }));
 }
 
+function* checkNominatimSaga() {
+  const nominatim = yield call(checkNominatimService);
+  yield put(editorSetFeature({ nominatim }));
+}
+
 export function* setReadySaga() {
   yield put(editorSetReady(true));
   hideLoader();
 
   yield call(checkOSRMServiceSaga);
+  yield call(checkNominatimSaga);
   yield put(searchSetTab(TABS.MY));
 }
 
@@ -217,7 +234,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
   }
 }
 
-function* getGPXTrackSaga(): SagaIterator {
+function* getGPXTrackSaga() {
   const { route, stickers, title, address }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!route.length && !stickers.length) return;
@@ -259,6 +276,22 @@ function* cancelSave() {
   );
 }
 
+function* searchNominatimSaga({ search }: ReturnType<typeof editorSearchNominatim>) {
+  const { dialog, dialog_active }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+  if (dialog !== DIALOGS.NOMINATIM || !dialog_active) {
+    yield put(editorSetDialog(DIALOGS.NOMINATIM));
+    yield put(editorSetDialogActive(true));
+  }
+
+  yield put(editorSetNominatim({ loading: true, search }));
+  const list = yield call(searchNominatim, search);
+  yield put(editorSetNominatim({ list }));
+  
+  yield delay(1000); // safely wait for 1s to prevent from ddosing nominatim
+  yield put(editorSetNominatim({ loading: false }));
+}
+
 export function* editorSaga() {
   yield takeEvery(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
@@ -271,4 +304,5 @@ export function* editorSaga() {
   yield takeLatest(MAP_ACTIONS.MAP_CLICKED, mapClick);
   yield takeLatest(EDITOR_ACTIONS.ROUTER_SUBMIT, routerSubmit);
   yield takeLatest(EDITOR_ACTIONS.CANCEL_SAVE, cancelSave);
+  yield takeLeading(EDITOR_ACTIONS.SEARCH_NOMINATIM, searchNominatimSaga);
 }

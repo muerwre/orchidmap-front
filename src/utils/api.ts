@@ -11,6 +11,7 @@ import {
   configWithToken,
 } from './middleware';
 import { IRoute } from '~/redux/map/types';
+import { INominatimResult } from '~/redux/types';
 
 const arrayToObject = (array: any[], key: string): {} =>
   array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
@@ -179,6 +180,36 @@ export const checkOSRMService = (bounds: LatLngLiteral[]): Promise<boolean> =>
     .get(CLIENT.OSRM_TEST_URL(bounds))
     .then(() => true)
     .catch(() => false);
+
+export const checkNominatimService = (): Promise<boolean> =>
+  CLIENT &&
+  CLIENT.NOMINATIM_TEST_URL &&
+  axios
+    .get(CLIENT.NOMINATIM_TEST_URL)
+    .then(() => true)
+    .catch(() => false);
+
+export const searchNominatim = (query: string) =>
+  CLIENT &&
+  CLIENT.NOMINATIM_URL &&
+  axios
+    .get(`${CLIENT.NOMINATIM_URL}${query}`, { params: { format: 'json', country_code: 'ru', 'accept-language': 'ru_RU' } })
+    .then(
+      data =>
+        data &&
+        data.data &&
+        data.data.map(
+          (item): INominatimResult => ({
+            id: item.place_id,
+            latlng: {
+              lat: item.lat,
+              lng: item.lon,
+            },
+            title: item.display_name,
+          })
+        )
+    )
+    .catch(() => []);
 
 export const dropRoute = ({ address, token }: { address: string; token: string }): Promise<any> =>
   axios

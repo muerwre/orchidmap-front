@@ -24,6 +24,7 @@ import { IRouteListItem } from '~/redux/user';
 import { ROLES } from '~/constants/auth';
 import { IState } from '~/redux/store';
 import { MapListDialogHead } from '~/components/search/MapListDialogHead';
+import { DialogLoader } from '~/components/dialogs/DialogLoader';
 
 const mapStateToProps = ({
   editor: { editing },
@@ -165,11 +166,7 @@ class MapListDialogUnconnected extends PureComponent<Props, State> {
     return (
       <div className="dialog-content full">
         {list.length === 0 && loading && (
-          <div className="dialog-maplist-loader">
-            <div className="dialog-maplist-icon spin">
-              <Icon icon="icon-sync-1" />
-            </div>
-          </div>
+          <DialogLoader />
         )}
 
         {ready && !loading && list.length === 0 && (

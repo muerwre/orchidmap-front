@@ -112,3 +112,13 @@ export const editorSetRouter = (router: Partial<IEditorState['router']>) => ({
   type: EDITOR_ACTIONS.SET_ROUTER,
   router,
 });
+
+export const editorSetNominatim = (nominatim: Partial<IEditorState['nominatim']>) => ({
+  type: EDITOR_ACTIONS.SET_NOMINATIM,
+  nominatim,
+})
+
+export const editorSearchNominatim = (search: IEditorState['nominatim']['search']) => ({
+  type: EDITOR_ACTIONS.SEARCH_NOMINATIM,
+  search,
+})

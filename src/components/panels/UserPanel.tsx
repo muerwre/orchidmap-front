@@ -10,6 +10,7 @@ import {
   editorSetDialog,
   editorSetDialogActive,
   editorGetGPXTrack,
+  editorSearchNominatim,
 } from '~/redux/editor/actions';
 import { connect } from 'react-redux';
 import { Icon } from '~/components/panels/Icon';
@@ -19,11 +20,12 @@ import { CLIENT } from '~/config/frontend';
 import { DIALOGS, TABS } from '~/constants/dialogs';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { TitleDialog } from '~/components/dialogs/TitleDialog';
+import { NominatimSearchPanel } from '~/components/dialogs/NominatimSearchPanel';
 import { IState } from '~/redux/store';
 
 const mapStateToProps = ({
   user: { user },
-  editor: { dialog, dialog_active },
+  editor: { dialog, dialog_active, features },
   map: { route, stickers },
 }: IState) => ({
   dialog,
@@ -31,6 +33,7 @@ const mapStateToProps = ({
   user,
   route,
   stickers,
+  features,
 });
 
 const mapDispatchToProps = {
@@ -42,6 +45,7 @@ const mapDispatchToProps = {
   editorSetDialogActive,
   openMapDialog,
   editorGetGPXTrack,
+  editorSearchNominatim,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
@@ -90,6 +94,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
   }
 
   setMenuOpened = () => this.setState({ menuOpened: !this.state.menuOpened });
+
   openMapsDialog = () => {
     this.props.openMapDialog(TABS.MY);
   };
@@ -115,7 +120,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
   render() {
     const {
-      props: { user, dialog, dialog_active, route, stickers },
+      props: { user, dialog, dialog_active, route, stickers, features },
       state: { menuOpened },
     } = this;
 
@@ -124,6 +129,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
     return (
       <div>
         <TitleDialog />
+        <NominatimSearchPanel active={features.nominatim} onSearch={this.props.editorSearchNominatim} />
 
         <div className="panel active panel-user">
           <div className="user-panel">

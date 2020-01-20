@@ -4,7 +4,6 @@ import { EditorPanel } from '~/components/panels/EditorPanel';
 import { Fills } from '~/components/Fills';
 import { UserPanel } from '~/components/panels/UserPanel';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import { hot } from 'react-hot-loader';
 import { Renderer } from '~/components/renderer/Renderer';
@@ -14,7 +13,7 @@ import { TopLeftPanel } from '~/components/panels/TopLeftPanel';
 import { TopRightPanel } from '~/components/panels/TopRightPanel';
 import { LogoPreview } from '~/components/logo/LogoPreview';
 import { IStickerPack } from '~/constants/stickers';
-import { IDialogs } from '~/constants/dialogs';
+import { DIALOGS } from '~/constants/dialogs';
 
 import { Map } from '~/map/Map';
 import { IEditorState } from '~/redux/editor';
@@ -25,7 +24,7 @@ type Props = {
   renderer_active: boolean;
 
   mode: IEditorState['mode'];
-  dialog: keyof IDialogs;
+  dialog: keyof typeof DIALOGS;
   dialog_active: boolean;
   set: keyof IStickerPack;
   editorHideRenderer: typeof editorHideRenderer;

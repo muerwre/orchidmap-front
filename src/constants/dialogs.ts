@@ -1,22 +1,11 @@
-export interface IDialogs {
-  NONE: string,
-  MAP_LIST: string,
-  APP_INFO: string,
-}
-
-export interface IMapTabs {
-  MY: string,
-  PENDING: string,
-  STARRED: string,
-}
-
-export const DIALOGS: IDialogs = ({
+export const DIALOGS = ({
   NONE: 'NONE',
   MAP_LIST: 'MAP_LIST',
   APP_INFO: 'APP_INFO',
+  NOMINATIM: 'NOMINATIM',
 });
 
-export const TABS: IMapTabs = {
+export const TABS = {
   MY: 'my',
   PENDING: 'pending',
   STARRED: 'starred',

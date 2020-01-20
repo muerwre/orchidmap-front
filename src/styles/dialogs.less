@@ -36,7 +36,6 @@
       background: rgba(19, 45, 53, 0.95);
     }
   }
-
 }
 
 .dialog-close-button {
@@ -94,8 +93,41 @@
   }
 }
 
+.dialog-flex-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nominatim-dialog-content {
+  padding-bottom: 48px;
+  min-height: 25vh;
+}
+
+.nominatim-list-item {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 200px;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .title  {
+    text-overflow: hidden;
+    font-size: 12px;
+    -webkit-line-clamp: 2;
+  }
+}
+
 .dialog-shader {
-  &::before, &::after {
+  &::before,
+  &::after {
     content: ' ';
     height: 40px;
     width: 100%;
@@ -120,13 +152,21 @@
 }
 
 @keyframes pulse {
-  0% { opacity: 1; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .dialog-maplist-pulse {
@@ -195,11 +235,14 @@
 
   &.has_edit {
     //transform: translateY(-2px);
-    .route-row { background: fade(@green_secondary, 30%); }
+    .route-row {
+      background: fade(@green_secondary, 30%);
+    }
   }
 
   &.is_menu_target {
-    .route-row, .route-row-fav {
+    .route-row,
+    .route-row-fav {
       transform: translateX(-120px);
     }
 
@@ -337,7 +380,6 @@
       }
     }
   }
-
 }
 
 .route-title {
@@ -414,7 +456,7 @@
     }
   }
 
-  @media(max-width: @mobile_breakpoint) {
+  @media (max-width: @mobile_breakpoint) {
     height: 48px;
 
     .dialog-tab {

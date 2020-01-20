@@ -157,6 +157,17 @@ const setRouter = (
   },
 });
 
+const setNominatim = (
+  state,
+  { nominatim }: ReturnType<typeof ACTIONS.editorSetNominatim>
+): IEditorState => ({
+  ...state,
+  nominatim: {
+    ...state.nominatim,
+    ...nominatim,
+  },
+});
+
 export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_EDITING]: setEditing,
   [EDITOR_ACTIONS.SET_CHANGED]: setChanged,
@@ -184,4 +195,5 @@ export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_FEATURE]: setFeature,
   [EDITOR_ACTIONS.SET_IS_ROUTING]: setIsRouting,
   [EDITOR_ACTIONS.SET_ROUTER]: setRouter,
+  [EDITOR_ACTIONS.SET_NOMINATIM]: setNominatim,
 };

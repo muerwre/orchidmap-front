@@ -1,6 +1,5 @@
 import { REHYDRATE, RehydrateAction } from 'redux-persist';
-import { delay, SagaIterator } from 'redux-saga';
-import { takeLatest, select, call, put, takeEvery } from 'redux-saga/effects';
+import { takeLatest, select, call, put, takeEvery, delay } from 'redux-saga/effects';
 import {
   checkIframeToken,
   checkUserToken,
@@ -34,7 +33,6 @@ import { selectUser, selectUserUser } from './selectors';
 import { mapInitSaga } from '~/redux/map/sagas';
 import { editorSetDialog, editorSetDialogActive } from '../editor/actions';
 import { selectEditor } from '../editor/selectors';
-import { getLocation, watchLocation } from '~/utils/window';
 
 function* generateGuestSaga() {
   const {
@@ -198,7 +196,7 @@ function* searchSetTabSaga() {
   yield put(searchSetTitle(''));
 }
 
-function* userLogoutSaga(): SagaIterator {
+function* userLogoutSaga() {
   yield put(setUser(DEFAULT_USER));
   yield call(generateGuestSaga);
 }
@@ -256,7 +254,7 @@ function* mapsLoadMoreSaga() {
   yield put(searchSetLoading(false));
 }
 
-function* dropRouteSaga({ address }: ReturnType<typeof ActionCreators.dropRoute>): SagaIterator {
+function* dropRouteSaga({ address }: ReturnType<typeof ActionCreators.dropRoute>) {
   const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
   const {
     routes: {
@@ -290,7 +288,7 @@ function* modifyRouteSaga({
   address,
   title,
   is_public,
-}: ReturnType<typeof ActionCreators.modifyRoute>): SagaIterator {
+}: ReturnType<typeof ActionCreators.modifyRoute>) {
   const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
   const {
     routes: {

@@ -1,8 +1,9 @@
 import { createReducer } from '~/utils/reducer';
-import { IDialogs } from '~/constants/dialogs';
+import { DIALOGS } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
 import { EDITOR_HANDLERS } from './handlers';
 import { ILatLng } from '../map/types';
+import { INominatimResult } from '~/redux/types';
 
 export interface IEditorState {
   changed: boolean;
@@ -11,13 +12,13 @@ export interface IEditorState {
   markers_shown: boolean;
 
   router: {
-    points: ILatLng[]; 
+    points: ILatLng[];
     waypoints: ILatLng[];
   };
 
   mode: typeof MODES[keyof typeof MODES];
 
-  dialog: IDialogs[keyof IDialogs];
+  dialog: typeof DIALOGS[keyof typeof DIALOGS];
   dialog_active: boolean;
 
   routerPoints: number;
@@ -31,6 +32,13 @@ export interface IEditorState {
 
   features: {
     routing: boolean;
+    nominatim: boolean;
+  };
+
+  nominatim: {
+    search: string;
+    loading: boolean;
+    list: INominatimResult[];
   };
 
   renderer: {
@@ -76,6 +84,13 @@ export const EDITOR_INITIAL_STATE = {
 
   features: {
     routing: false,
+    nominatim: false,
+  },
+
+  nominatim: {
+    search: '',
+    loading: false,
+    list: [],
   },
 
   renderer: {

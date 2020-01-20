@@ -51,8 +51,12 @@ const MapUnconnected: React.FC<IProps> = ({
 }) => {
   const onClick = React.useCallback(
     event => {
-      if (!MainMap.clickable || mode === MODES.NONE) return;
-
+      if (
+        !MainMap.clickable ||
+        mode === MODES.NONE
+      )
+        return;
+        
       mapClicked(event.latlng);
     },
     [mapClicked, mode]

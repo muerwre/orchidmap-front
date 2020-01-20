@@ -20,8 +20,6 @@ export const getLocation = (callback: (pos: LatLngLiteral) => void) => {
 export const watchLocation = (callback: (pos: LatLngLiteral) => void): number => {
   return window.navigator.geolocation.watchPosition(
     position => {
-      console.log('Watch?');
-
       if (!position || !position.coords || !position.coords.latitude || !position.coords.longitude)
         return callback(null);
 
