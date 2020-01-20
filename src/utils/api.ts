@@ -12,6 +12,7 @@ import {
 } from './middleware';
 import { IRoute } from '~/redux/map/types';
 import { INominatimResult } from '~/redux/types';
+import { MainMap } from '~/constants/map';
 
 const arrayToObject = (array: any[], key: string): {} =>
   array.reduce((obj, el) => ({ ...obj, [el[key]]: el }), {});
@@ -193,7 +194,14 @@ export const searchNominatim = (query: string) =>
   CLIENT &&
   CLIENT.NOMINATIM_URL &&
   axios
-    .get(`${CLIENT.NOMINATIM_URL}${query}`, { params: { format: 'json', country_code: 'ru', 'accept-language': 'ru_RU' } })
+    .get(`${CLIENT.NOMINATIM_URL} ${query}`, {
+      params: {
+        format: 'json',
+        country_code: 'ru',
+        'accept-language': 'ru_RU',
+        dedupe: 1,
+      },
+    })
     .then(
       data =>
         data &&
