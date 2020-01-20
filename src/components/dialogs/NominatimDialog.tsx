@@ -25,18 +25,18 @@ const NominatimDialogUnconnected: FC<Props> = ({ nominatim: { loading, list } })
 
   return (
     <Fragment>
-      <div style={{ flex: 1 }} />
+      <Scroll>
+        <div className="dialog-flex-scroll">
+          <div style={{ flex: 1 }} />
 
-      <div className="dialog-flex-scroll">
-        <Scroll>
           <div className="dialog-content nominatim-dialog-content">
             {loading && <DialogLoader />}
             {list.map((item, i) => (
               <NominatimListItem item={item} key={item.id} />
             ))}
           </div>
-        </Scroll>
-      </div>
+        </div>
+      </Scroll>
     </Fragment>
   );
 };
