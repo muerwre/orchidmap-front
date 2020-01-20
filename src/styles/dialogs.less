@@ -1,13 +1,12 @@
 .dialog {
-  // background: #222222;
-  // background: linear-gradient(130deg, #320523, #020d2b);
-  // background: #271535;
   position: fixed;
   left: 0;
   top: 0;
   width: 360px;
   height: 100%;
   z-index: 5;
+  display: flex;
+  flex-direction: column;
 
   padding: 10px 10px 68px 10px;
   box-sizing: border-box;
@@ -77,7 +76,6 @@
 
 .dialog-content {
   background: @dialog_background;
-  height: 100%;
   overflow: hidden;
   position: relative;
   border-radius: @panel_radius @panel_radius 0 @panel_radius;
@@ -89,6 +87,10 @@
   a {
     color: white;
     opacity: 0.8;
+  }
+
+  &.full {
+    flex: 1;
   }
 }
 

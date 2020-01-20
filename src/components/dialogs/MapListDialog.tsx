@@ -163,7 +163,7 @@ class MapListDialogUnconnected extends PureComponent<Props, State> {
     const { editor_target, menu_target, is_editing, is_dropping } = this.state;
 
     return (
-      <div className="dialog-content">
+      <div className="dialog-content full">
         {list.length === 0 && loading && (
           <div className="dialog-maplist-loader">
             <div className="dialog-maplist-icon spin">
