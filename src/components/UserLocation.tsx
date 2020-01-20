@@ -1,81 +1,36 @@
-import React from 'react';
-// import { marker } from 'leaflet';
-// import { DomMarker } from '~/utils/DomMarker';
-// import { Icon } from '~/components/panels/Icon';
-// import { editor } from '~/modules/Editor';
+import React, { FC, useCallback } from 'react';
+import { IState } from '~/redux/store';
+import { selectUserLocation } from '~/redux/user/selectors';
+import { connect } from 'react-redux';
+import { Tooltip } from './panels/Tooltip';
+import { MainMap } from '~/constants/map';
 
-interface Props {
+const mapStateToProps = (state: IState) => ({
+  location: selectUserLocation(state),
+});
 
-}
+type Props = ReturnType<typeof mapStateToProps> & {};
 
-export class UserLocation extends React.Component<Props, {}> {
-  render() {
-    return null
-  }
-  // constructor(props) {
-  //   super(props);
+const UserLocationUnconnected: FC<Props> = ({ location }) => {
+  const onClick = useCallback(() => {
+    if (!location) return;
 
-  //   const element = document.createElement('div');
-  //   this.icon = new DomMarker({ element, className: 'location-marker' });
+    MainMap.setView(location, 17);
+  }, [MainMap, location]);
 
-  //   // this.map = editor.map.map;
-  //   this.location = [];
-  // }
+  return (
+    <div className="status-bar location-bar pointer tooltip-container" onClick={onClick}>
+      <Tooltip position="top">Где&nbsp;я?</Tooltip>
 
-  // icon;
-  // mark = null;
-  // map;
-  // location;
+      <svg width="20" height="20" viewBox="0 0 20 20" style={{ opacity: location ? 1 : 0.5 }}>
+        <g transform="translate(7 2)">
+          <circle r="1.846" cy="1.846" cx="5.088" />
+          <path d="M3.004 4.326h4l2-3 1 1-3 4v10h-1l-1-7-1 7h-1v-10s-3.125-4-3-4l1-1z" />
+          <ellipse ry="1" rx="4" cy="16.326" cx="5.004" opacity=".262" fill="black" />
+        </g>
+      </svg>
+    </div>
+  );
+};
 
-  // componentDidMount() {
-  //   this.getUserLocation(this.updateLocationMark);
-  // }
-
-  // getUserLocation = callback => {
-  //   // todo: TO SAGAS
-  //   if (!window.navigator || !window.navigator.geolocation) return;
-
-  //   window.navigator.geolocation.getCurrentPosition(position => {
-  //     if (!position || !position.coords || !position.coords.latitude || !position.coords.longitude) return;
-
-  //     const { latitude, longitude } = position.coords;
-
-  //     callback(latitude, longitude);
-  //   });
-  // };
-
-  // centerMapOnLocation = () => {
-  //   if (this.location && this.location.length === 2) {
-  //     this.panMapTo(this.location[0], this.location[1]);
-  //   } else {
-  //     this.getUserLocation(this.panMapTo);
-  //   }
-
-  //   this.getUserLocation(this.updateLocationMark);
-  // };
-
-  // panMapTo = (latitude, longitude) => {
-  //   if (!latitude || !longitude) return;
-
-  //   this.map.panTo([latitude, longitude]);
-  // };
-
-  // updateLocationMark = (latitude, longitude) => {
-  //   if (!latitude || !longitude) return;
-
-  //   if (this.mark) this.map.removeLayer(this.mark);
-
-  //   this.location = [latitude, longitude];
-  //   this.mark = marker(this.location, { icon: this.icon }).addTo(this.map);
-  // };
-
-  // render() {
-  //   return (
-  //     <div className="status-bar square pointer pointer">
-  //       <div onClick={this.centerMapOnLocation}>
-  //         <Icon icon="icon-locate" size={30} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-}
+export const UserLocation = connect(mapStateToProps)(UserLocationUnconnected);
