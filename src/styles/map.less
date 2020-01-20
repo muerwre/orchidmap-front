@@ -340,7 +340,15 @@
 }
 
 .current-location {
+  width: 0;
+  height: 0;
+  position: relative;
+
   svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     fill: @bar_background;
     stroke: white;
     stroke-width: 0.2px;
