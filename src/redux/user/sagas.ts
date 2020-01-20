@@ -34,6 +34,7 @@ import { selectUser, selectUserUser } from './selectors';
 import { mapInitSaga } from '~/redux/map/sagas';
 import { editorSetDialog, editorSetDialogActive } from '../editor/actions';
 import { selectEditor } from '../editor/selectors';
+import { getLocation, watchLocation } from '~/utils/window';
 
 function* generateGuestSaga() {
   const {
@@ -343,8 +344,13 @@ export function* updateUserRoutes() {
   yield put(searchSetTab(TABS.MY));
 }
 
+// function* getUserLocation() {
+  // yield call(watchLocation, ActionCreators.setUserLocation);
+// }
+
 export function* userSaga() {
   yield takeLatest(REHYDRATE, authCheckSaga);
+  // yield takeLatest(REHYDRATE, getUserLocation);
 
   yield takeEvery(USER_ACTIONS.USER_LOGOUT, userLogoutSaga);
   yield takeLatest(USER_ACTIONS.GOT_VK_USER, gotVkUserSaga);

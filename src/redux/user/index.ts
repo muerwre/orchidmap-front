@@ -1,43 +1,44 @@
 import { createReducer } from '~/utils/reducer';
 import { DEFAULT_USER, IUser } from '~/constants/auth';
 import { USER_HANDLERS } from './handlers';
+import { LatLngLiteral } from 'leaflet';
 
 export interface IRouteListItem {
-  address: string,
-  title: string,
-  distance: number,
-  is_public: boolean,
-  is_published: boolean,
-  updated_at: string,
+  address: string;
+  title: string;
+  distance: number;
+  is_public: boolean;
+  is_published: boolean;
+  updated_at: string;
 }
 
 export interface IRootReducer {
   // ready: boolean,
-  user: IUser,
-
+  user: IUser;
+  location: LatLngLiteral;
   routes: {
-    limit: 0,
-    loading: boolean,
-    list: Array<IRouteListItem>,
-    step: number,
-    shift: number,
+    limit: 0;
+    loading: boolean;
+    list: Array<IRouteListItem>;
+    step: number;
+    shift: number;
     filter: {
-      title: string,
-      starred: boolean,
-      distance: [number, number],
-      author: string,
-      tab: string,
-      min: number,
-      max: number,
-    }
-  },
+      title: string;
+      starred: boolean;
+      distance: [number, number];
+      author: string;
+      tab: string;
+      min: number;
+      max: number;
+    };
+  };
 }
 
 export type IRootState = Readonly<IRootReducer>;
 
 export const INITIAL_STATE: IRootReducer = {
   user: { ...DEFAULT_USER },
-
+  location: null,
   routes: {
     limit: 0,
     loading: false, // <-- maybe delete this
@@ -52,7 +53,7 @@ export const INITIAL_STATE: IRootReducer = {
       tab: '',
       min: 0,
       max: 10000,
-    }
+    },
   },
 };
 

@@ -1,5 +1,6 @@
 import { USER_ACTIONS } from '~/redux/user/constants';
 import { IUser } from "~/constants/auth";
+import { IRootReducer } from '.';
 
 export const setUser = (user: IUser) => ({ type: USER_ACTIONS.SET_USER, user });
 export const userLogout = () => ({ type: USER_ACTIONS.USER_LOGOUT });
@@ -24,3 +25,5 @@ export const modifyRoute = (address: string, { title, is_public }: { title: stri
 });
 export const toggleRouteStarred = (address: string) => ({ type: USER_ACTIONS.TOGGLE_ROUTE_STARRED, address });
 export const setRouteStarred = (address: string, is_published: boolean) => ({ type: USER_ACTIONS.SET_ROUTE_STARRED, address, is_published });
+
+export const setUserLocation = (location: IRootReducer['location']) => ({ type: USER_ACTIONS.SET_USER_LOCATION, location });

@@ -23,10 +23,13 @@ export const Index = () => (
 
 ReactDOM.render(<Index />, document.getElementById('index'));
 
-(function () {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js', { scope: '/' })
-      .then(() => console.log('Service Worker registered successfully.'))
-      .catch(error => console.log('Service Worker registration failed:', error));
-  }
-}());
+if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') {
+  (function() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./service-worker.js', { scope: '/' })
+        .then(() => console.log('Service Worker registered successfully.'))
+        .catch(error => console.log('Service Worker registration failed:', error));
+    }
+  })();
+}

@@ -11,11 +11,12 @@ import { Router } from '~/map/Router';
 import { TileLayer } from '~/map/TileLayer';
 import { Stickers } from '~/map/Stickers';
 import { KmMarks } from '~/map/KmMarks';
-import { Arrows } from '~/map/Arrows';
+import { CurrentLocation } from '~/map/CurrentLocation';
 
 import 'leaflet/dist/leaflet.css';
 import { selectEditorEditing, selectEditorMode } from '~/redux/editor/selectors';
 import { MODES } from '~/constants/modes';
+import { selectUserLocation } from '~/redux/user/selectors';
 
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
@@ -23,6 +24,7 @@ const mapStateToProps = state => ({
   stickers: selectMapStickers(state),
   editing: selectEditorEditing(state),
   mode: selectEditorMode(state),
+  location: selectUserLocation(state),
 });
 
 const mapDispatchToProps = {
@@ -41,6 +43,7 @@ const MapUnconnected: React.FC<IProps> = ({
   stickers,
   editing,
   mode,
+  location,
 
   mapClicked,
   mapSetSticker,
@@ -78,6 +81,7 @@ const MapUnconnected: React.FC<IProps> = ({
       <Router />
 
       <KmMarks />
+      <CurrentLocation location={location} />
     </div>,
     document.getElementById('canvas')
   );
