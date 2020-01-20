@@ -1,5 +1,4 @@
-import { call, put, takeEvery, takeLatest, select, race } from 'redux-saga/effects';
-import { delay, SagaIterator } from 'redux-saga';
+import { call, put, takeEvery, takeLatest, select, race, delay } from 'redux-saga/effects';
 import { selectEditor, selectEditorMode } from '~/redux/editor/selectors';
 import { simplify } from '~/utils/simplify';
 import {
@@ -217,7 +216,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
   }
 }
 
-function* getGPXTrackSaga(): SagaIterator {
+function* getGPXTrackSaga() {
   const { route, stickers, title, address }: ReturnType<typeof selectMap> = yield select(selectMap);
 
   if (!route.length && !stickers.length) return;

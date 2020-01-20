@@ -7,6 +7,7 @@ import {
   race,
   take,
   takeLatest,
+  delay,
 } from 'redux-saga/effects';
 import { MAP_ACTIONS } from './constants';
 import {
@@ -36,7 +37,6 @@ import { getStoredMap, postMap } from '~/utils/api';
 import { Unwrap } from '~/utils/middleware';
 import { selectMap, selectMapProvider, selectMapRoute, selectMapStickers } from './selectors';
 import { TIPS } from '~/constants/tips';
-import { delay } from 'redux-saga';
 import { setReadySaga } from '../editor/sagas';
 import { selectEditor } from '../editor/selectors';
 import { EDITOR_ACTIONS } from '../editor/constants';
