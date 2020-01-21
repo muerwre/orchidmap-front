@@ -97,7 +97,10 @@ export function* setReadySaga() {
   hideLoader();
 
   yield call(checkOSRMServiceSaga);
-  yield call(checkNominatimSaga);
+  
+  // TODO: someday make nominatim, but sorted by nearest points.
+  // yield call(checkNominatimSaga); 
+  
   yield put(searchSetTab(TABS.MY));
 }
 

@@ -129,7 +129,13 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
     return (
       <div>
         <TitleDialog />
-        <NominatimSearchPanel active={features.nominatim} onSearch={this.props.editorSearchNominatim} />
+
+        {features.nominatim && (
+          <NominatimSearchPanel
+            active={features.nominatim}
+            onSearch={this.props.editorSearchNominatim}
+          />
+        )}
 
         <div className="panel active panel-user">
           <div className="user-panel">
