@@ -18,6 +18,7 @@ const noPoints = ({
         <div className="big white upper">Укажите первую точку на карте</div>
       </div>
     </div>
+    
     <div className="helper router-helper">
       <div className="flex_1" />
 

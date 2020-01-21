@@ -2,6 +2,7 @@ import React, { createElement } from 'react';
 import { MODES } from '~/constants/modes';
 
 import { RouterDialog } from '~/components/dialogs/RouterDialog';
+import { PolylineDialog } from '~/components/dialogs/PolylineDialog';
 import { StickersDialog } from '~/components/dialogs/StickersDialog';
 import { TrashDialog } from '~/components/dialogs/TrashDialog';
 import { LogoDialog } from '~/components/dialogs/LogoDialog';
@@ -29,6 +30,7 @@ const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.CONFIRM_CANCEL]: CancelDialog,
   [MODES.PROVIDER]: ProviderDialog,
   [MODES.SHOT_PREFETCH]: ShotPrefetchDialog,
+  [MODES.POLY]: PolylineDialog,
 };
 
 const EditorDialogUnconnected = (props: Props) =>

@@ -34,9 +34,11 @@ const TrashDialogUnconnected: FC<Props> = ({
           <div className="button router-helper__button" onClick={editorClearPoly}>
             Маршрут
           </div>
+          
           <div className="button router-helper__button" onClick={editorClearStickers}>
             Стикеры
           </div>
+
           <div className="button router-helper__button" onClick={editorClearAll}>
             ВСЕ
           </div>

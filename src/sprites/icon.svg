@@ -1,436 +1,376 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32">
-    <defs>
-        <g id="icon-router">
-            <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
-            <g transform="translate(0 0)">
-                <path d="M12 5c-2.105-.003-3.587 1.238-4.3 2.354a6.454 6.454 0 0 0-.888 2.226l-.02.123v12.137h3v-11.814c.01-.045.098-.531.434-1.057.352-.549.722-.97 1.77-.969 1.073.001 1.547.446 1.945.983.367.493.47.894.49.966v12.45s-.003 1.326.624 2.723c.626 1.396 2.196 3.019 4.627 3.068 2.45.05 4.063-1.603 4.689-3.022.626-1.418.621-2.77.621-2.77v-10.949h-3v10.913s-.032.84-.365 1.595c-.334.756-.61 1.259-1.885 1.233-1.295-.027-1.617-.557-1.95-1.297a4.623 4.623 0 0 1-.36-1.526v-12.873l-.045-.177s-.256-1.071-1.035-2.121c-.78-1.05-2.273-2.193-4.352-2.196z" stroke="none" fill="white" />
-                <circle cx="8.5" cy="24" r="2" fill="none" stroke-width="2" stroke="white" />
-                <circle cx="23.5" cy="9" r="2" fill="none" stroke-width="2" stroke="white" />
-            </g>
-        </g>
-
-        <g id="icon-sticker">
-            <rect x="0" y="0" width="32" height="32" fill="none" stroke="none" />
-            <g transform="translate(-680 -285)">
-                <path d="M690.764 306.811l5.71 7.913 5.014-7.694z" stroke="none" fill="white"/>
-                <path transform="matrix(.88332 0 0 .88132 81.246 35.954)" d="M702.328 307.792l-6.02-.026-6.02.026-2.986-5.226-3.033-5.2 3.033-5.2 2.987-5.227 6.02.026 6.02-.026 2.986 5.226 3.033 5.2-3.033 5.2z" fill="none" stroke="white" />
-            </g>
-        </g>
-
-        <g id="icon-poly">
-            <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
-            <g>
-                <path d="m6 14l9 -7l-2 16l14 -10l-3 12" fill="none" stroke-linecap="butt" stroke-linejoin="round" stroke="white" />
-
-                <circle cx="5" cy="15" r="2" fill="none" stroke-width="2" stroke="white" />
-                <circle cx="16" cy="5" r="2" fill="none" stroke-width="2" stroke="white" />
-                <circle cx="12" cy="25" r="2" fill="none" stroke-width="2" stroke="white" />
-                <circle cx="28" cy="11" r="2" fill="none" stroke-width="2" stroke="white" />
-                <circle cx="24" cy="27" r="2" fill="none" stroke-width="2" stroke="white" />
-            </g>
-
-        </g>
-
-        <g id="icon-shooter">
-            <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
-            <g transform="translate(18 6)">
-                <path d="m0 0l-4.391.054c-1.418.531-2.34 1.756-3.176 3.102h-5.178c-.68.317-1.351.655-1.455 2.584v11.49c.17 1.001.58 1.765 1.455 2.06h22.537c.746-.044 1.288-.426 1.68-1.06v-13.517c-.185-1.643-.916-1.65-1.68-1.557h-6.62c-.326-1.26-1.91-2.247-3.172-3.156zm-2.122 5.289c3.227 0 5.87 2.626 5.87 5.846s-2.643 5.845-5.87 5.845c-3.227 0-5.869-2.626-5.869-5.845 0-3.22 2.642-5.846 5.87-5.846zm0 1.998a3.844 3.844 0 0 0-3.869 3.848 3.842 3.842 0 0 0 3.87 3.845 3.84 3.84 0 0 0 3.866-3.845 3.842 3.842 0 0 0-3.867-3.848z" fill="white" stroke="none" />
-            </g>
-        </g>
-
-        <g id="icon-trash">
-            <g transform="matrix(4.6 0 0 4.6 -4 -4)" stroke="none">
-                <path fill="white" d="M2.783 3.626h2.923v2.923H2.783z"/>
-                <path fill="white" d="M2.479 2.597h3.508v.748H2.479z"/>
-                <path fill="white" d="M3.438 1.919h1.473v.865H3.438z"/>
-                <path fill="black" d="M3.859 2.25h.631v.386h-.631z"/>
-                <path fill="black" d="M3.134 3.906h.468v2.315h-.468z"/>
-                <path fill="black" d="M-4.537 3.906h.444v2.315h-.444z" transform="scale(-1 1)"/>
-                <path fill="black" d="M4.958 3.906h.444v2.315h-.444z"/>
-            </g>
-        </g>
-
-        <g id="icon-save" stroke="none">
-            <path fill="black" d="M0 0h32v32H0z"/>
-            <path fill="white" d="M6.844 8.459V24h18.312V11.375H14.031V8.459z"/>
-            <rect fill="black" width="2.74" height="5.038" x="14.63" y="14.411" stroke-width="3.603" />
-            <path fill="black" d="M16.866 19.73l-4.315-.06-4.314.06 2.209-3.707 2.105-3.766 2.106 3.766z" transform="matrix(.45903 -.40628 .79506 .23456 -3.467 21.088)"/>
-        </g>
-
-        <svg xmlns="http://www.w3.org/2000/svg" id="svg8" width="600" height="32">
-            <g id="g4853" transform="translate(-29.985 30.509)">
-                <rect id="rect4832" width="4.035" height="1.75" x="16.495" y="-28.417" fill="#fff" stroke-opacity=".941" stroke-width=".115" rx="0" ry="0"/>
-                <path id="rect4834" fill="#fff" stroke-opacity=".941" stroke-width=".247" d="M15.535-28.417h5.616v.933h-5.616z"/>
-                <path id="rect4836" fill="#fff" stroke-opacity=".941" stroke-width=".293" d="M16.495-29.706v1.29h.671v-.761h2.66v.76h.67v-1.29z"/>
-                <path id="path4841" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M16.886-27.49c.092.03-.101 1.171.111 2.499.213 1.328-.477 1.846-.477 1.846"/>
-                <path id="path4843" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M18.496-27.49c.093.03-.101 1.171.112 2.499.212 1.328-.478 1.846-.478 1.846"/>
-                <path id="path4845" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M20.107-27.49c.092.03-.102 1.171.111 2.499s-.477 1.846-.477 1.846"/>
-            </g>
-            <g id="g4909" transform="translate(-.054 .888)">
-                <path id="rect4855" fill="#fff" stroke-opacity=".941" stroke-width=".811" d="M16.272-27.384h4.266l-.397 4.3h-3.538z"/>
-                <path id="rect4857" fill="#fff" stroke-opacity=".941" stroke-width=".43" d="M15.809-28.939h5.192v.992h-5.192z"/>
-                <path id="rect4879" fill="#fff" stroke-opacity=".941" stroke-width=".502" d="M17.246-29.945v1.123h.586v-.66h1.005v.66h.587v-1.123z"/>
-                <g id="g4900">
-                    <path id="path4885" fill-rule="evenodd" stroke-width=".265" d="M16.885-26.893l.187 3.508h.538l-.14-3.508z"/>
-                    <path id="path4887" fill-rule="evenodd" stroke-width=".265" d="M19.983-26.893l-.187 3.508h-.538l.14-3.508z"/>
-                    <path id="rect4889" stroke-opacity=".941" stroke-width=".821" d="M18.165-26.881h.538v3.473h-.538z"/>
-                </g>
-            </g>
-            <g id="icon-save" stroke-opacity=".941" transform="translate(-64)">
-                <path id="rect4766" stroke-width=".265" d="M0 0h32v32H0z"/>
-                <path id="rect4986" fill="#fff" stroke-width="2.491" d="M6.844 8.459V24h18.312V11.375H14.031V8.459z"/>
-                <rect id="rect4991" width="2.74" height="5.038" x="14.63" y="14.411" stroke-width="3.603" rx="0" ry="0"/>
-                <path id="path4993" stroke-width="3" d="M16.866 19.73l-4.315-.06-4.314.06 2.209-3.707 2.105-3.766 2.106 3.766z" transform="matrix(.45903 -.40628 .79506 .23456 -3.467 21.088)"/>
-            </g>
-            <g id="g4982" stroke-opacity=".941" transform="translate(-32)">
-                <path id="rect4964" stroke-width=".265" d="M0 0h32v32H0z"/>
-                <g id="g4980" transform="matrix(3.77953 0 0 3.77953 .002 -.002)">
-                    <path id="rect4966" fill="#fff" stroke-width=".794" d="M2.783 3.626h2.923v2.923H2.783z"/>
-                    <path id="rect4968" fill="#fff" stroke-width=".794" d="M2.479 2.597h3.508v.748H2.479z"/>
-                    <path id="rect4970" fill="#fff" stroke-width=".794" d="M3.438 1.919h1.473v.865H3.438z"/>
-                    <path id="rect4972" stroke-width=".684" d="M3.859 2.25h.631v.386h-.631z"/>
-                    <path id="rect4974" stroke-width="1.442" d="M3.134 3.906h.468v2.315h-.468z"/>
-                    <path id="rect4976" stroke-width="1.405" d="M-4.537 3.906h.444v2.315h-.444z" transform="scale(-1 1)"/>
-                    <path id="rect4978" stroke-width="1.405" d="M4.958 3.906h.444v2.315h-.444z"/>
-                </g>
-            </g>
-
-            <g id="g5188" transform="translate(-96)">
-                <path id="rect5180" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z"/>
-                <g id="g5322" fill="#fff" transform="translate(7.066 7.065) scale(.04494)">
-                    <path id="path5267" stroke-width="445.017" d="M313.1 147.875c-6.057 0-11.962.654-17.661 1.871l-15.805-53.435 37.842-2.565a9.275 9.275 0 0 1 9.602 6.932 9.246 9.246 0 0 1-1.45 7.728 9.243 9.243 0 0 1-6.865 3.834l-9.126.652a6.5 6.5 0 0 0-6.02 6.947c.256 3.581 3.361 6.289 6.947 6.02l9.126-.652a22.21 22.21 0 0 0 16.493-9.21 22.21 22.21 0 0 0 3.484-18.566c-2.677-10.375-12.376-17.364-23.069-16.654l-45.936 3.114a6.5 6.5 0 0 0-5.793 8.329l6.405 21.656H145.477l-6.316-12H155.5a6.5 6.5 0 1 0 0-13h-47a6.5 6.5 0 1 0 0 13h16.086l9.542 18.349-18.836 33.485a84.026 84.026 0 0 0-30.792-5.834c-46.593 0-84.5 37.906-84.5 84.5s37.907 84.5 84.5 84.5c44.404 0 80.892-34.436 84.225-78h31.776a6.5 6.5 0 0 0 5.511-3.055l68.779-110.047 8.185 27.672c-31.758 12.162-54.376 42.945-54.376 78.93 0 46.594 37.907 84.5 84.5 84.5s84.5-37.906 84.5-84.5-37.907-84.501-84.5-84.501zm-228.6 156c-39.425 0-71.5-32.075-71.5-71.5s32.075-71.5 71.5-71.5c8.549 0 16.75 1.513 24.355 4.276l-31.482 55.968c-3.726 2.365-6.206 6.516-6.206 11.256 0 7.363 5.969 13.333 13.333 13.333 5.002 0 9.354-2.759 11.636-6.833h59.556c-3.297 36.388-33.959 65-71.192 65zm11.636-78a13.384 13.384 0 0 0-4.025-4.439l28.528-50.717c19.37 11.397 32.922 31.647 35.052 55.156zm72.589 0c-2.17-28.365-18.393-52.845-41.715-66.482l14.327-25.471 48.396 91.953zm32.258-6.538l-48.665-92.462h106.454zM313.1 303.875c-39.425 0-71.5-32.075-71.5-71.5 0-30.093 18.697-55.885 45.077-66.418l16.89 57.105a13.284 13.284 0 0 0-3.8 9.313c0 7.363 5.969 13.333 13.333 13.333s13.333-5.97 13.333-13.333c0-6.354-4.449-11.661-10.399-12.999l-16.895-57.123a71.624 71.624 0 0 1 13.962-1.378c39.425 0 71.5 32.075 71.5 71.5s-32.076 71.5-71.501 71.5z"/>
-                </g>
-            </g>
-
-            <g id="icon-cycle">
-                <path fill="black" d="M0 0h32v32H0z"/>
-                <g id="g5604" fill="#fff" transform="matrix(-.36615 0 0 .36615 24.543 7.457)">
-                    <g id="g5527">
-                        <g id="g5495">
-                            <path id="path5483" d="M37.687 24.66c-4.945 0-8.973 4.025-8.973 8.975 0 4.95 4.026 8.974 8.973 8.974 4.95 0 8.977-4.024 8.977-8.974s-4.027-8.975-8.977-8.975zm0 15.384a6.417 6.417 0 0 1-6.409-6.409 6.418 6.418 0 0 1 6.409-6.41 6.417 6.417 0 0 1 6.411 6.41 6.417 6.417 0 0 1-6.411 6.409z"/>
-                            <path id="path5485" d="M23.588 15.501v.01h8.047c-2.375-2.4-5.273-5.251-5.99-5.578-1.257-.575-3.966 1.462-4.547 1.748-.532.283-.954.699-1.043 1.236l-2.112 5.927-6.167.069c-1.811.485-.465 2.065-.465 2.065l3.097.041-.295 1.405-1.803 2.989a8.914 8.914 0 0 0-3.333-.648C4.027 24.765 0 28.792 0 33.741c0 4.947 4.026 8.974 8.977 8.974 4.948 0 8.975-4.026 8.975-8.974a8.956 8.956 0 0 0-3.423-7.038l2.005-3.326.487-2.322 2.41.03c.479-.136.833-.538.912-1.029l2.603-4.074zM15.386 33.74a6.417 6.417 0 0 1-6.409 6.409c-3.534 0-6.411-2.876-6.411-6.409a6.419 6.419 0 0 1 6.411-6.411c.694 0 1.36.114 1.986.32l-3.579 5.939 2.197 1.323 3.607-5.989a6.386 6.386 0 0 1 2.198 4.818z"/>
-                            <path id="path5487" d="M32.24 23.139s2.468-2.578 2.691-2.968c.225-.392.229-.872.007-1.265 0 0-.725-.76-1.771-1.832v.014h-8.949l4.281 3.716-6.367 9.947a1.264 1.264 0 0 0-.104 1.045l2.563 7.692 3.072-.17-1.741-7.787z"/>
-                            <circle id="circle5489" cx="19.703" cy="7.384" r="3.435"/>
-                            <path id="path5491" d="M32.845 5.919c-1.06-.744-2.366-.789-3.123-.034l-1.484 1.487c-.756.756-.711 2.062.03 3.124z"/>
-                            <path id="path5493" d="M33.007 15.317c1.116 1.116 2.73 1.311 3.607.436l1.485-1.488c.877-.876.685-2.491-.434-3.606l-4.081-4.081-4.659 4.658z"/>
-                        </g>
-                    </g>
-                </g>
-            </g>
-
-            <g id="icon-cycle-2">
-                <path fill="black" d="M0 0h32v32H0z"/>
-                <g id="g5604" fill="#fff" transform="matrix(-.36615 0 0 .36615 24.543 7.457)">
-                    <g id="g5527">
-                        <g id="g5495">
-                            <path id="path5483" d="M37.687 24.66c-4.945 0-8.973 4.025-8.973 8.975 0 4.95 4.026 8.974 8.973 8.974 4.95 0 8.977-4.024 8.977-8.974s-4.027-8.975-8.977-8.975zm0 15.384a6.417 6.417 0 0 1-6.409-6.409 6.418 6.418 0 0 1 6.409-6.41 6.417 6.417 0 0 1 6.411 6.41 6.417 6.417 0 0 1-6.411 6.409z"/>
-                            <path id="path5485" d="M23.588 15.501v.01h8.047c-2.375-2.4-5.273-5.251-5.99-5.578-1.257-.575-3.966 1.462-4.547 1.748-.532.283-.954.699-1.043 1.236l-2.112 5.927-6.167.069c-1.811.485-.465 2.065-.465 2.065l3.097.041-.295 1.405-1.803 2.989a8.914 8.914 0 0 0-3.333-.648C4.027 24.765 0 28.792 0 33.741c0 4.947 4.026 8.974 8.977 8.974 4.948 0 8.975-4.026 8.975-8.974a8.956 8.956 0 0 0-3.423-7.038l2.005-3.326.487-2.322 2.41.03c.479-.136.833-.538.912-1.029l2.603-4.074zM15.386 33.74a6.417 6.417 0 0 1-6.409 6.409c-3.534 0-6.411-2.876-6.411-6.409a6.419 6.419 0 0 1 6.411-6.411c.694 0 1.36.114 1.986.32l-3.579 5.939 2.197 1.323 3.607-5.989a6.386 6.386 0 0 1 2.198 4.818z"/>
-                            <path id="path5487" d="M32.24 23.139s2.468-2.578 2.691-2.968c.225-.392.229-.872.007-1.265 0 0-.725-.76-1.771-1.832v.014h-8.949l4.281 3.716-6.367 9.947a1.264 1.264 0 0 0-.104 1.045l2.563 7.692 3.072-.17-1.741-7.787z"/>
-                            <circle id="circle5489" cx="19.703" cy="7.384" r="3.435"/>
-                            <path id="path5491" d="M32.845 5.919c-1.06-.744-2.366-.789-3.123-.034l-1.484 1.487c-.756.756-.711 2.062.03 3.124z"/>
-                            <path id="path5493" d="M33.007 15.317c1.116 1.116 2.73 1.311 3.607.436l1.485-1.488c.877-.876.685-2.491-.434-3.606l-4.081-4.081-4.659 4.658z"/>
-                        </g>
-                    </g>
-                </g>
-            </g>
-
-            <g id="icon-logo">
-                <path fill="black" stroke="none" d="M0 0h32v32H0z"/>
-                <g transform="matrix(1 0 0 1 2 -1)">
-                    <path fill="none" stroke="#fff" stroke-width="2" d="M23.423 9.284c-6.673-4.127-12.713-4.175-19.269 0 .174 4.944-.354 13.294 9.635 17.855 10.323-4.9 9.545-13.305 9.634-17.855z"/>
-                    <path fill="#fff" stroke="none" d="M13.435 5.925v21.037s10.695-3.27 9.988-17.678c0 0-3.447-2.828-9.988-3.359z"/>
-                    <path fill="none" stroke-width="2" stroke="#fff" d="M5.773 15.118L15.7 6.19"/>
-                    <path fill="none" stroke-width="2" stroke="#fff" d="M6.276 20.333l7.778-7.778"/>
-                    <path fill="none" stroke-width="2" stroke="#fff" d="M8.574 23.691c.442-.53 5.612-5.612 5.612-5.612"/>
-                    <path fill="none" stroke-width="2" stroke="#fff" d="M11.932 25.636l2.343-2.342"/>
-                </g>
-            </g>
-
-            <g id="icon-locate">
-                <path id="rect5819" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-                <circle id="path5839" cx="16" cy="16" r="5.127" fill="none" stroke="#fff" stroke-width="2.5"/>
-                <path id="path5841" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M16.087 6.854v4.242"/>
-                <path id="path5843" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M16.087 20.686v4.243"/>
-                <path id="path5845" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M20.948 16.134h4.243"/>
-                <path id="path5847" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M6.63 16.134h4.242"/>
-            </g>
-
-            <g id="icon-shot-2" stroke="none" transform="scale(1.1) translate(-2 -1)">
-                <path id="rect5819" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-                <rect id="rect6617" width="21" height="13.89" x="6.25" y="9.833" fill="#fff" rx="2" ry="2"/>
-                <path id="rect6619" fill="#fff" stroke-width="1.979" d="M13.812 7.009h6.282c.45 0 .749.528 1.147 1.039l3.096 3.974c.398.51-3.793 6.989-4.243 6.989h-6.282c-.45 0-4.889-6.747-4.475-7.24l3.19-3.802c.415-.493.836-.96 1.285-.96z"/>
-                <circle id="path6621" cx="16.627" cy="16.311" r="6.158" fill="black"/>
-                <circle id="circle6628" cx="16.627" cy="16.311" r="3.533" fill="#fff" />
-            </g>
-
-            <g id="icon-trash-2" stroke="none">
-                <g transform="translate(0 -3) scale(3.82445) scale(1.1) rotate(45 4 4)">
-                    <rect id="rect4966" width="3.125" height="2.893" x="2.671" y="3.751" fill="#fff" rx=".36" ry=".403"/>
-                    <rect id="rect4968" width="3.663" height=".87" x="2.401" y="2.423" fill="#fff" rx=".435" ry=".435"/>
-                    <rect id="rect4970" width="2.924" height="1.306" x="2.771" y="1.698" fill="#fff" rx=".653" ry=".653"/>
-                    <rect id="rect4972" width="1.933" height=".523" x="3.266" y="2.114" fill="black" rx=".261" ry=".261"/>
-
-                    <g id="g4918" stroke-width=".523" transform="matrix(1.3497 0 0 1.3497 -1.613 -1.674)">
-                        <rect id="rect4912" width="2.059" height=".425" x="5.622" y=".289" rx=".237" ry=".21" transform="rotate(45)" fill="black"/>
-                        <rect id="rect4914" width="2.047" height=".389" x="-.491" y="-6.803" rx=".237" ry=".195" transform="rotate(135)" fill="black"/>
-                    </g>
-                </g>
-            </g>
-
-            <g id="icon-logo-2" transform="scale(1.1) translate(-1 -2)">
-                <path id="rect5611" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none"/>
-                <g id="g5792" fill="none" stroke="#fff" stroke-width="2.37" transform="matrix(.84382 0 0 .84382 4.366 1.93)">
-                    <path id="path5774" fill-rule="evenodd" d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z"/>
-                </g>
-                <g id="g8284" fill="#fff" stroke-width="3.052" transform="matrix(.40236 0 0 .40236 10.45 8.978)">
-                    <path d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z" stroke="none" />
-                </g>
-            </g>
-
-            <g id="icon-sticker-2" transform="scale(1.1) translate(-3 -2)" stroke="none">
-                <g id="g4867" transform="matrix(.94996 0 0 .94996 -.16 .083)">
-                    <path id="path4859" fill="#fff" fill-rule="evenodd" stroke-width=".767" d="M13.47 22.847l3.045 5.275 3.12-5.405z"/>
-                    <circle id="path4863" cx="16.552" cy="14.98" r="8.712" fill="#fff" stroke-width="1.851"/>
-                    <circle id="circle4869" cx="16.552" cy="14.98" r="5" fill="black" />
-                </g>
-            </g>
-
-            <g id="icon-route-2" transform="scale(1.1) translate(32 -2)" stroke="none">
-                <g fill="white">
-                    <circle id="path5642" cx="-24.357" cy="23.576" r="2.507" fill="#fff" stroke-width="4.363"/>
-                    <path id="path5644" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.621" d="M-24.289 21.588V10.61c0-4.22 6.62-4.194 6.62 0V21.42c0 4.011 6.828 4.027 6.828 0v-10.98"/>
-                    <circle id="circle5646" cx="-10.93" cy="8.462" r="2.507" fill="#fff" stroke-width="4.363"/>
-                </g>
-            </g>
-
-            <g id="icon-poly-2" transform="scale(1.1) translate(-3 -2)" stroke="none">
-                <g fill="white">
-                    <path id="path6375" fill="none" fill-rule="evenodd" stroke="#fff" stroke-linejoin="round" stroke-width="2.387" d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12"/>
-                    <circle id="path6363" cx="14.711" cy="-4.523" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
-                    <circle id="circle6367" cx="12.17" cy="-13.883" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
-                    <circle id="circle6371" cx="20.342" cy="-19.194" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
-                    <circle id="circle6373" cx="24.138" cy="-3.701" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
-                    <circle id="circle6774" cx="27.918" cy="-13.025" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)"/>
-                </g>
-            </g>
-
-            <g id="icon-save-2" transform="scale(1.1) translate(-1 -2)" stroke="none">
-                <g fill="white">
-                    <path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-                    <path id="rect4986" fill="#fff" stroke-opacity=".941" stroke-width="2.477" d="M6.894 8.502v15.455h18.212V11.402H14.042v-2.9z"/>
-                    <path id="path7854" fill="none" fill-rule="evenodd" stroke="#000" stroke-width="2.735" d="M10.923 16.586l4.19 4.19 6.606-6.607" transform="scale(0.9) translate(2 2)"/>
-                </g>
-            </g>
-
-            <g id="icon-trash-3">
-                <path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
-                <path xmlns="http://www.w3.org/2000/svg" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" transform="translate(4 4)" stroke-width="1" />
-            </g>
-
-            <g id="icon-trash-4">
-                <path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
-                <path xmlns="http://www.w3.org/2000/svg" d="M21 9l-9-7-2.59 2.02 7.87 7.87zm0 5.07l-1.63-1.27-.67.52 1.43 1.43zM3.41.86L2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41z" fill="white" transform="translate(4 4)" stroke-width="0" />
-            </g>
-
-            <g id="icon-logo-3" transform="scale(1.1) translate(-1 -2)">
-                <path id="rect5611" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none"/>
-                <g id="g5792" fill="none" stroke="#fff" stroke-width="3" transform="matrix(.84382 0 0 .84382 5 2.53)">
-                    <path id="path5774" fill-rule="evenodd" d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z"/>
-                </g>
-            </g>
-
-            <g id="icon-shot-3" stroke="none" transform="">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M18 20H4V6h9V4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9h-2v9zm-7.79-3.17l-1.96-2.36L5.5 18h11l-3.54-4.71zM20 4V1h-2v3h-3c.01.01 0 2 0 2h3v2.99c.01.01 2 0 2 0V6h3V4h-3z" fill="white" transform="translate(4 4)" stroke-width="0" />
-            </g>
-
-            <g id="icon-reg-1" stroke="none" transform="scale(1.1) translate(-2 -1)">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M11 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zM5 18c.2-.63 2.57-1.68 4.96-1.94l2.04-2c-.39-.04-.68-.06-1-.06-2.67 0-8 1.34-8 4v2h9l-2-2H5zm15.6-5.5l-5.13 5.17-2.07-2.08L12 17l3.47 3.5L22 13.91z" fill="white" transform="translate(5 3)" stroke-width="1" />
-            </g>
-
-            <g id="icon-cancel-1" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="white" stroke="white" transform="translate(4 4)" stroke-width="1" />
-            </g>
-
-            <g id="icon-check-1" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="white" transform="translate(4 4)" stroke-width="1" stroke="white" />
-            </g>
-
-            <g id="icon-pin-1" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M13 16.12c3.47-.41 6.17-3.36 6.17-6.95 0-3.87-3.13-7-7-7s-7 3.13-7 7c0 3.47 2.52 6.34 5.83 6.89V20H5v2h14v-2h-6v-3.88z" fill="white" transform="translate(4 4)" stroke-width="0" stroke="white" />
-            </g>
-
-            <g id="icon-check-2" stroke="none" transform="scale(1.1) translate(-2 -1)">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M11 5v5.59H7.5l4.5 4.5 4.5-4.5H13V5h-2zm-5 9c0 3.31 2.69 6 6 6s6-2.69 6-6h-2c0 2.21-1.79 4-4 4s-4-1.79-4-4H6z" fill="white" transform="translate(4 4)" stroke-width="0" stroke="white" />
-            </g>
-
-            <g id="icon-map-1" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-
-                <path xmlns="http://www.w3.org/2000/svg" d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM10 5.47l4 1.4v11.66l-4-1.4V5.47zm-5 .99l3-1.01v11.7l-3 1.16V6.46zm14 11.08l-3 1.01V6.86l3-1.16v11.84z" fill="white" transform="translate(4 4)" stroke-width="1" />
-            </g>
-
-            <g id="icon-sticker-3" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-                <g>
-                    <path fill="#fff" fill-rule="evenodd" stroke-width=".767" d="M12 24l4 6 3.5-6.405z" transform="rotate(45 16 16)"/>
-
-                    <circle cx="16" cy="15" r="9.5" fill="#fff" stroke-width="1.851"/>
-                    <circle cx="16" cy="15" r="6.5" fill="black" />
-                </g>
-            </g>
-
-            <g id="icon-poly-3" transform="scale(1.1) translate(-3 -2)" stroke="none">
-                <path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black"/>
-                <g fill="white" transform="translate(2 0.5)">
-                    <path stroke-width="2.3" fill="none" fill-rule="evenodd" stroke="#fff" stroke-linejoin="round" d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12"/>
-
-                    <circle cx="7.711" cy="13" r="1" fill="black" stroke-width="2.5" stroke="white" />
-                    <circle cx="16.5" cy="8" r="1" fill="black" stroke-width="2.5" stroke="white" />
-                    <circle cx="10" cy="22" r="1" fill="black" stroke-width="2.5" stroke="white" />
-                    <circle cx="19.7" cy="23.701" r="1" fill="black" stroke-width="2.5" stroke="white" />
-                    <circle cx="24" cy="14.5" r="1" fill="black" stroke-width="2.5" stroke="white" />
-                </g>
-            </g>
-
-            <g id="icon-poly-4" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M23 8c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2zm0 0c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2z" fill="white" stroke="white" stroke-width="1" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-get-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" fill="white" stroke="white" stroke-width="1" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-folder-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-folder-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-cycle-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-link-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path xmlns="http://www.w3.org/2000/svg" d="M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2zm-3-4h8v2H8z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-shot-4" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M14.12 4l1.83 2H20v12H4V6h4.05l1.83-2h4.24M15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm-3 7c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-trash-5" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M14.12 10.47L12 12.59l-2.13-2.12-1.41 1.41L10.59 14l-2.12 2.12 1.41 1.41L12 15.41l2.12 2.12 1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-trash-6" stroke="none">
-                <path stroke="none" fill="black"/>
-                <g transform="scale(1.25) translate(1 1)">
-                    <path xmlns="http://www.w3.org/2000/svg" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/>
-                </g>
-            </g>
-
-            <g id="icon-copy-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M3 5H1v16c0 1.1.9 2 2 2h16v-2H3V5zm18-4H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-sync-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-block-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-edit-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-eye-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M12 6c3.79 0 7.17 2.13 8.82 5.5-.59 1.22-1.42 2.27-2.41 3.12l1.41 1.41c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l1.65 1.65C10.66 6.09 11.32 6 12 6zm-1.07 1.14L13 9.21c.57.25 1.03.71 1.28 1.28l2.07 2.07c.08-.34.14-.7.14-1.07C16.5 9.01 14.48 7 12 7c-.37 0-.72.05-1.07.14zM2.01 3.87l2.68 2.68C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.98-.29 4.32-.82l3.42 3.42 1.41-1.41L3.42 2.45 2.01 3.87zm7.5 7.5l2.61 2.61c-.04.01-.08.02-.12.02-1.38 0-2.5-1.12-2.5-2.5 0-.05.01-.08.01-.13zm-3.4-3.4l1.75 1.75c-.23.55-.36 1.15-.36 1.78 0 2.48 2.02 4.5 4.5 4.5.63 0 1.23-.13 1.77-.36l.98.98c-.88.24-1.8.38-2.75.38-3.79 0-7.17-2.13-8.82-5.5.7-1.43 1.72-2.61 2.93-3.53z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-gpx-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M8 23h8v-2H8v2zm8-21.99L8 1c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM16 15H8V5h8v10z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-arrow-up-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <circle cx="16" cy="16" fill="white" r="4" />
-            </g>
-
-            <g id="icon-more-vert" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-star-blank" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-star-fill" stroke="none">
-                <path stroke="none" fill="black"/>
-                <path d="m12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)"/>
-            </g>
-
-            <g id="icon-cluster-1" stroke="none">
-                <rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
-                <circle cx="10" cy="21" fill="white" r="4" />
-                <circle cx="22" cy="21" fill="white" r="4" />
-                <circle cx="16" cy="11" fill="white" r="4" />
-            </g>
-
-            <g id="icon-chevron-down" stroke="none">
-                <g transform="scale(2) translate(-4 -3)">
-                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
-                </g>
-            </g>
-
-            <g id="icon-sad-1" stroke="none">
-                <path stroke="none" fill="black"/>
-                <g transform="translate(4 4)">
-                    <circle cx="15.5" cy="9.5" r="1.5" fill="white" stroke="none"/>
-                    <circle cx="8.5" cy="9.5" r="1.5" fill="white" stroke="none"/>
-                    <path d="M12 14c-2.33 0-4.32 1.45-5.12 3.5h1.67c.69-1.19 1.97-2 3.45-2s2.75.81 3.45 2h1.67c-.8-2.05-2.79-3.5-5.12-3.5zm-.01-12C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0"/>
-                </g>
-            </g>
-
-            <g id="icon-search" stroke="none">
-                <path stroke="none" fill="black"/>
-                <g transform="translate(4 4)">
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                </g>
-            </g>
-        </svg>
-    </defs>
-
-    <use xlink:href="#icon-trash-6" />
+	<defs>
+		<g id="icon-router">
+			<rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
+			<g transform="translate(0 0)">
+				<path d="M12 5c-2.105-.003-3.587 1.238-4.3 2.354a6.454 6.454 0 0 0-.888 2.226l-.02.123v12.137h3v-11.814c.01-.045.098-.531.434-1.057.352-.549.722-.97 1.77-.969 1.073.001 1.547.446 1.945.983.367.493.47.894.49.966v12.45s-.003 1.326.624 2.723c.626 1.396 2.196 3.019 4.627 3.068 2.45.05 4.063-1.603 4.689-3.022.626-1.418.621-2.77.621-2.77v-10.949h-3v10.913s-.032.84-.365 1.595c-.334.756-.61 1.259-1.885 1.233-1.295-.027-1.617-.557-1.95-1.297a4.623 4.623 0 0 1-.36-1.526v-12.873l-.045-.177s-.256-1.071-1.035-2.121c-.78-1.05-2.273-2.193-4.352-2.196z" stroke="none" fill="white" />
+				<circle cx="8.5" cy="24" r="2" fill="none" stroke-width="2" stroke="white" />
+				<circle cx="23.5" cy="9" r="2" fill="none" stroke-width="2" stroke="white" />
+			</g>
+		</g>
+		<g id="icon-sticker">
+			<rect x="0" y="0" width="32" height="32" fill="none" stroke="none" />
+			<g transform="translate(-680 -285)">
+				<path d="M690.764 306.811l5.71 7.913 5.014-7.694z" stroke="none" fill="white" />
+				<path transform="matrix(.88332 0 0 .88132 81.246 35.954)" d="M702.328 307.792l-6.02-.026-6.02.026-2.986-5.226-3.033-5.2 3.033-5.2 2.987-5.227 6.02.026 6.02-.026 2.986 5.226 3.033 5.2-3.033 5.2z" fill="none" stroke="white" />
+			</g>
+		</g>
+		<g id="icon-poly">
+			<rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
+			<g>
+				<path d="m6 14l9 -7l-2 16l14 -10l-3 12" fill="none" stroke-linecap="butt" stroke-linejoin="round" stroke="white" />
+				<circle cx="5" cy="15" r="2" fill="none" stroke-width="2" stroke="white" />
+				<circle cx="16" cy="5" r="2" fill="none" stroke-width="2" stroke="white" />
+				<circle cx="12" cy="25" r="2" fill="none" stroke-width="2" stroke="white" />
+				<circle cx="28" cy="11" r="2" fill="none" stroke-width="2" stroke="white" />
+				<circle cx="24" cy="27" r="2" fill="none" stroke-width="2" stroke="white" />
+			</g>
+		</g>
+		<g id="icon-shooter">
+			<rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
+			<g transform="translate(18 6)">
+				<path d="m0 0l-4.391.054c-1.418.531-2.34 1.756-3.176 3.102h-5.178c-.68.317-1.351.655-1.455 2.584v11.49c.17 1.001.58 1.765 1.455 2.06h22.537c.746-.044 1.288-.426 1.68-1.06v-13.517c-.185-1.643-.916-1.65-1.68-1.557h-6.62c-.326-1.26-1.91-2.247-3.172-3.156zm-2.122 5.289c3.227 0 5.87 2.626 5.87 5.846s-2.643 5.845-5.87 5.845c-3.227 0-5.869-2.626-5.869-5.845 0-3.22 2.642-5.846 5.87-5.846zm0 1.998a3.844 3.844 0 0 0-3.869 3.848 3.842 3.842 0 0 0 3.87 3.845 3.84 3.84 0 0 0 3.866-3.845 3.842 3.842 0 0 0-3.867-3.848z" fill="white" stroke="none" />
+			</g>
+		</g>
+		<g id="icon-trash">
+			<g transform="matrix(4.6 0 0 4.6 -4 -4)" stroke="none">
+				<path fill="white" d="M2.783 3.626h2.923v2.923H2.783z" />
+				<path fill="white" d="M2.479 2.597h3.508v.748H2.479z" />
+				<path fill="white" d="M3.438 1.919h1.473v.865H3.438z" />
+				<path fill="black" d="M3.859 2.25h.631v.386h-.631z" />
+				<path fill="black" d="M3.134 3.906h.468v2.315h-.468z" />
+				<path fill="black" d="M-4.537 3.906h.444v2.315h-.444z" transform="scale(-1 1)" />
+				<path fill="black" d="M4.958 3.906h.444v2.315h-.444z" />
+			</g>
+		</g>
+		<g id="icon-save" stroke="none">
+			<path fill="black" d="M0 0h32v32H0z" />
+			<path fill="white" d="M6.844 8.459V24h18.312V11.375H14.031V8.459z" />
+			<rect fill="black" width="2.74" height="5.038" x="14.63" y="14.411" stroke-width="3.603" />
+			<path fill="black" d="M16.866 19.73l-4.315-.06-4.314.06 2.209-3.707 2.105-3.766 2.106 3.766z" transform="matrix(.45903 -.40628 .79506 .23456 -3.467 21.088)" />
+		</g>
+		<svg xmlns="http://www.w3.org/2000/svg" id="svg8" width="600" height="32">
+			<g id="g4853" transform="translate(-29.985 30.509)">
+				<rect id="rect4832" width="4.035" height="1.75" x="16.495" y="-28.417" fill="#fff" stroke-opacity=".941" stroke-width=".115" rx="0" ry="0" />
+				<path id="rect4834" fill="#fff" stroke-opacity=".941" stroke-width=".247" d="M15.535-28.417h5.616v.933h-5.616z" />
+				<path id="rect4836" fill="#fff" stroke-opacity=".941" stroke-width=".293" d="M16.495-29.706v1.29h.671v-.761h2.66v.76h.67v-1.29z" />
+				<path id="path4841" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M16.886-27.49c.092.03-.101 1.171.111 2.499.213 1.328-.477 1.846-.477 1.846" />
+				<path id="path4843" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M18.496-27.49c.093.03-.101 1.171.112 2.499.212 1.328-.478 1.846-.478 1.846" />
+				<path id="path4845" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width=".753" d="M20.107-27.49c.092.03-.102 1.171.111 2.499s-.477 1.846-.477 1.846" />
+			</g>
+			<g id="g4909" transform="translate(-.054 .888)">
+				<path id="rect4855" fill="#fff" stroke-opacity=".941" stroke-width=".811" d="M16.272-27.384h4.266l-.397 4.3h-3.538z" />
+				<path id="rect4857" fill="#fff" stroke-opacity=".941" stroke-width=".43" d="M15.809-28.939h5.192v.992h-5.192z" />
+				<path id="rect4879" fill="#fff" stroke-opacity=".941" stroke-width=".502" d="M17.246-29.945v1.123h.586v-.66h1.005v.66h.587v-1.123z" />
+				<g id="g4900">
+					<path id="path4885" fill-rule="evenodd" stroke-width=".265" d="M16.885-26.893l.187 3.508h.538l-.14-3.508z" />
+					<path id="path4887" fill-rule="evenodd" stroke-width=".265" d="M19.983-26.893l-.187 3.508h-.538l.14-3.508z" />
+					<path id="rect4889" stroke-opacity=".941" stroke-width=".821" d="M18.165-26.881h.538v3.473h-.538z" />
+				</g>
+			</g>
+			<g id="icon-save" stroke-opacity=".941" transform="translate(-64)">
+				<path id="rect4766" stroke-width=".265" d="M0 0h32v32H0z" />
+				<path id="rect4986" fill="#fff" stroke-width="2.491" d="M6.844 8.459V24h18.312V11.375H14.031V8.459z" />
+				<rect id="rect4991" width="2.74" height="5.038" x="14.63" y="14.411" stroke-width="3.603" rx="0" ry="0" />
+				<path id="path4993" stroke-width="3" d="M16.866 19.73l-4.315-.06-4.314.06 2.209-3.707 2.105-3.766 2.106 3.766z" transform="matrix(.45903 -.40628 .79506 .23456 -3.467 21.088)" />
+			</g>
+			<g id="g4982" stroke-opacity=".941" transform="translate(-32)">
+				<path id="rect4964" stroke-width=".265" d="M0 0h32v32H0z" />
+				<g id="g4980" transform="matrix(3.77953 0 0 3.77953 .002 -.002)">
+					<path id="rect4966" fill="#fff" stroke-width=".794" d="M2.783 3.626h2.923v2.923H2.783z" />
+					<path id="rect4968" fill="#fff" stroke-width=".794" d="M2.479 2.597h3.508v.748H2.479z" />
+					<path id="rect4970" fill="#fff" stroke-width=".794" d="M3.438 1.919h1.473v.865H3.438z" />
+					<path id="rect4972" stroke-width=".684" d="M3.859 2.25h.631v.386h-.631z" />
+					<path id="rect4974" stroke-width="1.442" d="M3.134 3.906h.468v2.315h-.468z" />
+					<path id="rect4976" stroke-width="1.405" d="M-4.537 3.906h.444v2.315h-.444z" transform="scale(-1 1)" />
+					<path id="rect4978" stroke-width="1.405" d="M4.958 3.906h.444v2.315h-.444z" />
+				</g>
+			</g>
+			<g id="g5188" transform="translate(-96)">
+				<path id="rect5180" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" />
+				<g id="g5322" fill="#fff" transform="translate(7.066 7.065) scale(.04494)">
+					<path id="path5267" stroke-width="445.017" d="M313.1 147.875c-6.057 0-11.962.654-17.661 1.871l-15.805-53.435 37.842-2.565a9.275 9.275 0 0 1 9.602 6.932 9.246 9.246 0 0 1-1.45 7.728 9.243 9.243 0 0 1-6.865 3.834l-9.126.652a6.5 6.5 0 0 0-6.02 6.947c.256 3.581 3.361 6.289 6.947 6.02l9.126-.652a22.21 22.21 0 0 0 16.493-9.21 22.21 22.21 0 0 0 3.484-18.566c-2.677-10.375-12.376-17.364-23.069-16.654l-45.936 3.114a6.5 6.5 0 0 0-5.793 8.329l6.405 21.656H145.477l-6.316-12H155.5a6.5 6.5 0 1 0 0-13h-47a6.5 6.5 0 1 0 0 13h16.086l9.542 18.349-18.836 33.485a84.026 84.026 0 0 0-30.792-5.834c-46.593 0-84.5 37.906-84.5 84.5s37.907 84.5 84.5 84.5c44.404 0 80.892-34.436 84.225-78h31.776a6.5 6.5 0 0 0 5.511-3.055l68.779-110.047 8.185 27.672c-31.758 12.162-54.376 42.945-54.376 78.93 0 46.594 37.907 84.5 84.5 84.5s84.5-37.906 84.5-84.5-37.907-84.501-84.5-84.501zm-228.6 156c-39.425 0-71.5-32.075-71.5-71.5s32.075-71.5 71.5-71.5c8.549 0 16.75 1.513 24.355 4.276l-31.482 55.968c-3.726 2.365-6.206 6.516-6.206 11.256 0 7.363 5.969 13.333 13.333 13.333 5.002 0 9.354-2.759 11.636-6.833h59.556c-3.297 36.388-33.959 65-71.192 65zm11.636-78a13.384 13.384 0 0 0-4.025-4.439l28.528-50.717c19.37 11.397 32.922 31.647 35.052 55.156zm72.589 0c-2.17-28.365-18.393-52.845-41.715-66.482l14.327-25.471 48.396 91.953zm32.258-6.538l-48.665-92.462h106.454zM313.1 303.875c-39.425 0-71.5-32.075-71.5-71.5 0-30.093 18.697-55.885 45.077-66.418l16.89 57.105a13.284 13.284 0 0 0-3.8 9.313c0 7.363 5.969 13.333 13.333 13.333s13.333-5.97 13.333-13.333c0-6.354-4.449-11.661-10.399-12.999l-16.895-57.123a71.624 71.624 0 0 1 13.962-1.378c39.425 0 71.5 32.075 71.5 71.5s-32.076 71.5-71.501 71.5z" />
+				</g>
+			</g>
+			<g id="icon-cycle">
+				<path fill="black" d="M0 0h32v32H0z" />
+				<g id="g5604" fill="#fff" transform="matrix(-.36615 0 0 .36615 24.543 7.457)">
+					<g id="g5527">
+						<g id="g5495">
+							<path id="path5483" d="M37.687 24.66c-4.945 0-8.973 4.025-8.973 8.975 0 4.95 4.026 8.974 8.973 8.974 4.95 0 8.977-4.024 8.977-8.974s-4.027-8.975-8.977-8.975zm0 15.384a6.417 6.417 0 0 1-6.409-6.409 6.418 6.418 0 0 1 6.409-6.41 6.417 6.417 0 0 1 6.411 6.41 6.417 6.417 0 0 1-6.411 6.409z" />
+							<path id="path5485" d="M23.588 15.501v.01h8.047c-2.375-2.4-5.273-5.251-5.99-5.578-1.257-.575-3.966 1.462-4.547 1.748-.532.283-.954.699-1.043 1.236l-2.112 5.927-6.167.069c-1.811.485-.465 2.065-.465 2.065l3.097.041-.295 1.405-1.803 2.989a8.914 8.914 0 0 0-3.333-.648C4.027 24.765 0 28.792 0 33.741c0 4.947 4.026 8.974 8.977 8.974 4.948 0 8.975-4.026 8.975-8.974a8.956 8.956 0 0 0-3.423-7.038l2.005-3.326.487-2.322 2.41.03c.479-.136.833-.538.912-1.029l2.603-4.074zM15.386 33.74a6.417 6.417 0 0 1-6.409 6.409c-3.534 0-6.411-2.876-6.411-6.409a6.419 6.419 0 0 1 6.411-6.411c.694 0 1.36.114 1.986.32l-3.579 5.939 2.197 1.323 3.607-5.989a6.386 6.386 0 0 1 2.198 4.818z" />
+							<path id="path5487" d="M32.24 23.139s2.468-2.578 2.691-2.968c.225-.392.229-.872.007-1.265 0 0-.725-.76-1.771-1.832v.014h-8.949l4.281 3.716-6.367 9.947a1.264 1.264 0 0 0-.104 1.045l2.563 7.692 3.072-.17-1.741-7.787z" />
+							<circle id="circle5489" cx="19.703" cy="7.384" r="3.435" />
+							<path id="path5491" d="M32.845 5.919c-1.06-.744-2.366-.789-3.123-.034l-1.484 1.487c-.756.756-.711 2.062.03 3.124z" />
+							<path id="path5493" d="M33.007 15.317c1.116 1.116 2.73 1.311 3.607.436l1.485-1.488c.877-.876.685-2.491-.434-3.606l-4.081-4.081-4.659 4.658z" />
+						</g>
+					</g>
+				</g>
+			</g>
+			<g id="icon-cycle-2">
+				<path fill="black" d="M0 0h32v32H0z" />
+				<g id="g5604" fill="#fff" transform="matrix(-.36615 0 0 .36615 24.543 7.457)">
+					<g id="g5527">
+						<g id="g5495">
+							<path id="path5483" d="M37.687 24.66c-4.945 0-8.973 4.025-8.973 8.975 0 4.95 4.026 8.974 8.973 8.974 4.95 0 8.977-4.024 8.977-8.974s-4.027-8.975-8.977-8.975zm0 15.384a6.417 6.417 0 0 1-6.409-6.409 6.418 6.418 0 0 1 6.409-6.41 6.417 6.417 0 0 1 6.411 6.41 6.417 6.417 0 0 1-6.411 6.409z" />
+							<path id="path5485" d="M23.588 15.501v.01h8.047c-2.375-2.4-5.273-5.251-5.99-5.578-1.257-.575-3.966 1.462-4.547 1.748-.532.283-.954.699-1.043 1.236l-2.112 5.927-6.167.069c-1.811.485-.465 2.065-.465 2.065l3.097.041-.295 1.405-1.803 2.989a8.914 8.914 0 0 0-3.333-.648C4.027 24.765 0 28.792 0 33.741c0 4.947 4.026 8.974 8.977 8.974 4.948 0 8.975-4.026 8.975-8.974a8.956 8.956 0 0 0-3.423-7.038l2.005-3.326.487-2.322 2.41.03c.479-.136.833-.538.912-1.029l2.603-4.074zM15.386 33.74a6.417 6.417 0 0 1-6.409 6.409c-3.534 0-6.411-2.876-6.411-6.409a6.419 6.419 0 0 1 6.411-6.411c.694 0 1.36.114 1.986.32l-3.579 5.939 2.197 1.323 3.607-5.989a6.386 6.386 0 0 1 2.198 4.818z" />
+							<path id="path5487" d="M32.24 23.139s2.468-2.578 2.691-2.968c.225-.392.229-.872.007-1.265 0 0-.725-.76-1.771-1.832v.014h-8.949l4.281 3.716-6.367 9.947a1.264 1.264 0 0 0-.104 1.045l2.563 7.692 3.072-.17-1.741-7.787z" />
+							<circle id="circle5489" cx="19.703" cy="7.384" r="3.435" />
+							<path id="path5491" d="M32.845 5.919c-1.06-.744-2.366-.789-3.123-.034l-1.484 1.487c-.756.756-.711 2.062.03 3.124z" />
+							<path id="path5493" d="M33.007 15.317c1.116 1.116 2.73 1.311 3.607.436l1.485-1.488c.877-.876.685-2.491-.434-3.606l-4.081-4.081-4.659 4.658z" />
+						</g>
+					</g>
+				</g>
+			</g>
+			<g id="icon-logo">
+				<path fill="black" stroke="none" d="M0 0h32v32H0z" />
+				<g transform="matrix(1 0 0 1 2 -1)">
+					<path fill="none" stroke="#fff" stroke-width="2" d="M23.423 9.284c-6.673-4.127-12.713-4.175-19.269 0 .174 4.944-.354 13.294 9.635 17.855 10.323-4.9 9.545-13.305 9.634-17.855z" />
+					<path fill="#fff" stroke="none" d="M13.435 5.925v21.037s10.695-3.27 9.988-17.678c0 0-3.447-2.828-9.988-3.359z" />
+					<path fill="none" stroke-width="2" stroke="#fff" d="M5.773 15.118L15.7 6.19" />
+					<path fill="none" stroke-width="2" stroke="#fff" d="M6.276 20.333l7.778-7.778" />
+					<path fill="none" stroke-width="2" stroke="#fff" d="M8.574 23.691c.442-.53 5.612-5.612 5.612-5.612" />
+					<path fill="none" stroke-width="2" stroke="#fff" d="M11.932 25.636l2.343-2.342" />
+				</g>
+			</g>
+			<g id="icon-locate">
+				<path id="rect5819" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<circle id="path5839" cx="16" cy="16" r="5.127" fill="none" stroke="#fff" stroke-width="2.5" />
+				<path id="path5841" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M16.087 6.854v4.242" />
+				<path id="path5843" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M16.087 20.686v4.243" />
+				<path id="path5845" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M20.948 16.134h4.243" />
+				<path id="path5847" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.5" d="M6.63 16.134h4.242" />
+			</g>
+			<g id="icon-shot-2" stroke="none" transform="scale(1.1) translate(-2 -1)">
+				<path id="rect5819" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<rect id="rect6617" width="21" height="13.89" x="6.25" y="9.833" fill="#fff" rx="2" ry="2" />
+				<path id="rect6619" fill="#fff" stroke-width="1.979" d="M13.812 7.009h6.282c.45 0 .749.528 1.147 1.039l3.096 3.974c.398.51-3.793 6.989-4.243 6.989h-6.282c-.45 0-4.889-6.747-4.475-7.24l3.19-3.802c.415-.493.836-.96 1.285-.96z" />
+				<circle id="path6621" cx="16.627" cy="16.311" r="6.158" fill="black" />
+				<circle id="circle6628" cx="16.627" cy="16.311" r="3.533" fill="#fff" />
+			</g>
+			<g id="icon-trash-2" stroke="none">
+				<g transform="translate(0 -3) scale(3.82445) scale(1.1) rotate(45 4 4)">
+					<rect id="rect4966" width="3.125" height="2.893" x="2.671" y="3.751" fill="#fff" rx=".36" ry=".403" />
+					<rect id="rect4968" width="3.663" height=".87" x="2.401" y="2.423" fill="#fff" rx=".435" ry=".435" />
+					<rect id="rect4970" width="2.924" height="1.306" x="2.771" y="1.698" fill="#fff" rx=".653" ry=".653" />
+					<rect id="rect4972" width="1.933" height=".523" x="3.266" y="2.114" fill="black" rx=".261" ry=".261" />
+					<g id="g4918" stroke-width=".523" transform="matrix(1.3497 0 0 1.3497 -1.613 -1.674)">
+						<rect id="rect4912" width="2.059" height=".425" x="5.622" y=".289" rx=".237" ry=".21" transform="rotate(45)" fill="black" />
+						<rect id="rect4914" width="2.047" height=".389" x="-.491" y="-6.803" rx=".237" ry=".195" transform="rotate(135)" fill="black" />
+					</g>
+				</g>
+			</g>
+			<g id="icon-logo-2" transform="scale(1.1) translate(-1 -2)">
+				<path id="rect5611" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
+				<g id="g5792" fill="none" stroke="#fff" stroke-width="2.37" transform="matrix(.84382 0 0 .84382 4.366 1.93)">
+					<path id="path5774" fill-rule="evenodd" d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z" />
+				</g>
+				<g id="g8284" fill="#fff" stroke-width="3.052" transform="matrix(.40236 0 0 .40236 10.45 8.978)">
+					<path d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z" stroke="none" />
+				</g>
+			</g>
+			<g id="icon-sticker-2" transform="scale(1.1) translate(-3 -2)" stroke="none">
+				<g id="g4867" transform="matrix(.94996 0 0 .94996 -.16 .083)">
+					<path id="path4859" fill="#fff" fill-rule="evenodd" stroke-width=".767" d="M13.47 22.847l3.045 5.275 3.12-5.405z" />
+					<circle id="path4863" cx="16.552" cy="14.98" r="8.712" fill="#fff" stroke-width="1.851" />
+					<circle id="circle4869" cx="16.552" cy="14.98" r="5" fill="black" />
+				</g>
+			</g>
+			<g id="icon-route-2" transform="scale(1.1) translate(32 -2)" stroke="none">
+				<g fill="white">
+					<circle id="path5642" cx="-24.357" cy="23.576" r="2.507" fill="#fff" stroke-width="4.363" />
+					<path id="path5644" fill="none" fill-rule="evenodd" stroke="#fff" stroke-width="2.621" d="M-24.289 21.588V10.61c0-4.22 6.62-4.194 6.62 0V21.42c0 4.011 6.828 4.027 6.828 0v-10.98" />
+					<circle id="circle5646" cx="-10.93" cy="8.462" r="2.507" fill="#fff" stroke-width="4.363" />
+				</g>
+			</g>
+			<g id="icon-poly-2" transform="scale(1.1) translate(-3 -2)" stroke="none">
+				<g fill="white">
+					<path id="path6375" fill="none" fill-rule="evenodd" stroke="#fff" stroke-linejoin="round" stroke-width="2.387" d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12" />
+					<circle id="path6363" cx="14.711" cy="-4.523" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)" />
+					<circle id="circle6367" cx="12.17" cy="-13.883" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)" />
+					<circle id="circle6371" cx="20.342" cy="-19.194" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)" />
+					<circle id="circle6373" cx="24.138" cy="-3.701" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)" />
+					<circle id="circle6774" cx="27.918" cy="-13.025" r="2.387" fill="#fff" stroke-width="5.304" transform="rotate(75)" />
+				</g>
+			</g>
+			<g id="icon-save-2" transform="scale(1.1) translate(-1 -2)" stroke="none">
+				<g fill="white">
+					<path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+					<path id="rect4986" fill="#fff" stroke-opacity=".941" stroke-width="2.477" d="M6.894 8.502v15.455h18.212V11.402H14.042v-2.9z" />
+					<path id="path7854" fill="none" fill-rule="evenodd" stroke="#000" stroke-width="2.735" d="M10.923 16.586l4.19 4.19 6.606-6.607" transform="scale(0.9) translate(2 2)" />
+				</g>
+			</g>
+			<g id="icon-trash-3">
+				<path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" transform="translate(4 4)" stroke-width="1" />
+			</g>
+			<g id="icon-trash-4">
+				<path id="rect4766" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M21 9l-9-7-2.59 2.02 7.87 7.87zm0 5.07l-1.63-1.27-.67.52 1.43 1.43zM3.41.86L2 2.27l4.22 4.22L3 9l9 7 2.1-1.63 1.42 1.42-3.53 2.75-7.37-5.73L3 14.07l9 7 4.95-3.85L20.73 21l1.41-1.41z" fill="white" transform="translate(4 4)" stroke-width="0" />
+			</g>
+			<g id="icon-logo-3" transform="scale(1.1) translate(-1 -2)">
+				<path id="rect5611" stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" stroke="none" />
+				<g id="g5792" fill="none" stroke="#fff" stroke-width="3" transform="matrix(.84382 0 0 .84382 5 2.53)">
+					<path id="path5774" fill-rule="evenodd" d="M22.399 10.08c-5.964-3.689-11.363-3.732-17.222 0 .155 4.418-.316 11.882 8.61 15.957 9.228-4.38 8.532-11.89 8.612-15.957z" />
+				</g>
+			</g>
+			<g id="icon-shot-3" stroke="none" transform="">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M18 20H4V6h9V4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-9h-2v9zm-7.79-3.17l-1.96-2.36L5.5 18h11l-3.54-4.71zM20 4V1h-2v3h-3c.01.01 0 2 0 2h3v2.99c.01.01 2 0 2 0V6h3V4h-3z" fill="white" transform="translate(4 4)" stroke-width="0" />
+			</g>
+			<g id="icon-reg-1" stroke="none" transform="scale(1.1) translate(-2 -1)">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M11 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zM5 18c.2-.63 2.57-1.68 4.96-1.94l2.04-2c-.39-.04-.68-.06-1-.06-2.67 0-8 1.34-8 4v2h9l-2-2H5zm15.6-5.5l-5.13 5.17-2.07-2.08L12 17l3.47 3.5L22 13.91z" fill="white" transform="translate(5 3)" stroke-width="1" />
+			</g>
+			<g id="icon-cancel-1" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="white" stroke="white" transform="translate(4 4)" stroke-width="1" />
+			</g>
+			<g id="icon-check-1" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="white" transform="translate(4 4)" stroke-width="1" stroke="white" />
+			</g>
+			<g id="icon-pin-1" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M13 16.12c3.47-.41 6.17-3.36 6.17-6.95 0-3.87-3.13-7-7-7s-7 3.13-7 7c0 3.47 2.52 6.34 5.83 6.89V20H5v2h14v-2h-6v-3.88z" fill="white" transform="translate(4 4)" stroke-width="0" stroke="white" />
+			</g>
+			<g id="icon-check-2" stroke="none" transform="scale(1.1) translate(-2 -1)">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M11 5v5.59H7.5l4.5 4.5 4.5-4.5H13V5h-2zm-5 9c0 3.31 2.69 6 6 6s6-2.69 6-6h-2c0 2.21-1.79 4-4 4s-4-1.79-4-4H6z" fill="white" transform="translate(4 4)" stroke-width="0" stroke="white" />
+			</g>
+			<g id="icon-map-1" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM10 5.47l4 1.4v11.66l-4-1.4V5.47zm-5 .99l3-1.01v11.7l-3 1.16V6.46zm14 11.08l-3 1.01V6.86l3-1.16v11.84z" fill="white" transform="translate(4 4)" stroke-width="1" />
+			</g>
+			<g id="icon-sticker-3" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<g>
+					<path fill="#fff" fill-rule="evenodd" stroke-width=".767" d="M12 24l4 6 3.5-6.405z" transform="rotate(45 16 16)" />
+					<circle cx="16" cy="15" r="9.5" fill="#fff" stroke-width="1.851" />
+					<circle cx="16" cy="15" r="6.5" fill="black" />
+				</g>
+			</g>
+			<g id="icon-poly-3" transform="scale(1.1) translate(-3 -2)" stroke="none">
+				<path stroke-opacity=".941" stroke-width=".265" d="M0 0h32v32H0z" fill="black" />
+				<g fill="white" transform="translate(2 0.5)">
+					<path stroke-width="2.3" fill="none" fill-rule="evenodd" stroke="#fff" stroke-linejoin="round" d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12" />
+					<circle cx="7.711" cy="13" r="1" fill="black" stroke-width="2.5" stroke="white" />
+					<circle cx="16.5" cy="8" r="1" fill="black" stroke-width="2.5" stroke="white" />
+					<circle cx="10" cy="22" r="1" fill="black" stroke-width="2.5" stroke="white" />
+					<circle cx="19.7" cy="23.701" r="1" fill="black" stroke-width="2.5" stroke="white" />
+					<circle cx="24" cy="14.5" r="1" fill="black" stroke-width="2.5" stroke="white" />
+				</g>
+			</g>
+			<g id="icon-poly-4" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M23 8c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2zm0 0c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2z" fill="white" stroke="white" stroke-width="1" transform="translate(4 4)" />
+			</g>
+			<g id="icon-get-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" fill="white" stroke="white" stroke-width="1" transform="translate(4 4)" />
+			</g>
+			<g id="icon-folder-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-folder-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M9.17 6l2 2H20v10H4V6h5.17M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-cycle-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-link-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path xmlns="http://www.w3.org/2000/svg" d="M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2zm-3-4h8v2H8z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-shot-4" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M14.12 4l1.83 2H20v12H4V6h4.05l1.83-2h4.24M15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm-3 7c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="white" stroke="white" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-trash-5" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M14.12 10.47L12 12.59l-2.13-2.12-1.41 1.41L10.59 14l-2.12 2.12 1.41 1.41L12 15.41l2.12 2.12 1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-trash-6" stroke="none">
+				<path stroke="none" fill="black" />
+				<g transform="scale(1.25) translate(1 1)">
+					<path xmlns="http://www.w3.org/2000/svg" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
+				</g>
+			</g>
+			<g id="icon-copy-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M3 5H1v16c0 1.1.9 2 2 2h16v-2H3V5zm18-4H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-sync-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-block-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-edit-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-eye-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M12 6c3.79 0 7.17 2.13 8.82 5.5-.59 1.22-1.42 2.27-2.41 3.12l1.41 1.41c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l1.65 1.65C10.66 6.09 11.32 6 12 6zm-1.07 1.14L13 9.21c.57.25 1.03.71 1.28 1.28l2.07 2.07c.08-.34.14-.7.14-1.07C16.5 9.01 14.48 7 12 7c-.37 0-.72.05-1.07.14zM2.01 3.87l2.68 2.68C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.98-.29 4.32-.82l3.42 3.42 1.41-1.41L3.42 2.45 2.01 3.87zm7.5 7.5l2.61 2.61c-.04.01-.08.02-.12.02-1.38 0-2.5-1.12-2.5-2.5 0-.05.01-.08.01-.13zm-3.4-3.4l1.75 1.75c-.23.55-.36 1.15-.36 1.78 0 2.48 2.02 4.5 4.5 4.5.63 0 1.23-.13 1.77-.36l.98.98c-.88.24-1.8.38-2.75.38-3.79 0-7.17-2.13-8.82-5.5.7-1.43 1.72-2.61 2.93-3.53z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-gpx-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M8 23h8v-2H8v2zm8-21.99L8 1c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM16 15H8V5h8v10z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-arrow-up-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<circle cx="16" cy="16" fill="white" r="4" />
+			</g>
+			<g id="icon-more-vert" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-star-blank" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-star-fill" stroke="none">
+				<path stroke="none" fill="black" />
+				<path d="m12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="white" stroke="none" stroke-width="0" transform="translate(4 4)" />
+			</g>
+			<g id="icon-cluster-1" stroke="none">
+				<rect x="0" y="0" width="32" height="32" fill="black" stroke="none" />
+				<circle cx="10" cy="21" fill="white" r="4" />
+				<circle cx="22" cy="21" fill="white" r="4" />
+				<circle cx="16" cy="11" fill="white" r="4" />
+			</g>
+			<g id="icon-chevron-down" stroke="none">
+				<g transform="scale(2) translate(-4 -3)">
+					<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+				</g>
+			</g>
+			<g id="icon-sad-1" stroke="none">
+				<path stroke="none" fill="black" />
+				<g transform="translate(4 4)">
+					<circle cx="15.5" cy="9.5" r="1.5" fill="white" stroke="none" />
+					<circle cx="8.5" cy="9.5" r="1.5" fill="white" stroke="none" />
+					<path d="M12 14c-2.33 0-4.32 1.45-5.12 3.5h1.67c.69-1.19 1.97-2 3.45-2s2.75.81 3.45 2h1.67c-.8-2.05-2.79-3.5-5.12-3.5zm-.01-12C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" fill="white" stroke="none" stroke-width="0" />
+				</g>
+			</g>
+			<g id="icon-search" stroke="none">
+				<path stroke="none" fill="black" />
+				<g transform="translate(4 4)">
+					<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+				</g>
+			</g>
+			<g id="icon-reverse" stroke="none">
+				<path stroke="none" fill="black" />
+				<g transform="translate(6 4)">
+					<path d="M9.832 2.934c-.967 0-1.683-.018-1.683-.018L7.021 0l-3.1 6.51 5.843 2.368-.777-3.032s.351-.051.845-.052a6.974 6.974 0 016.973 6.972 6.973 6.973 0 01-.922 3.457l2.07 2.07a9.833 9.833 0 001.711-5.527c0-5.43-4.402-9.831-9.832-9.832zm-8.094 4.27A9.833 9.833 0 000 12.766c0 5.43 4.402 9.832 9.832 9.832 1.108 0 1.398-.153 1.398-.153l.902 2.4 3.734-5.378-6.43-1.959.914 2.2s.046.03-.518.031a6.974 6.974 0 01-6.973-6.973 6.974 6.974 0 01.948-3.494z" fill="#fff" />
+				</g>
+			</g>
+		</svg>
+	</defs>
+	<use xlink:href="#icon-trash-6" />
 </svg>
