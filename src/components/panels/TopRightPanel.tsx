@@ -19,7 +19,7 @@ const mapStateToProps = (state: IState) => {
 };
 
 const mapDispatchToProps = {
-  editorSetMode: EDITOR_ACTIONS.editorSetMode,
+  editorChangeMode: EDITOR_ACTIONS.editorChangeMode,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
@@ -29,11 +29,11 @@ const TopRightPanelUnconnected = ({
   logo,
   markers_shown,
   editing,
-  editorSetMode,
+  editorChangeMode,
 }: Props) => {
-  const startProviderMode = useCallback(() => editorSetMode(MODES.PROVIDER), [editorSetMode]);
-  const startLogoMode = useCallback(() => editorSetMode(MODES.LOGO), [editorSetMode]);
-  const clearMode = useCallback(() => editorSetMode(MODES.NONE), [editorSetMode]);
+  const startProviderMode = useCallback(() => editorChangeMode(MODES.PROVIDER), [editorChangeMode]);
+  const startLogoMode = useCallback(() => editorChangeMode(MODES.LOGO), [editorChangeMode]);
+  const clearMode = useCallback(() => editorChangeMode(MODES.NONE), [editorChangeMode]);
 
   return (
     <div className="status-panel top right">

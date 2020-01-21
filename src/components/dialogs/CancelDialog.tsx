@@ -2,12 +2,12 @@ import React from 'react';
 
 import { MODES } from '~/constants/modes';
 import { Icon } from '~/components/panels/Icon';
-import { editorSetMode, editorStopEditing } from '~/redux/editor/actions';
+import { editorChangeMode, editorStopEditing } from '~/redux/editor/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = {
-  editorSetMode,
+  editorChangeMode,
   editorStopEditing,
 };
 
@@ -19,7 +19,7 @@ class CancelDialogUnconnected extends React.Component<Props, void> {
   };
 
   proceed = () => {
-    this.props.editorSetMode(MODES.NONE);
+    this.props.editorChangeMode(MODES.NONE);
   };
 
   render() {

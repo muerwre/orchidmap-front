@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   editorCancelSave: EDITOR_ACTIONS.editorCancelSave,
-  editorSetMode: EDITOR_ACTIONS.editorSetMode,
+  editorChangeMode: EDITOR_ACTIONS.editorChangeMode,
   editorSendSaveRequest: EDITOR_ACTIONS.editorSendSaveRequest,
 };
 
@@ -80,7 +80,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
 
   forceSaveRequest = e => this.editorSendSaveRequest(e, true);
 
-  cancelSaving = () => this.props.editorSetMode(MODES.NONE);
+  cancelSaving = () => this.props.editorChangeMode(MODES.NONE);
 
   onCopy = e => {
     e.preventDefault();

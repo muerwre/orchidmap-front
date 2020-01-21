@@ -20,7 +20,7 @@ const setChanged = (
   changed,
 });
 
-const setMode = (state, { mode }: ReturnType<typeof ACTIONS.editorSetMode>): IEditorState => ({
+const setMode = (state, { mode }: ReturnType<typeof ACTIONS.editorChangeMode>): IEditorState => ({
   ...state,
   mode,
 });

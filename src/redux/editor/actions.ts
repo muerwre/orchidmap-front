@@ -7,10 +7,17 @@ export const editorSetEditing = (editing: IEditorState['editing']) => ({
   type: EDITOR_ACTIONS.SET_EDITING,
   editing,
 });
+
+export const editorChangeMode = (mode: IEditorState['mode']) => ({
+  type: EDITOR_ACTIONS.CHANGE_MODE,
+  mode,
+});
+
 export const editorSetMode = (mode: IEditorState['mode']) => ({
   type: EDITOR_ACTIONS.SET_MODE,
   mode,
 });
+
 export const editorSetDistance = (distance: IEditorState['distance']) => ({
   type: EDITOR_ACTIONS.SET_DISTANCE,
   distance,

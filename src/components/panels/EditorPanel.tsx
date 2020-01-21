@@ -6,7 +6,7 @@ import { Icon } from '~/components/panels/Icon';
 import { EditorDialog } from '~/components/panels/EditorDialog';
 import { connect } from 'react-redux';
 import {
-  editorSetMode,
+  editorChangeMode,
   editorStartEditing,
   editorStopEditing,
   editorTakeAShot,
@@ -21,7 +21,7 @@ const mapStateToProps = (state: IState) =>
   pick(['mode', 'changed', 'editing', 'features'], selectEditor(state));
 
 const mapDispatchToProps = {
-  editorSetMode,
+  editorChangeMode,
   editorStartEditing,
   editorStopEditing,
   editorTakeAShot,
@@ -54,12 +54,12 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
     this.props.editorKeyPressed(event);
   };
 
-  startPolyMode = () => this.props.editorSetMode(MODES.POLY);
-  startStickerMode = () => this.props.editorSetMode(MODES.STICKERS_SELECT);
-  startRouterMode = () => this.props.editorSetMode(MODES.ROUTER);
-  startTrashMode = () => this.props.editorSetMode(MODES.TRASH);
+  startPolyMode = () => this.props.editorChangeMode(MODES.POLY);
+  startStickerMode = () => this.props.editorChangeMode(MODES.STICKERS_SELECT);
+  startRouterMode = () => this.props.editorChangeMode(MODES.ROUTER);
+  startTrashMode = () => this.props.editorChangeMode(MODES.TRASH);
   startSaveMode = () => {
-    this.props.editorSetMode(MODES.SAVE);
+    this.props.editorChangeMode(MODES.SAVE);
   };
 
   render() {

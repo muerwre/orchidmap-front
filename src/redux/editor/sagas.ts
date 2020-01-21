@@ -13,7 +13,7 @@ import { simplify } from '~/utils/simplify';
 import {
   editorHideRenderer,
   editorSetChanged,
-  editorSetMode,
+  editorChangeMode,
   editorSetReady,
   editorSetRenderer,
   editorSetDialogActive,
@@ -25,6 +25,8 @@ import {
   editorSearchNominatim,
   editorSetDialog,
   editorSetNominatim,
+  editorSetMode,
+  editorSetRouter,
 } from '~/redux/editor/actions';
 import { getUrlData, pushPath } from '~/utils/history';
 import { MODES } from '~/constants/modes';
@@ -70,11 +72,11 @@ function* stopEditingSaga() {
   const { path } = getUrlData();
 
   if (changed && mode !== MODES.CONFIRM_CANCEL) {
-    yield put(editorSetMode(MODES.CONFIRM_CANCEL));
+    yield put(editorChangeMode(MODES.CONFIRM_CANCEL));
     return;
   }
 
-  yield put(editorSetMode(MODES.NONE));
+  yield put(editorChangeMode(MODES.NONE));
   yield put(editorSetChanged(false));
   yield put(editorSetReady(true));
 
@@ -97,10 +99,10 @@ export function* setReadySaga() {
   hideLoader();
 
   yield call(checkOSRMServiceSaga);
-  
+
   // TODO: someday make nominatim, but sorted by nearest points.
-  // yield call(checkNominatimSaga); 
-  
+  // yield call(checkNominatimSaga);
+
   yield put(searchSetTab(TABS.MY));
 }
 
@@ -144,11 +146,11 @@ function* takeAShotSaga() {
     timeout: delay(500),
   });
 
-  if (timeout) yield put(editorSetMode(MODES.SHOT_PREFETCH));
+  if (timeout) yield put(editorChangeMode(MODES.SHOT_PREFETCH));
 
   const data = yield result || worker;
 
-  yield put(editorSetMode(MODES.NONE));
+  yield put(editorChangeMode(MODES.NONE));
   yield put(
     editorSetRenderer({
       data,
@@ -200,7 +202,7 @@ function* locationChangeSaga({ location }: ReturnType<typeof editorLocationChang
   const mode: ReturnType<typeof selectEditorMode> = yield select(selectEditorMode);
 
   if (mode !== MODES.NONE) {
-    yield put(editorSetMode(MODES.NONE));
+    yield put(editorChangeMode(MODES.NONE));
   }
 
   yield call(loadMapFromPath);
@@ -221,7 +223,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
 
     if (renderer_active) return yield put(editorHideRenderer());
     if (dialog_active) return yield put(editorSetDialogActive(false));
-    if (mode !== MODES.NONE) return yield put(editorSetMode(MODES.NONE));
+    if (mode !== MODES.NONE) return yield put(editorChangeMode(MODES.NONE));
   } else if (key === 'Delete') {
     const { editing } = yield select(selectEditor);
 
@@ -232,7 +234,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
     if (mode === MODES.TRASH) {
       yield put(editorClearAll());
     } else {
-      yield put(editorSetMode(MODES.TRASH));
+      yield put(editorChangeMode(MODES.TRASH));
     }
   }
 }
@@ -248,7 +250,7 @@ function* getGPXTrackSaga() {
 }
 
 function* routerCancel() {
-  yield put(editorSetMode(MODES.NONE));
+  yield put(editorChangeMode(MODES.NONE));
 }
 
 function* mapClick({ latlng }: ReturnType<typeof mapClicked>) {
@@ -268,7 +270,7 @@ function* routerSubmit() {
 
   yield put(mapSetRoute([...route, ...coordinates]));
   OsrmRouter.setWaypoints([]);
-  yield put(editorSetMode(MODES.NONE));
+  yield put(editorChangeMode(MODES.NONE));
 }
 
 function* cancelSave() {
@@ -290,9 +292,28 @@ function* searchNominatimSaga({ search }: ReturnType<typeof editorSearchNominati
   yield put(editorSetNominatim({ loading: true, search }));
   const list = yield call(searchNominatim, search);
   yield put(editorSetNominatim({ list }));
-  
+
   yield delay(1000); // safely wait for 1s to prevent from ddosing nominatim
   yield put(editorSetNominatim({ loading: false }));
+}
+
+function* changeMode({ mode }: ReturnType<typeof editorChangeMode>) {
+  const current: ReturnType<typeof selectEditorMode> = yield select(selectEditorMode);
+
+  if (mode === current) {
+    yield put(editorSetMode(MODES.NONE));
+    return;
+  }
+
+  switch (current) {
+    case MODES.ROUTER:
+      yield put(editorSetRouter({ waypoints: [] }));
+  }
+
+  yield put(editorSetMode(mode));
+
+  switch (mode) {
+  }
 }
 
 export function* editorSaga() {
@@ -308,4 +329,5 @@ export function* editorSaga() {
   yield takeLatest(EDITOR_ACTIONS.ROUTER_SUBMIT, routerSubmit);
   yield takeLatest(EDITOR_ACTIONS.CANCEL_SAVE, cancelSave);
   yield takeLeading(EDITOR_ACTIONS.SEARCH_NOMINATIM, searchNominatimSaga);
+  yield takeLeading(EDITOR_ACTIONS.CHANGE_MODE, changeMode);
 }

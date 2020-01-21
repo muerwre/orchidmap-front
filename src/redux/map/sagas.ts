@@ -23,7 +23,7 @@ import {
 import { selectUser, selectUserUser } from '~/redux/user/selectors';
 import { MODES } from '~/constants/modes';
 import {
-  editorSetMode,
+  editorChangeMode,
   editorSetChanged,
   editorSetEditing,
   editorSetReady,
@@ -51,10 +51,11 @@ function* onMapClick({ latlng }: ReturnType<typeof mapClicked>) {
   switch (mode) {
     case MODES.STICKERS:
       yield put(mapAddSticker({ latlng, set, sticker, text: '', angle: 2.11 }));
-      yield put(editorSetMode(MODES.NONE));
+      yield put(editorChangeMode(MODES.NONE));
       break;
 
     default:
+      break;
   }
 }
 
@@ -156,7 +157,7 @@ export function* mapInitSaga() {
 }
 
 function* setActiveStickerSaga() {
-  yield put(editorSetMode(MODES.STICKERS));
+  yield put(editorChangeMode(MODES.STICKERS));
 }
 
 function* setTitleSaga({ title }: ReturnType<typeof mapSetTitle>) {
@@ -171,20 +172,20 @@ function* startEditingSaga() {
 }
 
 function* clearPolySaga() {
-  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute)
+  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
   if (!route.length) return;
   yield put(mapSetRoute([]));
 }
 
 function* clearStickersSaga() {
-  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers)
+  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers);
   if (!stickers.length) return;
   yield put(mapSetStickers([]));
 }
 
 function* clearAllSaga() {
-  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute)
-  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers)
+  const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
+  const stickers: ReturnType<typeof selectMapStickers> = yield select(selectMapStickers);
 
   if (!stickers.length && !route.length) return;
 
@@ -211,8 +212,15 @@ function* clearSaga({ type }) {
       break;
   }
 
-  yield put(editorSetActiveSticker(null));
-  yield put(editorSetMode(MODES.NONE));
+  const { mode, activeSticker }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+  if (activeSticker && activeSticker.set && activeSticker.sticker) {
+    yield put(editorSetActiveSticker(null));
+  }
+
+  if (mode !== MODES.NONE) {
+    yield put(editorChangeMode(MODES.NONE));
+  }
 }
 
 function* sendSaveRequestSaga({
@@ -264,7 +272,7 @@ function* sendSaveRequestSaga({
 
   yield put(editorSetSave({ loading: false }));
 
-  if (cancel) return yield put(editorSetMode(MODES.NONE));
+  if (cancel) return yield put(editorChangeMode(MODES.NONE));
 
   if (result && result.data.code === 'already_exist')
     return yield put(editorSetSave({ overwriting: true }));
