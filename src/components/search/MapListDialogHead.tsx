@@ -22,7 +22,7 @@ const MapListDialogHead: FC<Props> = memo(
           }),
           {}
         ),
-      []
+      [max, min]
     );
 
     return (
