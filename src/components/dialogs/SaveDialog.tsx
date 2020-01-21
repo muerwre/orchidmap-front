@@ -104,7 +104,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
     const { host, protocol } = getUrlData();
 
     return (
-      <div className="control-dialog bottom right">
+      <div className="control-dialog control-dialog__medium">
         <div className="helper save-helper">
           <div className={classnames('save-loader', { active: loading })} />
 

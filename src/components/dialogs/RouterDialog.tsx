@@ -19,8 +19,9 @@ const noPoints = ({
       </div>
     </div>
     <div className="helper router-helper">
-      <div className="helper__buttons flex_1">
-        <div className="flex_1" />
+      <div className="flex_1" />
+
+      <div className="helper__buttons">
         <div className="button router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
@@ -42,8 +43,9 @@ const firstPoint = ({
       </div>
     </div>
     <div className="helper router-helper">
-      <div className="helper__buttons flex_1">
-        <div className="flex_1" />
+      <div className="flex_1" />
+
+      <div className="helper__buttons">
         <div className="button router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
@@ -67,8 +69,9 @@ const draggablePoints = ({
       </div>
     </div>
     <div className="helper router-helper">
-      <div className="helper__buttons button-group flex_1">
-        <div className="flex_1" />
+      <div className="flex_1" />
+
+      <div className="helper__buttons button-group">
         <div className="button button_red router-helper__button" onClick={editorRouterCancel}>
           Отмена
         </div>
@@ -98,7 +101,7 @@ const RouterDialogUnconnected: FC<Props> = ({
   editorRouterCancel,
   editorRouterSubmit,
 }) => (
-  <div className="control-dialog bottom right">
+  <div className="control-dialog control-dialog__medium">
     <div className={classnames('save-loader')} />
 
     {!waypoints.length && noPoints({ editorRouterCancel })}

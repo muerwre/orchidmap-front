@@ -24,7 +24,7 @@ class CancelDialogUnconnected extends React.Component<Props, void> {
 
   render() {
     return (
-      <div className="control-dialog bottom right">
+      <div className="control-dialog control-dialog__medium">
         <div className="helper cancel-helper">
           <div className="helper__text danger">
             <Icon icon="icon-cancel-1" />

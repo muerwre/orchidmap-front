@@ -22,7 +22,7 @@ const TrashDialogUnconnected: FC<Props> = ({
   editorClearCancel,
   width,
 }) => (
-  <div className="control-dialog bottom right" style={{ width }}>
+  <div className="control-dialog control-dialog__medium" style={{ width }}>
     <div className="helper trash-helper desktop-only">
       <div className="helper__text danger">
         <div className="big upper desktop-only">Все изменения будут удалены!</div>
@@ -30,16 +30,20 @@ const TrashDialogUnconnected: FC<Props> = ({
     </div>
     <div className="helper trash-helper">
       <div className="helper__buttons flex_1 trash-buttons">
-        <div className="button router-helper__button" onClick={editorClearPoly}>
-          Маршрут
+        <div className="button-group">
+          <div className="button router-helper__button" onClick={editorClearPoly}>
+            Маршрут
+          </div>
+          <div className="button router-helper__button" onClick={editorClearStickers}>
+            Стикеры
+          </div>
+          <div className="button router-helper__button" onClick={editorClearAll}>
+            ВСЕ
+          </div>
         </div>
-        <div className="button router-helper__button" onClick={editorClearStickers}>
-          Стикеры
-        </div>
-        <div className="button router-helper__button" onClick={editorClearAll}>
-          ВСЕ
-        </div>
+
         <div className="flex_1" />
+
         <div className="button primary router-helper__button" onClick={editorClearCancel}>
           Отмена
         </div>
