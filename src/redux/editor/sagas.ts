@@ -241,7 +241,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
     }
   } else if (key === 'z') {
     yield put(editorUndo())
-  } else if (key === 'u') {
+  } else if (key === 'x') {
     yield put(editorRedo())
   }
 }
