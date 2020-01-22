@@ -39,6 +39,7 @@ const Sticker: React.FC<IProps> = ({
   let angle = useRef(sticker.angle);
 
   const element = React.useMemo(() => document.createElement('div'), []);
+
   const stickerArrow = React.useRef(null);
   const stickerImage = React.useRef(null);
 
@@ -197,7 +198,7 @@ const Sticker: React.FC<IProps> = ({
 
   React.useEffect(() => {
     element.className = is_editing ? 'sticker-container' : 'sticker-container inactive';
-  }, [element, is_editing]);
+  }, [element, is_editing, layer]);
 
   return createPortal(
     <React.Fragment>

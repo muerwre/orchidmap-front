@@ -126,7 +126,7 @@ export function* loadMapFromPath() {
       return;
     }
 
-    yield put(editorSetEditing(mode && mode === 'edit'));
+    yield put(editorSetEditing(!!(mode && mode === 'edit')));
     return;
   }
 

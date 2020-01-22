@@ -3,7 +3,7 @@ import { IStickerDump } from '~/redux/map/types';
 import { FeatureGroup, Map } from 'leaflet';
 import { Sticker } from '~/map/Sticker';
 import { mapSetSticker, mapDropSticker } from '~/redux/map/actions';
-import { MapContainer, MainMap } from '~/constants/map';
+import { MainMap } from '~/constants/map';
 
 interface IProps {
   stickers: IStickerDump[];
@@ -25,6 +25,8 @@ const Stickers: React.FC<IProps> = React.memo(
       return () => MainMap.stickerLayer.removeLayer(item);
     }, [MainMap]);
 
+    console.log(is_editing);
+
     return (
       <div>
         {layer &&
@@ -40,7 +42,6 @@ const Stickers: React.FC<IProps> = React.memo(
           ))}
       </div>
     );
-    // return null;
   }
 );
 
