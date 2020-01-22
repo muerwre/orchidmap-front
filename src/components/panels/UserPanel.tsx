@@ -171,7 +171,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
             <div className="control-bar">
               <button
-                className={classnames({ active: false, inactive: is_empty })}
+                className={classnames({ inactive: is_empty })}
                 onClick={this.props.editorGetGPXTrack}
               >
                 <Tooltip>Экспорт GPX</Tooltip>
