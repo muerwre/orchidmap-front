@@ -31,6 +31,8 @@ import {
   editorSendSaveRequest,
   editorSetSave,
   editorClearAll,
+  editorSetHistory,
+  editorCaptureHistory,
 } from '~/redux/editor/actions';
 import { pushLoaderState, getUrlData, pushPath } from '~/utils/history';
 import { getStoredMap, postMap } from '~/utils/api';
@@ -86,6 +88,7 @@ export function* loadMapSaga(path) {
       })
     );
 
+    yield put(editorSetHistory({ records: [{ route: route.route, stickers: route.stickers }] }));
     return { route, random_url };
   }
 
@@ -113,6 +116,7 @@ export function* startEmptyEditorSaga() {
 
 export function* loadMapFromPath() {
   const { path, mode } = getUrlData();
+  yield put(editorSetHistory({ records: [{ route: [], stickers: [] }], position: 0 }));
 
   if (path) {
     const map = yield call(loadMapSaga, path);
@@ -133,9 +137,6 @@ export function* mapInitSaga() {
   pushLoaderState(90);
 
   const { hash } = getUrlData();
-  const {
-    user: { id },
-  }: ReturnType<typeof selectUser> = yield select(selectUser);
   const provider: ReturnType<typeof selectMapProvider> = yield select(selectMapProvider);
 
   yield put(mapSetProvider(provider));
@@ -190,8 +191,8 @@ function* clearAllSaga() {
   if (!stickers.length && !route.length) return;
 
   yield put(editorSetChanged(false));
-  yield put(mapSetRoute([]));
-  yield put(mapSetStickers([]));
+  yield put(mapSet({ route: [], stickers: [] }));
+  yield put(editorCaptureHistory());
 }
 
 function* clearSaga({ type }) {

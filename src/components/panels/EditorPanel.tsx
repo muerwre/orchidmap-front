@@ -11,6 +11,8 @@ import {
   editorStopEditing,
   editorTakeAShot,
   editorKeyPressed,
+  editorUndo,
+  editorRedo,
 } from '~/redux/editor/actions';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { IState } from '~/redux/store';
@@ -18,7 +20,7 @@ import { selectEditor } from '~/redux/editor/selectors';
 import pick from 'ramda/es/pick';
 
 const mapStateToProps = (state: IState) =>
-  pick(['mode', 'changed', 'editing', 'features'], selectEditor(state));
+  pick(['mode', 'changed', 'editing', 'features', 'history'], selectEditor(state));
 
 const mapDispatchToProps = {
   editorChangeMode,
@@ -26,6 +28,8 @@ const mapDispatchToProps = {
   editorStopEditing,
   editorTakeAShot,
   editorKeyPressed,
+  editorUndo,
+  editorRedo,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
@@ -68,6 +72,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
       changed,
       editing,
       features: { routing },
+      history: { records, position },
     } = this.props;
 
     return (
@@ -78,6 +83,26 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
             this.panel = el;
           }}
         >
+          <div className="secondary-bar">
+            <button
+              className={classnames({ inactive: records.length === 0 || position === 0 })}
+              onClick={this.props.editorUndo}
+            >
+              <Tooltip>Отмена</Tooltip>
+              <Icon icon="icon-undo" size={24} />
+            </button>
+
+            <button
+              className={classnames({
+                inactive: !records.length || records.length - 1 <= position,
+              })}
+              onClick={this.props.editorRedo}
+            >
+              <Tooltip>Вернуть</Tooltip>
+              <Icon icon="icon-redo" size={24} />
+            </button>
+          </div>
+
           <div className="control-bar control-bar-padded">
             {routing && (
               <button

@@ -27,6 +27,9 @@ import {
   editorSetNominatim,
   editorSetMode,
   editorSetRouter,
+  editorSetHistory,
+  editorUndo,
+  editorRedo,
 } from '~/redux/editor/actions';
 import { getUrlData, pushPath } from '~/utils/history';
 import { MODES } from '~/constants/modes';
@@ -34,7 +37,7 @@ import { checkOSRMService, checkNominatimService, searchNominatim } from '~/util
 import { LatLng } from 'leaflet';
 import { searchSetTab } from '../user/actions';
 import { TABS, DIALOGS } from '~/constants/dialogs';
-import { EDITOR_ACTIONS } from './constants';
+import { EDITOR_ACTIONS, EDITOR_HISTORY_LENGTH } from './constants';
 import { getGPXString, downloadGPXTrack } from '~/utils/gpx';
 import {
   getTilePlacement,
@@ -53,7 +56,7 @@ import { selectMap, selectMapRoute } from '../map/selectors';
 import { selectUser } from '../user/selectors';
 import { LOGOS } from '~/constants/logos';
 import { loadMapFromPath } from '../map/sagas';
-import { mapClicked, mapSetRoute } from '../map/actions';
+import { mapClicked, mapSetRoute, mapSet } from '../map/actions';
 import { MAP_ACTIONS } from '../map/constants';
 import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import path from 'ramda/es/path';
@@ -236,6 +239,10 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
     } else {
       yield put(editorChangeMode(MODES.TRASH));
     }
+  } else if (key === 'z') {
+    yield put(editorUndo())
+  } else if (key === 'u') {
+    yield put(editorRedo())
   }
 }
 
@@ -316,6 +323,51 @@ function* changeMode({ mode }: ReturnType<typeof editorChangeMode>) {
   }
 }
 
+function* changeHistory() {
+  const { history }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+  const { route, stickers }: ReturnType<typeof selectMap> = yield select(selectMap);
+
+  const current =
+    history.records.length - 1 > history.position
+      ? history.records.slice(0, history.position + 1)
+      : history.records;
+
+  const records = [...current, { route, stickers }];
+  const min = Math.max(0, records.length - EDITOR_HISTORY_LENGTH - 1);
+  const max = Math.min(records.length, EDITOR_HISTORY_LENGTH + 2);
+
+  yield put(
+    editorSetHistory({
+      records: records.slice(min, max),
+      position: records.slice(min, max).length - 1,
+    })
+  );
+}
+
+function* undoHistory() {
+  const { history }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+  if (history.position === 0 || history.records.length <= 1) return;
+
+  const route = history.records[history.position - 1].route;
+  const stickers = history.records[history.position - 1].stickers;
+
+  yield put(mapSet({ route, stickers }));
+  yield put(editorSetHistory({ position: history.position - 1 }));
+}
+
+function* redoHistory() {
+  const { history }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+  if (history.position >= history.records.length - 1) return;
+
+  const route = history.records[history.position + 1].route;
+  const stickers = history.records[history.position + 1].stickers;
+
+  yield put(mapSet({ route, stickers }));
+  yield put(editorSetHistory({ position: history.position + 1 }));
+}
+
 export function* editorSaga() {
   yield takeEvery(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
@@ -330,4 +382,19 @@ export function* editorSaga() {
   yield takeLatest(EDITOR_ACTIONS.CANCEL_SAVE, cancelSave);
   yield takeLeading(EDITOR_ACTIONS.SEARCH_NOMINATIM, searchNominatimSaga);
   yield takeLeading(EDITOR_ACTIONS.CHANGE_MODE, changeMode);
+
+  yield takeEvery(
+    [
+      MAP_ACTIONS.ADD_STICKER,
+      MAP_ACTIONS.DROP_STICKER,
+      MAP_ACTIONS.SET_STICKERS,
+      MAP_ACTIONS.SET_STICKER,
+      MAP_ACTIONS.SET_ROUTE,
+      EDITOR_ACTIONS.CAPTURE_HIPSTORY,
+    ],
+    changeHistory
+  );
+
+  yield takeEvery(EDITOR_ACTIONS.UNDO, undoHistory);
+  yield takeEvery(EDITOR_ACTIONS.REDO, redoHistory);
 }

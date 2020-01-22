@@ -4,6 +4,12 @@ import { MODES } from '~/constants/modes';
 import { EDITOR_HANDLERS } from './handlers';
 import { ILatLng } from '../map/types';
 import { INominatimResult } from '~/redux/types';
+import { IMapReducer } from '../map';
+
+export interface IEditorHistoryItem {
+  route: IMapReducer['route'];
+  stickers: IMapReducer['stickers'];
+}
 
 export interface IEditorState {
   changed: boolean;
@@ -57,6 +63,10 @@ export interface IEditorState {
     processing: boolean;
     loading: boolean;
   };
+  history: {
+    records: IEditorHistoryItem[];
+    position: number;
+  };
 }
 
 export const EDITOR_INITIAL_STATE = {
@@ -108,6 +118,11 @@ export const EDITOR_INITIAL_STATE = {
     overwriting: false,
     processing: false,
     loading: false,
+  },
+
+  history: {
+    records: [{ route: [], stickers: [] }],
+    position: 0,
   },
 };
 

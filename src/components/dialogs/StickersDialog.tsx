@@ -15,7 +15,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   };
 
 const StickersDialogUnconnected = ({ editorSetActiveSticker, width }: Props) => (
-  <div className="control-dialog control-dialog-big bottom right" style={{ width }}>
+  <div className="control-dialog control-dialog__medium" style={{ width }}>
     <div className="helper stickers-helper">
       {Object.keys(STICKERS).map(set => (
         <div key={set}>

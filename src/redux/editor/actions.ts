@@ -123,9 +123,26 @@ export const editorSetRouter = (router: Partial<IEditorState['router']>) => ({
 export const editorSetNominatim = (nominatim: Partial<IEditorState['nominatim']>) => ({
   type: EDITOR_ACTIONS.SET_NOMINATIM,
   nominatim,
-})
+});
 
 export const editorSearchNominatim = (search: IEditorState['nominatim']['search']) => ({
   type: EDITOR_ACTIONS.SEARCH_NOMINATIM,
   search,
-})
+});
+
+export const editorSetHistory = (history: Partial<IEditorState['history']>) => ({
+  type: EDITOR_ACTIONS.SET_HISTORY,
+  history,
+});
+
+export const editorUndo = () => ({
+  type: EDITOR_ACTIONS.UNDO,
+});
+
+export const editorRedo = () => ({
+  type: EDITOR_ACTIONS.REDO,
+});
+
+export const editorCaptureHistory = () => ({
+  type: EDITOR_ACTIONS.CAPTURE_HIPSTORY,
+});
