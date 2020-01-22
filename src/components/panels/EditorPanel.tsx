@@ -88,7 +88,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               className={classnames({ inactive: records.length === 0 || position === 0 })}
               onClick={this.props.editorUndo}
             >
-              <Tooltip>Отмена</Tooltip>
+              <Tooltip>Отмена (z)</Tooltip>
               <Icon icon="icon-undo" size={24} />
             </button>
 
@@ -98,7 +98,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               })}
               onClick={this.props.editorRedo}
             >
-              <Tooltip>Вернуть</Tooltip>
+              <Tooltip>Вернуть (u)</Tooltip>
               <Icon icon="icon-redo" size={24} />
             </button>
           </div>
