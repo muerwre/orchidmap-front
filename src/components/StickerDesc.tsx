@@ -4,6 +4,7 @@ import classnames from 'classnames';
 interface Props {
   value: string;
   onChange: (text: string) => void;
+  onBlur: () => void;
 }
 
 type State = {
@@ -50,6 +51,7 @@ class StickerDesc extends React.PureComponent<Props, State> {
             onMouseDown={this.blockMouse}
             onDragStart={this.blockMouse}
             ref={el => { this.input = el; }}
+            onBlur={this.props.onBlur}
           />
         </div>
       </div>
