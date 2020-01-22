@@ -42,6 +42,19 @@
   }
 
   &__undo {
+    opacity: 0;
+    transform: translate(50px, 0);
+    pointer-events: none;
+    touch-action: none;
+    transition: transform 0.25s, opacity 0.25s;
+    z-index: -1;
+    
+    &.active {
+      opacity: 1;
+      transform: translate(0, 0);
+      pointer-events: all;
+      touch-action: initial;
+    }
   }
 }
 

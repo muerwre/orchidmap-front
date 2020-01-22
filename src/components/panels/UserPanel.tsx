@@ -166,6 +166,20 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
             </button>
           </div>
 
+          <React.Fragment>
+            <div className="control-sep" />
+
+            <div className="control-bar">
+              <button
+                className={classnames({ active: false, inactive: is_empty })}
+                onClick={this.props.editorGetGPXTrack}
+              >
+                <Tooltip>Экспорт GPX</Tooltip>
+                <Icon icon="icon-gpx-1" />
+              </button>
+            </div>
+          </React.Fragment>
+
           <div className="control-sep" />
 
           <div className="control-bar">
@@ -174,22 +188,6 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
               <Icon icon="icon-shot-4" />
             </button>
           </div>
-
-          {!is_empty && (
-            <React.Fragment>
-              <div className="control-sep" />
-
-              <div className="control-bar">
-                <button
-                  className={classnames({ active: false })}
-                  onClick={this.props.editorGetGPXTrack}
-                >
-                  <Tooltip>Экспорт GPX</Tooltip>
-                  <Icon icon="icon-gpx-1" />
-                </button>
-              </div>
-            </React.Fragment>
-          )}
         </div>
       </div>
     );
