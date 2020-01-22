@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react';
 import { Icon } from '~/components/panels/Icon';
 import { connect } from 'react-redux';
-import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import * as MAP_ACTIONS from '~/redux/map/actions';
 import { IState } from '~/redux/store';
 import { selectMapRoute } from '~/redux/map/selectors';
+import classNames from 'classnames';
 
 const mapStateToProps = (state: IState) => ({
   route: selectMapRoute(state),
@@ -18,14 +18,19 @@ type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
 
 const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
   const reverseRoute = useCallback(() => {
+    if (route.length < 2) return;
     mapSetRoute([...route].reverse());
   }, [mapSetRoute, route]);
-  
+
   const curRouteStart = useCallback(() => {
+    if (route.length < 1) return;
+
     mapSetRoute(route.slice(1, route.length));
   }, [mapSetRoute, route]);
-  
+
   const curRouteEnd = useCallback(() => {
+    if (route.length < 1) return;
+
     mapSetRoute(route.slice(0, route.length - 1));
   }, [mapSetRoute, route]);
 
@@ -33,16 +38,25 @@ const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
     <div className="control-dialog control-dialog__medium">
       <div className="helper">
         <div className="helper__text">
-          <button className="helper__icon_button" onClick={curRouteStart}>
+          <button
+            className={classNames('helper__icon_button', { inactive: route.length < 2 })}
+            onClick={reverseRoute}
+          >
+            <Icon icon="icon-reverse" />
+          </button>
+
+          <button
+            className={classNames('helper__icon_button', { inactive: route.length < 1 })}
+            onClick={curRouteStart}
+          >
             <Icon icon="icon-drop-start" />
           </button>
 
-          <button className="helper__icon_button" onClick={curRouteEnd}>
+          <button
+            className={classNames('helper__icon_button', { inactive: route.length < 1 })}
+            onClick={curRouteEnd}
+          >
             <Icon icon="icon-drop-end" />
-          </button>
-
-          <button className="helper__icon_button" onClick={reverseRoute}>
-            <Icon icon="icon-reverse" />
           </button>
 
           <div className="flex_1" />
