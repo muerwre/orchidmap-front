@@ -227,7 +227,7 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
     if (renderer_active) return yield put(editorHideRenderer());
     if (dialog_active) return yield put(editorSetDialogActive(false));
     if (mode !== MODES.NONE) return yield put(editorChangeMode(MODES.NONE));
-  } else if (key === 'Delete') {
+  } else if (key === 'Delete' || key === 'c') {
     const { editing } = yield select(selectEditor);
 
     if (!editing) return;

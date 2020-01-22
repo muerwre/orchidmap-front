@@ -119,7 +119,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               })}
               onClick={this.startTrashMode}
             >
-              <Tooltip>Очистить</Tooltip>
+              <Tooltip>Очистить (c)</Tooltip>
               <Icon icon="icon-trash-4" size={24} />
             </button>
           </div>
