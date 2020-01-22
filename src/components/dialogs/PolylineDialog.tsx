@@ -33,16 +33,16 @@ const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
     <div className="control-dialog control-dialog__medium">
       <div className="helper">
         <div className="helper__text">
-          <button className="helper__icon_button" onClick={reverseRoute}>
-            <Icon icon="icon-reverse" />
-          </button>
-
           <button className="helper__icon_button" onClick={curRouteStart}>
-            <Icon icon="icon-pin-1" />
+            <Icon icon="icon-drop-start" />
           </button>
 
           <button className="helper__icon_button" onClick={curRouteEnd}>
-            <Icon icon="icon-pin-1" />
+            <Icon icon="icon-drop-end" />
+          </button>
+
+          <button className="helper__icon_button" onClick={reverseRoute}>
+            <Icon icon="icon-reverse" />
           </button>
 
           <div className="flex_1" />
