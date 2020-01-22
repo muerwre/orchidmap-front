@@ -79,6 +79,7 @@ const PolylineDialogUnconnected: FC<Props> = ({
 
           <button
             className={classNames('helper__icon_button', {
+              inactive: route.length < 2,
               active: direction === DRAWING_DIRECTIONS.BACKWARDS,
             })}
             onClick={continueBackward}
@@ -88,6 +89,7 @@ const PolylineDialogUnconnected: FC<Props> = ({
 
           <button
             className={classNames('helper__icon_button', {
+              inactive: route.length < 2,
               active: direction === DRAWING_DIRECTIONS.FORWARDS,
             })}
             onClick={continueForward}
