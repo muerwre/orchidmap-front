@@ -5,18 +5,28 @@ import * as MAP_ACTIONS from '~/redux/map/actions';
 import { IState } from '~/redux/store';
 import { selectMapRoute } from '~/redux/map/selectors';
 import classNames from 'classnames';
+import { selectEditorDirection } from '~/redux/editor/selectors';
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
+import { DRAWING_DIRECTIONS } from '~/redux/editor/constants';
 
 const mapStateToProps = (state: IState) => ({
   route: selectMapRoute(state),
+  direction: selectEditorDirection(state),
 });
 
 const mapDispatchToProps = {
   mapSetRoute: MAP_ACTIONS.mapSetRoute,
+  editorSetDirection: EDITOR_ACTIONS.editorSetDirection,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
-const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
+const PolylineDialogUnconnected: FC<Props> = ({
+  route,
+  direction,
+  editorSetDirection,
+  mapSetRoute,
+}) => {
   const reverseRoute = useCallback(() => {
     if (route.length < 2) return;
     mapSetRoute([...route].reverse());
@@ -33,6 +43,14 @@ const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
 
     mapSetRoute(route.slice(0, route.length - 1));
   }, [mapSetRoute, route]);
+
+  const continueBackward = useCallback(() => {
+    editorSetDirection(DRAWING_DIRECTIONS.BACKWARDS);
+  }, [editorSetDirection]);
+
+  const continueForward = useCallback(() => {
+    editorSetDirection(DRAWING_DIRECTIONS.FORWARDS);
+  }, [editorSetDirection]);
 
   return (
     <div className="control-dialog control-dialog__medium">
@@ -57,6 +75,24 @@ const PolylineDialogUnconnected: FC<Props> = ({ route, mapSetRoute }) => {
             onClick={curRouteEnd}
           >
             <Icon icon="icon-drop-end" />
+          </button>
+
+          <button
+            className={classNames('helper__icon_button', {
+              active: direction === DRAWING_DIRECTIONS.BACKWARDS,
+            })}
+            onClick={continueBackward}
+          >
+            <Icon icon="icon-draw-backward" />
+          </button>
+
+          <button
+            className={classNames('helper__icon_button', {
+              active: direction === DRAWING_DIRECTIONS.FORWARDS,
+            })}
+            onClick={continueForward}
+          >
+            <Icon icon="icon-draw-forward" />
           </button>
 
           <div className="flex_1" />

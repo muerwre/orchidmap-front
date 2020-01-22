@@ -179,6 +179,14 @@ const setHistory = (
   },
 });
 
+const setDirection = (
+  state,
+  { drawing_direction }: ReturnType<typeof ACTIONS.editorSetDirection>
+): IEditorState => ({
+  ...state,
+  drawing_direction,
+});
+
 export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_EDITING]: setEditing,
   [EDITOR_ACTIONS.SET_CHANGED]: setChanged,
@@ -209,4 +217,6 @@ export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_NOMINATIM]: setNominatim,
 
   [EDITOR_ACTIONS.SET_HISTORY]: setHistory,
+
+  [EDITOR_ACTIONS.SET_DIRECTION]: setDirection,
 };

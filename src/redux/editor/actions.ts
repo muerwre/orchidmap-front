@@ -146,3 +146,8 @@ export const editorRedo = () => ({
 export const editorCaptureHistory = () => ({
   type: EDITOR_ACTIONS.CAPTURE_HIPSTORY,
 });
+
+export const editorSetDirection = (drawing_direction: IEditorState['drawing_direction']) => ({
+  type: EDITOR_ACTIONS.SET_DIRECTION,
+  drawing_direction,
+});

@@ -1,5 +1,10 @@
 const P = 'EDITOR';
 
+export const DRAWING_DIRECTIONS: Record<'FORWARDS' | 'BACKWARDS', 'forward' | 'backward'> = {
+  FORWARDS: 'forward',
+  BACKWARDS: 'backward',
+};
+
 export const EDITOR_HISTORY_LENGTH = 100;
 
 export const EDITOR_ACTIONS = {
@@ -54,4 +59,6 @@ export const EDITOR_ACTIONS = {
   UNDO: `${P}-UNDO`,
   REDO: `${P}-REDO`,
   CAPTURE_HIPSTORY: `${P}-CAPTURE_HIPSTORY`,
+
+  SET_DIRECTION: `${P}-SET_DIRECTION`,
 };

@@ -5,6 +5,7 @@ import { EDITOR_HANDLERS } from './handlers';
 import { ILatLng } from '../map/types';
 import { INominatimResult } from '~/redux/types';
 import { IMapReducer } from '../map';
+import { DRAWING_DIRECTIONS } from './constants';
 
 export interface IEditorHistoryItem {
   route: IMapReducer['route'];
@@ -35,6 +36,7 @@ export interface IEditorState {
   is_empty: boolean;
   is_published: boolean;
   is_routing: boolean;
+  drawing_direction: typeof DRAWING_DIRECTIONS[keyof typeof DRAWING_DIRECTIONS];
 
   features: {
     routing: boolean;
@@ -63,6 +65,7 @@ export interface IEditorState {
     processing: boolean;
     loading: boolean;
   };
+
   history: {
     records: IEditorHistoryItem[];
     position: number;
@@ -84,13 +87,16 @@ export const EDITOR_INITIAL_STATE = {
   estimated: 0,
   speed: 15,
   activeSticker: { set: null, sticker: null },
+  drawing_direction: DRAWING_DIRECTIONS.FORWARDS,
+
+  is_published: false,
+  is_empty: true,
+  is_routing: false,
+
   router: {
     waypoints: [],
     points: [],
   },
-  is_published: false,
-  is_empty: true,
-  is_routing: false,
 
   features: {
     routing: false,

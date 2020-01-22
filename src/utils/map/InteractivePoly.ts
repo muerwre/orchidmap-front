@@ -45,9 +45,7 @@ class InteractivePoly extends Polyline {
     this.startDragHinting();
   }
 
-  setLatLngs = (latlngs: LatLngExpression[] | LatLngExpression[][] | LatLngExpression[][][]) => {
-    super.setLatLngs(latlngs);
-
+  updateConstraintsToLatLngs = (latlngs: LatLngExpression[]) => {
     if (this.is_drawing) {
       // update mouse hinter on latlngs change
       const constraints = this.constrLine.getLatLngs() as LatLng[];
@@ -63,6 +61,12 @@ class InteractivePoly extends Polyline {
 
       this.setConstraints([constraints[0], source as LatLng]);
     }
+  }
+
+  setLatLngs = (latlngs: LatLngExpression[] | LatLngExpression[][] | LatLngExpression[][][]) => {
+    super.setLatLngs(latlngs);
+
+    this.updateConstraintsToLatLngs(latlngs as LatLngExpression[]);
 
     return this;
   };
@@ -491,6 +495,11 @@ class InteractivePoly extends Polyline {
   setConstraints = (coords: LatLng[]) => {
     this.constrLine.setLatLngs(coords);
   };
+
+  setDirection = (direction: 'forward' | 'backward') => {    
+    this.drawing_direction = direction;
+    this.updateConstraintsToLatLngs(this.getLatLngs() as LatLngExpression[]);
+  }
 
   dropMarker = ({ target }: LeafletMouseEvent): void => {
     const index = this.markers.indexOf(target);

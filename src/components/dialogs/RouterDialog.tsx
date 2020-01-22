@@ -3,8 +3,9 @@ import { Icon } from '~/components/panels/Icon';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { selectEditor } from '~/redux/editor/selectors';
+import { selectEditor, selectEditorRouter, selectEditorDirection } from '~/redux/editor/selectors';
 import pick from 'ramda/es/pick';
+import { IState } from '~/redux/store';
 
 const noPoints = ({
   editorRouterCancel,
@@ -84,8 +85,8 @@ const draggablePoints = ({
   </React.Fragment>
 );
 
-const mapStateToProps = state => ({
-  editor: pick(['router'], selectEditor(state)),
+const mapStateToProps = (state: IState) => ({
+  router: selectEditorRouter(state),
 });
 
 const mapDispatchToProps = {
@@ -96,9 +97,7 @@ const mapDispatchToProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const RouterDialogUnconnected: FC<Props> = ({
-  editor: {
-    router: { waypoints },
-  },
+  router: { waypoints },
   editorRouterCancel,
   editorRouterSubmit,
 }) => (
