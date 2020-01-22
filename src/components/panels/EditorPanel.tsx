@@ -83,7 +83,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
             this.panel = el;
           }}
         >
-          <div className="secondary-bar">
+          <div className="secondary-bar desktop-only">
             <button
               className={classnames({ inactive: records.length === 0 || position === 0 })}
               onClick={this.props.editorUndo}
