@@ -25,8 +25,6 @@ const Stickers: React.FC<IProps> = React.memo(
       return () => MainMap.stickerLayer.removeLayer(item);
     }, [MainMap]);
 
-    console.log(is_editing);
-
     return (
       <div>
         {layer &&

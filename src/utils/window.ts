@@ -5,8 +5,6 @@ export const isMobile = (): boolean => window.innerWidth <= MOBILE_BREAKPOINT;
 
 export const getLocation = (callback: (pos: LatLngLiteral) => void) => {
   window.navigator.geolocation.getCurrentPosition(position => {
-    console.log('getting pos');
-
     if (!position || !position.coords || !position.coords.latitude || !position.coords.longitude)
       return callback(null);
 
