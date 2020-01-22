@@ -45,6 +45,28 @@ class InteractivePoly extends Polyline {
     this.startDragHinting();
   }
 
+  setLatLngs = (latlngs: LatLngExpression[] | LatLngExpression[][] | LatLngExpression[][][]) => {
+    super.setLatLngs(latlngs);
+
+    if (this.is_drawing) {
+      // update mouse hinter on latlngs change
+      const constraints = this.constrLine.getLatLngs() as LatLng[];
+      const source = latlngs && latlngs.length > 0 &&
+        this.drawing_direction === 'forward'
+          ? latlngs[latlngs.length - 1]
+          : latlngs[0];
+
+      if (!constraints || constraints.length < 2 || !source) {
+        this.setConstraints([]);
+        return;
+      }
+
+      this.setConstraints([constraints[0], source as LatLng]);
+    }
+
+    return this;
+  };
+
   updateTouchHinter = ({ latlngs }: { latlngs: LatLngLiteral[] }): void => {
     this.touchHinter.setLatLngs(latlngs);
   };
@@ -474,7 +496,7 @@ class InteractivePoly extends Polyline {
     const index = this.markers.indexOf(target);
     const latlngs = this.getLatLngs();
 
-    if (typeof index === 'undefined' || latlngs.length <= 2) return;
+    if (typeof index === 'undefined' || latlngs.length == 0) return;
 
     this.dropMarkerDistanceChange(index);
     this._map.removeLayer(this.markers[index]);
