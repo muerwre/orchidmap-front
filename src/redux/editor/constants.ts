@@ -1,5 +1,12 @@
 const P = 'EDITOR';
 
+export const GPX_ROUTE_COLORS = [
+  '#ff3344',
+  '#3344ff',
+  '#33ff44',
+  '#33ffff',
+];
+
 export const DRAWING_DIRECTIONS: Record<'FORWARDS' | 'BACKWARDS', 'forward' | 'backward'> = {
   FORWARDS: 'forward',
   BACKWARDS: 'backward',
@@ -61,4 +68,7 @@ export const EDITOR_ACTIONS = {
   CAPTURE_HIPSTORY: `${P}-CAPTURE_HIPSTORY`,
 
   SET_DIRECTION: `${P}-SET_DIRECTION`,
+  SET_GPX: `${P}-SET_GPX`,
+  UPLOAD_GPX: `${P}-UPLOAD_GPX`,
+  DROP_GPX: `${P}-DROP_GPX`,
 };

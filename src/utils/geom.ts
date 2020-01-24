@@ -1,11 +1,11 @@
-import { LatLng, LatLngLiteral, point, Point, PointExpression } from 'leaflet';
+import { LatLng, LatLngLiteral, point, Point, PointExpression, latLng } from 'leaflet';
 
-interface ILatLng {
-  lat: number;
-  lng: number;
-}
+// interface LatLng {
+//   lat: number;
+//   lng: number;
+// }
 
-export const middleCoord = (l1: ILatLng, l2: ILatLng): ILatLng => ({
+export const middleCoord = (l1: LatLng, l2: LatLng): LatLng => latLng({
   lat: l2.lat + (l1.lat - l2.lat) / 2,
   lng: l2.lng + (l1.lng - l2.lng) / 2,
 });

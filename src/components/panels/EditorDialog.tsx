@@ -8,6 +8,7 @@ import { TrashDialog } from '~/components/dialogs/TrashDialog';
 import { LogoDialog } from '~/components/dialogs/LogoDialog';
 import { SaveDialog } from '~/components/dialogs/SaveDialog';
 import { CancelDialog } from '~/components/dialogs/CancelDialog';
+import { GpxDialog } from '~/components/dialogs/GpxDialog';
 
 import { connect } from 'react-redux';
 
@@ -31,6 +32,7 @@ const DIALOG_CONTENTS: { [x: string]: any } = {
   [MODES.PROVIDER]: ProviderDialog,
   [MODES.SHOT_PREFETCH]: ShotPrefetchDialog,
   [MODES.POLY]: PolylineDialog,
+  [MODES.GPX]: GpxDialog,
 };
 
 const EditorDialogUnconnected = (props: Props) =>

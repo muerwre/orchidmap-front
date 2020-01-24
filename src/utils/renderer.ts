@@ -3,7 +3,7 @@ import { COLORS, CLIENT } from '~/config/frontend';
 import saveAs from 'file-saver';
 import { replaceProviderUrl } from '~/constants/providers';
 import { STICKERS } from '~/constants/stickers';
-import { ILatLng, IRoute } from '~/redux/map/types';
+import { IRoute } from '~/redux/map/types';
 import { IStickerDump } from '~/redux/map/types';
 import { IRootState } from '~/redux/user';
 import {
@@ -12,7 +12,7 @@ import {
   findDistancePx,
   middleCoordPx,
 } from '~/utils/geom';
-import { Point } from 'leaflet';
+import { Point, LatLng, latLng } from 'leaflet';
 import { MainMap } from '~/constants/map';
 
 export interface ITilePlacement {
@@ -55,14 +55,14 @@ const latLngToTile = (latlng: {
   return { x: xtile, y: ytile, z: zoom };
 };
 
-const tileToLatLng = (point: { x: number; y: number }): ILatLng => {
+const tileToLatLng = (point: { x: number; y: number }): LatLng => {
   const map = MainMap;
   const z = map.getZoom();
   const lng = (point.x / Math.pow(2, z)) * 360 - 180;
   const n = Math.PI - (2 * Math.PI * point.y) / Math.pow(2, z);
   const lat = (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
 
-  return { lat, lng };
+  return latLng({ lat, lng });
 };
 
 export const getTilePlacement = (): ITilePlacement => {
@@ -102,7 +102,7 @@ export const getTilePlacement = (): ITilePlacement => {
   };
 };
 
-export const getPolyPlacement = (latlngs: ILatLng[]): Point[] =>
+export const getPolyPlacement = (latlngs: LatLng[]): Point[] =>
   latlngs.length === 0
     ? []
     : latlngs.map(latlng => (MainMap.latLngToContainerPoint(latlng)));

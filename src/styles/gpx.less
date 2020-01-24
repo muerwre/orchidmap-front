@@ -1,0 +1,81 @@
+.gpx-title {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.gpx-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding: 10px;
+  min-width: 0;
+
+  &_disabled {
+    opacity: 0.5;
+  }
+
+  &__title {
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      fill: white;
+    }
+
+    > div {
+      padding: 0 5px;
+      cursor: pointer;
+
+      &:last-child {
+        padding-right: 0;
+      }
+
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &__color {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+  }
+}
+
+.gpx-buttons {
+  padding: 10px;
+
+  & > * {
+    margin: 5px 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  & > .button {
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+  }
+}

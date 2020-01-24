@@ -12,11 +12,13 @@ import { TileLayer } from '~/map/TileLayer';
 import { Stickers } from '~/map/Stickers';
 import { KmMarks } from '~/map/KmMarks';
 import { CurrentLocation } from '~/map/CurrentLocation';
+import { GpxPolyline } from '~/map/GpxPolyline';
 
 import 'leaflet/dist/leaflet.css';
-import { selectEditorEditing, selectEditorMode } from '~/redux/editor/selectors';
+import { selectEditorEditing, selectEditorMode, selectEditorGpx } from '~/redux/editor/selectors';
 import { MODES } from '~/constants/modes';
 import { selectUserLocation } from '~/redux/user/selectors';
+import { GPX_ROUTE_COLORS } from '~/redux/editor/constants';
 
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
@@ -25,6 +27,7 @@ const mapStateToProps = state => ({
   editing: selectEditorEditing(state),
   mode: selectEditorMode(state),
   location: selectUserLocation(state),
+  gpx: selectEditorGpx(state),
 });
 
 const mapDispatchToProps = {
@@ -44,6 +47,7 @@ const MapUnconnected: React.FC<IProps> = ({
   editing,
   mode,
   location,
+  gpx,
 
   mapClicked,
   mapSetSticker,
@@ -51,12 +55,8 @@ const MapUnconnected: React.FC<IProps> = ({
 }) => {
   const onClick = React.useCallback(
     event => {
-      if (
-        !MainMap.clickable ||
-        mode === MODES.NONE
-      )
-        return;
-        
+      if (!MainMap.clickable || mode === MODES.NONE) return;
+
       mapClicked(event.latlng);
     },
     [mapClicked, mode]
@@ -86,6 +86,18 @@ const MapUnconnected: React.FC<IProps> = ({
 
       <KmMarks />
       <CurrentLocation location={location} />
+
+      {gpx.enabled &&
+        gpx.list.map(
+          ({ latlngs, enabled, color }, index) =>
+            enabled && (
+              <GpxPolyline
+                latlngs={latlngs}
+                color={color}
+                key={index}
+              />
+            )
+        )}
     </div>,
     document.getElementById('canvas')
   );

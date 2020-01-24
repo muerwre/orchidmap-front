@@ -11,6 +11,7 @@ import {
   editorSetDialogActive,
   editorGetGPXTrack,
   editorSearchNominatim,
+  editorChangeMode,
 } from '~/redux/editor/actions';
 import { connect } from 'react-redux';
 import { Icon } from '~/components/panels/Icon';
@@ -22,6 +23,7 @@ import { Tooltip } from '~/components/panels/Tooltip';
 import { TitleDialog } from '~/components/dialogs/TitleDialog';
 import { NominatimSearchPanel } from '~/components/dialogs/NominatimSearchPanel';
 import { IState } from '~/redux/store';
+import { MODES } from '~/constants/modes';
 
 const mapStateToProps = ({
   user: { user },
@@ -46,6 +48,7 @@ const mapDispatchToProps = {
   openMapDialog,
   editorGetGPXTrack,
   editorSearchNominatim,
+  editorChangeMode,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
@@ -118,13 +121,17 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
     );
   };
 
+  openGpxDialog = () => {
+    this.props.editorChangeMode(MODES.GPX);
+  }
+
   render() {
     const {
       props: { user, dialog, dialog_active, route, stickers, features },
       state: { menuOpened },
     } = this;
 
-    const is_empty = !route.length && !stickers.length;
+    // const is_empty = !route.length && !stickers.length;
 
     return (
       <div>
@@ -171,8 +178,9 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
             <div className="control-bar">
               <button
-                className={classnames({ inactive: is_empty })}
-                onClick={this.props.editorGetGPXTrack}
+                // className={classnames({ inactive: is_empty })}
+                onClick={this.openGpxDialog}
+                // onClick={this.props.editorGetGPXTrack}
               >
                 <Tooltip>Экспорт GPX</Tooltip>
                 <Icon icon="icon-gpx-1" />

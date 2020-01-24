@@ -343,7 +343,7 @@ export function* updateUserRoutes() {
 }
 
 export function* userSaga() {
-  yield takeLatest(REHYDRATE, authCheckSaga);
+  yield takeEvery(REHYDRATE, authCheckSaga);
 
   yield takeEvery(USER_ACTIONS.USER_LOGOUT, userLogoutSaga);
   yield takeLatest(USER_ACTIONS.GOT_VK_USER, gotVkUserSaga);

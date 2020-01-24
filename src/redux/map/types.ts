@@ -1,15 +1,9 @@
 import { LatLng } from 'leaflet';
-import { IRoutePoint } from '~/utils/gpx';
 
-export type ILatLng = {
-  lat: number;
-  lng: number;
-};
-
-export type IMapRoute = ILatLng[];
+export type IMapRoute = LatLng[];
 
 export interface IStickerDump {
-  latlng: ILatLng;
+  latlng: LatLng;
   set: string;
   sticker: string;
   angle?: number;
@@ -18,10 +12,10 @@ export interface IStickerDump {
 
 export interface IRoute {
   version: number;
-  title: string;
+  title: string; 
   owner: number;
   address: string;
-  route: IRoutePoint[];
+  route: LatLng[];
   stickers: IStickerDump[];
   provider: string;
   is_public: boolean;

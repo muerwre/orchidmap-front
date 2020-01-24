@@ -10,3 +10,4 @@ export const selectEditorRouter = (state: IState) => state.editor.router;
 export const selectEditorDistance = (state: IState) => state.editor.distance;
 export const selectEditorNominatim = (state: IState) => state.editor.nominatim;
 export const selectEditorDirection = (state: IState) => state.editor.drawing_direction;
+export const selectEditorGpx = (state: IState) => state.editor.gpx;

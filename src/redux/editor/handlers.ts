@@ -187,6 +187,17 @@ const setDirection = (
   drawing_direction,
 });
 
+const setGpx = (
+  state,
+  { gpx }: ReturnType<typeof ACTIONS.editorSetGpx>
+): IEditorState => ({
+  ...state,
+  gpx: {
+    ...state.gpx,
+    ...gpx,
+  },
+});
+
 export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_EDITING]: setEditing,
   [EDITOR_ACTIONS.SET_CHANGED]: setChanged,
@@ -219,4 +230,5 @@ export const EDITOR_HANDLERS = {
   [EDITOR_ACTIONS.SET_HISTORY]: setHistory,
 
   [EDITOR_ACTIONS.SET_DIRECTION]: setDirection,
+  [EDITOR_ACTIONS.SET_GPX]: setGpx,
 };

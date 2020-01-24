@@ -2,10 +2,19 @@ import { createReducer } from '~/utils/reducer';
 import { DIALOGS } from '~/constants/dialogs';
 import { MODES } from '~/constants/modes';
 import { EDITOR_HANDLERS } from './handlers';
-import { ILatLng } from '../map/types';
+// import { ILatLng } from '../map/types';
 import { INominatimResult } from '~/redux/types';
 import { IMapReducer } from '../map';
 import { DRAWING_DIRECTIONS } from './constants';
+import { LatLng } from 'leaflet';
+
+export interface IGpxRoute {
+  latlngs: LatLng[],
+  enabled: boolean;
+  color: string;
+  name: string;
+  id: string;
+}
 
 export interface IEditorHistoryItem {
   route: IMapReducer['route'];
@@ -19,8 +28,8 @@ export interface IEditorState {
   markers_shown: boolean;
 
   router: {
-    points: ILatLng[];
-    waypoints: ILatLng[];
+    points: LatLng[];
+    waypoints: LatLng[];
   };
 
   mode: typeof MODES[keyof typeof MODES];
@@ -70,6 +79,12 @@ export interface IEditorState {
     records: IEditorHistoryItem[];
     position: number;
   };
+
+
+  gpx: {
+    enabled: boolean;
+    list: IGpxRoute[],
+  },
 }
 
 export const EDITOR_INITIAL_STATE = {
@@ -129,6 +144,11 @@ export const EDITOR_INITIAL_STATE = {
   history: {
     records: [{ route: [], stickers: [] }],
     position: 0,
+  },
+
+  gpx: {
+    enabled: true,
+    list: [],
   },
 };
 

@@ -26,6 +26,12 @@ const userPersistConfig: PersistConfig = {
   storage,
 };
 
+const editorPersistConfig: PersistConfig = {
+  key: 'editor',
+  whitelist: ['gpx'],
+  storage,
+};
+
 export interface IState {
   user: IRootReducer;
   map: IMapReducer;
@@ -43,8 +49,8 @@ const composeEnhancers =
 export const store = createStore(
   combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
+    editor: persistReducer(editorPersistConfig, editor),
     map,
-    editor,
   }),
   composeEnhancers(applyMiddleware(sagaMiddleware))
 );

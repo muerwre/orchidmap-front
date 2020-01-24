@@ -151,3 +151,18 @@ export const editorSetDirection = (drawing_direction: IEditorState['drawing_dire
   type: EDITOR_ACTIONS.SET_DIRECTION,
   drawing_direction,
 });
+
+export const editorSetGpx = (gpx: Partial<IEditorState['gpx']>) => ({
+  type: EDITOR_ACTIONS.SET_GPX,
+  gpx,
+});
+
+export const editorUploadGpx = (file: File) => ({
+  type: EDITOR_ACTIONS.UPLOAD_GPX,
+  file,
+});
+
+export const editorDropGpx = (index: number) => ({
+  type: EDITOR_ACTIONS.DROP_GPX,
+  index,
+});

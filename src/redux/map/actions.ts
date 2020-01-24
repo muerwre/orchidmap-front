@@ -1,7 +1,8 @@
 import { MAP_ACTIONS } from './constants';
 import { IMapReducer } from './';
 import { IStickerDump } from '~/redux/map/types';
-import { ILatLng } from './types';
+import { LatLng } from 'leaflet';
+// import { ILatLng } from './types';
 
 export const mapSet = (map: Partial<IMapReducer>) => ({
   type: MAP_ACTIONS.SET_MAP,
@@ -39,7 +40,7 @@ export const mapDropSticker = (index: number) => ({
   index,
 });
 
-export const mapClicked = (latlng: ILatLng) => ({
+export const mapClicked = (latlng: LatLng) => ({
   type: MAP_ACTIONS.MAP_CLICKED,
   latlng,
 });

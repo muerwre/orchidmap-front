@@ -8,7 +8,7 @@ import {
   takeLeading,
   delay,
 } from 'redux-saga/effects';
-import { selectEditor, selectEditorMode } from '~/redux/editor/selectors';
+import { selectEditor, selectEditorMode, selectEditorGpx } from '~/redux/editor/selectors';
 import { simplify } from '~/utils/simplify';
 import {
   editorHideRenderer,
@@ -30,6 +30,8 @@ import {
   editorSetHistory,
   editorUndo,
   editorRedo,
+  editorUploadGpx,
+  editorSetGpx,
 } from '~/redux/editor/actions';
 import { getUrlData, pushPath } from '~/utils/history';
 import { MODES } from '~/constants/modes';
@@ -38,7 +40,7 @@ import { LatLng } from 'leaflet';
 import { searchSetTab } from '../user/actions';
 import { TABS, DIALOGS } from '~/constants/dialogs';
 import { EDITOR_ACTIONS, EDITOR_HISTORY_LENGTH } from './constants';
-import { getGPXString, downloadGPXTrack } from '~/utils/gpx';
+import { getGPXString, downloadGPXTrack, importGpxTrack } from '~/utils/gpx';
 import {
   getTilePlacement,
   getPolyPlacement,
@@ -62,6 +64,9 @@ import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import path from 'ramda/es/path';
 import { MainMap } from '~/constants/map';
 import { EDITOR_INITIAL_STATE } from '.';
+import { Unwrap } from '~/utils/middleware';
+import uuid from 'uuid';
+import { getRandomColor } from '~/utils/dom';
 
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = String(0);
@@ -240,9 +245,9 @@ function* keyPressedSaga({ key, target }: ReturnType<typeof editorKeyPressed>) {
       yield put(editorChangeMode(MODES.TRASH));
     }
   } else if (key === 'z') {
-    yield put(editorUndo())
+    yield put(editorUndo());
   } else if (key === 'x') {
-    yield put(editorRedo())
+    yield put(editorRedo());
   }
 }
 
@@ -368,6 +373,29 @@ function* redoHistory() {
   yield put(editorSetHistory({ position: history.position + 1 }));
 }
 
+function* uploadGpx({ file }: ReturnType<typeof editorUploadGpx>) {
+  const gpx: Unwrap<typeof importGpxTrack> = yield importGpxTrack(file);
+
+  if (!gpx || !gpx.length) return;
+
+  const { list }: ReturnType<typeof selectEditorGpx> = yield select(selectEditorGpx);
+
+  yield put(
+    editorSetGpx({
+      list: [
+        ...list,
+        ...gpx.map(item => ({
+          enabled: true,
+          latlngs: item.latlngs,
+          color: getRandomColor(),
+          name: item.name || `Track #${list.length + 1}`,
+          id: uuid() as string,
+        })),
+      ],
+    })
+  );
+}
+
 export function* editorSaga() {
   yield takeEvery(EDITOR_ACTIONS.LOCATION_CHANGED, locationChangeSaga);
 
@@ -397,4 +425,6 @@ export function* editorSaga() {
 
   yield takeEvery(EDITOR_ACTIONS.UNDO, undoHistory);
   yield takeEvery(EDITOR_ACTIONS.REDO, redoHistory);
+
+  yield takeEvery(EDITOR_ACTIONS.UPLOAD_GPX, uploadGpx);
 }

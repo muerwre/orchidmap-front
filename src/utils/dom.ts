@@ -7,3 +7,8 @@ export const getStyle = (oElm: any, strCssRule: string): string => {
 
   return '';
 };
+
+
+export const getRandomColor = () => {
+  return `hsl(${(Math.floor(Math.random() * 360))}, 100%, 50%)`
+}
