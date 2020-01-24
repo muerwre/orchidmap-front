@@ -170,9 +170,16 @@ export const composeImages = ({
 export const composePoly = ({
   points,
   ctx,
+  color = 'gradient',
+  weight = CLIENT.STROKE_WIDTH,
+  dash = null,
 }: {
   points: Point[];
   ctx: CanvasRenderingContext2D;
+  color?: string;
+  opacity?: number;
+  weight?: number;
+  dash?: number[];
 }): void => {
   if (points.length === 0) return;
 
@@ -181,10 +188,9 @@ export const composePoly = ({
   let minY = points[0].y;
   let maxY = points[0].y;
 
-  ctx.strokeStyle = 'red';
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.lineWidth = CLIENT.STROKE_WIDTH + 0.5;
+  ctx.lineWidth = weight + 0.5;
 
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);
@@ -199,11 +205,21 @@ export const composePoly = ({
     if (points[i].y > maxY) maxY = points[i].y;
   }
 
-  const gradient = ctx.createLinearGradient(minX, minY, minX, maxY);
-  gradient.addColorStop(0, COLORS.PATH_COLOR[0]);
-  gradient.addColorStop(1, COLORS.PATH_COLOR[1]);
+  if (color === 'gradient') {
 
-  ctx.strokeStyle = gradient;
+    const gradient = ctx.createLinearGradient(minX, minY, minX, maxY);
+    gradient.addColorStop(0, COLORS.PATH_COLOR[0]);
+    gradient.addColorStop(1, COLORS.PATH_COLOR[1]);
+    
+    ctx.strokeStyle = gradient;
+  } else {
+    ctx.strokeStyle = color;
+  }
+
+  if (dash) {
+    ctx.setLineDash([12,12]);
+  }
+  
   ctx.stroke();
   ctx.closePath();
 };

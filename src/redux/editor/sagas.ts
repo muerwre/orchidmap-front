@@ -118,6 +118,7 @@ function* getRenderData() {
   yield put(editorSetRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
 
   const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
+  const gpx: ReturnType<typeof selectEditorGpx> = yield select(selectEditorGpx);
   const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   const canvas = <HTMLCanvasElement>document.getElementById('renderer');
@@ -137,6 +138,20 @@ function* getRenderData() {
 
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
+
+  gpx.list.forEach(item => {
+    if (!gpx.enabled || !item.enabled || !item.latlngs.length) return;
+
+    composePoly({
+      points: getPolyPlacement(item.latlngs),
+      ctx,
+      color: item.color,
+      opacity: 0.5,
+      weight: 9,
+      dash: [12, 12],
+    });
+  });
+
   yield composeArrows({ points, ctx });
   yield composeDistMark({ ctx, points, distance });
   yield composeStickers({ stickers: sticker_points, ctx });

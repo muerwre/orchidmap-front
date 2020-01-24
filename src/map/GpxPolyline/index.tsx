@@ -14,8 +14,9 @@ const GpxPolyline: FC<IProps> = ({ latlngs, color }) => {
     const item = new Polyline([], {
       color,
       stroke: true,
-      opacity: 0.4,
+      opacity: 1,
       weight: 9,
+      dashArray: [12,12],
     }).addTo(MainMap);
     setLayer(item);
 
