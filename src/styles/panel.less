@@ -48,7 +48,7 @@
     touch-action: none;
     transition: transform 0.25s, opacity 0.25s;
     z-index: -1;
-    
+
     &.active {
       opacity: 1;
       transform: translate(0, 0);
@@ -126,7 +126,8 @@
       }
     }
 
-    &.disabled, &.inactive {
+    &.disabled,
+    &.inactive {
       color: #999999;
 
       svg {
@@ -221,7 +222,8 @@
   }
 }
 
-.panel button, .tooltip-container {
+.panel button,
+.tooltip-container {
   position: relative;
 
   &:hover .panel-tooltip {
@@ -284,15 +286,20 @@
     width: 100%;
     max-width: 500px;
   }
-  
+
   &.top {
     bottom: auto;
     top: 52px;
   }
 
-  &.left, &__left {
+  &.left,
+  &__left {
     right: auto;
     left: 10px;
+
+    @media (max-width: @micro_breakpoint) {
+      left: 68px;
+    }
   }
 
   .helper:first-child {
@@ -310,16 +317,28 @@
   &__big {
     width: calc(100% - 20px);
     max-width: 620px;
+
+    @media (max-width: @micro_breakpoint) {
+      width: calc(100% - 78px);
+    }
   }
 
   &__medium {
     width: calc(100% - 20px);
     max-width: 417px;
+
+    @media (max-width: @micro_breakpoint) {
+      width: calc(100% - 78px);
+    }
   }
 
   &__small {
     width: calc(100% - 20px);
     max-width: 324px;
+
+    @media (max-width: @micro_breakpoint) {
+      width: calc(100% - 78px);
+    }
   }
 }
 
@@ -404,7 +423,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  
+
   svg {
     margin-right: 0;
   }
@@ -695,7 +714,7 @@
   opacity: 0;
   align-items: flex-start;
 
-  @media(max-width: @mobile_breakpoint) {
+  @media (max-width: @mobile_breakpoint) {
     display: none;
   }
 
@@ -766,7 +785,7 @@
   position: fixed;
   bottom: 53px;
   left: 10px;
-  width: 272px
+  width: 272px;
 }
 
 .nominatim-search-input {
