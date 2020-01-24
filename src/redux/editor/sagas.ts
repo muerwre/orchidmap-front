@@ -384,13 +384,15 @@ function* uploadGpx({ file }: ReturnType<typeof editorUploadGpx>) {
     editorSetGpx({
       list: [
         ...list,
-        ...gpx.map(item => ({
-          enabled: true,
-          latlngs: item.latlngs,
-          color: getRandomColor(),
-          name: item.name || `Track #${list.length + 1}`,
-          id: uuid() as string,
-        })),
+        ...gpx
+          .filter(item => item.latlngs && item.latlngs.length)
+          .map(item => ({
+            enabled: true,
+            latlngs: item.latlngs,
+            color: getRandomColor(),
+            name: item.name || `Track #${list.length + 1}`,
+            id: uuid() as string,
+          })),
       ],
     })
   );

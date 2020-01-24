@@ -93,12 +93,16 @@ export const importGpxTrack = async (file: File) => {
   if (!gpx || !gpx.trk) return null;
 
   const latlngs: LatLng[] = gpx.trk.reduce((trk_res, trk) => {
-    return trk.trkseg.reduce((trkseg_res, trkseg) => {
-      return [
-        ...trkseg_res,
-        ...trkseg.trkpt.map(pnt => ({ lat: pnt['$'].lat, lng: pnt['$'].lon })),
-      ];
-    }, trk_res);
+    return trk.trkseg
+      ? trk.trkseg.reduce((trkseg_res, trkseg) => {
+          return trkseg.trkpt
+            ? [
+                ...trkseg_res,
+                ...trkseg.trkpt.map(pnt => ({ lat: pnt['$'].lat, lng: pnt['$'].lon })),
+              ]
+            : trkseg_res;
+        }, trk_res)
+      : trk_res;
   }, []);
 
   return [
