@@ -66,6 +66,16 @@ const GpxDialogUnconnected: FC<Props> = ({
     [gpx, editorSetGpx]
   );
 
+  const onRouteColor = useCallback(
+    index => {
+      if (!gpx.enabled) return;
+      editorSetGpx({
+        list: gpx.list.map((el, i) => (i !== index ? el : { ...el, color: getRandomColor() })),
+      });
+    },
+    [gpx, editorSetGpx]
+  );
+
   const toggleGpx = useCallback(() => {
     editorSetGpx({ enabled: !gpx.enabled });
   }, [gpx, editorSetGpx]);
@@ -83,7 +93,7 @@ const GpxDialogUnconnected: FC<Props> = ({
   const addCurrent = useCallback(() => {
     if (!route.length) return;
 
-    const { path } = getUrlData()
+    const { path } = getUrlData();
 
     editorSetGpx({
       list: [
@@ -115,6 +125,7 @@ const GpxDialogUnconnected: FC<Props> = ({
           onRouteDrop={onRouteDrop}
           onFocusRoute={onFocusRoute}
           onRouteToggle={onRouteToggle}
+          onRouteColor={onRouteColor}
         />
       ))}
 

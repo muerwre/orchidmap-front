@@ -20,7 +20,7 @@ const GpxPolyline: FC<IProps> = ({ latlngs, color }) => {
     setLayer(item);
 
     return () => MainMap.removeLayer(item);
-  }, [MainMap]);
+  }, [MainMap, color, latlngs]);
 
   useEffect(() => {
     if (!layer) return;
