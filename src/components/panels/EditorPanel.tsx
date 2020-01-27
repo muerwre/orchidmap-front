@@ -165,7 +165,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               className={classnames({ primary: changed, inactive: !changed })}
               onClick={this.startSaveMode}
             >
-              <span className="desktop-only">СОХРАНИТЬ</span>
+              <span className="desktop-only">СОХРАНИТЬ</span> 
               <Icon icon="icon-check-1" />
             </button>
           </div>
