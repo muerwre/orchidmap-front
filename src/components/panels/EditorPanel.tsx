@@ -94,7 +94,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
           }}
         >
           <div
-            className={classnames('secondary-bar desktop-only secondary-bar__undo', {
+            className={classnames('secondary-bar secondary-bar__undo', {
               active: can_undo || can_redo || can_clear,
             })}
           >
