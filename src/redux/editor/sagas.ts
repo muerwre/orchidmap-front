@@ -139,18 +139,19 @@ function* getRenderData() {
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
 
-  gpx.list.forEach(item => {
-    if (!gpx.enabled || !item.enabled || !item.latlngs.length) return;
+  // TODO: make additional dashed lines
+  // gpx.list.forEach(item => {
+  //   if (!gpx.enabled || !item.enabled || !item.latlngs.length) return;
 
-    composePoly({
-      points: getPolyPlacement(item.latlngs),
-      ctx,
-      color: item.color,
-      opacity: 0.5,
-      weight: 9,
-      dash: [12, 12],
-    });
-  });
+  //   composePoly({
+  //     points: getPolyPlacement(item.latlngs),
+  //     ctx,
+  //     color: item.color,
+  //     opacity: 0.5,
+  //     weight: 9,
+  //     dash: [12, 12],
+  //   });
+  // });
 
   yield composeArrows({ points, ctx });
   yield composeDistMark({ ctx, points, distance });
