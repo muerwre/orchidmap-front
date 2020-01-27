@@ -111,6 +111,20 @@ const GpxDialogUnconnected: FC<Props> = ({
 
   return (
     <div className="control-dialog control-dialog__left control-dialog__small">
+      {false && (
+        <div className="gpx-confirm">
+          <div className="gpx-confirm__text">Маршрут уже нанесен. Что делаем?</div>
+
+          <div className="gpx-confirm__buttons">
+            <div className="button success">Соединить</div>
+
+            <div className="button danger">Переписать</div>
+
+            <div className="button primary">Отмена</div>
+          </div>
+        </div>
+      )}
+
       <div className="gpx-title">
         <div className="flex_1 big white upper">Треки</div>
         <Switch active={gpx.enabled} onPress={toggleGpx} />

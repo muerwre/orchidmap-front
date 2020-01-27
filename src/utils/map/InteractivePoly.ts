@@ -140,7 +140,7 @@ class InteractivePoly extends Polyline {
   };
 
   hideAllMarkers = (): void => {
-    if (!this._map.hasLayer(this.markerLayer)) return;
+    if (!this._map || !this._map.hasLayer(this.markerLayer)) return;
 
     this._map.removeLayer(this.markerLayer);
     this.fire('allvertexhide');

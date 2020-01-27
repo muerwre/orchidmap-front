@@ -402,7 +402,24 @@
 					<path d="M24.754 6.33H4.844V2.762h19.91z" />
 				</g>
 			</g>
+			<g id="icon-to-poly" stroke="none">
+				<path d="M0 0h32v32H0z" fill="black" />
+				<path d="M7.924 12.991l8.569-4.989-6.55 14.587 13.762-7.974-3.958 9.12" fill="none" stroke="#fff" stroke-width="2.387" stroke-linejoin="round"/>
+				<circle transform="rotate(75)" r="2.387" cy="-4.523" cx="14.711" fill="#fff"/>
+				<circle transform="rotate(75)" r="2.387" cy="-13.883" cx="12.17" fill="#fff"/>
+				<circle transform="rotate(75)" r="2.387" cy="-19.194" cx="20.342" fill="#fff"/>
+				<circle transform="rotate(75)" cx="24.138" cy="-3.701" r="5.48" fill="black" />
+				<circle transform="rotate(75)" cx="27.918" cy="-13.025" r="2.387" fill="#fff"/>
+
+				<path d="M8.224 18.144v3.132H2.357v3.891h5.867v3.012l5.86-5.077z"/>
+			</g>
+
+			<g id="icon-start">
+				<path d="M15.646 2.959a12.688 12.688 0 00-8 2.85v1.837h8zm0 4.687v8h8v-8zm8 0h1.838a12.688 12.688 0 00-1.838-1.835zm0 8v8h1.836a12.688 12.688 0 002.852-8zm0 8h-8v4.688a12.688 12.688 0 008-2.85zm-8 0v-8h-8v8zm-8 0H5.81a12.688 12.688 0 001.837 1.836zm0-8v-8H5.811a12.688 12.688 0 00-2.852 8z" fill="#fff"/>
+				<path d="M15.646 0A15.646 15.646 0 000 15.646a15.646 15.646 0 0015.646 15.647 15.646 15.646 0 0015.647-15.647A15.646 15.646 0 0015.646 0zm0 3.24a12.407 12.407 0 0112.408 12.406 12.407 12.407 0 01-12.408 12.408A12.407 12.407 0 013.24 15.646 12.407 12.407 0 0115.646 3.24z" fill="#fff"/>
+			</g>
 		</svg>
 	</defs>
+
 	<use xlink:href="#icon-trash-6" />
 </svg>

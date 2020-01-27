@@ -25,6 +25,7 @@ const GpxDialogRow: FC<IProps> = ({ item, index, enabled, onRouteToggle, onFocus
       </div>
 
       <div className="gpx-row__buttons">
+        <div onClick={() => onRouteDrop(index)}><Icon icon="icon-to-poly" size={24} /></div>
         <div onClick={() => onRouteDrop(index)}><Icon icon="icon-trash-6" size={24} /></div>
         <div><Switch active={item.enabled} onPress={() => onRouteToggle(index)}/></div>
       </div>

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 const arrow_image = require('~/sprites/arrow.svg');
 
 interface KmMarksOptions {
+  showStartMarker: boolean;
   showMiddleMarkers: boolean;
   showEndMarker: boolean;
   showArrows: boolean;
@@ -17,6 +18,7 @@ class KmMarksLayer extends LayerGroup {
     super();
 
     this.options = {
+      showStartMarker: true,
       showMiddleMarkers: true,
       showEndMarker: true,
       showArrows: true,
@@ -120,6 +122,25 @@ class KmMarksLayer extends LayerGroup {
       zIndexOffset: -100,
     });
 
+  createStartMarker = (latlng: LatLngLiteral): Marker =>
+    marker(latlng, {
+      draggable: false,
+      interactive: false,
+      icon: divIcon({
+        html: `
+          <svg width="20" height="20" viewBox="0 0 32 32">
+            <circle r="16" cx="16" cy="16" fill="red" />
+            <circle r="13" cx="16" cy="16" fill="white" />
+            <circle r="9" cx="16" cy="16" fill="red" />
+          </svg>
+      `,
+        className: classNames('leaflet-km-marker start-marker'),
+        iconSize: [20, 20],
+        iconAnchor: [6, 6],
+      }),
+      zIndexOffset: -100,
+    });
+
   drawEndMarker = (latlngs: LatLngLiteral[]): void => {
     this.endMarker.clearLayers();
 
@@ -132,6 +153,9 @@ class KmMarksLayer extends LayerGroup {
     );
 
     this.endMarker.addLayer(this.createEndMarker(next, angle, this.distance));
+    if (latlngs && latlngs.length) {
+      this.endMarker.addLayer(this.createStartMarker(latlngs[0]));
+    }
   };
 
   options: KmMarksOptions;
