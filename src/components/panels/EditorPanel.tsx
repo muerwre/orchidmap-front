@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState, useCallback } from 'react';
 import { MODES } from '~/constants/modes';
 import classnames from 'classnames';
 
@@ -23,9 +23,15 @@ const mapStateToProps = (state: IState) => {
   const { mode, changed, editing, features, history } = selectEditor(state);
   const { route, stickers } = selectMap(state);
   return {
-    mode, changed, editing, features, history, route, stickers,
-  }    
-}
+    mode,
+    changed,
+    editing,
+    features,
+    history,
+    route,
+    stickers,
+  };
+};
 
 const mapDispatchToProps = {
   editorChangeMode,
@@ -78,7 +84,8 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
       editing,
       features: { routing },
       history: { records, position },
-      route, stickers,
+      route,
+      stickers,
     } = this.props;
 
     const can_undo = records.length > 0 && position > 0;
@@ -165,7 +172,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               className={classnames({ primary: changed, inactive: !changed })}
               onClick={this.startSaveMode}
             >
-              <span className="desktop-only">СОХРАНИТЬ</span> 
+              <span className="desktop-only">СОХРАНИТЬ</span>
               <Icon icon="icon-check-1" />
             </button>
           </div>
