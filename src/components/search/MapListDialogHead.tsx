@@ -15,7 +15,7 @@ const MapListDialogHead: FC<Props> = memo(
   ({ min, max, ready, distance, search, onSearchChange, onDistanceChange }) => {
     const marks = useMemo(
       () =>
-        [...new Array(Math.floor((max - min) / 25) + 1)].reduce(
+        [...new Array(Math.floor((Math.max(min, max) - Math.max(min, max)) / 25) + 1)].reduce(
           (obj, el, i) => ({
             ...obj,
             [min + i * 25]: min + i * 25 < 200 ? ` ${min + i * 25}` : ` ${min + i * 25}+`,
