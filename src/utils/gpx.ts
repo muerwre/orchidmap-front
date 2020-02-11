@@ -18,10 +18,6 @@ type GpxImportRaw = {
     trkseg: GpxImportTrkSeg[];
   }[];
 };
-// export interface IRoutePoint {
-//   lat: number;
-//   lng: number;
-// }
 
 interface IGPXSticker {
   latlng: LatLng;
@@ -88,7 +84,6 @@ export const importGpxTrack = async (file: File) => {
   });
 
   const gpx: GpxImportRaw = GPX.parse(content);
-  console.log(gpx);
 
   if (!gpx || !gpx.trk) return null;
 
@@ -107,7 +102,7 @@ export const importGpxTrack = async (file: File) => {
 
   return [
     {
-      name: gpx.metadata.name || '',
+      name: (gpx.metadata && gpx.metadata.name) || (gpx.trk && gpx.trk[0] && gpx.trk[0].name) || '',
       latlngs,
     },
   ];
