@@ -328,6 +328,10 @@ function* setChanged() {
   yield put(editorSetChanged(true));
 }
 
+function* onZoomChange() {
+
+}
+
 export function* mapSaga() {
   yield takeEvery(
     [MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER, MAP_ACTIONS.SET_STICKERS],

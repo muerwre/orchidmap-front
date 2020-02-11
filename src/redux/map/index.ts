@@ -16,6 +16,7 @@ export interface IMapReducer {
   description: string;
   owner: { id: string };
   is_public: boolean;
+  zoom: number;
 }
 
 export const MAP_INITIAL_STATE: IMapReducer = {
@@ -29,6 +30,7 @@ export const MAP_INITIAL_STATE: IMapReducer = {
   description: '',
   owner: { id: null },
   is_public: false,
+  zoom: 13,
 }
 
 export const map = createReducer(MAP_INITIAL_STATE, MAP_HANDLERS)

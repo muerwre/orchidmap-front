@@ -103,9 +103,7 @@ export const getTilePlacement = (): ITilePlacement => {
 };
 
 export const getPolyPlacement = (latlngs: LatLng[]): Point[] =>
-  latlngs.length === 0
-    ? []
-    : latlngs.map(latlng => (MainMap.latLngToContainerPoint(latlng)));
+  latlngs.length === 0 ? [] : latlngs.map(latlng => MainMap.latLngToContainerPoint(latlng));
 
 export const getStickersPlacement = (stickers: IStickerDump[]): IStickerPlacement[] =>
   stickers.length === 0
@@ -132,7 +130,7 @@ export const imageFetcher = (source: string): Promise<HTMLImageElement> =>
 export const fetchImages = (
   ctx: CanvasRenderingContext2D,
   geometry: ITilePlacement,
-  provider,
+  provider
 ): Promise<{ x: number; y: number; image: HTMLImageElement }[]> => {
   const { minX, maxX, minY, maxY, zoom } = geometry;
 
@@ -144,7 +142,11 @@ export const fetchImages = (
   }
 
   return Promise.all(
-    images.map(({ x, y, source }) => imageFetcher(source).then(image => ({ x, y, image })))
+    images.map(({ x, y, source }) =>
+      imageFetcher(source)
+        .then(image => ({ x, y, image }))
+        .catch()
+    )
   );
 };
 
@@ -206,20 +208,19 @@ export const composePoly = ({
   }
 
   if (color === 'gradient') {
-
     const gradient = ctx.createLinearGradient(minX, minY, minX, maxY);
     gradient.addColorStop(0, COLORS.PATH_COLOR[0]);
     gradient.addColorStop(1, COLORS.PATH_COLOR[1]);
-    
+
     ctx.strokeStyle = gradient;
   } else {
     ctx.strokeStyle = color;
   }
 
   if (dash) {
-    ctx.setLineDash([12,12]);
+    ctx.setLineDash([12, 12]);
   }
-  
+
   ctx.stroke();
   ctx.closePath();
 };
@@ -292,10 +293,12 @@ const composeStickerArrow = (
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  angle: number
+  angle: number,
+  scale: number
 ) => {
   ctx.save();
   ctx.translate(x, y);
+  ctx.scale(scale, scale);
   ctx.rotate(angle + Math.PI * 0.75);
   ctx.translate(-x, -y);
   ctx.fillStyle = '#ff3344';
@@ -309,12 +312,12 @@ const composeStickerArrow = (
   ctx.restore();
 };
 
-const measureRect = (x: number, y: number, width: number, height: number, reversed: boolean) => ({
-  rectX: reversed ? x - width - 36 - 10 : x,
-  rectY: y - 7 - height / 2,
-  rectW: width + 36 + 10,
-  rectH: height + 20,
-  textX: reversed ? x - width - 36 : x + 36,
+const measureRect = (x: number, y: number, width: number, height: number, scale: number, reversed: boolean) => ({
+  rectX: reversed ? x - width - 36 * scale - 10 * scale : x,
+  rectY: y - 7 * scale - height / 2,
+  rectW: width + 46 * scale,
+  rectH: height + 20 * scale,
+  textX: reversed ? x - width - 36 : x + 36 * scale,
 });
 
 const measureDistRect = (
@@ -374,39 +377,32 @@ const composeStickerText = (
   x: number,
   y: number,
   angle: number,
-  text: string
+  text: string,
+  scale: number
 ): void => {
   const rad = 56;
-  const tX = Math.cos(angle + Math.PI) * rad - 30 + x + 28;
-  const tY = Math.sin(angle + Math.PI) * rad - 30 + y + 29;
+  const tX = (Math.cos(angle + Math.PI) * rad - 30 + 28) * scale + x;
+  const tY = (Math.sin(angle + Math.PI) * rad - 30 + 29) * scale + y;
 
-  ctx.font = '12px "Helvetica Neue", Arial';
+  ctx.font = `${12 * scale}px "Helvetica Neue", Arial`;
   const lines = text.split('\n');
-  const { width, height } = measureText(ctx, text, 16);
+  const { width, height } = measureText(ctx, text, 16 * scale);
 
   const { rectX, rectY, rectW, rectH, textX } = measureRect(
     tX,
     tY,
     width,
     height,
+    scale,
     angle > -(Math.PI / 2) && angle < Math.PI / 2
   );
-  // rectangle
-  // ctx.fillStyle = '#222222';
-  // ctx.beginPath();
-  // ctx.rect(
-  //   rectX,
-  //   rectY,
-  //   rectW,
-  //   rectH,
-  // );
-  // ctx.closePath();
-  // ctx.fill();
+
   roundedRect(ctx, rectX, rectY, rectW, rectH, '#222222', 2);
 
   // text
   ctx.fillStyle = 'white';
-  lines.map((line, i) => ctx.fillText(line, textX, rectY + 6 + 16 * (i + 1)));
+  lines.map((line, i) => ctx.fillText(line, textX, rectY + (6 + 16 * (i + 1)) * scale));
+  // ctx.scale(1/scale, 1/scale);
 };
 
 export const composeDistMark = ({
@@ -451,36 +447,43 @@ const composeStickerImage = async (
   y: number,
   angle: number,
   set: string,
-  sticker: string
+  sticker: string,
+  scale: number
 ): Promise<void> => {
+  console.log({ scale });
+
   const rad = 56;
-  const tX = Math.cos(angle + Math.PI) * rad - 30 + (x - 8);
-  const tY = Math.sin(angle + Math.PI) * rad - 30 + (y - 4);
+  const tX = (Math.cos(angle + Math.PI) * rad - 30 - 6) * scale + x;
+  const tY = (Math.sin(angle + Math.PI) * rad - 30 - 6) * scale + y;
   const offsetX = STICKERS[set].layers[sticker].off * 72;
 
-  return imageFetcher(STICKERS[set].url).then(image =>
-    ctx.drawImage(image, offsetX, 0, 72, 72, tX, tY, 72, 72)
-  );
+  await imageFetcher(STICKERS[set].url).then(image => {
+    ctx.drawImage(image, offsetX, 0, 72, 72, tX, tY, 72 * scale, 72 * scale);
+  });
+
+  return;
 };
 
 export const composeStickers = async ({
   stickers,
   ctx,
+  zoom,
 }: {
   stickers: IStickerPlacement[];
   ctx: CanvasRenderingContext2D;
+  zoom: number;
 }): Promise<void> => {
   if (!stickers || stickers.length < 0) return;
 
   stickers.map(({ x, y, angle, text }) => {
-    composeStickerArrow(ctx, x, y, angle);
+    composeStickerArrow(ctx, x, y, angle, zoom);
 
-    if (text) composeStickerText(ctx, x, y, angle, text);
+    if (text) composeStickerText(ctx, x, y, angle, text, zoom);
   });
 
   await Promise.all(
     stickers.map(({ x, y, angle, set, sticker }) =>
-      composeStickerImage(ctx, x, y, angle, set, sticker)
+      composeStickerImage(ctx, x, y, angle, set, sticker, zoom)
     )
   );
 };

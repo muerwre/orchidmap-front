@@ -79,3 +79,8 @@ export const mapSetAddressOrigin = (address_origin: IMapReducer['address_origin'
   type: MAP_ACTIONS.SET_ADDRESS_ORIGIN,
   address_origin,
 });
+
+export const mapZoomChange = (zoom: number) => ({
+  type: MAP_ACTIONS.ZOOM_CHANGE,
+  zoom,
+});

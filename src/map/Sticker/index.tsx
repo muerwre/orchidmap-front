@@ -13,6 +13,7 @@ interface IProps {
   onDragStart?: () => void;
   index: number;
   is_editing: boolean;
+  zoom: number;
 
   mapSetSticker: (index: number, sticker: IStickerDump) => void;
   mapDropSticker: (index: number) => void;
@@ -29,13 +30,16 @@ const getX = e =>
 const Sticker: React.FC<IProps> = ({
   sticker,
   index,
+  is_editing,
+  zoom,
   mapSetSticker,
   mapDropSticker,
-  is_editing,
 }) => {
   const [text, setText] = useState(sticker.text);
   const [layer, setLayer] = React.useState<Marker>(null);
   const [dragging, setDragging] = React.useState(false);
+  const wrapper = useRef(null);
+
   let angle = useRef(sticker.angle);
 
   const element = React.useMemo(() => document.createElement('div'), []);
@@ -146,6 +150,14 @@ const Sticker: React.FC<IProps> = ({
     setText(sticker.text);
   }, [layer, sticker.text]);
 
+  useEffect(() => {
+    if (!wrapper || !wrapper.current) return;
+
+    const scale = zoom / 13;
+
+    wrapper.current.style.transform = `scale(${scale}) perspective(1px)`
+  }, [zoom, wrapper]);
+
   // Attaches onMoveFinished event to item
   React.useEffect(() => {
     if (!layer) return;
@@ -200,8 +212,9 @@ const Sticker: React.FC<IProps> = ({
     element.className = is_editing ? 'sticker-container' : 'sticker-container inactive';
   }, [element, is_editing, layer]);
 
+
   return createPortal(
-    <React.Fragment>
+    <div ref={wrapper} className="sticker-wrapper">
       <div className="sticker-arrow" ref={stickerArrow} />
       <div className={classNames(`sticker-label ${direction}`)} ref={stickerImage}>
         <StickerDesc value={text} onChange={onTextChange} onBlur={onTextBlur} />
@@ -220,7 +233,7 @@ const Sticker: React.FC<IProps> = ({
 
         <div className="sticker-delete" onMouseDown={onDelete} onTouchStart={onDelete} />
       </div>
-    </React.Fragment>,
+    </div>,
     element
   );
 };

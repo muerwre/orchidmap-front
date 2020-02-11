@@ -14,6 +14,7 @@ import {
   mapSetLogo,
   mapSetAddressOrigin,
   mapSetStickers,
+  mapZoomChange,
 } from './actions';
 
 const setMap = (state: IMapReducer, { map }: ReturnType<typeof mapSet>): IMapReducer => ({
@@ -101,6 +102,11 @@ const setAddressOrigin = (state, { address_origin }: ReturnType<typeof mapSetAdd
   address_origin
 });
 
+const zoomChange = (state, { zoom }: ReturnType<typeof mapZoomChange>): IMapReducer => ({
+  ...state,
+  zoom
+});
+
 export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_MAP]: setMap,
   [MAP_ACTIONS.SET_PROVIDER]: setProvider,
@@ -116,4 +122,5 @@ export const MAP_HANDLERS = {
   [MAP_ACTIONS.SET_PUBLIC]: setPublic,
   [MAP_ACTIONS.SET_LOGO]: setLogo,
   [MAP_ACTIONS.SET_ADDRESS_ORIGIN]: setAddressOrigin,
+  [MAP_ACTIONS.ZOOM_CHANGE]: zoomChange,
 };

@@ -19,6 +19,8 @@ import { mapSaga } from '~/redux/map/sagas';
 import { watchLocation, getLocation } from '~/utils/window';
 import { LatLngLiteral } from 'leaflet';
 import { setUserLocation } from './user/actions';
+import { MainMap } from '~/constants/map';
+import { mapZoomChange } from './map/actions';
 
 const userPersistConfig: PersistConfig = {
   key: 'user',
@@ -73,3 +75,4 @@ history.listen((location, action) => {
 });
 
 watchLocation((location: LatLngLiteral) => store.dispatch(setUserLocation(location)));
+MainMap.on('zoomend', event => store.dispatch(mapZoomChange(event.target._zoom)))

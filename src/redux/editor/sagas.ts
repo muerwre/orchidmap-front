@@ -139,23 +139,9 @@ function* getRenderData() {
   yield composeImages({ geometry, images, ctx });
   yield composePoly({ points, ctx });
 
-  // TODO: make additional dashed lines
-  // gpx.list.forEach(item => {
-  //   if (!gpx.enabled || !item.enabled || !item.latlngs.length) return;
-
-  //   composePoly({
-  //     points: getPolyPlacement(item.latlngs),
-  //     ctx,
-  //     color: item.color,
-  //     opacity: 0.5,
-  //     weight: 9,
-  //     dash: [12, 12],
-  //   });
-  // });
-
   yield composeArrows({ points, ctx });
   yield composeDistMark({ ctx, points, distance });
-  yield composeStickers({ stickers: sticker_points, ctx });
+  yield composeStickers({ stickers: sticker_points, ctx, zoom: MainMap.getZoom() / 13 });
 
   yield put(editorSetRenderer({ info: 'Готово', progress: 1 }));
 

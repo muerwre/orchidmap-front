@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, memo, FC, useEffect, useCallback } from 'react';
 import { IStickerDump } from '~/redux/map/types';
-import { FeatureGroup, Map } from 'leaflet';
+import { FeatureGroup, Map, LeafletEvent } from 'leaflet';
 import { Sticker } from '~/map/Sticker';
 import { mapSetSticker, mapDropSticker } from '~/redux/map/actions';
 import { MainMap } from '~/constants/map';
@@ -8,39 +8,51 @@ import { MainMap } from '~/constants/map';
 interface IProps {
   stickers: IStickerDump[];
   is_editing: boolean;
+
   mapSetSticker: typeof mapSetSticker;
   mapDropSticker: typeof mapDropSticker;
 }
 
-const Stickers: React.FC<IProps> = React.memo(
-  ({ stickers, is_editing, mapSetSticker, mapDropSticker }) => {
-    const [layer, setLayer] = React.useState<FeatureGroup>(null);
+const Stickers: FC<IProps> = memo(({ stickers, is_editing, mapSetSticker, mapDropSticker }) => {
+  const [layer, setLayer] = useState<FeatureGroup>(null);
+  const [zoom, setZoom] = useState(16);
 
-    React.useEffect(() => {
-      if (!MainMap) return;
+  const onZoomChange = useCallback(
+    (event: LeafletEvent) => {
+      setZoom(event.target._zoom);
+    },
+    [setZoom]
+  );
 
-      const item = new FeatureGroup().addTo(MainMap.stickerLayer);
-      setLayer(item);
+  useEffect(() => {
+    if (!MainMap) return;
 
-      return () => MainMap.stickerLayer.removeLayer(item);
-    }, [MainMap]);
+    const item = new FeatureGroup().addTo(MainMap.stickerLayer);
+    setLayer(item);
+    MainMap.on('zoomend', onZoomChange);
 
-    return (
-      <div>
-        {layer &&
-          stickers.map((sticker, index) => (
-            <Sticker
-              sticker={sticker}
-              key={`${sticker.set}.${sticker.sticker}.${index}`}
-              index={index}
-              is_editing={is_editing}
-              mapSetSticker={mapSetSticker}
-              mapDropSticker={mapDropSticker}
-            />
-          ))}
-      </div>
-    );
-  }
-);
+    return () => {
+      MainMap.off('zoomend', onZoomChange);
+      MainMap.stickerLayer.removeLayer(item);
+    };
+  }, [MainMap, onZoomChange]);
+
+  return (
+    <div>
+      {layer &&
+        stickers.map((sticker, index) => (
+          <Sticker
+            sticker={sticker}
+            key={`${sticker.set}.${sticker.sticker}.${index}`}
+            index={index}
+            is_editing={is_editing}
+            zoom={zoom}
+            mapSetSticker={mapSetSticker}
+            mapDropSticker={mapDropSticker}
+          />
+        ))}
+    </div>
+  );
+});
 
 export { Stickers };

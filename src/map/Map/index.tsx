@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { MainMap } from '~/constants/map';
 import { createPortal } from 'react-dom';
@@ -18,7 +18,6 @@ import 'leaflet/dist/leaflet.css';
 import { selectEditorEditing, selectEditorMode, selectEditorGpx } from '~/redux/editor/selectors';
 import { MODES } from '~/constants/modes';
 import { selectUserLocation } from '~/redux/user/selectors';
-import { GPX_ROUTE_COLORS } from '~/redux/editor/constants';
 
 const mapStateToProps = state => ({
   provider: selectMapProvider(state),
@@ -41,67 +40,63 @@ type IProps = React.HTMLAttributes<HTMLDivElement> &
   ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {};
 
-const MapUnconnected: React.FC<IProps> = ({
-  provider,
-  stickers,
-  editing,
-  mode,
-  location,
-  gpx,
+const MapUnconnected: React.FC<IProps> = memo(
+  ({
+    provider,
+    stickers,
+    editing,
+    mode,
+    location,
+    gpx,
 
-  mapClicked,
-  mapSetSticker,
-  mapDropSticker,
-}) => {
-  const onClick = React.useCallback(
-    event => {
-      if (!MainMap.clickable || mode === MODES.NONE) return;
+    mapClicked,
+    mapSetSticker,
+    mapDropSticker,
+  }) => {
+    const onClick = React.useCallback(
+      event => {
+        if (!MainMap.clickable || mode === MODES.NONE) return;
 
-      mapClicked(event.latlng);
-    },
-    [mapClicked, mode]
-  );
+        mapClicked(event.latlng);
+      },
+      [mapClicked, mode]
+    );
 
-  React.useEffect(() => {
-    MainMap.addEventListener('click', onClick);
+    React.useEffect(() => {
+      MainMap.addEventListener('click', onClick);
 
-    return () => {
-      MainMap.removeEventListener('click', onClick);
-    };
-  }, [MainMap, onClick]);
+      return () => {
+        MainMap.removeEventListener('click', onClick);
+      };
+    }, [MainMap, onClick]);
 
-  return createPortal(
-    <div>
-      <TileLayer provider={provider} map={MainMap} />
+    return createPortal(
+      <div>
+        <TileLayer provider={provider} map={MainMap} />
 
-      <Stickers
-        stickers={stickers}
-        mapSetSticker={mapSetSticker}
-        mapDropSticker={mapDropSticker}
-        is_editing={editing}
-      />
+        <Stickers
+          stickers={stickers}
+          mapSetSticker={mapSetSticker}
+          mapDropSticker={mapDropSticker}
+          is_editing={editing}
+        />
 
-      <Route />
-      <Router />
+        <Route />
+        <Router />
 
-      <KmMarks />
-      <CurrentLocation location={location} />
+        <KmMarks />
+        <CurrentLocation location={location} />
 
-      {gpx.enabled &&
-        gpx.list.map(
-          ({ latlngs, enabled, color }, index) =>
-            enabled && (
-              <GpxPolyline
-                latlngs={latlngs}
-                color={color}
-                key={index}
-              />
-            )
-        )}
-    </div>,
-    document.getElementById('canvas')
-  );
-};
+        {gpx.enabled &&
+          gpx.list.map(
+            ({ latlngs, enabled, color }, index) =>
+              enabled && <GpxPolyline latlngs={latlngs} color={color} key={index} />
+          )}
+      </div>,
+      document.getElementById('canvas')
+    );
+  }
+);
 
 const Map = connect(mapStateToProps, mapDispatchToProps)(MapUnconnected);
 export { Map };
