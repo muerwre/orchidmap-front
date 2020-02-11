@@ -18,8 +18,8 @@ const Stickers: FC<IProps> = memo(({ stickers, is_editing, mapSetSticker, mapDro
   const [zoom, setZoom] = useState(16);
 
   const onZoomChange = useCallback(
-    (event: LeafletEvent) => {
-      setZoom(event.target._zoom);
+    (event) => {
+      setZoom(event.zoom);
     },
     [setZoom]
   );
@@ -29,10 +29,10 @@ const Stickers: FC<IProps> = memo(({ stickers, is_editing, mapSetSticker, mapDro
 
     const item = new FeatureGroup().addTo(MainMap.stickerLayer);
     setLayer(item);
-    MainMap.on('zoomend', onZoomChange);
+    MainMap.on('zoomanim', onZoomChange);
 
     return () => {
-      MainMap.off('zoomend', onZoomChange);
+      MainMap.off('zoomanim', onZoomChange);
       MainMap.stickerLayer.removeLayer(item);
     };
   }, [MainMap, onZoomChange]);

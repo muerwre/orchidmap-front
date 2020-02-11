@@ -111,7 +111,11 @@
 
 .sticker-wrapper {
   will-change: transform;
-  transition: transform 50ms;
+  transition: transform 250ms;
+
+  @media (hover: hover) {
+    transition: transform 0ms;
+  }
 }
 
 .sticker-arrow {

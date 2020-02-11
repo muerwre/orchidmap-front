@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { DomMarker } from '~/utils/map/DomMarker';
 import { createPortal } from 'react-dom';
 import { MapContainer, MainMap } from '~/constants/map';
+import { getAdaptiveScale } from '~/utils/dom';
 
 interface IProps {
   sticker: IStickerDump;
@@ -153,7 +154,7 @@ const Sticker: React.FC<IProps> = ({
   useEffect(() => {
     if (!wrapper || !wrapper.current) return;
 
-    const scale = zoom / 13;
+    const scale = getAdaptiveScale(zoom) // adaptive zoom :-)
 
     wrapper.current.style.transform = `scale(${scale}) perspective(1px)`
   }, [zoom, wrapper]);

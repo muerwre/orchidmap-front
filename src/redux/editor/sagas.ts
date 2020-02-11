@@ -66,7 +66,7 @@ import { MainMap } from '~/constants/map';
 import { EDITOR_INITIAL_STATE } from '.';
 import { Unwrap } from '~/utils/middleware';
 import uuid from 'uuid';
-import { getRandomColor } from '~/utils/dom';
+import { getRandomColor, getAdaptiveScale } from '~/utils/dom';
 
 const hideLoader = () => {
   document.getElementById('loader').style.opacity = String(0);
@@ -141,7 +141,11 @@ function* getRenderData() {
 
   yield composeArrows({ points, ctx });
   yield composeDistMark({ ctx, points, distance });
-  yield composeStickers({ stickers: sticker_points, ctx, zoom: MainMap.getZoom() / 13 });
+  yield composeStickers({
+    stickers: sticker_points,
+    ctx,
+    zoom: getAdaptiveScale(MainMap.getZoom()),
+  });
 
   yield put(editorSetRenderer({ info: 'Готово', progress: 1 }));
 
