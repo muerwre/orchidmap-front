@@ -294,7 +294,7 @@ function* routerSubmit() {
   const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
   const latlngs: LatLng[] = path(['_routes', 0, 'coordinates'], OsrmRouter);
 
-  const coordinates = simplify({ map: MainMap, latlngs });
+  const coordinates = simplify(latlngs);
 
   yield put(mapSetRoute([...route, ...coordinates]));
   OsrmRouter.setWaypoints([]);

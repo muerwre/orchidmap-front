@@ -1,9 +1,9 @@
 import React, { FC, useCallback, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
-import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { IState } from '~/redux/store';
 import { selectEditorGpx } from '~/redux/editor/selectors';
 import { GpxDialogRow } from '~/components/gpx/GpxDialogRow';
+import { GpxConfirm } from '~/components/gpx/GpxConfirm';
 import { MainMap } from '~/constants/map';
 import { latLngBounds } from 'leaflet';
 import { Switch } from '../Switch';
@@ -12,6 +12,10 @@ import classNames from 'classnames';
 import uuid from 'uuid';
 import { getUrlData } from '~/utils/history';
 import { getRandomColor } from '~/utils/dom';
+
+import * as EDITOR_ACTIONS from '~/redux/editor/actions';
+import * as MAP_ACTIONS from '~/redux/map/actions';
+import { simplify } from '~/utils/simplify';
 
 const mapStateToProps = (state: IState) => ({
   gpx: selectEditorGpx(state),
@@ -25,6 +29,7 @@ const mapDispatchToProps = {
   editorUploadGpx: EDITOR_ACTIONS.editorUploadGpx,
   editorSetGpx: EDITOR_ACTIONS.editorSetGpx,
   editorGetGPXTrack: EDITOR_ACTIONS.editorGetGPXTrack,
+  mapSetRoute: MAP_ACTIONS.mapSetRoute,
 };
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
@@ -37,7 +42,12 @@ const GpxDialogUnconnected: FC<Props> = ({
   editorGetGPXTrack,
   editorSetGpx,
   editorUploadGpx,
+  mapSetRoute,
 }) => {
+  const toggleGpx = useCallback(() => {
+    editorSetGpx({ enabled: !gpx.enabled });
+  }, [gpx, editorSetGpx]);
+
   const onGpxUpload = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (!event.target || !event.target.files || event.target.files.length === 0) {
@@ -76,13 +86,10 @@ const GpxDialogUnconnected: FC<Props> = ({
     [gpx, editorSetGpx]
   );
 
-  const toggleGpx = useCallback(() => {
-    editorSetGpx({ enabled: !gpx.enabled });
-  }, [gpx, editorSetGpx]);
-
   const onRouteToggle = useCallback(
     index => {
       if (!gpx.enabled) return;
+
       editorSetGpx({
         list: gpx.list.map((el, i) => (i !== index ? el : { ...el, enabled: !el.enabled })),
       });
@@ -109,22 +116,19 @@ const GpxDialogUnconnected: FC<Props> = ({
     });
   }, [route, gpx, editorSetGpx]);
 
+  const onRouteReplace = useCallback(
+    (i: number) => {
+      mapSetRoute(simplify(gpx.list[i].latlngs));
+
+      editorSetGpx({
+        list: gpx.list.map((el, index) => (i !== index ? el : { ...el, enabled: false })),
+      });
+    },
+    [gpx, mapSetRoute, editorSetGpx]
+  );
+
   return (
     <div className="control-dialog control-dialog__left control-dialog__small">
-      {false && (
-        <div className="gpx-confirm">
-          <div className="gpx-confirm__text">Маршрут уже нанесен. Что делаем?</div>
-
-          <div className="gpx-confirm__buttons">
-            <div className="button success">Соединить</div>
-
-            <div className="button danger">Переписать</div>
-
-            <div className="button primary">Отмена</div>
-          </div>
-        </div>
-      )}
-
       <div className="gpx-title">
         <div className="flex_1 big white upper">Треки</div>
         <Switch active={gpx.enabled} onPress={toggleGpx} />
@@ -140,6 +144,7 @@ const GpxDialogUnconnected: FC<Props> = ({
           onFocusRoute={onFocusRoute}
           onRouteToggle={onRouteToggle}
           onRouteColor={onRouteColor}
+          onRouteReplace={onRouteReplace}
         />
       ))}
 
