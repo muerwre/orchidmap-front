@@ -14,5 +14,5 @@ export const getRandomColor = () => {
 }
 
 export const getAdaptiveScale = (zoom: number): number => (
-  Math.min(1, Math.max(0.4, 1 / (2 ** (13 - zoom))))
+  Math.min(1, Math.max(0.4, 1.5 / (2 ** (13 - zoom))))
 );
