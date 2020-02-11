@@ -84,7 +84,7 @@ const TILEMAPS: ITileMaps = {
 
 const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT'];
 
-export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[0];
+export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[1];
 export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
   ...obj,
   [provider]: TILEMAPS[provider],
