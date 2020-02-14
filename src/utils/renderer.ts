@@ -66,13 +66,12 @@ const tileToLatLng = (point: { x: number; y: number }): LatLng => {
 };
 
 export const getTilePlacement = (): ITilePlacement => {
-  const map = MainMap;
   const width = window.innerWidth;
   const height = window.innerHeight;
 
   // map corners
-  const southWest = map.getBounds().getSouthWest();
-  const northEast = map.getBounds().getNorthEast();
+  const southWest = MainMap.getBounds().getSouthWest();
+  const northEast = MainMap.getBounds().getNorthEast();
 
   // map corner's tile files [x, y, z] to fetch from server
   const southWestTile = latLngToTile(southWest);
@@ -85,8 +84,8 @@ export const getTilePlacement = (): ITilePlacement => {
   // actual coords of file's corners (they're shifted from view)
   const southWestTileCoords = tileToLatLng(southWestTile);
 
-  const tileTransformTranslate = map.latLngToLayerPoint(southWestTileCoords);
-  const msw2 = map.latLngToLayerPoint(southWest);
+  const tileTransformTranslate = MainMap.latLngToLayerPoint(southWestTileCoords);
+  const msw2 = MainMap.latLngToLayerPoint(southWest);
 
   return {
     minX,
@@ -317,7 +316,7 @@ const measureRect = (x: number, y: number, width: number, height: number, scale:
   rectY: y - 7 * scale - height / 2,
   rectW: width + 46 * scale,
   rectH: height + 20 * scale,
-  textX: reversed ? x - width - 36 : x + 36 * scale,
+  textX: reversed ? x - width - (36 * scale) : x + 36 * scale,
 });
 
 const measureDistRect = (
@@ -402,7 +401,6 @@ const composeStickerText = (
   // text
   ctx.fillStyle = 'white';
   lines.map((line, i) => ctx.fillText(line, textX, rectY + (6 + 16 * (i + 1)) * scale));
-  // ctx.scale(1/scale, 1/scale);
 };
 
 export const composeDistMark = ({

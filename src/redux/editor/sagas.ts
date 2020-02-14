@@ -118,7 +118,6 @@ function* getRenderData() {
   yield put(editorSetRenderer({ info: 'Загрузка тайлов', progress: 0.1 }));
 
   const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
-  const gpx: ReturnType<typeof selectEditorGpx> = yield select(selectEditorGpx);
   const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   const canvas = <HTMLCanvasElement>document.getElementById('renderer');
