@@ -13,4 +13,9 @@ pipeline {
             }
         }
     }
+
+    node('master') {
+        build job: 'build', parameters: [string(name: 'Branch', value: "${env.BRANCH_NAME}")], propagate: true, wait: true
+        build job: 'release', parameters: [string(name: 'Branch', value: "${env.BRANCH_NAME}")], propagate: true, wait: true
+    }
 }
