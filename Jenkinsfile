@@ -13,25 +13,27 @@ pipeline {
     }
 
     stages {
-        stage('CHECK') {
+        stage('check') {
             steps {
                 echo "WWW: ${WWW}"
                 echo "ENV: ${ENV}"
+                echo "WORKSPACE: ${env.WORKSPACE},${WORKSPACE}"
                 sh 'pwd'
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "develop")) {
+                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "dvelop")) {
                         println "INCORRECT VARIABLES"
                         currentBuild.result = 'FAILED'
                         failed = true
+                        error "Build failed :-("
                         return
                     }
                 }
             }
         }    
 
-        stage('Copy ENV files') {
+        stage('copy env') {
             steps {
                 sh "cp -a ${ENV}/. ./"
             }
@@ -52,9 +54,9 @@ pipeline {
             }
         }
 
-        stage('Deploy: dev') {
+        stage('deploy') {
             when {
-                branch 'develop'
+                // branch 'develop'
                 expression {
                     !failed
                 }
@@ -63,19 +65,6 @@ pipeline {
             steps{
                 sh "rm -rf ${WWW}"
                 sh "mv ./dist ${WWW}"
-            }
-        }
-
-        stage('Deploy: master') {
-            when {
-                branch 'master'
-                expression {
-                    !failed
-                }
-            }
-
-            steps{
-                echo "====== its a MASTER!!! ======"
             }
         }
     }
