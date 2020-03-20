@@ -8,12 +8,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
-                sh 'npm build'
+                // sh 'npm install'
+                // sh 'npm run build'
             }
         }    
 
-        stage('If dev') {
+        stage('Deploy: dev') {
             when {
                 branch 'develop'
             }
@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('If master') {
+        stage('Deploy: master') {
             when {
                 branch 'master'
             }
