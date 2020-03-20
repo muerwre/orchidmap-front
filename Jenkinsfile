@@ -6,16 +6,30 @@ pipeline {
     }
 
     stages {
-        stage('Show the branch 1') {
-            GIT_BRANCH_LOCAL = sh (
-                script: "echo $Branch | sed -e 's|origin/||g'",
-                returnStdout: true
-            ).trim()
-
+        stage('Build') {
             steps {
-                echo "Git branch: ${GIT_BRANCH_LOCAL}"
-                sh '/bin/true'
-                echo "BRANCH IS: ${env.BRANCH}"
+                sh 'npm install'
+                sh 'npm build'
+            }
+        }    
+
+        stage('If dev') {
+            when {
+                branch 'develop'
+            }
+            
+            steps{
+                echo "====== its a dev!!! ======"
+            }
+        }
+
+        stage('If dev') {
+            when {
+                branch 'master'
+            }
+
+            steps{
+                echo "====== its a MASTER!!! ======"
             }
         }
     }
