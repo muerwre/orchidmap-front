@@ -9,13 +9,8 @@ pipeline {
         stage('Show the branch 1') {
             steps {
                 sh '/bin/true'
-                echo "BRANCH IS: ${params.BRANCH}"
+                echo "BRANCH IS: ${env.BRANCH}"
             }
         }
-    }
-
-    node('master') {
-        build job: 'build', parameters: [string(name: 'Branch', value: "${env.BRANCH_NAME}")], propagate: true, wait: true
-        build job: 'release', parameters: [string(name: 'Branch', value: "${env.BRANCH_NAME}")], propagate: true, wait: true
     }
 }
