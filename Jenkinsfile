@@ -31,6 +31,12 @@ pipeline {
             }
         }    
 
+        stage('LS') {
+            steps {
+                sh 'ls -a'
+            }
+        }
+        
         stage('Copy ENV files') {
             steps {
                 sh "cp -a ${ENV} ./"
