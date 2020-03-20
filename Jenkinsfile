@@ -21,7 +21,8 @@ pipeline {
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "dev")) {
+                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "develop")) {
+                        println "INCORRECT VARIABLES"
                         currentBuild.result = 'FAILED'
                         failed = true
                         return
@@ -29,6 +30,15 @@ pipeline {
                 }
             }
         }    
+
+        stage('Copy ENV files') {
+            sh "cp -a ${ENV} ./"
+        }
+
+        stage('Build') {
+            sh 'npm install'
+            sh 'npm run build'
+        }
 
         stage('Deploy: dev') {
             when {
