@@ -1,15 +1,20 @@
 pipeline {
     agent any
     
-    parameters {
-        gitParameter branchFilter: '.*/(.*)', defaultValue: 'hoogabooga', name: 'BRANCH', type: 'PT_BRANCH'
+    // parameters {
+        // gitParameter branchFilter: '.*/(.*)', defaultValue: 'hoogabooga', name: 'BRANCH', type: 'PT_BRANCH'
+    // }
+
+    environment {
+        ENV_NAME = "${env.BRANCH_NAME == "develop" ? "staging" : "production"}"
     }
 
     stages {
         stage('Build') {
             steps {
-                sh 'pwd'
-                sh 'ls'
+                echo $ENV_NAME
+                // sh 'pwd'
+                // sh 'ls'
                 // sh 'npm install'
                 // sh 'npm run build'
             }
