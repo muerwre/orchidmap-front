@@ -18,9 +18,11 @@ pipeline {
                 sh 'pwd'
                 sh 'ls'
 
-                if($WWW == "") {
-                    currentBuild.result = 'SUCCESS'
-                    return
+                script {
+                    if("${WWW}" == "") {
+                        currentBuild.result = 'UNSTABLE'
+                        return
+                    }
                 }
             }
         }    
