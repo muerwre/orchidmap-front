@@ -32,12 +32,16 @@ pipeline {
         }    
 
         stage('Copy ENV files') {
-            sh "cp -a ${ENV} ./"
+            steps {
+                sh "cp -a ${ENV} ./"
+            }
         }
 
         stage('Build') {
-            sh 'npm install'
-            sh 'npm run build'
+            steps {
+                sh 'npm install'
+                sh 'npm run build'
+            }
         }
 
         stage('Deploy: dev') {
