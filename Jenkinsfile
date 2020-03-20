@@ -16,6 +16,7 @@ pipeline {
             steps {
                 echo "WWW: ${WWW}"
                 echo "ENV: ${ENV}"
+                echo "OSWWW: ${env.ORCHID_STABLE_WWW}"
                 sh 'pwd'
                 sh 'ls'
                 // sh 'npm install'
