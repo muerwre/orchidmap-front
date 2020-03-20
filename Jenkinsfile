@@ -61,7 +61,8 @@ pipeline {
             }
             
             steps{
-                echo "====== its a dev!!! ======"
+                sh "rm -rf ${WWW}"
+                sh "mv ./dist ${WWW}"
             }
         }
 
