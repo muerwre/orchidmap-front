@@ -17,6 +17,11 @@ pipeline {
                 echo "ENV: ${ENV}"
                 sh 'pwd'
                 sh 'ls'
+
+                if($WWW == "") {
+                    currentBuild.result = 'SUCCESS'
+                    return
+                }
             }
         }    
 
