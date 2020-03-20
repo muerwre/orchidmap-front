@@ -35,10 +35,3 @@ Configs are placed in ```./config/frontend.js```
 For development launch ```npm start``` and visit ```http://localhost:8000/```
 
 For production launch ```npm build```, the output will be placed at ```./dist``` folder, you should configure your http server to serve index html from that folder.
-
-### Backend
-Take a look at ```./config/backend.js```. By default your api server will be spawned at ```http://localhost:3000/```
-
-For development launch ```npm serve-dev```, it will launch dev server, reloading on every code update
-
-For production launch ```npm serve``` and make it running in background by any desirable way, such as ```forever```
