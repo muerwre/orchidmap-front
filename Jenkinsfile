@@ -41,7 +41,7 @@ pipeline {
 
         stage('Copy ENV files') {
             steps {
-                sh "cp -a ${ENV} ./"
+                sh "cp -a ${ENV}/. ./"
             }
         }
 
