@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo $ENV_NAME
+                echo "${ENV_NAME}"
                 // sh 'pwd'
                 // sh 'ls'
                 // sh 'npm install'
