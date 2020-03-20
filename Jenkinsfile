@@ -20,7 +20,7 @@ pipeline {
 
                 script {
                     if("${WWW}" == "/var/www/on-deploy/map/staging/frontend") {
-                        currentBuild.result = 'UNSTABLE'
+                        currentBuild.result = 'FAILED'
                         return
                     }
                 }
