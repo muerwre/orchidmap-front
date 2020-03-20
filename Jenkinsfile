@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo "WWW: ${WWW}"
                 echo "ENV: ${ENV}"
-                echo "WORKSPACE: ${env.WORKSPACE},${WORKSPACE}"
+                echo "WORKSPACE: ${WORKSPACE}"
                 sh 'pwd'
                 sh 'ls'
 
@@ -35,7 +35,7 @@ pipeline {
 
         stage('copy env') {
             steps {
-                sh "cp -a ${ENV}/. ./"
+                sh "cp -a ${ENV}/. ${WORKSPACE}"
             }
         }
 
@@ -64,7 +64,7 @@ pipeline {
             
             steps{
                 sh "rm -rf ${WWW}"
-                sh "mv ./dist ${WWW}"
+                sh "mv ${WORKSPACE}/dist ${WWW}"
             }
         }
     }
