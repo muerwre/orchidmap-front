@@ -31,17 +31,17 @@ pipeline {
             }
         }    
 
+        stage('Copy ENV files') {
+            steps {
+                sh "cp -a ${ENV}/. ./"
+            }
+        }
+
         stage('LS') {
             steps {
                 sh "ls -a ./"
                 sh "ls -a ${ENV}"
                 sh "ls -a ./src/config"
-            }
-        }
-
-        stage('Copy ENV files') {
-            steps {
-                sh "cp -a ${ENV}/. ./"
             }
         }
 

@@ -79,6 +79,7 @@
     "less": "^3.8.1",
     "less-middleware": "~2.2.1",
     "lodash": "^4.17.10",
+    "npm": "^6.14.3",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "pt-sans-cyrillic": "0.0.4",
     "raleway-cyrillic": "^4.0.2",
