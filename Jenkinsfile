@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Do nothing 2') {
+        stage('Do nothing 3') {
             steps {
                 sh '/bin/true'
             }
