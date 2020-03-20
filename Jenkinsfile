@@ -6,9 +6,8 @@ pipeline {
     // }
 
     environment {        
-        WWW = "${env.BRANCH_NAME == "master" ? "/var/www/on-deploy/map/stable/frontend" : "/var/www/on-deploy/map/staging/frontend"}"
-        ENV = "${env.BRANCH_NAME == "master" ? "/opt/deploys/env/map/stable/frontend" : "/opt/deploys/env/map/staging/frontend"}"
-        
+        WWW = "${env.BRANCH_NAME == "master" ? env.ORCHID_STABLE_WWW : env.ORCHID_STAGING_WWW}"
+        ENV = "${env.BRANCH_NAME == "master" ? env.ORCHID_STABLE_ENV : env.ORCHID_STANGING_ENV}"
     }
 
     stages {
@@ -16,11 +15,8 @@ pipeline {
             steps {
                 echo "WWW: ${WWW}"
                 echo "ENV: ${ENV}"
-                echo "OSWWW: ${env.ORCHID_STABLE_WWW}"
                 sh 'pwd'
                 sh 'ls'
-                // sh 'npm install'
-                // sh 'npm run build'
             }
         }    
 
