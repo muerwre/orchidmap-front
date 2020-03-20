@@ -8,8 +8,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
-                sh 'npm run build'
+                // sh 'npm install'
+                // sh 'npm run build'
             }
         }    
 
@@ -20,6 +20,7 @@ pipeline {
             
             steps{
                 echo "====== its a dev!!! ======"
+                sh 'pwd'
             }
         }
 
