@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage('If dev') {
+        stage('If master') {
             when {
                 branch 'master'
             }
