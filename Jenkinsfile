@@ -1,3 +1,5 @@
+def failed = false
+
 pipeline {
     agent any
     
@@ -21,6 +23,7 @@ pipeline {
                 script {
                     if("${WWW}" == "/var/www/on-deploy/map/staging/frontend") {
                         currentBuild.result = 'FAILED'
+                        failed = true
                         return
                     }
                 }
@@ -30,6 +33,9 @@ pipeline {
         stage('Deploy: dev') {
             when {
                 branch 'develop'
+                expression {
+                    !failed
+                }
             }
             
             steps{
@@ -40,6 +46,9 @@ pipeline {
         stage('Deploy: master') {
             when {
                 branch 'master'
+                expression {
+                    !failed
+                }
             }
 
             steps{
