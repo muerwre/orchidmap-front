@@ -21,7 +21,7 @@ pipeline {
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "" || "${ENV}" == "") {
+                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "dev")) {
                         currentBuild.result = 'FAILED'
                         failed = true
                         return
