@@ -21,7 +21,7 @@ pipeline {
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "/var/www/on-deploy/map/staging/frontend") {
+                    if("${WWW}" == "" || "${ENV}" == "") {
                         currentBuild.result = 'FAILED'
                         failed = true
                         return
