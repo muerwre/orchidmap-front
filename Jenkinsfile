@@ -19,7 +19,7 @@ pipeline {
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "") {
+                    if("${WWW}" == "/var/www/on-deploy/map/staging/frontend") {
                         currentBuild.result = 'UNSTABLE'
                         return
                     }
