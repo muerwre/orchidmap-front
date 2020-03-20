@@ -22,7 +22,7 @@ pipeline {
                 sh 'ls'
 
                 script {
-                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "dvelop")) {
+                    if("${WWW}" == "" || "${ENV}" == "" || ("${env.BRANCH_NAME}" != "master" && "${env.BRANCH_NAME}" != "develop")) {
                         println "INCORRECT VARIABLES"
                         currentBuild.result = 'FAILED'
                         failed = true
