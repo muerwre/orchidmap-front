@@ -63,6 +63,7 @@ export const STICKERS: IStickers = {
       village: { off: 39, title: 'Деревня', title_long: 'Деревня' },
       scrulpture: { off: 46, title: 'Памятник', title_long: 'Памятник' },
       night: { off: 48, title: 'Ночь', title_long: 'Ночь' },
+      tick: { off: 49, title: 'Клещ!', title_long: 'Клещ!' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
