@@ -62,6 +62,7 @@ export const STICKERS: IStickers = {
       beach: { off: 38, title: 'Пляж', title_long: 'Жаркий пляж' },
       village: { off: 39, title: 'Деревня', title_long: 'Деревня' },
       scrulpture: { off: 46, title: 'Памятник', title_long: 'Памятник' },
+      night: { off: 48, title: 'Ночь', title_long: 'Ночь' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
