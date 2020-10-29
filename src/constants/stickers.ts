@@ -61,6 +61,7 @@ export const STICKERS: IStickers = {
       fields: { off: 19, title: 'Поля', title_long: 'Зеленые поля' },
       beach: { off: 38, title: 'Пляж', title_long: 'Жаркий пляж' },
       village: { off: 39, title: 'Деревня', title_long: 'Деревня' },
+      scrulpture: { off: 46, title: 'Памятник', title_long: 'Памятник' },
       empty: { off: 20, title: 'Пусто', title_long: 'Пусто' },
     }
   },
@@ -105,7 +106,7 @@ export const STICKERS: IStickers = {
       pt3: { off: 42, title: '3', title_long: 'Третья точка' },
       pt4: { off: 43, title: '4', title_long: 'Четвёртая точка' },
       pt5: { off: 44, title: '5', title_long: 'Пятая точка' },
-      pt6: { off: 45, title: '7', title_long: 'Шестая точка' },
+      pt6: { off: 45, title: '6', title_long: 'Шестая точка' },
     }
   }
 };
