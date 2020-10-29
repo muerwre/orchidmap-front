@@ -77,6 +77,7 @@ export const STICKERS: IStickers = {
       fastfood: { off: 35, title: 'Фастфуд', title_long: 'Быстрая еда' },
       swamp: { off: 36, title: 'Болото', title_long: 'Пошла ты,\nтрясина грёбаная!' },
       beer: { off: 37, title: 'Пивко', title_long: 'В Питере - пить!' },
+      coffee: { off: 47, title: 'Кофеёк', title_long: 'КОФЕЕЕЕ' },
     },
   },
   pin: {
