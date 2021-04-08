@@ -5,7 +5,7 @@ export interface IProvider {
 }
 
 export type ITileMaps = Record<string, IProvider>
-//  {  
+//  {
   // WATERCOLOR: IProvider,
   // DGIS: IProvider,
   // DEFAULT: IProvider,
@@ -36,8 +36,8 @@ const TILEMAPS: ITileMaps = {
   },
   DEFAULT: {
     name: 'OpenStreetMap',
-    // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    url: 'https://{s}.osm.tile.vault48.org/{z}/{x}/{y}.png',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // url: 'https://{s}.osm.tile.vault48.org/{z}/{x}/{y}.png',
     range: ['a', 'b', 'c'],
   },
   // DARQ: {
