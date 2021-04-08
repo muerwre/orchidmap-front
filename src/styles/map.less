@@ -1,366 +1,367 @@
-#map {
-  width: 50% !important;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  top: 0;
-
-  cursor: crosshair;
-}
-
-.leaflet-control-zoom {
-  display: none;
-}
-
-.leaflet-touch .leaflet-bar a {
-  border-radius: @panel_radius !important;
-}
-
-@keyframes vertex_spin {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.2);
-  }
-}
-
-.leaflet-vertex-drag-helper {
-  pointer-events: none !important;
-  background: fade(red, 50%);
-  border-radius: 12px;
-
-  &::after {
-    content: ' ';
-    width: 24px;
-    height: 24px;
-    border: 2px solid @red_secondary;
-    border-radius: 24px;
+:global {
+  #map {
+    width: 50% !important;
+    height: 100%;
     position: absolute;
-    top: -9px;
-    left: -9px;
-    animation: vertex_spin 500ms infinite linear alternate;
-  }
-}
-
-.vertex-icon-mixin(@left, @right) {
-  &::after {
-    content: ' ';
-    position: absolute;
-    top: 4px;
-    left: @left;
-    right: @right;
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 8px;
-    transform: scale(1);
-    transition: transform 150ms;
-  }
-}
-
-.leaflet-vertex-icon {
-  outline: none !important;
-  border-radius: 10px;
-  opacity: 1;
-  border: none;
-  width: 16px !important;
-  height: 16px !important;
-  margin-left: -8px !important;
-  margin-top: -8px !important;
-  background: transparent;
-  position: absolute;
-  cursor: grab;
-
-  &::before {
-    width: 24px;
-    height: 24px;
-    background: none;
-    content: ' ';
-    position: absolute;
-    transform: translate(-4px, -4px);
-    border-radius: 16px;
-    top: 0;
+    z-index: 1;
     left: 0;
+    top: 0;
+
+    cursor: crosshair;
   }
 
-  @media (max-width: @mobile_breakpoint) {
-    &::before {
-      width: 32px;
-      height: 32px;
-      transform: translate(-8px, -8px);
-      background: rgba(255, 50, 0, 0.3);
+  .leaflet-control-zoom {
+    display: none;
+  }
+
+  .leaflet-touch .leaflet-bar a {
+    border-radius: @panel_radius !important;
+  }
+
+  @keyframes vertex_spin {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.2);
     }
   }
 
-  .vertex-icon-mixin(4px, auto);
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.leaflet-arrow {
-  position: absolute;
-  left: -18px;
-  top: -18px;
-  width: 48px;
-  height: 48px;
-  pointer-events: none;
-}
-
-.leaflet-arrow-icon {
-  pointer-events: none !important;
-}
-
-.leaflet-km-marker,
-.leaflet-km-marker-2 {
-  position: absolute;
-  z-index: 0 !important;
-
-  .leaflet-km-dist {
-    background: @red_secondary;
-    color: white;
-    border-radius: 8px;
-    font-size: 12px;
-    text-align: center;
-    height: 14px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    font-weight: bold;
-    padding: 0 2px;
-
-    svg {
-      position: absolute;
-      top: -16px;
-      left: 50%;
-      transform: translate(-50%, 0);
-    }
-
-    &.reverse {
-      svg {
-        transform: translate(-50%, 0) rotate(180deg);
-      }
-    }
-  }
-}
-
-.start-marker {
-  svg {
-    position: absolute;
-    left: -4px;
-    top: -4px;
-  }
-}
-
-.end-marker {
-  .leaflet-km-dist {
-    left: auto;
-    right: -3px;
-    top: -2px;
-    position: absolute;
-    z-index: -10;
-    padding: 1px 15px 1px 6px;
-    border-radius: 10px;
+  .leaflet-vertex-drag-helper {
+    pointer-events: none !important;
+    background: fade(red, 50%);
+    border-radius: 12px;
 
     &::after {
       content: ' ';
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-      background: white;
+      width: 24px;
+      height: 24px;
+      border: 2px solid @red_secondary;
+      border-radius: 24px;
       position: absolute;
-      right: 4px;
-      top: 4px;
+      top: -9px;
+      left: -9px;
+      animation: vertex_spin 500ms infinite linear alternate;
     }
   }
 
-  &.right {
-    .leaflet-km-dist {
-      padding: 2px 4px 2px 16px;
-      left: -3px;
-      right: auto;
+  .vertex-icon-mixin(@left, @right) {
+    &::after {
+      content: ' ';
+      position: absolute;
+      top: 4px;
+      left: @left;
+      right: @right;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 8px;
+      transform: scale(1);
+      transition: transform 150ms;
+    }
+  }
 
-      &::after {
-        left: 5px;
-        right: auto;
+  .leaflet-vertex-icon {
+    outline: none !important;
+    border-radius: 10px;
+    opacity: 1;
+    border: none;
+    width: 16px !important;
+    height: 16px !important;
+    margin-left: -8px !important;
+    margin-top: -8px !important;
+    background: transparent;
+    position: absolute;
+    cursor: grab;
+
+    &::before {
+      width: 24px;
+      height: 24px;
+      background: none;
+      content: ' ';
+      position: absolute;
+      transform: translate(-4px, -4px);
+      border-radius: 16px;
+      top: 0;
+      left: 0;
+    }
+
+    @media (max-width: @mobile_breakpoint) {
+      &::before {
+        width: 32px;
+        height: 32px;
+        transform: translate(-8px, -8px);
+        background: rgba(255, 50, 0, 0.3);
+      }
+    }
+
+    .vertex-icon-mixin(4px, auto);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .leaflet-arrow {
+    position: absolute;
+    left: -18px;
+    top: -18px;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+  }
+
+  .leaflet-arrow-icon {
+    pointer-events: none !important;
+  }
+
+  .leaflet-km-marker,
+  .leaflet-km-marker-2 {
+    position: absolute;
+    z-index: 0 !important;
+
+    .leaflet-km-dist {
+      background: @red_secondary;
+      color: white;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      font-weight: bold;
+      padding: 0 2px;
+
+      svg {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+
+      &.reverse {
+        svg {
+          transform: translate(-50%, 0) rotate(180deg);
+        }
       }
     }
   }
-}
 
-.router-marker {
-  div {
-    background: @router_line;
-    color: white;
-    left: auto;
-    right: 15px;
-    // transform: translate(50%, 0);
-    top: -3px;
-    position: absolute;
-    z-index: -10;
-    padding: 0 6px 0 6px;
-    border-radius: 12px;
-    font-weight: bold;
-  }
-
-  &.right {
-    div {
-      right: auto;
-      left: 15px;
+  .start-marker {
+    svg {
+      position: absolute;
+      left: -4px;
+      top: -4px;
     }
   }
-}
 
-.leaflet-km-marker-2 {
-  .leaflet-km-dist {
-    background: green;
+  .end-marker {
+    .leaflet-km-dist {
+      left: auto;
+      right: -3px;
+      top: -2px;
+      position: absolute;
+      z-index: -10;
+      padding: 1px 15px 1px 6px;
+      border-radius: 10px;
+
+      &::after {
+        content: ' ';
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: white;
+        position: absolute;
+        right: 4px;
+        top: 4px;
+      }
+    }
+
+    &.right {
+      .leaflet-km-dist {
+        padding: 2px 4px 2px 16px;
+        left: -3px;
+        right: auto;
+
+        &::after {
+          left: 5px;
+          right: auto;
+        }
+      }
+    }
   }
-}
 
-.touch-hinter-poly {
-  stroke: rgba(255, 50, 0, 0.1);
-  cursor: grab;
+  .router-marker {
+    div {
+      background: @router_line;
+      color: white;
+      left: auto;
+      right: 15px;
+      // transform: translate(50%, 0);
+      top: -3px;
+      position: absolute;
+      z-index: -10;
+      padding: 0 6px 0 6px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
 
-  @media (max-width: @mobile_breakpoint) {
-    stroke: rgba(255, 50, 0, 0.2);
+    &.right {
+      div {
+        right: auto;
+        left: 15px;
+      }
+    }
   }
-}
 
-.leaflet-control-container .leaflet-routing-container-hide {
-  display: none;
-}
+  .leaflet-km-marker-2 {
+    .leaflet-km-dist {
+      background: green;
+    }
+  }
 
-.leaflet-bar {
-  box-shadow: @bar_shadow !important;
-  border: none !important;
-}
+  .touch-hinter-poly {
+    stroke: rgba(255, 50, 0, 0.1);
+    cursor: grab;
 
-.leaflet-bar a {
-  background: @bar_background;
-  color: white;
-  text-shadow: none;
-  user-select: none;
-  border-bottom: none;
+    @media (max-width: @mobile_breakpoint) {
+      stroke: rgba(255, 50, 0, 0.2);
+    }
+  }
 
-  &:hover {
+  .leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+  }
+
+  .leaflet-bar {
+    box-shadow: @bar_shadow !important;
+    border: none !important;
+  }
+
+  .leaflet-bar a {
     background: @bar_background;
     color: white;
+    text-shadow: none;
+    user-select: none;
     border-bottom: none;
-  }
-}
 
-.location-marker {
-  width: 20px;
-  height: 3px;
-  margin-left: -10px;
-  margin-top: -2px;
-  outline: none;
-  z-index: 10001;
-  background: @red_secondary;
-
-  &:after {
-    content: ' ';
-    box-shadow: 0 0 0 3px @red_secondary;
-    background: white;
-    border-radius: 8px;
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    left: 6px;
-    top: -3px;
+    &:hover {
+      background: @bar_background;
+      color: white;
+      border-bottom: none;
+    }
   }
 
-  &:before {
-    content: ' ';
-    display: block;
-    width: 3px;
-    height: 20px;
-    background: @red_secondary;
-    left: 8.5px;
-    top: -9px;
-    position: absolute;
-  }
-}
-
-.leaflet-top {
-  top: 42px;
-}
-
-.leaflet-div-icon {
-  background: none !important;
-  border: none !important;
-}
-
-.custom-marker-cluster {
-  width: 24px;
-  height: 24px;
-  background: @cluster_small;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  box-shadow: fade(@cluster_small, 70%) 0 0 0 5px;
-  font-weight: bold;
-  font-size: 13px;
-  transform: translate(-12px, -12px);
-  transition: box-shadow 250ms;
-  position: relative;
-  outline: none;
-
-  &:hover {
-    box-shadow: fade(@cluster_small, 70%) 0 0 0 7px;
-  }
-
-  span {
+  .location-marker {
+    width: 20px;
+    height: 3px;
+    margin-left: -10px;
+    margin-top: -2px;
     outline: none;
-    position: absolute;
-    right: -7px;
-    bottom: 11px;
+    z-index: 10001;
+    background: @red_secondary;
+
+    &:after {
+      content: ' ';
+      box-shadow: 0 0 0 3px @red_secondary;
+      background: white;
+      border-radius: 8px;
+      width: 8px;
+      height: 8px;
+      position: absolute;
+      left: 6px;
+      top: -3px;
+    }
+
+    &:before {
+      content: ' ';
+      display: block;
+      width: 3px;
+      height: 20px;
+      background: @red_secondary;
+      left: 8.5px;
+      top: -9px;
+      position: absolute;
+    }
+  }
+
+  .leaflet-top {
+    top: 42px;
+  }
+
+  .leaflet-div-icon {
+    background: none !important;
+    border: none !important;
+  }
+
+  .custom-marker-cluster {
+    width: 24px;
+    height: 24px;
     background: @cluster_small;
-    width: 16px;
-    height: 16px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    font-size: 11px;
+    color: white;
+    box-shadow: fade(@cluster_small, 70%) 0 0 0 5px;
+    font-weight: bold;
+    font-size: 13px;
+    transform: translate(-12px, -12px);
+    transition: box-shadow 250ms;
+    position: relative;
+    outline: none;
+
+    &:hover {
+      box-shadow: fade(@cluster_small, 70%) 0 0 0 7px;
+    }
+
+    span {
+      outline: none;
+      position: absolute;
+      right: -7px;
+      bottom: 11px;
+      background: @cluster_small;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 11px;
+    }
+  }
+
+  #canvas {
+    background: #eeeeee;
+    z-index: 0;
+
+    > div {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .leaflet-pane {
+    user-select: none;
+  }
+
+  .current-location {
+    width: 0;
+    height: 0;
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      fill: @bar_background;
+      stroke: white;
+      stroke-width: 0.2px;
+    }
   }
 }
-
-#canvas {
-  background: #eeeeee;
-  z-index: 0;
-
-  > div {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.leaflet-pane {
-  user-select: none;
-}
-
-.current-location {
-  width: 0;
-  height: 0;
-  position: relative;
-
-  svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    fill: @bar_background;
-    stroke: white;
-    stroke-width: 0.2px;
-  }
-}
- 

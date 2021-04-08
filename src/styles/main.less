@@ -15,153 +15,159 @@
 @import 'switch.less';
 @import 'gpx.less';
 
-body {
-  font-family: 'Rubik', sans-serif;
-  font-size: 15px;
-  // letter-spacing: 0.4px;
-  padding: 0;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-}
+:global {
+  body {
+    font-family: 'Rubik', sans-serif;
+    font-size: 15px;
+    // letter-spacing: 0.4px;
+    padding: 0;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
 
-.gray {
-  opacity: 0.5;
-}
+  .gray {
+    opacity: 0.5;
+  }
 
-.big {
-  font-size: 1em;
-  font-weight: 500;
-}
+  .big {
+    font-size: 1em;
+    font-weight: 500;
+  }
 
-.upper {
-  text-transform: uppercase;
-}
+  .upper {
+    text-transform: uppercase;
+  }
 
-.small {
-  font-size: 0.9em;
-}
+  .small {
+    font-size: 0.9em;
+  }
 
-.white {
-  color: white;
-}
+  .white {
+    color: white;
+  }
 
-.success {
-  color: @color_success;
-}
+  .success {
+    color: @color_success;
+  }
 
-.primary {
-  color: @color_primary;
-}
+  .primary {
+    color: @color_primary;
+  }
 
-.danger {
-  color: @color_danger;
-}
+  .danger {
+    color: @color_danger;
+  }
 
-.cursor-tooltip {
-  position: fixed;
-  top: 4px;
-  left: 4px;
-  width: 10px;
-  height: 10px;
-  z-index: 1;
-  pointer-events: none;
+  .cursor-tooltip {
+    position: fixed;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    z-index: 1;
+    pointer-events: none;
 
-  svg {
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 4;
+      fill: black;
+    }
+
+    @media (hover: none) {
+      display: none;
+    }
+  }
+
+  .cursor-icon-sticker {
     width: 20px;
     height: 20px;
-    stroke-width: 4;
-    fill: black;
-  }
-
-  @media(hover: none) {
-    display: none;
-  }
-}
-
-.cursor-icon-sticker {
-  width: 20px;
-  height: 20px;
-  background-size: cover;
-  background-position: 0 50%;
-  position: absolute;
-  top: -30px;
-}
-
-.track-vertical {
-  position: absolute;
-  right: 0;
-  height: 100%;
-  width: 10px !important;
-}
-
-.thumb-vertical {
-  position: absolute;
-  width: 20px !important;
-  left: -10px;
-  border-radius: 4px 0 0 4px;
-  transition: background 250ms;
-  cursor: grab;
-
-  &:hover, &:active {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  &::after {
-    content: ' ';
-    width: 5px;
-    height: 100%;
-    display: block;
-    right: 0;
+    background-size: cover;
+    background-position: 0 50%;
     position: absolute;
-    border-radius: 4px 0 0 4px;
-    background: rgba(255, 255, 255, 0.5);
+    top: -30px;
   }
-}
 
-.pointer {
-  cursor: pointer;
-}
+  .track-vertical {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 10px !important;
+  }
 
-@media (max-width: @mobile_breakpoint) {
-  .desktop-only { display: none; }
-}
+  .thumb-vertical {
+    position: absolute;
+    width: 20px !important;
+    left: -10px;
+    border-radius: 4px 0 0 4px;
+    transition: background 250ms;
+    cursor: grab;
 
-@media (min-width: @mobile_breakpoint) {
-  .mobile-only { display: none; }
-}
+    &:hover, &:active {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
-h2 {
-  font: inherit;
-  font-size: 18px;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 10px 0;
-}
+    &::after {
+      content: ' ';
+      width: 5px;
+      height: 100%;
+      display: block;
+      right: 0;
+      position: absolute;
+      border-radius: 4px 0 0 4px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
 
-hr {
-  border: none;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.3);
-}
+  .pointer {
+    cursor: pointer;
+  }
 
-input {
-  width: 100%;
-  padding: 5px 10px 5px 10px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: @panel_radius;
-  border: none;
-  outline: none;
-  color: white;
+  @media (max-width: @mobile_breakpoint) {
+    .desktop-only {
+      display: none;
+    }
+  }
 
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 200;
-}
+  @media (min-width: @mobile_breakpoint) {
+    .mobile-only {
+      display: none;
+    }
+  }
 
-.relative {
-  position: relative;
-}
+  h2 {
+    font: inherit;
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin: 10px 0;
+  }
 
-.justify-end {
-  justify-content: flex-end;
+  hr {
+    border: none;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  input {
+    width: 100%;
+    padding: 5px 10px 5px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: @panel_radius;
+    border: none;
+    outline: none;
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  .justify-end {
+    justify-content: flex-end;
+  }
 }

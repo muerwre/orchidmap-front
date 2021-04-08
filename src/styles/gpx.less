@@ -1,99 +1,101 @@
-.gpx-title {
-  display: flex;
-  flex-direction: row;
-  padding: 10px;
-}
-
-.gpx-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  padding: 5px 10px;
-  min-width: 0;
-
-  &_disabled {
-    opacity: 0.5;
+:global {
+  .gpx-title {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
   }
 
-  &__title {
-    flex: 1;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 0 10px;
-    cursor: pointer;
-  }
-
-  &__buttons {
+  .gpx-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 5px 10px;
+    min-width: 0;
 
-    svg {
-      fill: white;
+    &_disabled {
+      opacity: 0.5;
     }
 
-    > div {
-      padding: 0 5px;
+    &__title {
+      flex: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    &__buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        fill: white;
+      }
+
+      > div {
+        padding: 0 5px;
+        cursor: pointer;
+
+        &:last-child {
+          padding-right: 0;
+        }
+
+        &:first-child {
+          padding-left: 0;
+        }
+      }
+    }
+
+    &__color {
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
       cursor: pointer;
 
+      // span {
+
+      // }
+    }
+  }
+
+  .gpx-buttons {
+    padding: 10px;
+
+    & > * {
+      margin: 2.5px 0;
+
       &:last-child {
-        padding-right: 0;
+        margin-bottom: 0;
       }
 
       &:first-child {
-        padding-left: 0;
+        margin-top: 0;
       }
     }
-  }
 
-  &__color {
-    width: 8px;
-    height: 8px;
-    border-radius: 100%;
-    cursor: pointer;
-
-    // span {
-
-    // }
-  }
-}
-
-.gpx-buttons {
-  padding: 10px;
-
-  & > * {
-    margin: 2.5px 0;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    &:first-child {
-      margin-top: 0;
+    & > .button {
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      height: 32px;
+      align-items: center;
+      justify-content: center;
     }
   }
 
-  & > .button {
-    width: 100%;
+  .gpx-confirm {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    z-index: 5;
+    width: 90%;
+    padding: 10px;
+    border-radius: @panel_radius;
     box-sizing: border-box;
-    position: relative;
-    height: 32px;
-    align-items: center;
-    justify-content: center;
+    background: lighten(@bar_background, 10%);
+    box-shadow: rgba(0, 0, 0, 0.5) 0 5px 5px 10px;
   }
-}
-
-.gpx-confirm {
-  position: absolute;
-  bottom: 5%;
-  left: 5%;
-  z-index: 5;
-  width: 90%;
-  padding: 10px;
-  border-radius: @panel_radius;
-  box-sizing: border-box;
-  background: lighten(@bar_background, 10%);
-  box-shadow: rgba(0,0,0,0.5) 0 5px 5px 10px;
 }
