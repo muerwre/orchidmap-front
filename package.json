@@ -27,6 +27,7 @@
     "classnames": "^2.2.6",
     "craco-fast-refresh": "^1.0.5",
     "croppr": "^2.3.1",
+    "eslint-loader": "^4.0.2",
     "file-saver": "^2.0.0",
     "gpx-parser-builder": "^1.0.2",
     "leaflet": "^1.6.0",
