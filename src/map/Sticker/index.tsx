@@ -1,12 +1,12 @@
-import React, { useEffect, useCallback, useRef, useState } from 'react';
-import { DivIcon, marker, Marker } from 'leaflet';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { marker, Marker } from 'leaflet';
 import { IStickerDump } from '~/redux/map/types';
 import { STICKERS } from '~/constants/stickers';
 import { StickerDesc } from '~/components/StickerDesc';
 import classNames from 'classnames';
 import { DomMarker } from '~/utils/map/DomMarker';
 import { createPortal } from 'react-dom';
-import { MapContainer, MainMap } from '~/constants/map';
+import { MainMap } from '~/constants/map';
 import { getAdaptiveScale } from '~/utils/dom';
 
 interface IProps {
