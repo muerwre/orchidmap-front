@@ -1,4 +1,5 @@
 # stage1 as builder
+WORKDIR /
 FROM node:erbium-alpine as builder
 COPY package.json yarn.lock ./
 RUN yarn
