@@ -6701,10 +6701,6 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-leaflet-editable-polyline@muerwre/leaflet-editable-polyline#master:
-  version "1.0.7"
-  resolved "https://codeload.github.com/muerwre/leaflet-editable-polyline/tar.gz/a8e481464d9c286c3a0a1392f1f96f7e2af40489"
-
 leaflet-editable@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/leaflet-editable/-/leaflet-editable-1.2.0.tgz#a3a01001764ba58ea923381ee6a1c814708a0b84"
@@ -6717,13 +6713,14 @@ leaflet-geometryutil@^0.9.0:
   dependencies:
     leaflet ">=0.7.0"
 
-leaflet-routing-machine@muerwre/leaflet-routing-machine#no-osrm-text:
-  version "3.2.8"
-  resolved "https://codeload.github.com/muerwre/leaflet-routing-machine/tar.gz/25e27d5721cbf8d9c4cc1612ecc6b99aef49de7b"
+leaflet-routing-machine@^3.2.12:
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/leaflet-routing-machine/-/leaflet-routing-machine-3.2.12.tgz#9e4aef008321b0227cf894d829c3b4c1f13e4e13"
+  integrity sha512-HLde58G1YtD9xSIzZavJ6BPABZaV1hHeGst8ouhzuxmSC3s32NVtADT+njbIUMW1maHRCrsgTk/E4hz5QH7FrA==
   dependencies:
     "@mapbox/corslite" "0.0.7"
     "@mapbox/polyline" "^0.2.0"
-    osrm-text-instructions "^0.11.5"
+    osrm-text-instructions "^0.13.2"
 
 leaflet.markercluster@^1.4.1:
   version "1.4.1"
@@ -8240,10 +8237,10 @@ osenv@^0.1.4, osenv@^0.1.5:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-osrm-text-instructions@^0.11.5:
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/osrm-text-instructions/-/osrm-text-instructions-0.11.5.tgz#9eed3614a977e0eba0e46a7ddd65e899b634c201"
-  integrity sha512-EKCfIXhJHsYQLcuctymvSVH7ulRXx5sGb2MdZL3NzD6XhRVZRkqwRicd9/QI27A5oXW4ojOEJ81RGay7bO6dbA==
+osrm-text-instructions@^0.13.2:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/osrm-text-instructions/-/osrm-text-instructions-0.13.4.tgz#78bedabd84cbcabce9c9fd0fbb6b0fd9f06c7f9f"
+  integrity sha512-ge4ZTIetMQKAHKq2MwWf83ntzdJN20ndRKRaVNoZ3SkDkBNO99Qddz7r6+hrVx38I+ih6Rk5T1yslczAB6Q9Pg==
 
 p-defer@^1.0.0:
   version "1.0.0"
