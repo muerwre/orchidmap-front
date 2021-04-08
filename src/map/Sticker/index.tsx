@@ -20,8 +20,8 @@ interface IProps {
   mapDropSticker: (index: number) => void;
 }
 
-export const getLabelDirection = (angle: number): 'left' | 'right' =>
-  angle % Math.PI >= -(Math.PI / 2) && angle % Math.PI <= Math.PI / 2 ? 'left' : 'right';
+export const getLabelDirection = (angle?: number): 'left' | 'right' =>
+  !!angle && angle % Math.PI >= -(Math.PI / 2) && angle % Math.PI <= Math.PI / 2 ? 'left' : 'right';
 
 const getX = e =>
   e.touches && e.touches.length > 0
@@ -36,50 +36,58 @@ const Sticker: React.FC<IProps> = ({
   mapSetSticker,
   mapDropSticker,
 }) => {
-  const [text, setText] = useState(sticker.text);
-  const [layer, setLayer] = React.useState<Marker>(null);
+  const [text, setText] = useState(sticker.text || '');
+  const [layer, setLayer] = React.useState<Marker | null>(null);
   const [dragging, setDragging] = React.useState(false);
-  const wrapper = useRef(null);
+  const wrapper = useRef<HTMLDivElement>(null);
 
   let angle = useRef(sticker.angle);
 
   const element = React.useMemo(() => document.createElement('div'), []);
 
-  const stickerArrow = React.useRef(null);
-  const stickerImage = React.useRef(null);
+  const stickerArrow = React.useRef<HTMLDivElement>(null);
+  const stickerImage = React.useRef<HTMLDivElement>(null);
 
   const onChange = React.useCallback(state => mapSetSticker(index, state), [mapSetSticker, index]);
   const onDelete = React.useCallback(state => mapDropSticker(index), [mapSetSticker, index]);
 
   const updateAngle = useCallback(
     ang => {
-      if (!stickerImage.current || !stickerArrow.current) return;
-
       const x = Math.cos(ang + Math.PI) * 56 - 30;
       const y = Math.sin(ang + Math.PI) * 56 - 30;
+
+      if (!stickerImage.current || !stickerArrow.current) {
+        return;
+      }
 
       stickerImage.current.style.left = String(6 + x);
       stickerImage.current.style.top = String(6 + y);
 
       stickerArrow.current.style.transform = `rotate(${ang + Math.PI}rad)`;
     },
-    [stickerArrow, stickerImage, angle]
+    [stickerArrow, stickerImage]
   );
 
   const onDragStart = React.useCallback(() => {
+    if (!layer?.dragging) {
+      return
+    }
+
     layer.dragging.disable();
     MainMap.dragging.disable();
     MainMap.disableClicks();
 
     setDragging(true);
-  }, [setDragging, layer, MainMap]);
+  }, [setDragging, layer]);
 
   const onDragStop = React.useCallback(
     event => {
       event.stopPropagation();
       event.preventDefault();
 
-      if (!layer) return;
+      if (!layer?.dragging) {
+        return;
+      }
 
       setDragging(false);
       onChange({
@@ -134,7 +142,9 @@ const Sticker: React.FC<IProps> = ({
     });
   }, [text, onChange, sticker]);
 
-  const direction = React.useMemo(() => getLabelDirection(sticker.angle), [sticker.angle]);
+  const direction = React.useMemo(() => {
+    getLabelDirection(sticker?.angle)
+  }, [sticker.angle]);
 
   useEffect(() => {
     updateAngle(sticker.angle);
@@ -148,7 +158,8 @@ const Sticker: React.FC<IProps> = ({
 
   useEffect(() => {
     if (!layer) return;
-    setText(sticker.text);
+
+    setText(sticker.text || '');
   }, [layer, sticker.text]);
 
   useEffect(() => {

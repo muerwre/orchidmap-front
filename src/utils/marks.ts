@@ -3,6 +3,7 @@ import { arrowClusterIcon } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { allwaysPositiveAngleDeg, angleBetweenPoints, distKmHaversine } from '~/utils/geom';
 import classNames from 'classnames';
+import { MainMap } from '~/constants/map';
 
 const arrow_image = '/images/arrow.svg';
 
@@ -43,8 +44,7 @@ class KmMarksLayer extends LayerGroup {
   };
 
   drawMiddleMarkers = (latlngs: LatLngLiteral[]) => {
-    const marks = [];
-    const arrows = [];
+    const marks: Marker[] = [];
     let last_km_mark = 0;
 
     this.distance = latlngs.reduce((dist, current, index) => {
@@ -160,7 +160,7 @@ class KmMarksLayer extends LayerGroup {
   };
 
   options: KmMarksOptions;
-  map: Map;
+  map: Map = MainMap;
   marksLayer: MarkerClusterGroup = new MarkerClusterGroup({
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
@@ -173,7 +173,7 @@ class KmMarksLayer extends LayerGroup {
   distance: number = 0;
 }
 
-KmMarksLayer.addInitHook(function() {
+KmMarksLayer.addInitHook(function(this: KmMarksLayer) {
   this.once('add', event => {
     if (event.target instanceof KmMarksLayer) {
       this.map = event.target._map;

@@ -7,7 +7,7 @@ interface Props {
   max: number;
   search: string;
   distance: [number, number];
-  onDistanceChange: (val: [number, number]) => void;
+  onDistanceChange: (val: number[]) => void;
   onSearchChange: ChangeEventHandler<HTMLInputElement>;
 }
 

@@ -27,7 +27,7 @@ const ProviderDialogUnconnected = ({ provider, mapSetProvider }: Props) => (
               backgroundImage: `url(${replaceProviderUrl(item, { x: 5980, y: 2589, zoom: 13 })})`,
             }}
             onMouseDown={() => mapSetProvider(item)}
-            key={PROVIDERS[item].name}
+            key={PROVIDERS[item]?.name}
           >
             {
               provider === item &&

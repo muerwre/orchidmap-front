@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const Stickers: FC<IProps> = memo(({ stickers, is_editing, mapSetSticker, mapDropSticker }) => {
-  const [layer, setLayer] = useState<FeatureGroup>(null);
+  const [layer, setLayer] = useState<FeatureGroup | null>(null);
   const [zoom, setZoom] = useState(MainMap.getZoom());
 
   const onZoomChange = useCallback(

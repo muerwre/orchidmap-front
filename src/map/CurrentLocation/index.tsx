@@ -1,9 +1,9 @@
-import React, { FC, useState, useEffect, useCallback } from 'react';
-import { LatLngLiteral, marker, Marker, DivIcon } from 'leaflet';
+import React, { FC, useCallback, useEffect } from 'react';
+import { DivIcon, LatLngLiteral, Marker } from 'leaflet';
 import { MainMap } from '~/constants/map';
 
 interface IProps {
-  location: LatLngLiteral;
+  location?: LatLngLiteral;
 }
 
 const CurrentLocation: FC<IProps> = ({ location }) => {

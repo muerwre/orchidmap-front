@@ -11,7 +11,7 @@ export interface IUser {
   role: IRoles[keyof IRoles];
   routes: {};
   success: boolean;
-  id?: string;
+  id: string;
   uid: string;
   token?: string;
   photo: string;
@@ -31,9 +31,9 @@ export const DEFAULT_USER: IUser = {
   role: ROLES.guest,
   routes: {},
   success: false,
-  id: null,
-  token: null,
-  photo: null,
-  name: null,
-  uid: null,
+  id: '',
+  token: undefined,
+  photo: '',
+  name: '',
+  uid: '',
 };

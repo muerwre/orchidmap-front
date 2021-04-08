@@ -5,21 +5,6 @@ export interface IProvider {
 }
 
 export type ITileMaps = Record<string, IProvider>
-//  {
-  // WATERCOLOR: IProvider,
-  // DGIS: IProvider,
-  // DEFAULT: IProvider,
-  // DARQ: IProvider,
-  // BLANK: IProvider,
-  // HOT: IProvider,
-  // YSAT: IProvider,
-  // YMAP: IProvider,
-  // SAT: IProvider,
-  // ESAT: IProvider,
-  // CACHE_OSM: IProvider,
-  // CACHE_CARTO: IProvider,
-// }
-
 
 // Стили карт
 const TILEMAPS: ITileMaps = {
@@ -53,7 +38,7 @@ const TILEMAPS: ITileMaps = {
 const ENABLED: Array<keyof ITileMaps> = ['BLANK', 'DEFAULT', 'DGIS', 'HOT', 'ESAT'];
 
 export const DEFAULT_PROVIDER: keyof ITileMaps = ENABLED[1];
-export const PROVIDERS: Partial<ITileMaps> = ENABLED.reduce((obj, provider) => ({
+export const PROVIDERS: ITileMaps = ENABLED.reduce((obj, provider) => ({
   ...obj,
   [provider]: TILEMAPS[provider],
 }), {});

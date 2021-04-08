@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, memo } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import { KmMarksLayer } from '~/utils/marks';
 import { MainMap } from '~/constants/map';
 import { selectMap } from '~/redux/map/selectors';
@@ -14,14 +14,14 @@ const mapDispatchToProps = {};
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const KmMarksUnconnected: FC<Props> = memo(({ map: { route } }) => {
-  const [layer, setLayer] = useState(null);
+  const [layer, setLayer] = useState<KmMarksLayer | null>(null);
 
   useEffect(() => {
     const layer = new KmMarksLayer([]);
     layer.addTo(MainMap);
     setLayer(layer);
     return () => MainMap.removeLayer(layer);
-  }, [MainMap]);
+  }, []);
 
   useEffect(() => {
     if (!layer) return;

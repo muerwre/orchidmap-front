@@ -133,7 +133,7 @@ export const fetchImages = (
 ): Promise<{ x: number; y: number; image: HTMLImageElement }[]> => {
   const { minX, maxX, minY, maxY, zoom } = geometry;
 
-  const images = [];
+  const images: { x: number; y: number; source: string }[] = [];
   for (let x = minX; x <= maxX; x += 1) {
     for (let y = minY; y <= maxY; y += 1) {
       images.push({ x, y, source: getImageSource({ x, y, zoom }, provider) });
@@ -173,7 +173,7 @@ export const composePoly = ({
   ctx,
   color = 'gradient',
   weight = CLIENT.STROKE_WIDTH,
-  dash = null,
+  dash = [],
 }: {
   points: Point[];
   ctx: CanvasRenderingContext2D;
@@ -472,14 +472,14 @@ export const composeStickers = async ({
   if (!stickers || stickers.length < 0) return;
 
   stickers.map(({ x, y, angle, text }) => {
-    composeStickerArrow(ctx, x, y, angle, zoom);
+    composeStickerArrow(ctx, x, y, angle || 0, zoom);
 
-    if (text) composeStickerText(ctx, x, y, angle, text, zoom);
+    if (text) composeStickerText(ctx, x, y, angle || 0, text, zoom);
   });
 
   await Promise.all(
     stickers.map(({ x, y, angle, set, sticker }) =>
-      composeStickerImage(ctx, x, y, angle, set, sticker, zoom)
+      composeStickerImage(ctx, x, y, angle || 0, set, sticker, zoom)
     )
   );
 };

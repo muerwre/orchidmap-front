@@ -23,10 +23,15 @@ class StickerDesc extends React.PureComponent<Props, State> {
   blockMouse = e => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!this.input) {
+      return
+    }
+
     this.input.focus();
   };
 
-  input: HTMLTextAreaElement;
+  input: HTMLTextAreaElement | null = null;
 
   render() {
     const { value: text } = this.props;

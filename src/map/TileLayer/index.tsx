@@ -10,7 +10,7 @@ type IProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const TileLayer: React.FC<IProps> = React.memo(({ children, provider, map }) => {
-  const [layer, setLayer] = React.useState<TileLayerInterface>(null);
+  const [layer, setLayer] = React.useState<TileLayerInterface | undefined>(undefined);
 
   React.useEffect(() => {
     if (!map) return;
@@ -34,7 +34,11 @@ const TileLayer: React.FC<IProps> = React.memo(({ children, provider, map }) => 
     layer.setUrl(url);
   }, [layer, provider]);
 
-  return <TileContext.Provider value={layer}>{children}</TileContext.Provider>;
+  return (
+    <TileContext.Provider value={layer}>
+      {children}
+    </TileContext.Provider>
+  );
 });
 
 export { TileLayer };

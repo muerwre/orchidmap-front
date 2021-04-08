@@ -1,16 +1,12 @@
-import { FC, useEffect, useCallback, memo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { OsrmRouter } from '~/utils/map/OsrmRouter';
 import { connect } from 'react-redux';
 import { selectMapRoute } from '~/redux/map/selectors';
-import {
-  selectEditorRouter,
-  selectEditorMode,
-  selectEditorDistance,
-} from '~/redux/editor/selectors';
+import { selectEditorDistance, selectEditorMode, selectEditorRouter } from '~/redux/editor/selectors';
 import { MainMap } from '~/constants/map';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
 import { MODES } from '~/constants/modes';
-import { LatLngLiteral, marker, divIcon } from 'leaflet';
+import { divIcon, LatLngLiteral, marker } from 'leaflet';
 import classNames from 'classnames';
 import { angleBetweenPoints } from '~/utils/geom';
 
@@ -30,7 +26,7 @@ type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
 const RouterUnconnected: FC<Props> = memo(
   ({ route, mode, router: { waypoints }, editorSetRouter, distance }) => {
     const [dist, setDist] = useState(0);
-    const [end, setEnd] = useState<LatLngLiteral>(null);
+    const [end, setEnd] = useState<LatLngLiteral | null>(null);
     const [direction, setDirection] = useState<boolean>(false);
 
     const updateWaypoints = useCallback(
