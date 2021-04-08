@@ -1,0 +1,84 @@
+kind: pipeline
+name: build
+type: docker
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: compress
+    image: alpine
+    commands:
+      - rm -rf ./app.tar.bz2
+      - tar -cjf ./app.tar.bz2 -C ./ .
+  - name: upload
+    image: drillster/drone-rsync
+    when:
+      branch:
+        - master
+        - develop
+    environment:
+      RSYNC_KEY:
+        from_secret: rsync_key
+      RSYNC_USER:
+        from_secret: rsync_user
+      PLUGIN_ARGS: -zz -O --no-perms
+    settings:
+      port: 22522
+      hosts:
+        - vault48.org
+      source: ./
+      user: ${rsync_user}
+      key: ${rsync_key}
+      target: /tmp/orchid-map-${DRONE_BRANCH}
+      include:
+        - "app.tar.bz2"
+      exclude:
+        - "*"
+  - name: build
+    image: appleboy/drone-ssh
+    when:
+      branch:
+        - master
+        - develop
+    environment:
+      BUILD_PATH:
+        from_secret: build_path
+      ENV_PATH:
+        from_secret: env_path
+    settings:
+      host: vault48.org
+      username:
+        from_secret: rsync_user
+      key:
+        from_secret: rsync_key
+      envs: [build_path, env_path]
+      port: 22522
+      script_stop: true
+      script:
+        - mkdir -p $${BUILD_PATH}/${DRONE_BRANCH}
+        - rm -rf $${BUILD_PATH}/${DRONE_BRANCH}/*
+        - cd $${BUILD_PATH}/${DRONE_BRANCH}
+        - tar -xjf /tmp/vault-frontend-${DRONE_BRANCH}/app.tar.bz2 -C ./
+        - cp -a $${ENV_PATH}/${DRONE_BRANCH}/. $${BUILD_PATH}/${DRONE_BRANCH}
+        - docker-compose build
+        - docker-compose up -d
+  - name: telgram_notify
+    image: appleboy/drone-telegram
+    when:
+      status:
+        - success
+        - failure
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_chat_id
+      format: markdown
+      message: >
+        {{#success build.status}}🤓{{else}}😨{{/success}}
+        [{{repo.name}} / {{commit.branch}}]({{ build.link }})
+        ```
+        {{ commit.message }}
+        ```

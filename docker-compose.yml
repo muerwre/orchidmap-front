@@ -1,0 +1,11 @@
+version: '3'
+services:
+  www:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/www/Dockerfile
+    ports:
+      - ${EXPOSE}:80
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
