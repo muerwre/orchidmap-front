@@ -6,7 +6,6 @@ import { Icon } from '~/components/panels/Icon';
 import { Switch } from '~/components/Switch';
 
 import classnames from 'classnames';
-import ExpandableTextarea from 'react-expandable-textarea';
 import { connect } from 'react-redux';
 import { selectMap } from '~/redux/map/selectors';
 import * as EDITOR_ACTIONS from '~/redux/editor/actions';
@@ -95,7 +94,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
   componentWillUnmount = () => {
     this.props.editorCancelSave()
   };
-  
+
   render() {
     const { title, is_public, description } = this.state;
     const {
@@ -139,9 +138,7 @@ class SaveDialogUnconnected extends React.Component<Props, State> {
             </div>
 
             <div className="save-textarea">
-              <ExpandableTextarea
-                minRows={2}
-                maxRows={5}
+              <textarea
                 placeholder="Описание маршрута"
                 value={parseDesc(description)}
                 onChange={this.setDescription}
