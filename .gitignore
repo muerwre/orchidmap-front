@@ -14,14 +14,6 @@ yarn-error.log
 /osrm/pbf
 /osrm/pbf/*
 
-/config/frontend.js
-/config/backend.js
-/config/pwa.js
-
-/src/config/frontend.ts
-/src/config/backend.js
-/src/config/pwa.js
-
 # Bundle
 *.js.map
 stats.json
