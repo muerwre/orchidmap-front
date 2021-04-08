@@ -1,6 +1,6 @@
-import { divIcon, LatLngLiteral, Marker, marker, DivIcon } from 'leaflet';
+import { divIcon, DivIcon, LatLngLiteral, Marker } from 'leaflet';
 
-const arrow_image = require('~/sprites/arrow.svg');
+const arrow_image = '/images/arrow.svg';
 
 export const createArrowIcon = (angle: number) =>
   divIcon({

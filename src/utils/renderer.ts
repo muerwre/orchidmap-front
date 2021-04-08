@@ -231,7 +231,7 @@ export const composeArrows = async ({
   points: Point[];
   ctx: CanvasRenderingContext2D;
 }): Promise<boolean[]> => {
-  const image = await imageFetcher(require('~/sprites/arrow.svg'));
+  const image = await imageFetcher('/images/arrow.svg');
 
   const distances = points.map(
     (point, i) => (points[i + 1] && findDistancePx(points[i], points[i + 1])) || 0

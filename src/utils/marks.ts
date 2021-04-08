@@ -1,9 +1,10 @@
-import { divIcon, LatLngLiteral, Layer, LayerGroup, Map, marker, Marker } from 'leaflet';
+import { divIcon, LatLngLiteral, LayerGroup, Map, marker, Marker } from 'leaflet';
 import { arrowClusterIcon } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { allwaysPositiveAngleDeg, angleBetweenPoints, distKmHaversine } from '~/utils/geom';
 import classNames from 'classnames';
-const arrow_image = require('~/sprites/arrow.svg');
+
+const arrow_image = '/images/arrow.svg';
 
 interface KmMarksOptions {
   showStartMarker: boolean;
