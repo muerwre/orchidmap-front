@@ -5,41 +5,12 @@
 
 */
 
-import { LatLngLiteral, LayerGroup, Map, LatLng, Marker, marker } from 'leaflet';
-import { arrowClusterIcon, createArrow, createArrowIcon } from '~/utils/arrow';
+import { LatLng, LatLngLiteral, LayerGroup, Map, Marker } from 'leaflet';
+import { arrowClusterIcon, createArrow } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { angleBetweenPoints, dist2, middleCoord } from '~/utils/geom';
 
-interface MidPoint {
-  latlng: LatLngLiteral;
-  angle: number;
-}
-
-// interface IPrevState {
-//   route: LatLngLiteral[];
-//   markers: Marker[];
-//   midpoints: MidPoint[];
-// }
-
 class ArrowsLayer extends LayerGroup {
-  /*
-    without remove optimization
-
-      first:
-      recalc: 5.469970703125ms
-      remove: 0.203857421875ms
-      add: 53.658935546875ms
-      total: 60.986083984375ms
-
-      last:
-      recalc: 0.010986328125ms
-      remove: 0.220947265625ms
-      add: 0.580078125ms
-      total: 2.721923828125ms
-
-    with remove optimization
-  */
-
   constructor(props) {
     super(props);
   }
@@ -54,7 +25,7 @@ class ArrowsLayer extends LayerGroup {
 
   // Reacreating all the markers
 
-  setLatLngs = (route: LatLngLiteral[]): void => {
+  setLatLngs = (route: LatLng[]): void => {
     if (!this.map) return;
 
     this.arrowLayer.clearLayers();

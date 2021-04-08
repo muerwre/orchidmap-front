@@ -4,7 +4,7 @@ import { CLIENT } from '~/config/frontend';
 import { DomMarker } from '~/utils/map/DomMarker';
 import { MainMap } from '~/constants/map';
 
-const createWaypointMarker = (): DomMarker => {
+const createWaypointMarker = () => {
   const element = document.createElement('div');
 
   return new DomMarker({

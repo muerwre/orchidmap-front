@@ -448,8 +448,6 @@ const composeStickerImage = async (
   sticker: string,
   scale: number
 ): Promise<void> => {
-  console.log({ scale });
-
   const rad = 56;
   const tX = (Math.cos(angle + Math.PI) * rad - 30 - 6) * scale + x;
   const tY = (Math.sin(angle + Math.PI) * rad - 30 - 6) * scale + y;

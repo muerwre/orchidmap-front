@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
-import { marker, Marker } from 'leaflet';
+import { DivIcon, marker, Marker } from 'leaflet';
 import { IStickerDump } from '~/redux/map/types';
 import { STICKERS } from '~/constants/stickers';
 import { StickerDesc } from '~/components/StickerDesc';
@@ -110,7 +110,7 @@ const Sticker: React.FC<IProps> = ({
 
       MainMap.enableClicks();
     },
-    [onChange, sticker, MainMap]
+    [onChange, sticker]
   );
 
   const onDrag = React.useCallback(
@@ -183,7 +183,7 @@ const Sticker: React.FC<IProps> = ({
       document.removeEventListener('mousemove', onDrag);
       document.removeEventListener('mouseup', onDragStop);
     };
-  }, [dragging, onDrag]);
+  }, [dragging, onDrag, onDragStop]);
 
   // Initial leaflet marker creation, when element (dom element div) is ready
   React.useEffect(() => {
@@ -199,7 +199,7 @@ const Sticker: React.FC<IProps> = ({
     return () => {
       item.remove();
     };
-  }, [element]);
+  }, [sticker.latlng, element]);
 
   useEffect(() => {
     if (!layer) return;
