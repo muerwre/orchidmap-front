@@ -64,21 +64,21 @@ steps:
         - cp -a $${ENV_PATH}/${DRONE_BRANCH}/. $${BUILD_PATH}/${DRONE_BRANCH}
         - docker-compose build
         - docker-compose up -d
-  - name: telgram_notify
-    image: appleboy/drone-telegram
-    when:
-      status:
-        - success
-        - failure
-    settings:
-      token:
-        from_secret: telegram_token
-      to:
-        from_secret: telegram_chat_id
-      format: markdown
-      message: >
-        {{#success build.status}}🤓{{else}}😨{{/success}}
-        [{{repo.name}} / {{commit.branch}}]({{ build.link }})
-        ```
-        {{ commit.message }}
-        ```
+#  - name: telgram_notify
+#    image: appleboy/drone-telegram
+#    when:
+#      status:
+#        - success
+#        - failure
+#    settings:
+#      token:
+#        from_secret: telegram_token
+#      to:
+#        from_secret: telegram_chat_id
+#      format: markdown
+#      message: >
+#        {{#success build.status}}🤓{{else}}😨{{/success}}
+#        [{{repo.name}} / {{commit.branch}}]({{ build.link }})
+#        ```
+#        {{ commit.message }}
+#        ```
