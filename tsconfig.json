@@ -1,30 +1,32 @@
 {
-  "allowSyntheticDefaultImports": true,
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
     "target": "es6",
-    "jsx": "react",
-    "lib": [ "es2015", "DOM", "es6" ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [ "src/*" ],
-      "custom_modules/*": [
-        "src/custom_modules/*"
-      ]
-    }
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noImplicitAny": false
   },
   "include": [
-    "./src/index.tsx",
-    "./backend/**/*",
-    "./custom.d.ts"
+    "src"
   ],
   "exclude": [
-    "./src/_modules/**/*"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }

@@ -46,7 +46,7 @@ const MapListDialogHead: FC<Props> = memo(
               onChange={onDistanceChange}
               defaultValue={[0, 10000]}
               value={distance}
-              pushable={25}
+              pushable
               disabled={min >= max}
             />
           ) : (

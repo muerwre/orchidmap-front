@@ -5,7 +5,6 @@ import { Fills } from '~/components/Fills';
 import { UserPanel } from '~/components/panels/UserPanel';
 import { connect } from 'react-redux';
 
-import { hot } from 'react-hot-loader';
 import { Renderer } from '~/components/renderer/Renderer';
 import { editorHideRenderer, editorSetDialogActive } from '~/redux/editor/actions';
 import { LeftDialog } from '~/containers/LeftDialog';
@@ -60,7 +59,7 @@ const mapStateToProps = ({
     dialog,
     dialog_active,
     renderer,
-    activeSticker: { sticker = null, set = null },
+    activeSticker: { sticker, set },
   },
 }: IState) => ({
   renderer_active: renderer.renderer_active,
@@ -73,6 +72,6 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = { editorHideRenderer, editorSetDialogActive };
 
-const App = connect(mapStateToProps, mapDispatchToProps)(hot(module)(AppUnconnected));
+const App = connect(mapStateToProps, mapDispatchToProps)(AppUnconnected);
 
 export { App };

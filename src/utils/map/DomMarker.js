@@ -1,7 +1,7 @@
 import { DivIcon } from 'leaflet';
 
 export const DomMarker = DivIcon.extend({
-  initialize: function (options) {
+  initialize: function (options: any) {
     this.options = options;
   },
 
@@ -15,7 +15,7 @@ export const DomMarker = DivIcon.extend({
 
     this._setIconStyles(element, 'icon');
 
-    return element; 
+    return element;
   }
 });
 

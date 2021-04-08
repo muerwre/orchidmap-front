@@ -13,7 +13,7 @@ const { store, persistor } = configureStore();
 
 pushLoaderState(10);
 
-export const Index = () => (
+const Index = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <App />
@@ -22,14 +22,3 @@ export const Index = () => (
 );
 
 ReactDOM.render(<Index />, document.getElementById('index'));
-
-if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') {
-  (function() {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('./service-worker.js', { scope: '/' })
-        .then(() => console.log('Service Worker registered successfully.'))
-        .catch(error => console.log('Service Worker registration failed:', error));
-    }
-  })();
-}
