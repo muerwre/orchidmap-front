@@ -1,0 +1,22 @@
+.logo-preview {
+  position: fixed;
+  right: 0;
+  bottom: 58px;
+
+  width: 400px;
+  height: 100%;
+
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 2;
+  background: 100% 100% no-repeat;
+
+  &.top {
+    background-position: 100% 0;
+  }
+
+  @media (max-width: $mobile_breakpoint) {
+    transform: scale(0.5);
+    transform-origin: 100% 100%;
+  }
+}

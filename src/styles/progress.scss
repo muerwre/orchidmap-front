@@ -1,0 +1,16 @@
+.progress {
+  width: 100%;
+  position: relative;
+  height: 5px;
+  background: #111111;
+  border-radius: $panel_radius;
+  box-sizing: border-box;
+
+  .bar {
+    width: 30%;
+    background: linear-gradient(270deg, $blue_primary, $blue_secondary);
+    height: 100%;
+    border-radius: $panel_radius;
+    transition: width 500ms;
+  }
+}

@@ -1,10 +1,9 @@
-:global {
   .button {
     background: #444444;
     padding: 4px 16px;
     height: 18px;
     line-height: 1em;
-    border-radius: @button_radius;
+    border-radius: $button_radius;
     font-family: inherit;
     font-size: 1em;
     display: inline-flex;
@@ -61,12 +60,11 @@
       margin: 0;
 
       &:first-child {
-        border-radius: @button_radius 0 0 @button_radius;
+        border-radius: $button_radius 0 0 $button_radius;
       }
 
       &:last-child {
-        border-radius: 0 @button_radius @button_radius 0;
+        border-radius: 0 $button_radius $button_radius 0;
       }
     }
   }
-}
