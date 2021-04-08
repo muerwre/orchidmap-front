@@ -8,6 +8,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const PWA_CONFIG = require('./src/config/pwa');
+const Dotenv = require('dotenv-webpack');
 
 /* Plugins */
 
@@ -32,15 +33,6 @@ const devtool = isDevelopment ? 'cheap-module-eval-source-map' : 'source-map';
 
 const resolve = {
   alias: {
-    // $components: path.join(__dirname, 'src/components'),
-    // $containers: path.join(__dirname, 'src/containers'),
-    // $constants: path.join(__dirname, 'src/constants'),
-    // $sprites: path.join(__dirname, 'src/sprites'),
-    // $config: path.join(__dirname, './config'),
-    // $styles: path.join(__dirname, 'src/styles'),
-    // $redux: path.join(__dirname, 'src/redux'),
-    // $utils: path.join(__dirname, 'src/utils'),
-    // $modules: path.join(__dirname, 'src/modules'),
     '~': path.join(__dirname, 'src'),
   },
   extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
@@ -51,24 +43,20 @@ const resolve = {
 module.exports = () => {
   /* Export */
   const plugins = [
-    // concatPlugin,
     htmlPlugin,
-    // flowPlugin,
-    // gitPlugin,
     new webpack.IgnorePlugin(/^osrm-text-instructions$/, /leaflet-routing-machine$/),
     miniCssExractPlugin,
     new webpack.HashedModuleIdsPlugin(),
     new WebpackPwaManifest(PWA_CONFIG.MANIFEST(path.resolve('./src/sprites/app.png'))),
-    new SWPrecacheWebpackPlugin(
-      {
-        cacheId: 'my-domain-cache-id',
-        dontCacheBustUrlsMatching: /\.\w{8}\./,
-        filename: 'service-worker.js',
-        minify: true,
-        navigateFallback: `${PWA_CONFIG.PUBLIC_PATH}index.html`,
-        staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/]
-      }
-    ),
+    new Dotenv(),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'my-domain-cache-id',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      navigateFallback: `${PWA_CONFIG.PUBLIC_PATH}index.html`,
+      staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/],
+    }),
   ];
 
   return {

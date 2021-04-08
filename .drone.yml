@@ -60,7 +60,7 @@ steps:
         - mkdir -p $${BUILD_PATH}/${DRONE_BRANCH}
         - rm -rf $${BUILD_PATH}/${DRONE_BRANCH}/*
         - cd $${BUILD_PATH}/${DRONE_BRANCH}
-        - tar -xjf /tmp/vault-frontend-${DRONE_BRANCH}/app.tar.bz2 -C ./
+        - tar -xjf /tmp/orchid-map-${DRONE_BRANCH}/app.tar.bz2 -C ./
         - cp -a $${ENV_PATH}/${DRONE_BRANCH}/. $${BUILD_PATH}/${DRONE_BRANCH}
         - docker-compose build
         - docker-compose up -d

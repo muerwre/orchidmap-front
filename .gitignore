@@ -18,10 +18,12 @@ yarn-error.log
 /config/backend.js
 /config/pwa.js
 
-/src/config/frontend.js
+/src/config/frontend.ts
 /src/config/backend.js
 /src/config/pwa.js
 
 # Bundle
 *.js.map
 stats.json
+
+.env
