@@ -33,6 +33,10 @@ export class DomMarker extends DivIcon {
 
   createIcon(oldicon?: HTMLElement) {
     this.element.classList.add('icon')
+
+    if (this.options.className) {
+      this.element.classList.add(this.options.className);
+    }
     return this.element;
   }
 }

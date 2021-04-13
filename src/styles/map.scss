@@ -1,3 +1,5 @@
+@import "colors";
+
 #map {
   width: 50% !important;
   height: 100%;
@@ -28,7 +30,7 @@
 
 .leaflet-vertex-drag-helper {
   pointer-events: none !important;
-  background: fade(red, 50%);
+  background: darken(red, 50%);
   border-radius: 12px;
 
   &::after {
