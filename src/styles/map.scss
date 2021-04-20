@@ -308,7 +308,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: fade($cluster_small, 70%) 0 0 0 5px;
+  box-shadow: darken($cluster_small, 70%) 0 0 0 5px;
   font-weight: bold;
   font-size: 13px;
   transform: translate(-12px, -12px);
@@ -317,7 +317,7 @@
   outline: none;
 
   &:hover {
-    box-shadow: fade($cluster_small, 70%) 0 0 0 7px;
+    box-shadow: darken($cluster_small, 70%) 0 0 0 7px;
   }
 
   span {

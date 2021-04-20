@@ -178,7 +178,7 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  background: linear-gradient(fade($loading_shade, 0%), $loading_shade 70%);
+  background: linear-gradient(darken($loading_shade, 0%), $loading_shade 70%);
   height: 100px;
   pointer-events: none;
   transition: opacity 100ms;
@@ -240,7 +240,7 @@
   &.has_edit {
     //transform: translateY(-2px);
     .route-row {
-      background: fade($green_secondary, 30%);
+      background: darken($green_secondary, 30%);
     }
   }
 
@@ -280,11 +280,11 @@
 }
 
 .route-row-edit {
-  background: fade($green_secondary, 30%);
+  background: darken($green_secondary, 30%);
 }
 
 .route-row-drop {
-  background: fade($red_secondary, 20%);
+  background: darken($red_secondary, 20%);
 
   .route-row {
     align-items: center;
@@ -341,13 +341,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  fill: fade(white, 30%);
-  background: fade(white, 8%);
+  fill: darken(white, 30%);
+  background: darken(white, 8%);
   cursor: pointer;
   transition: background 250ms, transform 500ms;
 
   &:hover {
-    background: fade(white, 10%);
+    background: darken(white, 10%);
   }
 }
 
@@ -361,7 +361,7 @@
   overflow: hidden;
   transition: all 500ms;
   display: flex;
-  fill: fade(white, 30%);
+  fill: darken(white, 30%);
 
   div {
     width: 60px;
@@ -371,16 +371,16 @@
     align-items: center;
 
     &:first-child {
-      box-shadow: fade(black, 30%) 1px 0;
+      box-shadow: darken(black, 30%) 1px 0;
     }
 
     &:hover {
-      background: fade($red_secondary, 30%);
+      background: darken($red_secondary, 30%);
     }
 
     &.modify-button {
       &:hover {
-        background: fade($green_secondary, 30%);
+        background: darken($green_secondary, 30%);
       }
     }
   }
@@ -399,7 +399,7 @@
 
   .route-row-corner {
     svg {
-      fill: fade(white, 50%);
+      fill: darken(white, 50%);
       margin-right: 2px;
       flex-shrink: 0;
     }
