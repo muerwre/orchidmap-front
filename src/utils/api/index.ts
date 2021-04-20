@@ -6,6 +6,8 @@ import { LatLngLiteral } from 'leaflet';
 import { IRoute } from '~/redux/map/types';
 import { INominatimResult } from '~/redux/types';
 import { api } from './instance';
+import { postMapInterceptor } from '~/utils/api/interceptors';
+import { PostMapRequest, PostMapResponse } from '~/utils/api/types';
 
 interface IGetRouteList {
   min: number;
@@ -62,15 +64,9 @@ export const postMap = ({
   provider,
   is_public,
   description,
-}: Partial<IRoute> & {
-  force: boolean;
-}) =>
+}: PostMapRequest) =>
   api
-    .post<{
-      route: IRoute;
-      error?: string;
-      code?: string;
-    }>(
+    .post<PostMapResponse>(
       API.POST_MAP,
       {
         route: {
@@ -86,7 +82,7 @@ export const postMap = ({
         },
         force,
       },
-    );
+    ).catch(postMapInterceptor);
 
 export const checkIframeToken = ({
   viewer_id,

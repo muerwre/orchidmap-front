@@ -69,13 +69,13 @@ export function configureStore(): { store: Store<any>; persistor: Persistor } {
 
   // Pass token to axios
   api.interceptors.request.use(options => {
-    const token = store.getState().user.token;
+    const token = store.getState().user.user.token;
 
     if (!token) {
       return options;
     }
 
-    return assocPath(['headers', 'authorization'], `Bearer ${token}`, options);
+    return assocPath(['headers', 'authorization'], token, options);
   });
 
   // Logout on 401
