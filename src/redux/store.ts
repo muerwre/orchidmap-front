@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware, combineReducers, compose, Store } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
@@ -8,15 +8,15 @@ import { createBrowserHistory } from 'history';
 import { editorLocationChanged } from '~/redux/editor/actions';
 import { PersistConfig, Persistor } from 'redux-persist/es/types';
 
-import { userReducer, IRootReducer } from '~/redux/user';
+import { IRootReducer, userReducer } from '~/redux/user';
 import { userSaga } from '~/redux/user/sagas';
 
 import { editor, IEditorState } from '~/redux/editor';
 import { editorSaga } from '~/redux/editor/sagas';
 
-import { map, IMapReducer } from '~/redux/map';
+import { IMapReducer, map } from '~/redux/map';
 import { mapSaga } from '~/redux/map/sagas';
-import { watchLocation, getLocation } from '~/utils/window';
+import { watchLocation } from '~/utils/window';
 import { LatLngLiteral } from 'leaflet';
 import { setUserLocation, userLogout } from './user/actions';
 import { MainMap } from '~/constants/map';

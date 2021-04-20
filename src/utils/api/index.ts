@@ -1,5 +1,5 @@
 import { API } from '~/constants/api';
-import { IRootState, IRouteListItem } from '~/redux/user';
+import { IRootState } from '~/redux/user';
 import { IUser } from '~/constants/auth';
 import { CLIENT } from '~/config/frontend';
 import { LatLngLiteral } from 'leaflet';
@@ -7,7 +7,7 @@ import { IRoute } from '~/redux/map/types';
 import { INominatimResult } from '~/redux/types';
 import { api } from './instance';
 import { postMapInterceptor } from '~/utils/api/interceptors';
-import { PostMapRequest, PostMapResponse } from '~/utils/api/types';
+import { CheckTokenRequest, CheckTokenResult, PostMapRequest, PostMapResponse } from '~/utils/api/types';
 
 interface IGetRouteList {
   min: number;
@@ -20,16 +20,11 @@ interface IGetRouteList {
 
 export const checkUserToken = ({
   id,
-}: {
-  id: IRootState['user']['id'];
-}) =>
+  token,
+}: CheckTokenRequest) =>
   api
-    .get<{
-      user: IUser;
-      random_url: string;
-      routes: IRouteListItem[];
-    }>(API.CHECK_TOKEN, {
-      params: { id },
+    .get<CheckTokenResult>(API.CHECK_TOKEN, {
+      params: { id, token },
     });
 
 export const getGuestToken = () =>

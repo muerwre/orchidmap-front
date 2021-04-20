@@ -77,6 +77,7 @@ function* authCheckSaga({ key }: RehydrateAction) {
         data: { user, random_url },
       }: Unwrap<typeof checkUserToken> = yield call(checkUserToken, {
         id,
+        token,
       });
 
       if (user) {
