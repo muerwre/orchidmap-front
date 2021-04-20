@@ -507,7 +507,7 @@ class InteractivePoly extends Polyline {
     const index = this.markers.indexOf(target);
     const latlngs = this.getLatLngs();
 
-    if (typeof index === 'undefined' || latlngs.length == 0) return;
+    if (typeof index === 'undefined' || latlngs.length === 0) return;
 
     this.dropMarkerDistanceChange(index);
     this._map.removeLayer(this.markers[index]);

@@ -1,13 +1,5 @@
 import { history } from '~/redux/store';
-import {API_RETRY_INTERVAL} from "~/constants/api";
-
-interface IUrlData {
-  path: string,
-  mode: 'edit' | '',
-  host: string,
-  hash: string,
-  protocol: 'http' | 'https',
-}
+import { API_RETRY_INTERVAL } from '~/constants/api';
 
 export const getPath = (): string => (window.location && window.location.pathname);
 export const pushPath = (url: string): string => history.push(url);

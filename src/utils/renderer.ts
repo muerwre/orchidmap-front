@@ -1,18 +1,10 @@
-// import { editor } from '~/modules/Editor';
-import { COLORS, CLIENT } from '~/config/frontend';
+import { CLIENT, COLORS } from '~/config/frontend';
 import saveAs from 'file-saver';
 import { replaceProviderUrl } from '~/constants/providers';
 import { STICKERS } from '~/constants/stickers';
-import { IRoute } from '~/redux/map/types';
-import { IStickerDump } from '~/redux/map/types';
-import { IRootState } from '~/redux/user';
-import {
-  angleBetweenPoints,
-  angleBetweenPointsRad,
-  findDistancePx,
-  middleCoordPx,
-} from '~/utils/geom';
-import { Point, LatLng, latLng } from 'leaflet';
+import { IRoute, IStickerDump } from '~/redux/map/types';
+import { angleBetweenPoints, angleBetweenPointsRad, findDistancePx, middleCoordPx } from '~/utils/geom';
+import { LatLng, latLng, Point } from 'leaflet';
 import { MainMap } from '~/constants/map';
 
 export interface ITilePlacement {

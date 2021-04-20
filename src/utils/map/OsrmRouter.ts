@@ -35,7 +35,7 @@ export const OsrmRouter = Routing.control({
   show: false,
   plan: Routing.plan([], {
     createMarker: (_, wp) => {
-      const marker = new Marker(wp.latLng, {
+      return new Marker(wp.latLng, {
         draggable: true,
         icon: createWaypointMarker(),
       })
@@ -45,12 +45,10 @@ export const OsrmRouter = Routing.control({
           OsrmRouter.setWaypoints(
             OsrmRouter.getWaypoints().filter(
               point =>
-                !point.latLng || (point.latLng.lat != latlng.lat && point.latLng.lng != latlng.lng)
+                !point.latLng || (point.latLng.lat !== latlng.lat && point.latLng.lng !== latlng.lng)
             )
           );
         });
-
-      return marker;
     },
     routeWhileDragging: false,
   }),

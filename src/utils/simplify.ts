@@ -1,4 +1,4 @@
-import { Map, LineUtil, LatLng } from 'leaflet';
+import { LatLng, LineUtil } from 'leaflet';
 import { MainMap } from '~/constants/map';
 
 export const simplify = (latlngs: LatLng[]): LatLng[] => {
