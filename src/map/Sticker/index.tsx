@@ -49,7 +49,7 @@ const Sticker: React.FC<IProps> = ({
   const stickerImage = React.useRef<HTMLDivElement>(null);
 
   const onChange = React.useCallback(state => mapSetSticker(index, state), [mapSetSticker, index]);
-  const onDelete = React.useCallback(state => mapDropSticker(index), [mapSetSticker, index]);
+  const onDelete = React.useCallback(() => setTimeout(() => mapDropSticker(index), 0), [mapDropSticker, index]);
 
   const updateAngle = useCallback(
     ang => {
@@ -65,12 +65,12 @@ const Sticker: React.FC<IProps> = ({
 
       stickerArrow.current.style.transform = `rotate(${ang + Math.PI}rad)`;
     },
-    [stickerArrow, stickerImage]
+    [stickerArrow, stickerImage],
   );
 
   const onDragStart = React.useCallback(() => {
     if (!layer?.dragging) {
-      return
+      return;
     }
 
     layer.dragging.disable();
@@ -100,7 +100,7 @@ const Sticker: React.FC<IProps> = ({
 
       setTimeout(MainMap.enableClicks, 100);
     },
-    [setDragging, layer, MainMap, sticker, angle]
+    [setDragging, layer, MainMap, sticker, angle],
   );
 
   const onMoveStarted = React.useCallback(() => {
@@ -118,7 +118,7 @@ const Sticker: React.FC<IProps> = ({
 
       MainMap.enableClicks();
     },
-    [onChange, sticker]
+    [onChange, sticker],
   );
 
   const onDrag = React.useCallback(
@@ -130,7 +130,7 @@ const Sticker: React.FC<IProps> = ({
       angle.current = parseFloat(Math.atan2(y - pageY, x - pageX).toFixed(2));
       updateAngle(angle.current);
     },
-    [element, updateAngle, angle]
+    [element, updateAngle, angle],
   );
 
   const onTextChange = React.useCallback(text => setText(text), [sticker, onChange]);
@@ -143,7 +143,7 @@ const Sticker: React.FC<IProps> = ({
   }, [text, onChange, sticker]);
 
   const direction = React.useMemo(() => {
-    getLabelDirection(sticker?.angle)
+    getLabelDirection(sticker?.angle);
   }, [sticker.angle]);
 
   useEffect(() => {
@@ -165,9 +165,9 @@ const Sticker: React.FC<IProps> = ({
   useEffect(() => {
     if (!wrapper || !wrapper.current) return;
 
-    const scale = getAdaptiveScale(zoom) // adaptive zoom :-)
+    const scale = getAdaptiveScale(zoom); // adaptive zoom :-)
 
-    wrapper.current.style.transform = `scale(${scale}) perspective(1px)`
+    wrapper.current.style.transform = `scale(${scale}) perspective(1px)`;
   }, [zoom, wrapper]);
 
   // Attaches onMoveFinished event to item
@@ -246,7 +246,7 @@ const Sticker: React.FC<IProps> = ({
         <div className="sticker-delete" onMouseDown={onDelete} onTouchStart={onDelete} />
       </div>
     </div>,
-    element
+    element,
   );
 };
 
