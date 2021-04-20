@@ -29,8 +29,7 @@ const latLngToTile = (latlng: {
   lat: number;
   lng: number;
 }): { x: number; y: number; z: number } => {
-  const map = MainMap;
-  const zoom = map.getZoom();
+  const zoom = MainMap.getZoom();
   const xtile = Number(Math.floor(((latlng.lng + 180) / 360) * (1 << zoom)));
   const ytile = Number(
     Math.floor(
@@ -48,8 +47,7 @@ const latLngToTile = (latlng: {
 };
 
 const tileToLatLng = (point: { x: number; y: number }): LatLng => {
-  const map = MainMap;
-  const z = map.getZoom();
+  const z = MainMap.getZoom();
   const lng = (point.x / Math.pow(2, z)) * 360 - 180;
   const n = Math.PI - (2 * Math.PI * point.y) / Math.pow(2, z);
   const lat = (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
@@ -209,7 +207,7 @@ export const composePoly = ({
   }
 
   if (dash) {
-    ctx.setLineDash([12, 12]);
+    ctx.setLineDash(dash);
   }
 
   ctx.stroke();
