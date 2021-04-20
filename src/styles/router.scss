@@ -1,3 +1,5 @@
+@import "colors";
+
 .router-waypoint {
   width: 40px;
   height: 40px;
@@ -5,6 +7,7 @@
   margin-top: -20px;
   outline: none;
   z-index: 10001;
+  position: absolute;
 
   &:after {
     content: ' ';
