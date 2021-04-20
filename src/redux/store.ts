@@ -25,6 +25,12 @@ import { assocPath } from 'ramda';
 import { AxiosError } from 'axios';
 import { api } from '~/utils/api/instance';
 
+const mapPersistConfig: PersistConfig = {
+  key: 'map',
+  whitelist: ['logo', 'provider'],
+  storage,
+};
+
 const userPersistConfig: PersistConfig = {
   key: 'user',
   whitelist: ['user', 'logo', 'provider', 'speed'],
@@ -55,7 +61,7 @@ export const store = createStore(
   combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
     editor: persistReducer(editorPersistConfig, editor),
-    map,
+    map: persistReducer(mapPersistConfig, map),
   }),
   composeEnhancers(applyMiddleware(sagaMiddleware))
 );
