@@ -342,12 +342,12 @@
   align-items: center;
   justify-content: center;
   fill: darken(white, 30%);
-  background: darken(white, 8%);
+  background: transparentize(white, 0.9);
   cursor: pointer;
   transition: background 250ms, transform 500ms;
 
   &:hover {
-    background: darken(white, 10%);
+    background: transparentize(white, 0.95);
   }
 }
 
