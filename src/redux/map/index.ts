@@ -28,7 +28,7 @@ export const MAP_INITIAL_STATE: IMapReducer = {
   address: '',
   address_origin: '',
   description: '',
-  owner: { id: null },
+  owner: { id: '' },
   is_public: false,
   zoom: 13,
 }

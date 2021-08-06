@@ -1,8 +1,8 @@
-import React, { FC, useEffect, memo, useState, useCallback } from 'react';
+import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 import { InteractivePoly } from '~/utils/map/InteractivePoly';
 import { isMobile } from '~/utils/window';
 import { LatLng } from 'leaflet';
-import { selectEditorMode, selectEditorEditing, selectEditorDirection } from '~/redux/editor/selectors';
+import { selectEditorDirection, selectEditorEditing, selectEditorMode } from '~/redux/editor/selectors';
 import * as MAP_ACTIONS from '~/redux/map/actions';
 import { connect } from 'react-redux';
 import { selectMapRoute } from '~/redux/map/selectors';
@@ -28,7 +28,7 @@ type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
 
 const RouteUnconnected: FC<Props> = memo(
   ({ route, editing, mode, drawing_direction, mapSetRoute, editorSetDistance, editorSetMarkersShown }) => {
-    const [layer, setLayer] = useState<InteractivePoly>(null);
+    const [layer, setLayer] = useState<InteractivePoly | null>(null);
 
     const onDistanceChange = useCallback(({ distance }) => editorSetDistance(distance), [
       editorSetDistance,

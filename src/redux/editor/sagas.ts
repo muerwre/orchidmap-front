@@ -69,8 +69,14 @@ import uuid from 'uuid';
 import { getRandomColor, getAdaptiveScale } from '~/utils/dom';
 
 const hideLoader = () => {
-  document.getElementById('loader').style.opacity = String(0);
-  document.getElementById('loader').style.pointerEvents = 'none';
+  const el = document.getElementById('loader');
+
+  if (!el) {
+    return true;
+  }
+
+  el.style.opacity = String(0);
+  el.style.pointerEvents = 'none';
 
   return true;
 };
@@ -124,6 +130,10 @@ function* getRenderData() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   const ctx = canvas.getContext('2d');
+
+  if (!ctx) {
+    return
+  }
 
   const geometry = getTilePlacement();
   const points = getPolyPlacement(route);
@@ -184,6 +194,11 @@ function* getCropData({ x, y, width, height }) {
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
+
+  if (!ctx) {
+    return
+  }
+
   const image = yield imageFetcher(data);
 
   ctx.drawImage(image, -x, -y);
@@ -281,7 +296,7 @@ function* mapClick({ latlng }: ReturnType<typeof mapClicked>) {
 
 function* routerSubmit() {
   const route: ReturnType<typeof selectMapRoute> = yield select(selectMapRoute);
-  const latlngs: LatLng[] = path(['_routes', 0, 'coordinates'], OsrmRouter);
+  const latlngs: LatLng[] = path(['_routes', 0, 'coordinates'], OsrmRouter) || [];
 
   const coordinates = simplify(latlngs);
 

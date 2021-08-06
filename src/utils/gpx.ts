@@ -39,7 +39,7 @@ export const getGPXString = ({
   <metadata>
     <name>${title || 'GPX Track'}</name> 
   </metadata>
-  ${stickers.reduce(
+  ${(stickers || []).reduce(
     (cat, { latlng: { lat, lng }, text }) =>
       `${cat}
           <wpt lat="${lat}" lon="${lng}">            
@@ -93,12 +93,12 @@ export const importGpxTrack = async (file: File) => {
           return trkseg.trkpt
             ? [
                 ...trkseg_res,
-                ...trkseg.trkpt.map(pnt => ({ lat: pnt['$'].lat, lng: pnt['$'].lon })),
+                ...trkseg.trkpt.map(pnt => new LatLng(pnt['$'].lat, pnt['$'].lon)),
               ]
             : trkseg_res;
         }, trk_res)
       : trk_res;
-  }, []);
+  }, [] as LatLng[]);
 
   return [
     {

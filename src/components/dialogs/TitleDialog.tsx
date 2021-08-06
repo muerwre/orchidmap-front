@@ -42,7 +42,7 @@ export class TitleDialogUnconnected extends React.PureComponent<Props, State> {
     this.setMaxHeight();
   }
 
-  setMaxHeight = (): number => {
+  setMaxHeight = () => {
     if (!this.ref_sizer || !this.ref_title || !this.ref_text) return 0;
 
     const { height: sizer_height } = this.ref_sizer.getBoundingClientRect();

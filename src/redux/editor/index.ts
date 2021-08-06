@@ -41,7 +41,7 @@ export interface IEditorState {
   distance: number;
   estimated: number;
   speed: number;
-  activeSticker: { set?: string; sticker?: string };
+  activeSticker: { set: string; sticker: string };
   is_empty: boolean;
   is_published: boolean;
   is_routing: boolean;
@@ -134,7 +134,7 @@ export const EDITOR_INITIAL_STATE = {
   },
 
   save: {
-    error: null,
+    error: '',
     finished: false,
     overwriting: false,
     processing: false,

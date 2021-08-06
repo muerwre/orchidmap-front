@@ -1,4 +1,4 @@
-import React, { PureComponent, useState, useCallback } from 'react';
+import React, { PureComponent } from 'react';
 import { MODES } from '~/constants/modes';
 import classnames from 'classnames';
 
@@ -7,12 +7,12 @@ import { EditorDialog } from '~/components/panels/EditorDialog';
 import { connect } from 'react-redux';
 import {
   editorChangeMode,
+  editorKeyPressed,
+  editorRedo,
   editorStartEditing,
   editorStopEditing,
   editorTakeAShot,
-  editorKeyPressed,
   editorUndo,
-  editorRedo,
 } from '~/redux/editor/actions';
 import { Tooltip } from '~/components/panels/Tooltip';
 import { IState } from '~/redux/store';
@@ -47,6 +47,10 @@ type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {}
 
 class EditorPanelUnconnected extends PureComponent<Props, void> {
   componentDidMount() {
+    if (!this.panel) {
+      return;
+    }
+
     window.addEventListener('keydown', this.onKeyPress as any);
 
     const obj = document.getElementById('control-dialog');
@@ -57,7 +61,7 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
     obj.style.width = String(width);
   }
 
-  panel: HTMLElement = null;
+  panel: HTMLDivElement | null = null;
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.onKeyPress as any);

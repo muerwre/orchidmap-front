@@ -93,7 +93,7 @@ const MapUnconnected: React.FC<IProps> = memo(
               enabled && <GpxPolyline latlngs={latlngs} color={color} key={index} />
           )}
       </div>,
-      document.getElementById('canvas')
+      document.getElementById('canvas')!
     );
   }
 );

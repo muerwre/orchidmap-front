@@ -1,18 +1,10 @@
-// import { editor } from '~/modules/Editor';
-import { COLORS, CLIENT } from '~/config/frontend';
+import { CLIENT, COLORS } from '~/config/frontend';
 import saveAs from 'file-saver';
 import { replaceProviderUrl } from '~/constants/providers';
 import { STICKERS } from '~/constants/stickers';
-import { IRoute } from '~/redux/map/types';
-import { IStickerDump } from '~/redux/map/types';
-import { IRootState } from '~/redux/user';
-import {
-  angleBetweenPoints,
-  angleBetweenPointsRad,
-  findDistancePx,
-  middleCoordPx,
-} from '~/utils/geom';
-import { Point, LatLng, latLng } from 'leaflet';
+import { IRoute, IStickerDump } from '~/redux/map/types';
+import { angleBetweenPoints, angleBetweenPointsRad, findDistancePx, middleCoordPx } from '~/utils/geom';
+import { LatLng, latLng, Point } from 'leaflet';
 import { MainMap } from '~/constants/map';
 
 export interface ITilePlacement {
@@ -37,8 +29,7 @@ const latLngToTile = (latlng: {
   lat: number;
   lng: number;
 }): { x: number; y: number; z: number } => {
-  const map = MainMap;
-  const zoom = map.getZoom();
+  const zoom = MainMap.getZoom();
   const xtile = Number(Math.floor(((latlng.lng + 180) / 360) * (1 << zoom)));
   const ytile = Number(
     Math.floor(
@@ -56,8 +47,7 @@ const latLngToTile = (latlng: {
 };
 
 const tileToLatLng = (point: { x: number; y: number }): LatLng => {
-  const map = MainMap;
-  const z = map.getZoom();
+  const z = MainMap.getZoom();
   const lng = (point.x / Math.pow(2, z)) * 360 - 180;
   const n = Math.PI - (2 * Math.PI * point.y) / Math.pow(2, z);
   const lat = (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
@@ -133,7 +123,7 @@ export const fetchImages = (
 ): Promise<{ x: number; y: number; image: HTMLImageElement }[]> => {
   const { minX, maxX, minY, maxY, zoom } = geometry;
 
-  const images = [];
+  const images: { x: number; y: number; source: string }[] = [];
   for (let x = minX; x <= maxX; x += 1) {
     for (let y = minY; y <= maxY; y += 1) {
       images.push({ x, y, source: getImageSource({ x, y, zoom }, provider) });
@@ -173,7 +163,7 @@ export const composePoly = ({
   ctx,
   color = 'gradient',
   weight = CLIENT.STROKE_WIDTH,
-  dash = null,
+  dash = [],
 }: {
   points: Point[];
   ctx: CanvasRenderingContext2D;
@@ -217,7 +207,7 @@ export const composePoly = ({
   }
 
   if (dash) {
-    ctx.setLineDash([12, 12]);
+    ctx.setLineDash(dash);
   }
 
   ctx.stroke();
@@ -472,14 +462,14 @@ export const composeStickers = async ({
   if (!stickers || stickers.length < 0) return;
 
   stickers.map(({ x, y, angle, text }) => {
-    composeStickerArrow(ctx, x, y, angle, zoom);
+    composeStickerArrow(ctx, x, y, angle || 0, zoom);
 
-    if (text) composeStickerText(ctx, x, y, angle, text, zoom);
+    if (text) composeStickerText(ctx, x, y, angle || 0, text, zoom);
   });
 
   await Promise.all(
     stickers.map(({ x, y, angle, set, sticker }) =>
-      composeStickerImage(ctx, x, y, angle, set, sticker, zoom)
+      composeStickerImage(ctx, x, y, angle || 0, set, sticker, zoom)
     )
   );
 };

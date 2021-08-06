@@ -14,17 +14,17 @@ const mapDispatchToProps = {};
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const ArrowsUnconnected: FC<Props> = memo(({ route }) => {
-  const [layer, setLayer] = useState(null);
+  const [layer, setLayer] = useState<ArrowsLayer | null>(null);
 
   useEffect(() => {
     const item = new ArrowsLayer({}).addTo(MainMap);
-    setLayer(item);    
+    setLayer(item);
     return () => MainMap.removeLayer(item);
   }, [MainMap]);
 
   useEffect(() => {
     if (!layer) return
-    
+
     layer.setLatLngs(route);
   }, [layer, route])
   return null;

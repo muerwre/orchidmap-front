@@ -1,9 +1,4 @@
-import { LatLng, LatLngLiteral, point, Point, PointExpression, latLng } from 'leaflet';
-
-// interface LatLng {
-//   lat: number;
-//   lng: number;
-// }
+import { LatLng, latLng, LatLngLiteral, Point, point } from 'leaflet';
 
 export const middleCoord = (l1: LatLng, l2: LatLng): LatLng => latLng({
   lat: l2.lat + (l1.lat - l2.lat) / 2,
@@ -46,14 +41,14 @@ export const findDistance = (t1: number, n1: number, t2: number, n2: number): nu
 export const findDistanceHaversine = (t1: number, n1: number, t2: number, n2: number): number => {
   const R = 6371; // km
   const dLat = ((t2 - t1) * Math.PI) / 180;
-  var dLon = ((n2 - n1) * Math.PI) / 180;
-  var a =
+  const dLon = ((n2 - n1) * Math.PI) / 180;
+  const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((t1 * Math.PI) / 180) *
       Math.cos((t2 * Math.PI) / 180) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-  var c = 2 * Math.asin(Math.sqrt(a));
+  const c = 2 * Math.asin(Math.sqrt(a));
   return R * c;
 };
 
@@ -88,7 +83,7 @@ export const dist2 = (A: LatLngLiteral, B: LatLngLiteral): number =>
 
 const distToSegmentSquared = (A: LatLng, B: LatLng, C: LatLng): number => {
   const l2 = dist2(A, B);
-  if (l2 == 0) return dist2(C, A);
+  if (l2 === 0) return dist2(C, A);
 
   const t = Math.max(
     0,

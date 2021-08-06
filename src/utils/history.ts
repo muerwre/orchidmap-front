@@ -1,13 +1,5 @@
 import { history } from '~/redux/store';
-import {API_RETRY_INTERVAL} from "~/constants/api";
-
-interface IUrlData {
-  path: string,
-  mode: 'edit' | '',
-  host: string,
-  hash: string,
-  protocol: 'http' | 'https',
-}
+import { API_RETRY_INTERVAL } from '~/constants/api';
 
 export const getPath = (): string => (window.location && window.location.pathname);
 export const pushPath = (url: string): string => history.push(url);
@@ -36,20 +28,20 @@ export const parseQuery = (queryString: string) => {
 };
 
 export const pushLoaderState = (state: number) => {
-  document.getElementById('loader-bar').style.width = `${state}%`;
+  document.getElementById('loader-bar')!.style.width = `${state}%`;
 };
 
 export const countDownToRefresh = (left: number = API_RETRY_INTERVAL): void => {
   if (left <= 0) return document.location.reload();
 
-  document.getElementById('loader-bar').style.width = `${(left / API_RETRY_INTERVAL) * 100}%`;
+  document.getElementById('loader-bar')!.style.width = `${(left / API_RETRY_INTERVAL) * 100}%`;
   setTimeout(() => countDownToRefresh(left - 0.25), 1000);
 };
 
 export const pushNetworkInitError = () => {
-  document.getElementById('loader-bar').classList.add('is_failed');
-  document.getElementById('loader-bar').style.width = '100%';
-  document.getElementById('loader-error').style.opacity = String(1);
+  document.getElementById('loader-bar')!.classList.add('is_failed');
+  document.getElementById('loader-bar')!.style.width = '100%';
+  document.getElementById('loader-error')!.style.opacity = String(1);
 
   countDownToRefresh();
 };

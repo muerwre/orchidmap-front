@@ -40,7 +40,7 @@ export const RouteRowView = ({
   is_admin,
   is_published,
   toggleStarred
-}: Props): ReactElement<Props, null> => (
+}: Props): ReactElement<Props> => (
   <div className={classnames("route-row-view", { has_menu: tab === "my" })}>
     {(tab === TABS.PENDING || tab === TABS.STARRED) && is_admin && (
       <div className="route-row-fav" onClick={toggleStarred.bind(null, address)}>

@@ -12,7 +12,28 @@
 }
 
 .leaflet-control-zoom {
-  display: none;
+  width: 32px;
+  opacity: 0.5;
+  transition: opacity 0.1s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+a.leaflet-control-zoom-in, a.leaflet-control-zoom-out {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    opacity: 1;
+  }
 }
 
 .leaflet-touch .leaflet-bar a {
@@ -308,7 +329,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: fade($cluster_small, 70%) 0 0 0 5px;
+  box-shadow: darken($cluster_small, 70%) 0 0 0 5px;
   font-weight: bold;
   font-size: 13px;
   transform: translate(-12px, -12px);
@@ -317,7 +338,7 @@
   outline: none;
 
   &:hover {
-    box-shadow: fade($cluster_small, 70%) 0 0 0 7px;
+    box-shadow: darken($cluster_small, 70%) 0 0 0 7px;
   }
 
   span {

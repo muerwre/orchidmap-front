@@ -31,6 +31,10 @@ class Component extends React.Component<Props, State> {
   };
 
   onImageLoaded = () => {
+    if (!this.image) {
+      return
+    }
+
     this.croppr = new Croppr(this.image, {
       onInitialize: this.onCropInit,
     });
@@ -57,12 +61,12 @@ class Component extends React.Component<Props, State> {
     regionEl.append(this.logo);
   };
 
-  croppr: Croppr;
-  logo: HTMLDivElement;
-  image: HTMLImageElement;
-  logoImg: HTMLImageElement;
+  croppr?: Croppr;
+  logo: HTMLDivElement | null = null;
+  image: HTMLImageElement | null = null;
+  logoImg: HTMLImageElement | null = null;
 
-  getImage = () => this.props.editorCropAShot(this.croppr.getValue());
+  getImage = () => this.props.editorCropAShot(this.croppr?.getValue());
 
   render() {
     const { data } = this.props.editor.renderer;

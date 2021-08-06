@@ -9,6 +9,7 @@ import { LatLng, LatLngLiteral, LayerGroup, Map, Marker } from 'leaflet';
 import { arrowClusterIcon, createArrow } from '~/utils/arrow';
 import { MarkerClusterGroup } from 'leaflet.markercluster/dist/leaflet.markercluster-src.js';
 import { angleBetweenPoints, dist2, middleCoord } from '~/utils/geom';
+import { MainMap } from '~/constants/map';
 
 class ArrowsLayer extends LayerGroup {
   constructor(props) {
@@ -46,13 +47,13 @@ class ArrowsLayer extends LayerGroup {
               ),
             ]
           : res,
-      []
+      [] as Marker[]
     );
 
     this.arrowLayer.addLayers(midpoints);
   };
 
-  map: Map;
+  map: Map = MainMap;
   arrowLayer = new MarkerClusterGroup({
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
@@ -62,10 +63,10 @@ class ArrowsLayer extends LayerGroup {
     iconCreateFunction: arrowClusterIcon,
   });
 
-  layers: Marker<any>[] = [];
+  layers: Marker[] = [];
 }
 
-ArrowsLayer.addInitHook(function() {
+ArrowsLayer.addInitHook(function(this: ArrowsLayer) {
   this.once('add', event => {
     if (event.target instanceof ArrowsLayer) {
       this.map = event.target._map;

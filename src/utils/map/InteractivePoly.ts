@@ -36,9 +36,9 @@ class InteractivePoly extends Polyline {
 
     this.constraintsStyle = {
       ...this.constraintsStyle,
-      ...options.constraintsStyle,
+      ...(options?.constraintsStyle || {}),
     };
-    this.maxMarkers = options.maxMarkers || this.maxMarkers;
+    this.maxMarkers = options?.maxMarkers || this.maxMarkers;
 
     this.constrLine = new Polyline([], this.constraintsStyle);
 
@@ -162,10 +162,12 @@ class InteractivePoly extends Polyline {
           ? { ...obj, hidden: [...obj.hidden, marker] }
           : { ...obj, visible: [...obj.visible, marker] };
       },
-      { visible: [], hidden: [] }
+      { visible: [], hidden: [] } as Record<'visible' | 'hidden', Marker[]>
     );
 
-    if (visible.length > this.maxMarkers) return this.hideAllMarkers();
+    if (visible.length > (this.maxMarkers || 2)) {
+      return this.hideAllMarkers();
+    }
 
     this.showAllMarkers();
 
@@ -337,11 +339,11 @@ class InteractivePoly extends Polyline {
 
   onMarkerDrag = ({ target }: { target: Marker }) => {
     const coords = new Array(0)
-      .concat((this.vertex_index > 0 && this.markers[this.vertex_index - 1].getLatLng()) || [])
+      .concat((this.vertex_index! > 0 && this.markers[this.vertex_index! - 1].getLatLng()) || [])
       .concat(target.getLatLng())
       .concat(
-        (this.vertex_index < this.markers.length - 1 &&
-          this.markers[this.vertex_index + 1].getLatLng()) ||
+        (this.vertex_index! < this.markers.length - 1 &&
+          this.markers[this.vertex_index! + 1].getLatLng()) ||
           []
       );
 
@@ -369,17 +371,17 @@ class InteractivePoly extends Polyline {
   onMarkerDragEnd = ({ target }: { target: Marker }): void => {
     const latlngs = this.getLatLngs() as LatLngLiteral[];
     this.markerDragChangeDistance(
-      this.vertex_index,
-      latlngs[this.vertex_index],
+      this.vertex_index!,
+      latlngs[this.vertex_index!],
       target.getLatLng()
     );
 
-    this.replaceLatlng(target.getLatLng(), this.vertex_index);
+    this.replaceLatlng(target.getLatLng(), this.vertex_index!);
 
     this.is_dragging = false;
     this.constrLine.removeFrom(this._map);
 
-    this.vertex_index = null;
+    this.vertex_index = 0;
 
     if (this.is_drawing) this.startDrawing();
 
@@ -496,7 +498,7 @@ class InteractivePoly extends Polyline {
     this.constrLine.setLatLngs(coords);
   };
 
-  setDirection = (direction: 'forward' | 'backward') => {    
+  setDirection = (direction: 'forward' | 'backward') => {
     this.drawing_direction = direction;
     this.updateConstraintsToLatLngs(this.getLatLngs() as LatLngExpression[]);
   }
@@ -505,7 +507,7 @@ class InteractivePoly extends Polyline {
     const index = this.markers.indexOf(target);
     const latlngs = this.getLatLngs();
 
-    if (typeof index === 'undefined' || latlngs.length == 0) return;
+    if (typeof index === 'undefined' || latlngs.length === 0) return;
 
     this.dropMarkerDistanceChange(index);
     this._map.removeLayer(this.markers[index]);
@@ -568,27 +570,27 @@ class InteractivePoly extends Polyline {
   is_drawing: boolean = false;
 
   drawing_direction: 'forward' | 'backward' = 'forward';
-  vertex_index?: number = null;
+  vertex_index: number = 0;
 
-  hint_prev_marker: number = null;
+  hint_prev_marker: number = 0;
   distance: number = 0;
 }
 
-InteractivePoly.addInitHook(function() {
+InteractivePoly.addInitHook(function(this: InteractivePoly) {
   this.once('add', event => {
     if (event.target instanceof InteractivePoly) {
-      this.map = event.target._map;
+      this._map = event.target._map;
 
-      this.map.on('touch', console.log);
+      this._map.on('touch', console.log);
 
       this.markerLayer.addTo(event.target._map);
       this.hintMarker.addTo(event.target._map);
       this.constrLine.addTo(event.target._map);
       this.touchHinter.addTo(event.target._map);
 
-      this.map.on('moveend', this.updateMarkers);
+      this._map.on('moveend', this.updateMarkers);
 
-      this.on('latlngschange', this.updateTouchHinter);
+      this.on('latlngschange' as any, this.updateTouchHinter as any);
 
       if (this.touchHinter && window.innerWidth < 768) {
         try {
@@ -605,7 +607,7 @@ InteractivePoly.addInitHook(function() {
       this.constrLine.removeFrom(this._map);
       this.touchHinter.removeFrom(this._map);
 
-      this.map.off('moveend', this.updateMarkers);
+      this._map.off('moveend', this.updateMarkers);
     }
   });
 });

@@ -15,7 +15,7 @@ export interface IRouteListItem {
 export interface IRootReducer {
   // ready: boolean,
   user: IUser;
-  location: LatLngLiteral;
+  location?: LatLngLiteral;
   routes: {
     limit: 0;
     loading: boolean;
@@ -38,7 +38,7 @@ export type IRootState = Readonly<IRootReducer>;
 
 export const INITIAL_STATE: IRootReducer = {
   user: { ...DEFAULT_USER },
-  location: null,
+  location: undefined,
   routes: {
     limit: 0,
     loading: false, // <-- maybe delete this

@@ -8,14 +8,14 @@ interface IProps {
 }
 
 const GpxPolyline: FC<IProps> = ({ latlngs, color }) => {
-  const [layer, setLayer] = useState<Polyline>(null);
+  const [layer, setLayer] = useState<Polyline | null>(null);
 
   useEffect(() => {
     const item = new Polyline([], {
       color,
       stroke: true,
       opacity: 1,
-      weight: 7, 
+      weight: 7,
       // dashArray: [12,12],
     }).addTo(MainMap);
     setLayer(item);

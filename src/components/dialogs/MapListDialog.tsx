@@ -64,9 +64,8 @@ export interface State {
 
 class MapListDialogUnconnected extends PureComponent<Props, State> {
   state = {
-    menu_target: null,
-    editor_target: null,
-
+    menu_target: '',
+    editor_target: '',
     is_editing: false,
     is_dropping: false,
   };
@@ -74,7 +73,7 @@ class MapListDialogUnconnected extends PureComponent<Props, State> {
   startEditing = (editor_target: IRouteListItem['address']): void =>
     this.setState({
       editor_target,
-      menu_target: null,
+      menu_target: '',
       is_editing: true,
       is_dropping: false,
     });
@@ -86,19 +85,19 @@ class MapListDialogUnconnected extends PureComponent<Props, State> {
 
   hideMenu = (): void =>
     this.setState({
-      menu_target: null,
+      menu_target: '',
     });
 
   showDropCard = (editor_target: IRouteListItem['address']): void =>
     this.setState({
       editor_target,
-      menu_target: null,
+      menu_target: '',
       is_editing: false,
       is_dropping: true,
     });
 
   stopEditing = (): void => {
-    this.setState({ editor_target: null });
+    this.setState({ editor_target: '' });
   };
 
   setTitle = ({ target: { value } }: { target: { value: string } }): void => {

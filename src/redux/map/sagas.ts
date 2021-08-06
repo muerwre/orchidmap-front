@@ -1,40 +1,30 @@
-import {
-  takeEvery,
-  select,
-  put,
-  call,
-  TakeEffect,
-  race,
-  take,
-  takeLatest,
-  delay,
-} from 'redux-saga/effects';
+import { call, delay, put, race, select, take, TakeEffect, takeEvery, takeLatest } from 'redux-saga/effects';
 import { MAP_ACTIONS } from './constants';
 import {
-  mapClicked,
   mapAddSticker,
-  mapSetProvider,
+  mapClicked,
   mapSet,
-  mapSetTitle,
   mapSetAddressOrigin,
+  mapSetProvider,
   mapSetRoute,
   mapSetStickers,
+  mapSetTitle,
 } from './actions';
-import { selectUser, selectUserUser } from '~/redux/user/selectors';
+import { selectUser } from '~/redux/user/selectors';
 import { MODES } from '~/constants/modes';
 import {
+  editorCaptureHistory,
   editorChangeMode,
+  editorClearAll,
+  editorSendSaveRequest,
+  editorSetActiveSticker,
   editorSetChanged,
   editorSetEditing,
-  editorSetReady,
-  editorSetActiveSticker,
-  editorSendSaveRequest,
-  editorSetSave,
-  editorClearAll,
   editorSetHistory,
-  editorCaptureHistory,
+  editorSetReady,
+  editorSetSave,
 } from '~/redux/editor/actions';
-import { pushLoaderState, getUrlData, pushPath } from '~/utils/history';
+import { getUrlData, pushLoaderState, pushPath } from '~/utils/history';
 import { getStoredMap, postMap } from '~/utils/api';
 import { Unwrap } from '~/utils/middleware';
 import { selectMap, selectMapProvider, selectMapRoute, selectMapStickers } from './selectors';
@@ -70,29 +60,36 @@ export function* replaceAddressIfItsBusy(destination, original) {
 }
 
 export function* loadMapSaga(path) {
-  const {
-    data: { route, error, random_url },
-  }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
+  try {
+    const {
+      data: {
+        route, error, random_url,
+      },
+    }: Unwrap<typeof getStoredMap> = yield call(getStoredMap, { name: path });
 
-  if (route && !error) {
-    yield put(
-      mapSet({
-        provider: route.provider,
-        route: route.route,
-        stickers: route.stickers,
-        title: route.title,
-        address: route.address,
-        description: route.description,
-        is_public: route.is_public,
-        logo: route.logo,
-      })
-    );
+    if (route && !error) {
+      yield put(
+        mapSet({
+          provider: route.provider,
+          route: route.route,
+          stickers: route.stickers,
+          title: route.title,
+          address: route.address,
+          description: route.description,
+          is_public: route.is_public,
+          logo: route.logo,
+        }),
+      );
 
-    yield put(editorSetHistory({ records: [{ route: route.route, stickers: route.stickers }] }));
-    return { route, random_url };
+      yield put(editorSetHistory({ records: [{ route: route.route, stickers: route.stickers }] }));
+      return { route, random_url };
+    }
+
+    return null;
+  } catch (e) {
+    console.log(e);
+    yield call(startEmptyEditorSaga);
   }
-
-  return null;
 }
 
 export function* startEmptyEditorSaga() {
@@ -142,10 +139,10 @@ export function* mapInitSaga() {
   yield put(mapSetProvider(provider));
 
   if (hash && /^#map/.test(hash)) {
-    const [, newUrl] = hash.match(/^#map[:/?!](.*)$/);
+    const matches = hash.match(/^#map[:/?!](.*)$/);
 
-    if (newUrl) {
-      yield pushPath(`/${newUrl}`);
+    if (matches && matches[1]) {
+      yield pushPath(`/${matches[1]}`);
       yield call(setReadySaga);
       return;
     }
@@ -161,7 +158,7 @@ function* setActiveStickerSaga() {
   yield put(editorChangeMode(MODES.STICKERS));
 }
 
-function* setTitleSaga({ title }: ReturnType<typeof mapSetTitle>) {
+function setTitleSaga({ title }: ReturnType<typeof mapSetTitle>) {
   if (title) {
     document.title = `${title} | Редактор маршрутов`;
   }
@@ -216,7 +213,7 @@ function* clearSaga({ type }) {
   const { mode, activeSticker }: ReturnType<typeof selectEditor> = yield select(selectEditor);
 
   if (activeSticker && activeSticker.set && activeSticker.sticker) {
-    yield put(editorSetActiveSticker(null));
+    yield put(editorSetActiveSticker({ set: '', sticker: '' }));
   }
 
   if (mode !== MODES.NONE) {
@@ -231,94 +228,96 @@ function* sendSaveRequestSaga({
   is_public,
   description,
 }: ReturnType<typeof editorSendSaveRequest>) {
-  const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
+  try {
+    const { route, stickers, provider }: ReturnType<typeof selectMap> = yield select(selectMap);
 
-  if (!route.length && !stickers.length) {
-    return yield put(
-      editorSetSave({ error: TIPS.SAVE_EMPTY, loading: false, overwriting: false, finished: false })
+    if (!route.length && !stickers.length) {
+      return yield put(
+        editorSetSave({ error: TIPS.SAVE_EMPTY, loading: false, overwriting: false, finished: false }),
+      );
+    }
+
+    const { logo }: ReturnType<typeof selectMap> = yield select(selectMap);
+    const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
+
+    yield put(editorSetSave({ loading: true, overwriting: false, finished: false, error: '' }));
+
+    const {
+      result,
+      timeout,
+      cancel,
+    }: {
+      result: Unwrap<typeof postMap>;
+      timeout: boolean;
+      cancel: TakeEffect;
+    } = yield race({
+      result: postMap({
+        route,
+        stickers,
+        title,
+        force,
+        address,
+        logo,
+        distance,
+        provider,
+        is_public,
+        description,
+      }),
+      timeout: delay(10000),
+      cancel: take(EDITOR_ACTIONS.RESET_SAVE_DIALOG),
+    });
+
+    yield put(editorSetSave({ loading: false }));
+
+    if (cancel) return yield put(editorChangeMode(MODES.NONE));
+
+    if (result && result.data.code === 'already_exist')
+      return yield put(editorSetSave({ overwriting: true }));
+
+    if (result && result.data.code === 'conflict')
+      return yield put(
+        editorSetSave({
+          error: TIPS.SAVE_EXISTS,
+          loading: false,
+          overwriting: false,
+          finished: false,
+        }),
+      );
+
+    if (timeout || !result || !result.data.route || !result.data.route.address)
+      return yield put(
+        editorSetSave({
+          error: TIPS.SAVE_TIMED_OUT,
+          loading: false,
+          overwriting: false,
+          finished: false,
+        }),
+      );
+
+    yield put(
+      mapSet({
+        address: result.data.route.address,
+        title: result.data.route.title,
+        is_public: result.data.route.is_public,
+        description: result.data.route.description,
+      }),
     );
+
+    yield put(editorSetReady(false));
+    pushPath(`/${address}/edit`);
+    yield put(editorSetReady(true));
+
+    yield put(
+      editorSetSave({
+        error: TIPS.SAVE_SUCCESS,
+        loading: false,
+        overwriting: false,
+        finished: true,
+      }),
+    );
+  } catch (e) {
+    console.log(e);
   }
-
-  const { logo }: ReturnType<typeof selectMap> = yield select(selectMap);
-  const { distance }: ReturnType<typeof selectEditor> = yield select(selectEditor);
-  const { token }: ReturnType<typeof selectUserUser> = yield select(selectUserUser);
-
-  yield put(editorSetSave({ loading: true, overwriting: false, finished: false, error: null }));
-
-  const {
-    result,
-    timeout,
-    cancel,
-  }: {
-    result: Unwrap<typeof postMap>;
-    timeout: boolean;
-    cancel: TakeEffect;
-  } = yield race({
-    result: postMap({
-      token,
-      route,
-      stickers,
-      title,
-      force,
-      address,
-      logo,
-      distance,
-      provider,
-      is_public,
-      description,
-    }),
-    timeout: delay(10000),
-    cancel: take(EDITOR_ACTIONS.RESET_SAVE_DIALOG),
-  });
-
-  yield put(editorSetSave({ loading: false }));
-
-  if (cancel) return yield put(editorChangeMode(MODES.NONE));
-
-  if (result && result.data.code === 'already_exist')
-    return yield put(editorSetSave({ overwriting: true }));
-
-  if (result && result.data.code === 'conflict')
-    return yield put(
-      editorSetSave({
-        error: TIPS.SAVE_EXISTS,
-        loading: false,
-        overwriting: false,
-        finished: false,
-      })
-    );
-
-  if (timeout || !result || !result.data.route || !result.data.route.address)
-    return yield put(
-      editorSetSave({
-        error: TIPS.SAVE_TIMED_OUT,
-        loading: false,
-        overwriting: false,
-        finished: false,
-      })
-    );
-
-  yield put(
-    mapSet({
-      address: result.data.route.address,
-      title: result.data.route.title,
-      is_public: result.data.route.is_public,
-      description: result.data.route.description,
-    })
-  );
-
-  yield put(editorSetReady(false));
-  pushPath(`/${address}/edit`);
-  yield put(editorSetReady(true));
-
-  yield put(
-    editorSetSave({
-      error: TIPS.SAVE_SUCCESS,
-      loading: false,
-      overwriting: false,
-      finished: true,
-    })
-  );
 }
 
 function* setChanged() {
@@ -328,14 +327,10 @@ function* setChanged() {
   yield put(editorSetChanged(true));
 }
 
-function* onZoomChange() {
-
-}
-
 export function* mapSaga() {
   yield takeEvery(
-    [MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER, MAP_ACTIONS.SET_STICKERS],
-    setChanged
+    [MAP_ACTIONS.SET_ROUTE, MAP_ACTIONS.SET_STICKER, MAP_ACTIONS.SET_STICKERS, MAP_ACTIONS.ADD_STICKER],
+    setChanged,
   );
 
   yield takeEvery(EDITOR_ACTIONS.START_EDITING, startEditingSaga);
@@ -351,6 +346,6 @@ export function* mapSaga() {
       EDITOR_ACTIONS.CLEAR_ALL,
       EDITOR_ACTIONS.CLEAR_CANCEL,
     ],
-    clearSaga
+    clearSaga,
   );
 }
