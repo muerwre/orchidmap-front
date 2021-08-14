@@ -60,6 +60,11 @@
   }
 }
 
+.panel button.undo-button {
+  @media (max-width: 420px) {
+    display: none;
+  }
+}
 .panel {
   position: fixed;
   left: 10px;
@@ -267,7 +272,7 @@
     }
   }
 
-  @media (max-width: $micro_breakpoint) {
+  @media (max-width: 350px) {
     bottom: 68px;
   }
 }

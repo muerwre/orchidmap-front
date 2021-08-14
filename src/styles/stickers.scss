@@ -181,6 +181,8 @@
 .stickers-helper {
   flex-direction: column;
   padding-top: 0;
+  max-height: calc(100vh - 60px - 72px);
+  overflow: auto;
 }
 
 .stickers-grid {

@@ -109,13 +109,13 @@ class EditorPanelUnconnected extends PureComponent<Props, void> {
               active: can_undo || can_redo || can_clear,
             })}
           >
-            <button className={classnames({ inactive: !can_undo })} onClick={this.props.editorUndo}>
+            <button className={classnames('undo-button', { inactive: !can_undo })} onClick={this.props.editorUndo}>
               <Tooltip>Отмена (z)</Tooltip>
               <Icon icon="icon-undo" size={24} />
             </button>
 
             <button
-              className={classnames({
+              className={classnames('undo-button', {
                 inactive: !can_redo,
               })}
               onClick={this.props.editorRedo}
