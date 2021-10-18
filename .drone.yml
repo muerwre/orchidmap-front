@@ -7,61 +7,30 @@ platform:
   arch: amd64
 
 steps:
-  - name: compress
-    image: alpine
-    commands:
-      - rm -rf ./app.tar.bz2
-      - tar -cjf ./app.tar.bz2 -C ./ .
-  - name: upload
-    image: drillster/drone-rsync
+  - name: build-master
+    image: plugins/docker
     when:
       branch:
         - master
-        - develop
     environment:
-      RSYNC_KEY:
-        from_secret: rsync_key
-      RSYNC_USER:
-        from_secret: rsync_user
-      PLUGIN_ARGS: -zz -O --no-perms
+      - REACT_APP_PUBLIC_PATH: https://map.vault48.org/
+      - REACT_APP_API_ADDR: https://backend.map.vault48.org
+      - REACT_APP_OSRM_URL: https://vault48.org:5001/route/v1
+      - REACT_APP_OSRM_PROFILE: bike
     settings:
-      port: 22522
-      hosts:
-        - vault48.org
-      source: ./
-      user: ${rsync_user}
-      key: ${rsync_key}
-      target: /tmp/orchid-map-${DRONE_BRANCH}
-      include:
-        - "app.tar.bz2"
-      exclude:
-        - "*"
-  - name: build
-    image: appleboy/drone-ssh
-    when:
-      branch:
-        - master
-        - develop
-    environment:
-      BUILD_PATH:
-        from_secret: build_path
-      ENV_PATH:
-        from_secret: env_path
-    settings:
-      host: vault48.org
+      dockerfile: docker/www/Dockerfile
+      build_args_from_env:
+        - REACT_APP_PUBLIC_PATH
+        - REACT_APP_API_ADDR
+        - REACT_APP_OSRM_URL
+        - REACT_APP_OSRM_PROFILE
+      tag:
+        - ${DRONE_BRANCH}
       username:
-        from_secret: rsync_user
-      key:
-        from_secret: rsync_key
-      envs: [build_path, env_path]
-      port: 22522
-      script_stop: true
-      script:
-        - mkdir -p $${BUILD_PATH}/${DRONE_BRANCH}
-        - rm -rf $${BUILD_PATH}/${DRONE_BRANCH}/*
-        - cd $${BUILD_PATH}/${DRONE_BRANCH}
-        - tar -xjf /tmp/orchid-map-${DRONE_BRANCH}/app.tar.bz2 -C ./
-        - cp -a $${ENV_PATH}/${DRONE_BRANCH}/. $${BUILD_PATH}/${DRONE_BRANCH}
-        - docker-compose build
-        - docker-compose up -d
-
+        from_secret: global_docker_login
+      password:
+        from_secret: global_docker_password
+      registry:
+        from_secret: global_docker_registry
+      repo:
+        from_secret: docker_repo
