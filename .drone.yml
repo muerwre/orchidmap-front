@@ -13,10 +13,10 @@ steps:
       branch:
         - master
     environment:
-      - REACT_APP_PUBLIC_PATH: https://map.vault48.org/
-      - REACT_APP_API_ADDR: https://backend.map.vault48.org
-      - REACT_APP_OSRM_URL: https://vault48.org:5001/route/v1
-      - REACT_APP_OSRM_PROFILE: bike
+      REACT_APP_PUBLIC_PATH: https://map.vault48.org/
+      REACT_APP_API_ADDR: https://backend.map.vault48.org
+      REACT_APP_OSRM_URL: https://vault48.org:5001/route/v1
+      REACT_APP_OSRM_PROFILE: bike
     settings:
       dockerfile: docker/www/Dockerfile
       build_args_from_env:
