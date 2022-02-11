@@ -34,7 +34,7 @@
     "leaflet-editable": "^1.1.0",
     "leaflet-routing-machine": "^3.2.12",
     "leaflet.markercluster": "^1.4.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "pt-sans-cyrillic": "0.0.4",
     "raleway-cyrillic": "^4.0.2",
     "ramda": "^0.26.1",
