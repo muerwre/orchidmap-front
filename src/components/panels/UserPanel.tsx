@@ -63,7 +63,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    window.addEventListener('message', e => {
+    window.addEventListener('message', (e) => {
       const { data } = e;
 
       if (
@@ -123,7 +123,7 @@ export class UserPanelUnconnected extends PureComponent<Props, State> {
 
   openGpxDialog = () => {
     this.props.editorChangeMode(MODES.GPX);
-  }
+  };
 
   render() {
     const {

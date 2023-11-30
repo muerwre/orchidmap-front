@@ -10,8 +10,6 @@ const OSRM_TEST_URL = ([south_west, north_east]: LatLngLiteral[]) =>
     north_east
   ).join(',')}`;
 
-console.log('its', process.env.REACT_APP_API_ADDR);
-
 export const CLIENT = {
   OSRM_URL,
   API_ADDR,
