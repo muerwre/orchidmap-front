@@ -5,9 +5,12 @@ const PUBLIC_PATH = process.env.REACT_APP_PUBLIC_PATH || '';
 const API_ADDR = process.env.REACT_APP_API_ADDR || '';
 const OSRM_URL = process.env.REACT_APP_OSRM_URL || '';
 const OSRM_PROFILE = process.env.REACT_APP_OSRM_PROFILE || 'bike';
-const OSRM_TEST_URL = ([south_west, north_east]: LatLngLiteral[]) => (
-  `${OSRM_URL}/${OSRM_PROFILE}/${Object.values(south_west).join(',')};${Object.values(north_east).join(',')}`
-);
+const OSRM_TEST_URL = ([south_west, north_east]: LatLngLiteral[]) =>
+  `${OSRM_URL}/${OSRM_PROFILE}/${Object.values(south_west).join(',')};${Object.values(
+    north_east
+  ).join(',')}`;
+
+console.log('its', process.env.REACT_APP_API_ADDR);
 
 export const CLIENT = {
   OSRM_URL,
